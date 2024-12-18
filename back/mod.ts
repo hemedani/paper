@@ -1,3 +1,35 @@
-export function add(a: number, b: number): number {
-  return a + b;
-}
+import { lesan, MongoClient, redis } from "deps";
+import { files, taxies, users } from "@paper/lib";
+import { functionsSetup } from "./src/mod.ts";
+
+export const myRedis = await redis.connect({
+	hostname: "127.0.0.1",
+	port: 6379,
+});
+
+export const coreApp = lesan();
+const client = await new MongoClient("mongodb://127.0.0.1:27017/").connect();
+const db = client.db("tehranTaxi");
+coreApp.odm.setDb(db);
+
+export const user = users();
+export const file = files();
+export const taxi = taxies();
+
+export const { setAct, setService, getAtcsWithServices } = coreApp.acts;
+
+export const { selectStruct, getSchemas } = coreApp.schemas;
+
+functionsSetup();
+
+coreApp.runServer({
+	port: 1382,
+	typeGeneration: true,
+	playground: true,
+	staticPath: ["/uploads"],
+	cors: [
+		"http://localhost:3000",
+		"http://localhost:4000",
+		"http://185.252.86.16:3000",
+	],
+});
