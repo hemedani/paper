@@ -2,5 +2,8 @@
   "workspace": [
     "./back",
     "./lib"
-  ]
+  ],
+  "imports": {
+    "chalk": "npm:chalk@5"
+  }
 }
