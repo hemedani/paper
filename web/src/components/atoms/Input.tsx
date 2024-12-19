@@ -31,7 +31,7 @@ const Input = <T extends FieldValues>({
         {...field}
         type={type}
         placeholder={placeholder}
-        className={`border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+        className={`border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-700 ${
           fieldState.error ? "border-red-500" : "border-gray-300"
         }`}
       />
