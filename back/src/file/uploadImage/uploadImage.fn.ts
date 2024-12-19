@@ -1,10 +1,5 @@
 import { type ActFn, ensureDir, ObjectId } from "deps";
-import {
-	coreApp,
-	file,
-	taxi as taxiModel,
-	user as userModel,
-} from "../../../mod.ts";
+import { coreApp, file, user as userModel } from "../../../mod.ts";
 import type { MyContext } from "@paper/lib";
 
 export const uploadImageFn: ActFn = async (body) => {
@@ -41,31 +36,6 @@ export const uploadImageFn: ActFn = async (body) => {
 				filters: { _id: user._id },
 				relations: {
 					nationalCard: {
-						_ids: insertedFile._id,
-					},
-				},
-				replace: true,
-			});
-		}
-		if (updatePlus === "carCard") {
-			await taxiModel.addRelation({
-				filters: { _id: user.taxi._id },
-				relations: {
-					carCard: {
-						_ids: insertedFile._id,
-						relatedRelations: {
-							taxi: true,
-						},
-					},
-				},
-				replace: true,
-			});
-		}
-		if (updatePlus === "taxiLicense") {
-			await taxiModel.addRelation({
-				filters: { _id: user.taxi._id },
-				relations: {
-					taxiLicense: {
 						_ids: insertedFile._id,
 					},
 				},

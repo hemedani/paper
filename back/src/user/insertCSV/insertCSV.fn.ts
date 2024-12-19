@@ -1,6 +1,5 @@
 import type { ActFn } from "deps";
-import { taxi, user } from "../../../mod.ts";
-import { filterSystemModelFA2EN, filterTaxiColorFA2EN } from "@paper/lib";
+import { article, user } from "../../../mod.ts";
 import { parse } from "jsr:@std/csv";
 
 type CSVItems = {
@@ -60,34 +59,34 @@ export const insertCSVFn: ActFn = async (body) => {
 				},
 			});
 
-			await taxi.insertOne({
-				doc: {
-					systemModel: filterSystemModelFA2EN(item.system),
-					color: filterTaxiColorFA2EN(item.color),
-					manufactureYears: Number(item.year_of_production),
+			// await taxi.insertOne({
+			// 	doc: {
+			// 		systemModel: filterSystemModelFA2EN(item.system),
+			// 		color: filterTaxiColorFA2EN(item.color),
+			// 		manufactureYears: Number(item.year_of_production),
 
-					// پلاک خودرد
-					license_plate: {
-						double_digits: Number(item.first_plate_number),
-						letter: item.letter,
-						three_digits: Number(item.secuond_plate_number),
-						issue_place: Number(item.third_plate_number),
-					},
+			// 		// پلاک خودرد
+			// 		license_plate: {
+			// 			double_digits: Number(item.first_plate_number),
+			// 			letter: item.letter,
+			// 			three_digits: Number(item.secuond_plate_number),
+			// 			issue_place: Number(item.third_plate_number),
+			// 		},
 
-					vin: item.VIN,
+			// 		vin: item.VIN,
 
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-				relations: {
-					owner: {
-						_ids: insertedUser?._id,
-						relatedRelations: {
-							taxi: true,
-						},
-					},
-				},
-			});
+			// 		createdAt: new Date(),
+			// 		updatedAt: new Date(),
+			// 	},
+			// 	relations: {
+			// 		owner: {
+			// 			_ids: insertedUser?._id,
+			// 			relatedRelations: {
+			// 				taxi: true,
+			// 			},
+			// 		},
+			// 	},
+			// });
 		}
 	}
 	return ({ ok: "ok" });

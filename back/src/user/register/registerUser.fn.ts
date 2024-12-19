@@ -1,5 +1,5 @@
 import type { ActFn, Document, WithId } from "deps";
-import { myRedis, taxi, user } from "../../../mod.ts";
+import { myRedis, user } from "../../../mod.ts";
 import { throwError } from "@paper/lib";
 import { generatingLoginRequestCode } from "../loginReq/loginReqUser.fn.ts";
 
@@ -45,19 +45,6 @@ export const registerUserFn: ActFn = async (body) => {
 			level: "Driver",
 		},
 		projection: get,
-	});
-
-	await taxi.insertOne({
-		doc: {
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		relations: {
-			owner: {
-				_ids: registeredUser?._id,
-				relatedRelations: { taxi: true },
-			},
-		},
 	});
 
 	return registeredUser

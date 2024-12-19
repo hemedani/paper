@@ -2,7 +2,8 @@
     export type userInp = {
       nationalCard?: number | fileInp
       uploadedAssets?: number | fileInp
-taxi?: number | taxiInp
+registeredPublications?: number | publicationInp
+registerArticles?: number | articleInp
     }
 
 
@@ -38,18 +39,27 @@ size: number;
 createdAt: Date;
 updatedAt: Date;
 }[];
-taxi: {
+registeredPublications: {
 _id?: string;
-taxiType: ("khati" | "gardeshi" | "forodgah" | "rahAhan" | "terminal" | "vije" | "telephoni" );
-vehicleType: ("van" | "savari" );
-systemModel: ("samand" | "peugeot" | "peride" | "naron" | "hyundai" | "delica" | "saipa" | "toyota" | "ghazaal" | "poroton" | "pars khodro" | "folox" | "reno" | "bereliance jin b" | "istana" | "jac" | "peykan" | "kia" | "others" );
-color: ("zardRoghani" | "zardKhorshidi" | "sabzFosfori" | "noghrei" | "zard" | "sefid" | "sabzMetalic" | "noghreiMetalik" | "sabz" | "sefidRoghani" | "sefidSadafi" | "meshkiRoghani" | "narenji" | "khakestari" | "ghermez" | "others" );
-origin: string;
-destination: string;
-license_plate: {
-letter: string;
-};
-vin: string;
+title: string;
+createdAt: Date;
+updatedAt: Date;
+}[];
+registerArticles: {
+_id?: string;
+key: string;
+articleType: ("journalArticle" | "book" );
+authors: string[];
+title: string;
+abstract: string;
+ISBN: string;
+ISNN: string;
+DOI: string;
+URL: string;
+page: string;
+date: string;
+issue: number;
+volume: number;
 createdAt: Date;
 updatedAt: Date;
 }[];
@@ -59,7 +69,7 @@ updatedAt: Date;
 
     export type fileInp = {
       uploader?: number | userInp
-      taxi?: number | taxiInp
+      
     }
 
 
@@ -87,48 +97,22 @@ isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
 };
-taxi: {
-_id?: string;
-taxiType: ("khati" | "gardeshi" | "forodgah" | "rahAhan" | "terminal" | "vije" | "telephoni" );
-vehicleType: ("van" | "savari" );
-systemModel: ("samand" | "peugeot" | "peride" | "naron" | "hyundai" | "delica" | "saipa" | "toyota" | "ghazaal" | "poroton" | "pars khodro" | "folox" | "reno" | "bereliance jin b" | "istana" | "jac" | "peykan" | "kia" | "others" );
-color: ("zardRoghani" | "zardKhorshidi" | "sabzFosfori" | "noghrei" | "zard" | "sefid" | "sabzMetalic" | "noghreiMetalik" | "sabz" | "sefidRoghani" | "sefidSadafi" | "meshkiRoghani" | "narenji" | "khakestari" | "ghermez" | "others" );
-origin: string;
-destination: string;
-license_plate: {
-letter: string;
-};
-vin: string;
-createdAt: Date;
-updatedAt: Date;
-}[];
 };
 ;
 
 
-    export type taxiInp = {
-      owner?: number | userInp
-carCard?: number | fileInp
-taxiLicense?: number | fileInp
-      
+    export type publicationInp = {
+      registrar?: number | userInp
+      articles?: number | articleInp
     }
 
 
-    export type taxiSchema = {
+    export type publicationSchema = {
 _id?: string;
-taxiType: ("khati" | "gardeshi" | "forodgah" | "rahAhan" | "terminal" | "vije" | "telephoni" );
-vehicleType: ("van" | "savari" );
-systemModel: ("samand" | "peugeot" | "peride" | "naron" | "hyundai" | "delica" | "saipa" | "toyota" | "ghazaal" | "poroton" | "pars khodro" | "folox" | "reno" | "bereliance jin b" | "istana" | "jac" | "peykan" | "kia" | "others" );
-color: ("zardRoghani" | "zardKhorshidi" | "sabzFosfori" | "noghrei" | "zard" | "sefid" | "sabzMetalic" | "noghreiMetalik" | "sabz" | "sefidRoghani" | "sefidSadafi" | "meshkiRoghani" | "narenji" | "khakestari" | "ghermez" | "others" );
-origin: string;
-destination: string;
-license_plate: {
-letter: string;
-};
-vin: string;
+title: string;
 createdAt: Date;
 updatedAt: Date;
-owner: {
+registrar: {
 _id?: string;
 first_name: string;
 last_name: string;
@@ -145,22 +129,132 @@ isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
 };
-carCard?: {
+articles: {
+_id?: string;
+key: string;
+articleType: ("journalArticle" | "book" );
+authors: string[];
+title: string;
+abstract: string;
+ISBN: string;
+ISNN: string;
+DOI: string;
+URL: string;
+page: string;
+date: string;
+issue: number;
+volume: number;
+createdAt: Date;
+updatedAt: Date;
+}[];
+};
+;
+
+
+    export type tagInp = {
+      registrar?: number | userInp
+      articles?: number | articleInp
+    }
+
+
+    export type tagSchema = {
 _id?: string;
 name: string;
-type: string;
-size: number;
+createdAt: Date;
+updatedAt: Date;
+registrar: {
+_id?: string;
+first_name: string;
+last_name: string;
+father_name: string;
+mobile: string;
+gender: ("Male" | "Female" );
+birth_date?: Date;
+personnel_number: string;
+national_number: string;
+address: string;
+level: ("Ghost" | "Driver" | "Manager" );
+registration_step: ("personalInformation" | "vehicleInformation" | "taxiInformation" | "docsInformation" | "completed" );
+isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
 };
-taxiLicense?: {
+articles: {
 _id?: string;
-name: string;
-type: string;
-size: number;
+key: string;
+articleType: ("journalArticle" | "book" );
+authors: string[];
+title: string;
+abstract: string;
+ISBN: string;
+ISNN: string;
+DOI: string;
+URL: string;
+page: string;
+date: string;
+issue: number;
+volume: number;
+createdAt: Date;
+updatedAt: Date;
+}[];
+};
+;
+
+
+    export type articleInp = {
+      registrar?: number | userInp
+publication?: number | publicationInp
+tags?: number | tagInp
+      
+    }
+
+
+    export type articleSchema = {
+_id?: string;
+key: string;
+articleType: ("journalArticle" | "book" );
+authors: string[];
+title: string;
+abstract: string;
+ISBN: string;
+ISNN: string;
+DOI: string;
+URL: string;
+page: string;
+date: string;
+issue: number;
+volume: number;
+createdAt: Date;
+updatedAt: Date;
+registrar: {
+_id?: string;
+first_name: string;
+last_name: string;
+father_name: string;
+mobile: string;
+gender: ("Male" | "Female" );
+birth_date?: Date;
+personnel_number: string;
+national_number: string;
+address: string;
+level: ("Ghost" | "Driver" | "Manager" );
+registration_step: ("personalInformation" | "vehicleInformation" | "taxiInformation" | "docsInformation" | "completed" );
+isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
 };
+publication: {
+_id?: string;
+title: string;
+createdAt: Date;
+updatedAt: Date;
+};
+tags: {
+_id?: string;
+name: string;
+createdAt: Date;
+updatedAt: Date;
+}[];
 };
 ;
 
@@ -223,17 +317,28 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxi?: {
+registeredPublications?: {
 _id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registerArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+date?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -284,20 +389,6 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxi?: {
-_id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
 };
 uploadedAssets?: {
 _id?: (0 | 1 );
@@ -323,35 +414,13 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxi?: {
+};
+registeredPublications?: {
 _id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
-};
-};
-taxi?: {
-_id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-owner?: {
+registrar?: {
 _id?: (0 | 1 );
 first_name?: (0 | 1 );
 last_name?: (0 | 1 );
@@ -368,19 +437,70 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-carCard?: {
+articles?: {
 _id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+date?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxiLicense?: {
+};
+registerArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+date?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+registration_step?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+publication?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+tags?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -433,20 +553,6 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxi?: {
-_id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
 };
 uploadedAssets?: {
 _id?: (0 | 1 );
@@ -472,35 +578,13 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxi?: {
+};
+registeredPublications?: {
 _id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
-};
-};
-taxi?: {
-_id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-owner?: {
+registrar?: {
 _id?: (0 | 1 );
 first_name?: (0 | 1 );
 last_name?: (0 | 1 );
@@ -517,19 +601,70 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-carCard?: {
+articles?: {
 _id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+date?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxiLicense?: {
+};
+registerArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+date?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+registration_step?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+publication?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+tags?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -577,17 +712,28 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxi?: {
+registeredPublications?: {
 _id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registerArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+date?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -647,17 +793,28 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxi?: {
+registeredPublications?: {
 _id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registerArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+date?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -710,17 +867,28 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxi?: {
+registeredPublications?: {
 _id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registerArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+date?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -765,17 +933,28 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxi?: {
+registeredPublications?: {
 _id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registerArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+date?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -807,40 +986,48 @@ national_number: (1 );
           }
 
         
-        taxi: {
+        article: {
 
       
-            addTaxi: {
+            addArticle: {
 set: {
-taxiType: ("khati" | "gardeshi" | "forodgah" | "rahAhan" | "terminal" | "vije" | "telephoni" );
-vehicleType: ("van" | "savari" );
-systemModel: ("samand" | "peugeot" | "peride" | "naron" | "hyundai" | "delica" | "saipa" | "toyota" | "ghazaal" | "poroton" | "pars khodro" | "folox" | "reno" | "bereliance jin b" | "istana" | "jac" | "peykan" | "kia" | "others" );
-color: ("zardRoghani" | "zardKhorshidi" | "sabzFosfori" | "noghrei" | "zard" | "sefid" | "sabzMetalic" | "noghreiMetalik" | "sabz" | "sefidRoghani" | "sefidSadafi" | "meshkiRoghani" | "narenji" | "khakestari" | "ghermez" | "others" );
-origin: string;
-destination: string;
-license_plate: {
-letter: string;
-};
-vin: string;
+key: string;
+articleType: ("journalArticle" | "book" );
+authors: string[];
+title: string;
+abstract: string;
+ISBN: string;
+ISNN: string;
+DOI: string;
+URL: string;
+page: string;
+date: string;
+issue: number;
+volume: number;
 createdAt: Date;
 updatedAt: Date;
-carCard?: string;
-taxiLicense?: string;
+publicationId: string;
+tagIds: string[];
 };
 get: {
 _id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+date?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
-owner?: {
+registrar?: {
 _id?: (0 | 1 );
 first_name?: (0 | 1 );
 last_name?: (0 | 1 );
@@ -857,19 +1044,15 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-carCard?: {
+publication?: {
 _id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxiLicense?: {
+tags?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -877,30 +1060,44 @@ updatedAt?: (0 | 1 );
 };
 
           
-            updateVehicle: {
+            updateArticle: {
 set: {
-vehicleType: ("van" | "savari" );
-systemModel: ("samand" | "peugeot" | "peride" | "naron" | "hyundai" | "delica" | "saipa" | "toyota" | "ghazaal" | "poroton" | "pars khodro" | "folox" | "reno" | "bereliance jin b" | "istana" | "jac" | "peykan" | "kia" | "others" );
-color: ("zardRoghani" | "zardKhorshidi" | "sabzFosfori" | "noghrei" | "zard" | "sefid" | "sabzMetalic" | "noghreiMetalik" | "sabz" | "sefidRoghani" | "sefidSadafi" | "meshkiRoghani" | "narenji" | "khakestari" | "ghermez" | "others" );
-license_plate: {
-letter: string;
-};
-vin: string;
+articleId: string;
+key: string;
+articleType: ("journalArticle" | "book" );
+authors: string[];
+title: string;
+abstract: string;
+ISBN: string;
+ISNN: string;
+DOI: string;
+URL: string;
+page: string;
+date: string;
+issue: number;
+volume: number;
+createdAt: Date;
+updatedAt: Date;
 };
 get: {
 _id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+date?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
-owner?: {
+registrar?: {
 _id?: (0 | 1 );
 first_name?: (0 | 1 );
 last_name?: (0 | 1 );
@@ -917,243 +1114,15 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-carCard?: {
+publication?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+tags?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-taxiLicense?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-};
-
-          
-            updateTaxi: {
-set: {
-taxiType: ("khati" | "gardeshi" | "forodgah" | "rahAhan" | "terminal" | "vije" | "telephoni" );
-origin?: string;
-destination?: string;
-};
-get: {
-_id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-owner?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-registration_step?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-carCard?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-taxiLicense?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-};
-
-          
-            updateDocs: {
-set: {
-nationalCardId: string;
-carCardId: string;
-taxiLicenseId: string;
-};
-get: {
-taxi: {
-_id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-owner?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-registration_step?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-carCard?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-taxiLicense?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-user: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-registration_step?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-nationalCard?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-uploadedAssets?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-taxi?: {
-_id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-};
-};
-
-          
-            updateFull: {
-set: {
-vehicleType?: ("van" | "savari" );
-systemModel?: ("samand" | "peugeot" | "peride" | "naron" | "hyundai" | "delica" | "saipa" | "toyota" | "ghazaal" | "poroton" | "pars khodro" | "folox" | "reno" | "bereliance jin b" | "istana" | "jac" | "peykan" | "kia" | "others" );
-color?: ("zardRoghani" | "zardKhorshidi" | "sabzFosfori" | "noghrei" | "zard" | "sefid" | "sabzMetalic" | "noghreiMetalik" | "sabz" | "sefidRoghani" | "sefidSadafi" | "meshkiRoghani" | "narenji" | "khakestari" | "ghermez" | "others" );
-license_plate?: {
-letter: string;
-};
-vin?: string;
-taxiType?: ("khati" | "gardeshi" | "forodgah" | "rahAhan" | "terminal" | "vije" | "telephoni" );
-origin?: string;
-destination?: string;
-};
-get: {
-_id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-owner?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-registration_step?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-carCard?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-taxiLicense?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1213,64 +1182,28 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-taxi?: {
+registeredPublications?: {
 _id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-};
-taxi?: {
+registerArticles?: {
 _id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-owner?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-registration_step?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-carCard?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-taxiLicense?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+date?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1306,20 +1239,6 @@ address?: (0 | 1 );
 level?: (0 | 1 );
 registration_step?: (0 | 1 );
 isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-taxi?: {
-_id?: (0 | 1 );
-taxiType?: (0 | 1 );
-vehicleType?: (0 | 1 );
-systemModel?: (0 | 1 );
-color?: (0 | 1 );
-manufactureYears?: (0 | 1 );
-origin?: (0 | 1 );
-destination?: (0 | 1 );
-license_plate?: (0 | 1 );
-vin?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
