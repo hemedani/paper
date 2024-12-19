@@ -1,17 +1,21 @@
+import { loginAction } from "@/app/actions/login";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
 type TProps = {
   setStep: Dispatch<SetStateAction<number>>;
   phone: string;
+  onCodeEntered: () => void;
 };
 
-const LoginStepTwo = ({ setStep, phone }: TProps) => {
+const LoginStepTwo = ({ setStep, phone, onCodeEntered }: TProps) => {
   const [otp, setOtp] = useState("");
 
   const handleOtpSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (otp.length === 6) {
-      alert("Login successful!");
+    if (otp.length === 5) {
+      loginAction({national_number:phone,code:"11111"})
+      // alert("Login successful!");
+      onCodeEntered(); // توقف تایمر
     } else {
       alert("Invalid OTP. Please try again.");
     }
@@ -32,12 +36,6 @@ const LoginStepTwo = ({ setStep, phone }: TProps) => {
             ویرایش شماره
           </button>
         </div>
-        {/* <label
-          htmlFor="otp"
-          className="block text-sm font-medium text-gray-700"
-        >
-          کد ارسال شده را وارد کنید
-        </label> */}
         <input
           type="text"
           id="otp"

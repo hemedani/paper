@@ -1,3 +1,4 @@
+import { loginReqAction } from "@/app/actions/loginReq";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
 
@@ -14,10 +15,11 @@ const LoginStepOne = ({
 }: TProps) => {
   const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (phone.length === 11) {
+    if (phone.length === 10) {
+      loginReqAction({national_number:phone})
       setStep(2);
     } else {
-      alert("Please enter a valid 10-digit phone number.");
+      // alert("Please enter a valid 10-digit phone number.");
     }
   };
   return (
