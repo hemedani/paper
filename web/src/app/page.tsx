@@ -1,42 +1,47 @@
-"use client";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Card } from "@/components/organisms/Card";
+import Footer from "@/components/organisms/footer";
+import { Header } from "@/components/organisms/Header";
+import { Navbar } from "@/components/organisms/Navbar";
+import { ListCard } from "@/components/template/WraperCard";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-type Inputs = {
-	example: string;
-	exampleRequired: string;
+type HomeProps = {
+  searchParams: {
+    query?: string;
+  };
 };
 
-const FormHook = () => {
-	const {
-		register,
-		handleSubmit,
-		watch,
-		formState: { errors },
-	} = useForm<Inputs>();
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
-	console.log(watch("example")); // watch input value by passing the name of it
+export default async function Home({searchParams: {query}}: HomeProps) {
+  const token = (await cookies()).get("token");
+  const statusStepUser = (await cookies()).get("verification_code");
 
-	return (
-		/* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-		<form onSubmit={handleSubmit(onSubmit)}>
-			{/* register your input into the hook by invoking the "register" function */}
-			<input defaultValue="test" {...register("example")} />
+  if (token) {
+    if (statusStepUser && statusStepUser.value === "loggedIn") {
+      redirect("/admin");
+    } else if (statusStepUser && statusStepUser.value === "code") {
+      redirect("login");
+    } else if (statusStepUser && statusStepUser.value === "logout") {
+      redirect("login");
+    }
+  } else {
+    redirect("login");
+  }
 
-			{/* include validation with required or other standard HTML validation rules */}
-			<input {...register("exampleRequired", { required: true })} />
-			{/* errors will return when field validation fails  */}
-			{errors.exampleRequired && <span>This field is required</span>}
 
-			<input type="submit" />
-		</form>
-	);
-};
-
-export default function Home() {
-	return (
-		<div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-			<FormHook />
-		</div>
-	);
+  return (
+    <>
+      <Navbar />
+      <Header />
+      <ListCard>
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+      </ListCard>
+      <Footer />
+    </>
+  );
 }
