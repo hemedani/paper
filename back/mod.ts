@@ -9,7 +9,7 @@ export const myRedis = await redis.connect({
 
 export const coreApp = lesan();
 const client = await new MongoClient("mongodb://127.0.0.1:27017/").connect();
-const db = client.db("tehranTaxi");
+const db = client.db("paper");
 coreApp.odm.setDb(db);
 
 export const user = users();
