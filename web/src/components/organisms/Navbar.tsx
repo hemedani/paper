@@ -1,7 +1,13 @@
-"use client"
+"use client";
 
 import Link from "next/link";
-import { HamburgerMenu, IconLogo, IconShare, IconTwitter, IconUser } from "../atoms/Icons";
+import {
+  HamburgerMenu,
+  IconLogo,
+  IconShare,
+  IconTwitter,
+  IconUser,
+} from "../atoms/Icons";
 
 export const Navbar = () => {
   return (
@@ -24,12 +30,16 @@ export const Navbar = () => {
             {/* <a href="#about" className="text-gray-600 hover:text-blue-500">
               About
             </a> */}
-            <Link href="/admin" className="text-gray-600 hover:text-blue-500">
-              پنل ادمین
-            </Link>
-            <div className="flex items-center gap-10 text-gray-600 hover:text-blue-500">
-              {/* <span>ورود</span>
-              <IconUser /> */}
+            <div className="flex gap-10 items-center">
+              <Link href="/admin" className="text-gray-600 hover:text-blue-500">
+                پنل ادمین
+              </Link>
+              <div className="flex items-center gap-10 text-gray-600 hover:text-blue-500">
+                <Link href={"/login"} className="flex items-center gap-3">
+                  <span>ورود</span>
+                  <IconUser />
+                </Link>
+              </div>
             </div>
           </nav>
         </div>

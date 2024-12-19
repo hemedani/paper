@@ -6,7 +6,9 @@ import Link from "next/link";
 const menuItems = [
   { label: "داشبورد", href: "/admin" },
   { label: "مقالات", href: "/admin/articles" },
-  { label: "تنظیمات", href: "/admin/settings" },
+  { label: "کاربران", href: "/admin/users" },
+  { label: "دسته بندی ها", href: "/admin/category" },
+  { label: "منتشر کننده ها", href: "/admin/population" },
 ];
 
 export const AdminSidebar: React.FC = () => {
