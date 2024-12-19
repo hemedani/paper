@@ -8,16 +8,10 @@ export const setUser = async () => {
 		.getContextModel() as MyContext;
 
 	const userPureProjection = coreApp.schemas.createProjection("user", "Pure");
-	const taxiPureProjection = coreApp.schemas.createProjection("taxi", "Pure");
 
 	const foundedUser = await user.findOne({
 		filters: { _id: new ObjectId(_id) },
-		projection: {
-			...userPureProjection,
-			taxi: {
-				...taxiPureProjection,
-			},
-		},
+		projection: userPureProjection,
 	});
 
 	!foundedUser && throwError("user not exist");

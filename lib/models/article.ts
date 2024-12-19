@@ -1,0 +1,98 @@
+import {
+	array,
+	enums,
+	integer,
+	number,
+	type RelationDataType,
+	type RelationSortOrderType,
+	size,
+	string,
+} from "deps";
+import { coreApp } from "@paper/back";
+import { createUpdateAt } from "../utils/mod.ts";
+
+export const articleTypeArray = [
+	"journalArticle",
+	"book",
+];
+export const articleTypeEnums = enums(articleTypeArray);
+
+export const articlePureFields = {
+	key: string(),
+
+	articleType: articleTypeEnums,
+	publicationYear: size(integer(), 1250, 1500),
+
+	authors: array(string()),
+
+	title: string(),
+	abstract: string(),
+
+	ISBN: string(),
+	ISNN: string(),
+	DOI: string(),
+	URL: string(),
+
+	page: string(),
+	date: string(),
+
+	issue: number(),
+	volume: number(),
+
+	...createUpdateAt,
+};
+
+export const articleRelations = {
+	registrar: {
+		schemaName: "user",
+		optional: false,
+		type: "single" as RelationDataType,
+		relatedRelations: {
+			registerArticles: {
+				type: "multiple" as RelationDataType,
+				limit: 50,
+				sort: {
+					field: "_id",
+					order: "desc" as RelationSortOrderType,
+				},
+			},
+		},
+	},
+	publication: {
+		schemaName: "publication",
+		optional: false,
+		type: "single" as RelationDataType,
+		relatedRelations: {
+			articles: {
+				type: "multiple" as RelationDataType,
+				limit: 50,
+				sort: {
+					field: "_id",
+					order: "desc" as RelationSortOrderType,
+				},
+			},
+		},
+	},
+	tags: {
+		schemaName: "tag",
+		optional: false,
+		type: "multiple" as RelationDataType,
+		sort: {
+			field: "_id",
+			order: "desc" as RelationSortOrderType,
+		},
+		relatedRelations: {
+			articles: {
+				type: "multiple" as RelationDataType,
+				limit: 50,
+				sort: {
+					field: "_id",
+					order: "desc" as RelationSortOrderType,
+				},
+			},
+		},
+	},
+};
+
+export const articles = () =>
+	coreApp.odm.newModel("article", articlePureFields, articleRelations);

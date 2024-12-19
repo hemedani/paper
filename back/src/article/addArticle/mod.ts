@@ -1,12 +1,12 @@
 import { grantAccess, setTokens, setUser } from "@paper/lib";
 import { coreApp } from "../../../mod.ts";
-import { addTaxiFn } from "./addTaxi.fn.ts";
-import { addTaxiValidator } from "./addTaxi.val.ts";
+import { addArticleFn } from "./addArticle.fn.ts";
+import { addArticleValidator } from "./addArticle.val.ts";
 
-export const addTaxiSetup = () =>
+export const addArticleSetup = () =>
 	coreApp.acts.setAct({
-		schema: "taxi",
-		actName: "addTaxi",
+		schema: "article",
+		actName: "addArticle",
 		validationRunType: "create",
 		preAct: [
 			setTokens,
@@ -15,6 +15,6 @@ export const addTaxiSetup = () =>
 				levels: ["Manager", "Driver"],
 			}),
 		],
-		validator: addTaxiValidator(),
-		fn: addTaxiFn,
+		validator: addArticleValidator(),
+		fn: addArticleFn,
 	});

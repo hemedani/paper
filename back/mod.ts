@@ -1,5 +1,5 @@
 import { lesan, MongoClient, redis } from "deps";
-import { files, taxies, users } from "@paper/lib";
+import { articles, files, publications, tags, users } from "@paper/lib";
 import { functionsSetup } from "./src/mod.ts";
 
 export const myRedis = await redis.connect({
@@ -9,12 +9,14 @@ export const myRedis = await redis.connect({
 
 export const coreApp = lesan();
 const client = await new MongoClient("mongodb://127.0.0.1:27017/").connect();
-const db = client.db("tehranTaxi");
+const db = client.db("paper");
 coreApp.odm.setDb(db);
 
 export const user = users();
 export const file = files();
-export const taxi = taxies();
+export const publication = publications();
+export const tag = tags();
+export const article = articles();
 
 export const { setAct, setService, getAtcsWithServices } = coreApp.acts;
 
