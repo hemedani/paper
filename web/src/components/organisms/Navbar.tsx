@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link";
 import { HamburgerMenu, IconLogo, IconShare, IconTwitter, IconUser } from "../atoms/Icons";
 
 export const Navbar = () => {
@@ -12,23 +13,23 @@ export const Navbar = () => {
 
         <div className="hidden md:block">
           <nav className="hidden md:flex items-center space-x-10">
-            <div className="flex items-center gap-3 text-gray-600 hover:text-blue-500">
+            {/* <div className="flex items-center gap-3 text-gray-600 hover:text-blue-500">
               <IconShare />
               <span>Share</span>
-            </div>
-            <div className="flex items-center gap-3 text-gray-600 hover:text-blue-500">
+            </div> */}
+            {/* <div className="flex items-center gap-3 text-gray-600 hover:text-blue-500">
               <IconTwitter />
               <span>Fallow</span>
-            </div>
-            <a href="#about" className="text-gray-600 hover:text-blue-500">
+            </div> */}
+            {/* <a href="#about" className="text-gray-600 hover:text-blue-500">
               About
-            </a>
-            <a href="#about" className="text-gray-600 hover:text-blue-500">
-              Pricing
-            </a>
+            </a> */}
+            <Link href="/admin" className="text-gray-600 hover:text-blue-500">
+              پنل ادمین
+            </Link>
             <div className="flex items-center gap-10 text-gray-600 hover:text-blue-500">
-              <span>Log in</span>
-              <IconUser />
+              {/* <span>ورود</span>
+              <IconUser /> */}
             </div>
           </nav>
         </div>
