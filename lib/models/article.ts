@@ -60,7 +60,7 @@ export const articleRelations = {
 	},
 	publication: {
 		schemaName: "publication",
-		optional: false,
+		optional: true,
 		type: "single" as RelationDataType,
 		relatedRelations: {
 			articles: {
@@ -75,7 +75,7 @@ export const articleRelations = {
 	},
 	tags: {
 		schemaName: "tag",
-		optional: false,
+		optional: true,
 		type: "multiple" as RelationDataType,
 		sort: {
 			field: "_id",
@@ -95,4 +95,11 @@ export const articleRelations = {
 };
 
 export const articles = () =>
-	coreApp.odm.newModel("article", articlePureFields, articleRelations);
+	coreApp.odm.newModel("article", articlePureFields, articleRelations, {
+		createIndex: {
+			indexSpec: {
+				title: "text",
+				abstract: "text",
+			},
+		},
+	});
