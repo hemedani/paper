@@ -23,7 +23,7 @@ const Login = ({}) => {
         <div className="bg-white p-6 rounded-lg shadow-lg w-1/4">
           <h1 className="text-2xl font-bold mb-4 text-center text-gray-700">
             {step === 1
-              ? "شماره تماس خود را وارد کنید"
+              ? "کد ملی خود را وارد کنید"
               : "کد ارسال شده را وارد کنید"}
           </h1>
           {step === 1 ? (

@@ -1,22 +1,17 @@
 import { loginReqAction } from "@/app/actions/loginReq";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
-
 type TProps = {
-  setStep:Dispatch<SetStateAction<number>>;
-  setPhone:Dispatch<SetStateAction<string>>;
+  setStep: Dispatch<SetStateAction<number>>;
+  setPhone: Dispatch<SetStateAction<string>>;
   phone: string;
-}
+};
 
-const LoginStepOne = ({
-  setStep,
-  setPhone,
-  phone
-}: TProps) => {
+const LoginStepOne = ({ setStep, setPhone, phone }: TProps) => {
   const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (phone.length === 10) {
-      loginReqAction({national_number:phone})
+      loginReqAction({ national_number: phone });
       setStep(2);
     } else {
       // alert("Please enter a valid 10-digit phone number.");
@@ -29,7 +24,7 @@ const LoginStepOne = ({
           htmlFor="phone"
           className="block text-sm font-medium text-gray-700"
         >
-          شماره تماس
+          کد ملی{" "}
         </label>
         <input
           type="text"
