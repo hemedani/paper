@@ -1,28 +1,23 @@
-import type { ActFn } from "deps";
-import { article, user } from "../../../mod.ts";
+import type { ActFn, Document, ObjectId, TInsertRelations, WithId } from "deps";
+import { article, coreApp, publication, tag } from "../../../mod.ts";
 import { parse } from "jsr:@std/csv";
+import type { articleRelations, MyContext } from "@paper/lib";
 
-type CSVItems = {
-	owner: string;
-	national_id: string;
-	father_name: string;
-	phone: string;
-	sex: string;
-	plate: string;
-	car_id: string;
-	engine_number: string;
-	VIN: string;
-	year_of_production: string;
-	color: string;
-	system: string;
-	first_plate_number: string;
-	letter: string;
-	secuond_plate_number: string;
-	country: string;
-	third_plate_number: string;
+const removeDuplicates = (inputArray: ObjectId[]) => {
+	const ids: string[] = [];
+	return inputArray.reduce<ObjectId[]>((sum, element) => {
+		if (!ids.includes(element.toString())) {
+			sum.push(element);
+			ids.push(element.toString());
+		}
+		return sum;
+	}, []);
 };
 
 export const insertCSVFn: ActFn = async (body) => {
+	const { user }: MyContext = coreApp.contextFns
+		.getContextModel() as MyContext;
+
 	const {
 		// deno-lint-ignore no-empty-pattern
 		set: {},
@@ -32,76 +27,126 @@ export const insertCSVFn: ActFn = async (body) => {
 	const result = parse(readCSV, {
 		skipFirstRow: true,
 		strip: true,
-	}) as CSVItems[];
+	}) as any[];
 
-	/*
-	 * 	@LOG @DEBUG @INFO
-	 * 	This log written by ::==> {{ `` }}
-	 *
-	 * 	Please remove your log after debugging
-	 */
-	console.log(" ============= ");
-	console.group("result ------ ");
-	console.log();
-	console.info({ result }, " ------ ");
-	console.log();
-	console.groupEnd();
-	console.log(" ============= ");
+	for await (const item of result) {
+		const itemPublication = (item as any)["Publication Title"];
+		let foundedPublication: WithId<Document> | null = null;
+		if (itemPublication) {
+			foundedPublication = await publication.findOne({
+				filters: { title: itemPublication },
+				projection: { _id: 1 },
+			});
 
-	// const uniqueResult = [
-	// 	...new Map(result.map((item) => [item["national_id"], item])).values(),
-	// ];
+			if (foundedPublication === null) {
+				foundedPublication = await publication.insertOne({
+					doc: {
+						title: itemPublication,
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+					relations: {
+						registrar: {
+							_ids: user._id,
+							relatedRelations: {
+								registeredPublications: true,
+							},
+						},
+					},
+				});
+			}
+		}
 
-	// for await (const item of uniqueResult) {
-	// 	if (item.national_id !== "1111111111") {
-	// 		const first_name = item.owner.slice(0, item.owner.lastIndexOf(" "));
-	// 		const last_name = item.owner.slice(item.owner.lastIndexOf(" "));
-	// 		const gender = item.sex === "مرد" ? "Male" : "Female";
-	// 		const insertedUser = await user.insertOne({
-	// 			doc: {
-	// 				first_name,
-	// 				last_name,
-	// 				father_name: item.father_name,
-	// 				mobile: item.phone,
-	// 				gender,
-	// 				national_number: item.national_id,
-	// 				level: "Driver",
-	// 				registration_step: "personalInformation",
-	// 				isVerified: false,
-	// 				createdAt: new Date(),
-	// 				updatedAt: new Date(),
-	// 			},
-	// 		});
+		const tagList: ObjectId[] = [];
+		const tags = (item as any)["Manual Tags"];
+		if (tags) {
+			const replacedTags = (tags as string).replace(/؛/g, ";").replace(
+				/،/g,
+				";",
+			);
+			const splitedTag = replacedTags.split(";").map((tag) => tag.trim())
+				.filter((item) => ((item !== "-") && (item !== "ندارد")));
 
-	// 		// await taxi.insertOne({
-	// 		// 	doc: {
-	// 		// 		systemModel: filterSystemModelFA2EN(item.system),
-	// 		// 		color: filterTaxiColorFA2EN(item.color),
-	// 		// 		manufactureYears: Number(item.year_of_production),
+			for await (const tagItem of splitedTag) {
+				const foundedTag = await tag.findOne({
+					filters: { name: tagItem },
+					projection: { _id: 1 },
+				});
 
-	// 		// 		// پلاک خودرد
-	// 		// 		license_plate: {
-	// 		// 			double_digits: Number(item.first_plate_number),
-	// 		// 			letter: item.letter,
-	// 		// 			three_digits: Number(item.secuond_plate_number),
-	// 		// 			issue_place: Number(item.third_plate_number),
-	// 		// 		},
+				if (foundedTag === null) {
+					const insertedTag = await tag.insertOne({
+						doc: {
+							name: tagItem,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						relations: {
+							registrar: {
+								_ids: user._id,
+							},
+						},
+					});
+					if (insertedTag) {
+						tagList.push(insertedTag._id);
+					}
+				} else {
+					tagList.push(foundedTag._id);
+				}
+			}
+		}
 
-	// 		// 		vin: item.VIN,
+		const relations: TInsertRelations<typeof articleRelations> = {
+			registrar: {
+				_ids: user._id,
+				relatedRelations: {
+					registerArticles: true,
+				},
+			},
+		};
+		tagList.length > 0 && (relations.tags = {
+			_ids: removeDuplicates(tagList),
+			relatedRelations: {
+				articles: true,
+			},
+		});
+		foundedPublication && (relations.publication = {
+			_ids: foundedPublication._id,
+			relatedRelations: {
+				articles: true,
+			},
+		});
 
-	// 		// 		createdAt: new Date(),
-	// 		// 		updatedAt: new Date(),
-	// 		// 	},
-	// 		// 	relations: {
-	// 		// 		owner: {
-	// 		// 			_ids: insertedUser?._id,
-	// 		// 			relatedRelations: {
-	// 		// 				taxi: true,
-	// 		// 			},
-	// 		// 		},
-	// 		// 	},
-	// 		// });
-	// 	}
-	// }
+		let authors: string[] | null = null;
+		if (item["Author"]) {
+			authors = (item["Author"] as string).split(";").map((tag) =>
+				tag.trim()
+			);
+		}
+		const doc: Record<string, any> = {
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		};
+		item["Key"] && (doc["key"] = item["Key"]);
+		item["Item Type"] && (doc["articleType"] = item["Item Type"]);
+		item["Publication Year"] &&
+			(doc["publicationYear"] = item["Publication Year"]);
+		authors && (doc["authors"] = authors);
+		item["Title"] && (doc["title"] = item["Title"]);
+		item["Abstract Note"] && (doc["abstract"] = item["Abstract Note"]);
+		item["ISBN"] && (doc["ISBN"] = item["ISBN"]);
+		item["ISNN"] && (doc["ISNN"] = item["ISNN"]);
+		item["DOI"] && (doc["DOI"] = item["DOI"]);
+		item["Url"] && (doc["URL"] = item["Url"]);
+		item["Pages"] && (doc["page"] = item["Pages"]);
+		item["Date"] && (doc["date"] = item["Date"]);
+		item["Issue"] && (doc["issue"] = item["Issue"]);
+		item["Volume"] && (doc["volume"] = item["Volume"]);
+
+		await article.insertOne({
+			doc,
+			relations,
+		});
+	}
+
 	return ({ ok: "ok" });
 };
