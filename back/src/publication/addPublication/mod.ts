@@ -16,4 +16,5 @@ export const addPublicationSetup = () =>
 			}),
 		],
 		validator: addPublicationValidator(),
+		validationRunType: "create",
 	});
