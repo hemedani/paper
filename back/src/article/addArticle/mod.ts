@@ -12,7 +12,7 @@ export const addArticleSetup = () =>
 			setTokens,
 			setUser,
 			grantAccess({
-				levels: ["Manager", "Driver"],
+				levels: ["Manager"],
 			}),
 		],
 		validator: addArticleValidator(),

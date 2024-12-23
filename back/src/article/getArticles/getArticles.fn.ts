@@ -76,19 +76,5 @@ export const getArticlesFn: ActFn = async (body) => {
 	pipeline.push({ $skip: (page - 1) * limit });
 	pipeline.push({ $sort: { _id: -1 } });
 
-	/*
-	 * 	@LOG @DEBUG @INFO
-	 * 	This log written by ::==> {{ `` }}
-	 *
-	 * 	Please remove your log after debugging
-	 */
-	console.log(" ============= ");
-	console.group("pipline ------ ");
-	console.log();
-	console.info({ pipeline, tags }, " ------ ");
-	console.log();
-	console.groupEnd();
-	console.log(" ============= ");
-
 	return await article.aggregation({ pipeline, projection: get }).toArray();
 };
