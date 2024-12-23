@@ -129,7 +129,7 @@ export const insertCSVFn: ActFn = async (body) => {
 		item["Key"] && (doc["key"] = item["Key"]);
 		item["Item Type"] && (doc["articleType"] = item["Item Type"]);
 		item["Publication Year"] &&
-			(doc["publicationYear"] = item["Publication Year"]);
+			(doc["publicationYear"] = Number(item["Publication Year"]));
 		authors && (doc["authors"] = authors);
 		item["Title"] && (doc["title"] = item["Title"]);
 		item["Abstract Note"] && (doc["abstract"] = item["Abstract Note"]);
@@ -138,9 +138,8 @@ export const insertCSVFn: ActFn = async (body) => {
 		item["DOI"] && (doc["DOI"] = item["DOI"]);
 		item["Url"] && (doc["URL"] = item["Url"]);
 		item["Pages"] && (doc["page"] = item["Pages"]);
-		item["Date"] && (doc["date"] = item["Date"]);
-		item["Issue"] && (doc["issue"] = item["Issue"]);
-		item["Volume"] && (doc["volume"] = item["Volume"]);
+		item["Issue"] && (doc["issue"] = Number(item["Issue"]));
+		item["Volume"] && (doc["volume"] = Number(item["Volume"]));
 
 		await article.insertOne({
 			doc,

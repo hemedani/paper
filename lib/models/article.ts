@@ -33,8 +33,8 @@ export const articlePureFields = {
 	DOI: string(),
 	URL: string(),
 
+	// ISSUE page ro be sorate yek baze adadi string gozasshtan bayad number bashe ehtemalan
 	page: string(),
-	date: string(),
 
 	issue: number(),
 	volume: number(),
