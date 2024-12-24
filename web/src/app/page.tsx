@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { paperApi } from "@/services/api";
 import { articleSchema } from "@/types/declarations/selectInp";
+import { AdvancedSearch } from "@/components/organisms/AdvancedSearch";
 
 type HomeProps = {
   searchParams: {
@@ -16,7 +17,7 @@ type HomeProps = {
 };
 
 export default async function Home(props: {
-  searchParams?: Promise<HomeProps>;
+  searchParams?: HomeProps["searchParams"];
 }) {
   // const token = (await cookies()).get("token");
   // const statusStepUser = (await cookies()).get("verification_code");
@@ -33,11 +34,13 @@ export default async function Home(props: {
   //   redirect("login");
   // }
 
-  const { query } = await props.searchParams;
+  // const { query } = await props.searchParams;
+  const searchParams = props.searchParams ?? {};
+  const query = searchParams.query ?? "";
 
   const set: Record<string, any> = {
     page: 1,
-    limit: 12,
+    limit: 15,
   };
 
   if (query) {
@@ -63,10 +66,17 @@ export default async function Home(props: {
     <>
       <Navbar />
       <Header />
+      {/* <AdvancedSearch /> */}
       {getArticles.success && (
         <ListCard>
           {getArticles.body.map((item: Partial<articleSchema>) => (
-            <Card key={item._id} {...item} />
+            <Card
+              key={item._id}
+              id={item._id!}
+              title={item.title!}
+              abstract={item.abstract!}
+              authors={item.authors!}
+            />
           ))}
         </ListCard>
       )}
