@@ -31,7 +31,7 @@ export const Header = () => {
             onChange={(e) => setQuery(e.target.value)}
           />
           <button onClick={(e: React.FormEvent<HTMLButtonElement>) => handleSearch(e)} className="bg-blue-600 text-white px-6 py-2 rounded-3xl hover:bg-blue-500">
-            ساخت نمودار
+            جستجو
           </button>
         </div>
       </div>
