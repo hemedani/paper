@@ -10,6 +10,8 @@ type TProps = {
 const LoginStepOne = ({ setStep, setPhone, phone }: TProps) => {
   const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(1);
+    
     if (phone.length === 10) {
       loginReqAction({ national_number: phone });
       setStep(2);
