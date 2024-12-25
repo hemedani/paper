@@ -18,8 +18,8 @@ export const getTagsFn: ActFn = async (body) => {
 			$match: { "name": { $regex: new RegExp(name, "i") } },
 		});
 
-	pipeline.push({ $limit: limit });
 	pipeline.push({ $skip: (page - 1) * limit });
+	pipeline.push({ $limit: limit });
 	pipeline.push({ $sort: { _id: -1 } });
 
 	return await tag.aggregation({

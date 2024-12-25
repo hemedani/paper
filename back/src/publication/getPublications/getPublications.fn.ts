@@ -18,8 +18,8 @@ export const getPublicationsFn: ActFn = async (body) => {
 			$match: { "title": { $regex: new RegExp(title, "i") } },
 		});
 
-	pipeline.push({ $limit: limit });
 	pipeline.push({ $skip: (page - 1) * limit });
+	pipeline.push({ $limit: limit });
 	pipeline.push({ $sort: { _id: -1 } });
 
 	return await publication.aggregation({
