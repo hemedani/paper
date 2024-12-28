@@ -8,9 +8,9 @@ import { loginReqUserSetup } from "./loginReq/mod.ts";
 import { registerUserSetup } from "./register/mod.ts";
 import { tempUserSetup } from "./tempUser/mod.ts";
 import { updateUserSetup } from "./updateUser/mod.ts";
-// import { getUsersSetup } from "./getUsers/mod.ts";
-// import { removeUserSetup } from "./removeUser/mod.ts";
-// import { countUsersSetup } from "./countUsers/mod.ts";
+import { getUsersSetup } from "./getUsers/mod.ts";
+import { removeUserSetup } from "./removeUser/mod.ts";
+import { countUsersSetup } from "./countUsers/mod.ts";
 
 export const userSetup = () => {
 	addUserSetup();
@@ -23,7 +23,7 @@ export const userSetup = () => {
 	registerUserSetup();
 	insertCSVSetup();
 	changeMobileSetup();
-	// getUsersSetup();
-	// removeUserSetup();
-	// countUsersSetup();
+	getUsersSetup();
+	removeUserSetup();
+	countUsersSetup();
 };

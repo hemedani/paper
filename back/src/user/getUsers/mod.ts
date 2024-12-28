@@ -1,9 +1,7 @@
-import { grantAccess } from "utils/mod.ts";
+import { grantAccess, setTokens, setUser } from "@paper/lib";
 import { coreApp } from "../../../mod.ts";
 import { getUsersFn } from "./getUsers.fn.ts";
 import { getUsersValidator } from "./getUsers.val.ts";
-import { setTokens } from "utils/setToken.ts";
-import { setUser } from "utils/setUser.ts";
 
 export const getUsersSetup = () =>
 	coreApp.acts.setAct({
@@ -14,12 +12,8 @@ export const getUsersSetup = () =>
 			setTokens,
 			setUser,
 			grantAccess({
-				levels: ["Manager", "Examiner"],
-				features: ["manageUsers"],
+				levels: ["Manager", "Editor"],
 			}),
 		],
 		validator: getUsersValidator(),
 	});
-
-export * from "./getUsers.fn.ts";
-export * from "./getUsers.val.ts";

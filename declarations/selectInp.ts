@@ -18,7 +18,7 @@ birth_date?: Date;
 personnel_number: string;
 national_number: string;
 address: string;
-level: ("Ghost" | "Driver" | "Manager" );
+level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
@@ -89,7 +89,7 @@ birth_date?: Date;
 personnel_number: string;
 national_number: string;
 address: string;
-level: ("Ghost" | "Driver" | "Manager" );
+level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
@@ -120,7 +120,7 @@ birth_date?: Date;
 personnel_number: string;
 national_number: string;
 address: string;
-level: ("Ghost" | "Driver" | "Manager" );
+level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
@@ -168,7 +168,7 @@ birth_date?: Date;
 personnel_number: string;
 national_number: string;
 address: string;
-level: ("Ghost" | "Driver" | "Manager" );
+level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
@@ -229,7 +229,7 @@ birth_date?: Date;
 personnel_number: string;
 national_number: string;
 address: string;
-level: ("Ghost" | "Driver" | "Manager" );
+level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
@@ -270,7 +270,7 @@ birth_date?: Date;
 personnel_number: string;
 national_number: string;
 address: string;
-level: ("Ghost" | "Driver" | "Manager" );
+level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
@@ -944,6 +944,185 @@ mobile: string;
 get: {
 mobile: (1 );
 national_number: (1 );
+};
+};
+
+          
+            getUsers: {
+set: {
+levels?: ("Ghost" | "Manager" | "Editor" );
+page: number;
+limit: number;
+};
+get: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+nationalCard?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+uploader?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+uploader?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+articles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+registerArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+publication?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+tags?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+};
+};
+
+          
+            removeUser: {
+set: {
+_id: string;
+};
+get: {
+success?: (0 | 1 );
+};
+};
+
+          
+            countUsers: {
+set: {
+levels?: ("Ghost" | "Manager" | "Editor" );
+};
+get: {
+qty: (0 | 1 );
 };
 };
 

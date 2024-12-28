@@ -1,12 +1,10 @@
-import { enums, object, objectIdValidation, optional } from "deps";
-import { userLevels } from "share/mod.ts";
+import { enums, object, optional } from "deps";
+import { userLevelEnums } from "@paper/lib";
 
 export const countUsersValidator = () => {
 	return object({
 		set: object({
-			provinceId: optional(objectIdValidation),
-			cityId: optional(objectIdValidation),
-			levels: optional(userLevels),
+			levels: optional(userLevelEnums),
 		}),
 		get: object({
 			qty: enums([0, 1]),

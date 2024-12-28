@@ -1,9 +1,7 @@
-import { grantAccess } from "utils/mod.ts";
+import { grantAccess, setTokens, setUser } from "@paper/lib";
 import { coreApp } from "../../../mod.ts";
 import { countUsersFn } from "./countUsers.fn.ts";
 import { countUsersValidator } from "./countUsers.val.ts";
-import { setTokens } from "utils/setToken.ts";
-import { setUser } from "utils/setUser.ts";
 
 export const countUsersSetup = () =>
 	coreApp.acts.setAct({
@@ -14,12 +12,8 @@ export const countUsersSetup = () =>
 			setTokens,
 			setUser,
 			grantAccess({
-				levels: ["Manager", "Examiner"],
-				features: ["manageUsers"],
+				levels: ["Manager"],
 			}),
 		],
 		validator: countUsersValidator(),
 	});
-
-export * from "./countUsers.fn.ts";
-export * from "./countUsers.val.ts";

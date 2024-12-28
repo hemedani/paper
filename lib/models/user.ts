@@ -13,7 +13,7 @@ import {
 } from "deps";
 import { createUpdateAt, isValidNationalNumber } from "../utils/mod.ts";
 
-export const userLevelArray = ["Ghost", "Driver", "Manager"];
+export const userLevelArray = ["Ghost", "Manager", "Editor"];
 export const userLevelEnums = enums(userLevelArray);
 
 export const mobilePattern = pattern(
