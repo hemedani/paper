@@ -8,7 +8,7 @@ export const getPublication = async (title: string) => {
     {
       service: "main",
       model: "publication",
-      act: "getPublication",
+      act: "getPublications",
       details: {
         set: {
           page: 1,

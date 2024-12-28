@@ -12,15 +12,15 @@ export const getPublications = async (title: string) => {
       details: {
         set: {
           page: 1,
-          limit: 10,
-          title,
+          limit: 21,
+          title: title ? title : "",
         },
         get: {
           title: 1,
         },
       },
     },
-    { token }
+    { token : token?.value }
   );
 
   if (getPublications.success) return getPublications.body;

@@ -18,8 +18,9 @@ export const createPublication = async (title: string) => {
         },
       },
     },
-    { token }
+    { token: token?.value }
   );
+  console.log("addPublication", addPublication.body);
 
   if (addPublication.success) return addPublication.body;
 };
