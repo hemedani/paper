@@ -18,8 +18,9 @@ export const createTag = async (name: string) => {
         },
       },
     },
-    { token }
+    { token: token?.value }
   );
+
 
   if (addTag.success) return addTag.body;
 };

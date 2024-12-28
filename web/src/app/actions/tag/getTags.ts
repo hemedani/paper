@@ -2,8 +2,10 @@
 import { paperApi } from "@/services/api";
 import { cookies } from "next/headers";
 
+
 export const getTags = async (name: string) => {
   const token = (await cookies()).get("token");
+
   const getTags = await paperApi().send(
     {
       service: "main",
@@ -11,15 +13,17 @@ export const getTags = async (name: string) => {
       act: "getTags",
       details: {
         set: {
-          name,
+          page: 1,
+          limit: 21,
+          name: name ? name : "",
         },
         get: {
           name: 1,
         },
       },
     },
-    { token }
-  );
+    { token: token?.value }
+  );  
 
   if (getTags.success) return getTags.body;
 };
