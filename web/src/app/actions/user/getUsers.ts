@@ -2,20 +2,20 @@
 import { paperApi } from "@/services/api";
 import { cookies } from "next/headers";
 
-export const getUsers = async (_id: string) => {
+export const getUsers = async () => {
   const token = (await cookies()).get("token");
   const getUsers = await paperApi().send(
     {
       service: "main",
       model: "user",
-      act: "getMe",
+      act: "getUsers",
       details: {
-        set: {
-          _id,
-        },
+        set: { page: 1, limit: 21 },
         get: {
-          _id:1,
+          _id: 1,
           first_name: 1,
+          last_name: 1,
+          mobile: 1,
         },
       },
     },

@@ -2,7 +2,7 @@
 import { paperApi } from "@/services/api";
 import { cookies } from "next/headers";
 
-export const getPublications = async (title: string) => {
+export const getPublications = async (title: string, page: number) => {
   const token = (await cookies()).get("token");
   const getPublications = await paperApi().send(
     {
@@ -11,7 +11,7 @@ export const getPublications = async (title: string) => {
       act: "getPublications",
       details: {
         set: {
-          page: 1,
+          page: page ? page : 1,
           limit: 21,
           title: title ? title : "",
         },
