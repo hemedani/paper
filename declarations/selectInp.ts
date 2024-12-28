@@ -1127,6 +1127,18 @@ qty: (0 | 1 );
 };
 
           
+            dashboardStatistic: {
+set: {
+};
+get: {
+users?: (0 | 1 );
+tags?: (0 | 1 );
+publications?: (0 | 1 );
+articles?: (0 | 1 );
+};
+};
+
+          
           }
 
         
