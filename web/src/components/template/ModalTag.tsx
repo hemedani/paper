@@ -1,54 +1,76 @@
-import Modal from "../molecules/Modal";
+"use client";
+
+import React, { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Input from "../atoms/Input";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { createTag } from "@/app/actions/tag/createTag";
+import { useRouter } from "next/navigation";
 
-type TProps = {
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-interface FormValues {
+interface TagFormValues {
   name: string;
 }
 
-const ModalTag = ({ isModalOpen, setIsModalOpen }: TProps) => {
-  const { control, handleSubmit, reset } = useForm<FormValues>({
+const ModalTag = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+  const { handleSubmit, control, reset } = useForm<TagFormValues>({
     defaultValues: { name: "" },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    console.log("Article created:", data.name);
-    const dataTag =  await createTag(data.name)
-    console.log(dataTag);
-    
-    // بستن مودال و پاکسازی فرم
-    // setIsModalOpen(false);
+  const onSubmit: SubmitHandler<TagFormValues> = async (data) => {
+    console.log("Tag Created:", data);
+
+    const dataTag = await createTag(data.name);
+    if(dataTag._id) {
+      router.refresh()
+      // show alert
+    }
     reset();
+    setIsModalOpen(false);
   };
 
   return (
-    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-      <h2 className="text-xl text-gray-700 font-bold mb-4">ایجاد مقاله جدید</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4">
-          <Input
-            name="name"
-            label="عنوان"
-            control={control}
-            placeholder="عنوان مقاله..."
-            type="text"
-            rules={{ required: "عنوان مقاله را وارد کنید" }}
-          />
+    <>
+      <button
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        onClick={() => setIsModalOpen(true)}
+      >
+        ایجاد برچسب جدید
+      </button>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+            <h2 className="text-lg font-bold mb-4">ایجاد برچسب جدید</h2>
+            {/* فرم برچسب */}
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Input
+                label="نام برچسب"
+                placeholder="نام برچسب را وارد کنید"
+                name="name"
+                control={control}
+                rules={{ required: "نام برچسب الزامی است" }}
+              />
+              <div className="flex justify-end mt-4 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                >
+                  بستن
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                >
+                  ایجاد
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-        <button
-          type="submit"
-          className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-        >
-          ذخیره
-        </button>
-      </form>
-    </Modal>
+      )}
+    </>
   );
 };
 

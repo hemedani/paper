@@ -1,55 +1,76 @@
-import Modal from "../molecules/Modal";
+"use client";
+
+import React, { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Input from "../atoms/Input";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { createTag } from "@/app/actions/tag/createTag";
+import { createPublication } from "@/app/actions/publication/createPublication";
+import { useRouter } from "next/navigation";
 
-type TProps = {
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-interface FormValues {
+interface PupulationFormValues {
   title: string;
 }
 
-const ModalPoplication = ({ isModalOpen, setIsModalOpen }: TProps) => {
-  const { control, handleSubmit, reset } = useForm<FormValues>({
+const ModalPupulation = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+  const { handleSubmit, control, reset } = useForm<PupulationFormValues>({
     defaultValues: { title: "" },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    console.log("Article created:", data.title);
-    const dataTag =  await createTag(data.title)
-    console.log(dataTag);
-    
-    // بستن مودال و پاکسازی فرم
-    // setIsModalOpen(false);
+  const onSubmit: SubmitHandler<PupulationFormValues> = async (data) => {
+
+    const dataPupulation = await createPublication(data.title);
+    if (dataPupulation._id) {
+      router.refresh();
+      // show alert
+    }
     reset();
+    setIsModalOpen(false);
   };
 
   return (
-    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-      <h2 className="text-xl text-gray-700 font-bold mb-4">ایجاد مقاله جدید</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4">
-          <Input
-            name="title"
-            label="عنوان"
-            control={control}
-            placeholder="عنوان مقاله..."
-            type="text"
-            rules={{ required: "عنوان مقاله را وارد کنید" }}
-          />
+    <>
+      <button
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        onClick={() => setIsModalOpen(true)}
+      >
+        ایجاد انتشارات جدید
+      </button>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+            <h2 className="text-lg font-bold mb-4">ایجاد انتشارات جدید</h2>
+            {/* فرم انتشارات */}
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Input
+                label="نام انتشارات"
+                placeholder="نام انتشارات را وارد کنید"
+                name="title"
+                control={control}
+                rules={{ required: "نام انتشارات الزامی است" }}
+              />
+              <div className="flex justify-end mt-4 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                >
+                  بستن
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                >
+                  ایجاد
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-        <button
-          type="submit"
-          className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-        >
-          ذخیره
-        </button>
-      </form>
-    </Modal>
+      )}
+    </>
   );
 };
 
-export default ModalPoplication;
+export default ModalPupulation;
