@@ -11,6 +11,7 @@ import { updateUserSetup } from "./updateUser/mod.ts";
 import { getUsersSetup } from "./getUsers/mod.ts";
 import { removeUserSetup } from "./removeUser/mod.ts";
 import { countUsersSetup } from "./countUsers/mod.ts";
+import { dashboardStatisticSetup } from "./dashboardStatistic/mod.ts";
 
 export const userSetup = () => {
 	addUserSetup();
@@ -26,4 +27,5 @@ export const userSetup = () => {
 	getUsersSetup();
 	removeUserSetup();
 	countUsersSetup();
+	dashboardStatisticSetup();
 };
