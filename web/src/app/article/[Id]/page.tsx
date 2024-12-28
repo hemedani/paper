@@ -19,6 +19,7 @@ interface Article {
   publication: { title: string };
   tags: { name: string }[];
 }
+
 export default async function ArticlePage({
   params,
 }: {
@@ -27,75 +28,77 @@ export default async function ArticlePage({
   const article = await getArticleAction(params.Id);
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4 bg-gray-50 shadow-lg rounded-lg">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">
-        {article?.title}
-      </h1>
-      <p className="text-gray-600 italic">{article?.articleType}</p>
-      <p className="mt-2 text-gray-600">
-        سال انتشار: {article?.publicationYear}
-      </p>
-
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold text-gray-600">خلاصه:</h2>
-        <p className="text-gray-700 mt-2">{article?.abstract}</p>
-      </div>
-
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold text-gray-600">اطلاعات مقاله:</h2>
-        <ul className="list-disc list-inside text-gray-700 mt-2">
-          <li>DOI: {article?.DOI}</li>
-          <li>صفحات: {article?.page}</li>
-          <li>شماره: {article?.issue}</li>
-          <li>جلد: {article?.volume}</li>
-        </ul>
-      </div>
-
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold text-gray-600">ثبت‌کننده:</h2>
-        <p className="text-gray-700">
-          {article?.registrar?.first_name} {article?.registrar?.last_name}
+    <div className="bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen flex justify-center items-center py-10 px-6">
+      <div className="max-w-3xl w-full bg-white shadow-2xl rounded-xl p-8 border-4 ">
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
+          {article?.title}
+        </h1>
+        <p className="text-lg text-indigo-800 font-semibold italic">{article?.articleType}</p>
+        <p className="mt-2 text-gray-700">
+          <span className="font-semibold">سال انتشار:</span> {article?.publicationYear}
         </p>
-      </div>
 
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold text-gray-600">برچسب‌ها:</h2>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {article?.tags?.map((tag: any) => (
-            <span
-              key={tag?.name}
-              className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm"
-            >
-              {tag?.name}
-            </span>
-          ))}
+        <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-semibold text-gray-800">خلاصه:</h2>
+          <p className="text-gray-700 mt-4">{article?.abstract}</p>
         </div>
-      </div>
 
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold text-gray-600">انتشارات:</h2>
-        <p className="text-gray-700">{article?.publication?.title}</p>
-      </div>
+        <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-semibold text-gray-800">اطلاعات مقاله:</h2>
+          <ul className="list-disc list-inside text-gray-700 mt-4 space-y-2">
+            <li>DOI: {article?.DOI}</li>
+            <li>صفحات: {article?.page}</li>
+            <li>شماره: {article?.issue}</li>
+            <li>جلد: {article?.volume}</li>
+          </ul>
+        </div>
 
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold text-gray-600">مقالات مرتبط:</h2>
-        <ul className="list-disc list-inside text-gray-700 mt-2">
-          {article?.registrar?.registerArticles?.map(
-            (item: any, index: number) => (
-              <li key={index}>{item?.title}</li>
-            )
-          )}
-        </ul>
-      </div>
+        <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-semibold text-gray-800">ثبت‌کننده:</h2>
+          <p className="text-gray-700 mt-4">
+            {article?.registrar?.first_name} {article?.registrar?.last_name}
+          </p>
+        </div>
 
-      <a
-        href={article?.URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-6 inline-block text-blue-500 underline "
-      >
-        مشاهده مقاله اصلی
-      </a>
+        <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-semibold text-gray-800">برچسب‌ها:</h2>
+          <div className="flex flex-wrap gap-4 mt-4">
+            {article?.tags?.map((tag: any) => (
+              <span
+                key={tag?.name}
+                className="bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-blue-300"
+              >
+                {tag?.name}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-semibold text-gray-800">انتشارات:</h2>
+          <p className="text-gray-700 mt-4">{article?.publication?.title}</p>
+        </div>
+
+        <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-semibold text-gray-800">مقالات مرتبط:</h2>
+          <ul className="list-disc list-inside text-gray-700 mt-4 space-y-2">
+            {article?.registrar?.registerArticles?.map(
+              (item: any, index: number) => (
+                <li key={index}>{item?.title}</li>
+              )
+            )}
+          </ul>
+        </div>
+            
+        <a
+          href={article?.URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-8 inline-block text-indigo-600 font-semibold text-lg underline hover:text-indigo-800"
+        >
+          مشاهده مقاله اصلی
+        </a>
+      </div>
     </div>
   );
 }

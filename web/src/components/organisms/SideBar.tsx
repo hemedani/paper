@@ -17,7 +17,7 @@ type TProps = {
 
 export const AdminSidebar: FC<TProps> = ({ menuItemsProps }) => {
   return (
-    <aside className="w-64 h-screen bg-gray-800 text-white flex flex-col">
+    <aside className="w-64 min-h-screen bg-gray-800 text-white flex flex-col">
       <div className="p-4 text-xl font-semibold border-b border-gray-700">
         پنل ادمین
       </div>

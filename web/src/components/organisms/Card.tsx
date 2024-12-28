@@ -14,10 +14,10 @@ export const Card = ({
   authors: string[];
 }) => {
   return (
-    <div className="max-w-sm mt-5 h-fit bg-white rounded-lg border border-gray-300 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <div className="max-w-sm mt-5 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 hover:border-indigo-500">
       {/* Header Section */}
-      <div className="flex items-center p-4 border-b gap-5">
-        <div className="w-12 h-12 border rounded-full overflow-hidden flex-shrink-0">
+      <div className="flex items-center p-5 border-b border-gray-200">
+        <div className="w-16 h-16 border-4 border-indigo-600 rounded-full overflow-hidden flex-shrink-0">
           <img
             src="/assets/images/Untitled2.png" // Add your profile image source here
             alt="Profile"
@@ -25,19 +25,27 @@ export const Card = ({
           />
         </div>
         <div className="ml-4">
-          <p className="text-lg font-semibold text-gray-800">{title}</p>
-          <p className="text-sm text-gray-500">{authors.join(" | ")}</p>
+          <p className="text-xl font-semibold text-gray-900">{title}</p>
+          <p className="text-sm text-gray-600">{authors.join(" | ")}</p>
         </div>
       </div>
 
       {/* Content Section */}
-      <div className="p-4">
+      <div className="p-5">
         <p className="text-gray-700 text-sm leading-relaxed text-justify">
           {abstract}
         </p>
       </div>
 
-      <Link className="text-gray-600 text-center" href={`/article/${id}`}>مشاهده مقاله</Link>
+      {/* Link Button */}
+      <div className="p-4 text-center">
+        <Link
+          className="inline-block text-indigo-600 font-semibold hover:text-indigo-800 hover:underline"
+          href={`/article/${id}`}
+        >
+          مشاهده مقاله
+        </Link>
+      </div>
     </div>
   );
 };
