@@ -26,7 +26,7 @@ export const Card = ({
         </div>
         <div className="ml-4">
           <p className="text-xl font-semibold text-gray-900">{title}</p>
-          <p className="text-sm text-gray-600">{authors.join(" | ")}</p>
+          <p className="text-sm text-gray-600">{authors?.join(" | ")}</p>
         </div>
       </div>
 

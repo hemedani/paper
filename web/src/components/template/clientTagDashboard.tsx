@@ -18,11 +18,12 @@ interface ClientDashboardProps {
 const ClientDashboard: React.FC<ClientDashboardProps> = ({
   tags,
 }) => {
-  const [tagList, setTagList] = useState<Tag[]>(tags);
-
-  const handleDelete = (id: string) => {
-    setTagList((prevTags) => prevTags.filter((tag) => tag._id !== id));
-  };
+  // const [tagList, setTagList] = useState<Tag[]>(tags);
+  // console.log("tagList", tagList);
+  
+  // const handleDelete = (id: string) => {
+  //   setTagList((prevTags) => prevTags.filter((tag) => tag._id !== id));
+  // };
 
   const handleEdit = (id: string) => {
     console.log(`ویرایش برچسب با آیدی ${id}`);
@@ -31,11 +32,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({
   return (
     <div>
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {tagList?.map((tag) => (
+        {tags?.map((tag) => (
           <EntityCard
             key={tag._id}
             title={tag.name}
-            onDelete={() => handleDelete(tag._id)}
+            onDelete={() => {}}
             onEdit={() => handleEdit(tag._id)}
           />
         ))}

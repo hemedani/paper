@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import React, { useState } from "react";
 
 interface SearchBoxProps {
@@ -14,7 +14,6 @@ const SearchBox: React.FC<SearchBoxProps> = ({ defaultValue = "" }) => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     router.push(`?query=${encodeURIComponent(query)}`);
-    location.reload();
   };
 
   return (
