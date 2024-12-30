@@ -2,7 +2,7 @@
 import { paperApi } from "@/services/api";
 import { cookies } from "next/headers";
 
-export const getUsers = async () => {
+export const getUsers = async (name: string, currentPage: number) => {
   const token = (await cookies()).get("token");
   const getUsers = await paperApi().send(
     {
@@ -10,7 +10,7 @@ export const getUsers = async () => {
       model: "user",
       act: "getUsers",
       details: {
-        set: { page: 1, limit: 21 },
+        set: { page: currentPage ? currentPage : 1, limit: 21 },
         get: {
           _id: 1,
           first_name: 1,
