@@ -8,11 +8,11 @@ const PopulationDashboard = async ({
 }: {
   searchParams: { query?: string, page?: string };
 }) => {
-  const searchQuery = searchParams.query || "";
-  const currentPage = parseInt(searchParams.page || "1");
+  const searchQuery = (await searchParams).query || "";
+  const currentPage = parseInt((await searchParams).page || "1");
 
   const puplication = await getPublications(searchQuery, currentPage);
-  const totalItems = puplication.length;
+  const totalItems = puplication?.length;
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
