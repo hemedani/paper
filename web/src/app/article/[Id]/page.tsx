@@ -25,7 +25,8 @@ export default async function ArticlePage({
 }: {
   params: { Id: string };
 }) {
-  const article = await getArticleAction(params.Id);
+  const articleId = (await params).Id
+  const article = await getArticleAction(articleId);
 
   return (
     <div className="bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen flex justify-center items-center py-10 px-6">
@@ -40,7 +41,7 @@ export default async function ArticlePage({
 
         <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold text-gray-800">خلاصه:</h2>
-          <p className="text-gray-700 mt-4">{article?.abstract}</p>
+          <p className="text-gray-700 text-justify mt-4">{article?.abstract}</p>
         </div>
 
         <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
