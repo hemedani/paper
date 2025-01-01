@@ -1,9 +1,9 @@
-import { enums, object, optional, string } from "deps";
+import { enums, object, objectIdValidation, optional } from "deps";
 
 export const removePublicationValidator = () => {
 	return object({
 		set: object({
-			_id: string(),
+			_id: objectIdValidation,
 		}),
 		get: object({
 			success: optional(enums([0, 1])),

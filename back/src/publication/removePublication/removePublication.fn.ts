@@ -1,4 +1,4 @@
-import type { ActFn } from "deps";
+import { type ActFn, ObjectId } from "deps";
 import { publication } from "../../../mod.ts";
 
 export const removePublicationFn: ActFn = async (body) => {
@@ -6,8 +6,9 @@ export const removePublicationFn: ActFn = async (body) => {
 		set: { _id },
 		get,
 	} = body.details;
+
 	return await publication.deleteOne({
-		filter: { _id: new Object(_id) },
+		filter: { _id: new ObjectId(_id) },
 		hardCascade: false,
 	});
 };

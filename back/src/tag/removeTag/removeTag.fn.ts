@@ -1,4 +1,4 @@
-import type { ActFn } from "deps";
+import { type ActFn, ObjectId } from "deps";
 import { tag } from "../../../mod.ts";
 
 export const removeTagFn: ActFn = async (body) => {
@@ -8,7 +8,7 @@ export const removeTagFn: ActFn = async (body) => {
 	} = body.details;
 
 	return await tag.deleteOne({
-		filter: { _id: new Object(_id) },
+		filter: { _id: new ObjectId(_id) },
 		hardCascade: false,
 	});
 };
