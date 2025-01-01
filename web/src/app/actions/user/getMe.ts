@@ -17,7 +17,7 @@ export const getMe = async () => {
         },
       },
     },
-    { token }
+    { token: token?.value }
   );
 
   if (getMe.success) return getMe.body;
