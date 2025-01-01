@@ -1,7 +1,6 @@
 import {
 	array,
 	enums,
-	integer,
 	number,
 	type RelationDataType,
 	type RelationSortOrderType,
@@ -21,7 +20,7 @@ export const articlePureFields = {
 	key: string(),
 
 	articleType: articleTypeEnums,
-	publicationYear: size(integer(), 1250, 1500),
+	publicationYear: size(number(), 1250, 1500),
 
 	authors: array(string()),
 

@@ -1,4 +1,4 @@
-import { array, object, objectIdValidation, optional } from "deps";
+import { array, object, objectIdValidation } from "deps";
 import { selectStruct } from "../../../mod.ts";
 import { articlePureFields } from "@paper/lib";
 
