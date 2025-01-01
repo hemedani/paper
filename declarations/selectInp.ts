@@ -48,6 +48,7 @@ registerArticles: {
 _id?: string;
 key: string;
 articleType: ("journalArticle" | "book" );
+publicationYear: number;
 authors: string[];
 title: string;
 abstract: string;
@@ -129,6 +130,7 @@ articles: {
 _id?: string;
 key: string;
 articleType: ("journalArticle" | "book" );
+publicationYear: number;
 authors: string[];
 title: string;
 abstract: string;
@@ -177,6 +179,7 @@ articles: {
 _id?: string;
 key: string;
 articleType: ("journalArticle" | "book" );
+publicationYear: number;
 authors: string[];
 title: string;
 abstract: string;
@@ -206,6 +209,7 @@ tags?: number | tagInp
 _id?: string;
 key: string;
 articleType: ("journalArticle" | "book" );
+publicationYear: number;
 authors: string[];
 title: string;
 abstract: string;
@@ -1149,6 +1153,7 @@ articles?: (0 | 1 );
 set: {
 key: string;
 articleType: ("journalArticle" | "book" );
+publicationYear: number;
 authors: string[];
 title: string;
 abstract: string;
@@ -1555,6 +1560,7 @@ set: {
 articleId: string;
 key: string;
 articleType: ("journalArticle" | "book" );
+publicationYear: number;
 authors: string[];
 title: string;
 abstract: string;
