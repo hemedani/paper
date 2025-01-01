@@ -1,4 +1,4 @@
-import { loginReqAction } from "@/app/actions/loginReq";
+import { loginReqAction } from "@/app/actions/user/loginReq";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
 type TProps = {

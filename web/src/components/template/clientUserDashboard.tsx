@@ -24,13 +24,15 @@ interface ClientDashboardProps {
   searchQuery: string;
 }
 
-export const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
-  const [userList, setUserList] = useState<User[]>(users);
-  
+export const ClientUserDashboard: React.FC<ClientDashboardProps> = ({
+  users,
+}) => {
+
   return (
     <div>
+      <ModalUser />
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {userList?.map((user) => (
+        {users?.map((user) => (
           <UserCard
             key={user._id}
             first_name={user.first_name}
@@ -40,8 +42,6 @@ export const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) =
           />
         ))}
       </div>
-      <ModalUser  />
     </div>
   );
 };
-

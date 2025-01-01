@@ -19,7 +19,7 @@ export const getUser = async (_id: string) => {
         },
       },
     },
-    { token }
+    { token: token?.value }
   );
 
   if (getUser.success) return getUser.body;
