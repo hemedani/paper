@@ -12,6 +12,7 @@ import { getUsersSetup } from "./getUsers/mod.ts";
 import { removeUserSetup } from "./removeUser/mod.ts";
 import { countUsersSetup } from "./countUsers/mod.ts";
 import { dashboardStatisticSetup } from "./dashboardStatistic/mod.ts";
+import { toggleFavArticleSetup } from "./toggleFavArticle/mod.ts";
 
 export const userSetup = () => {
 	addUserSetup();
@@ -28,4 +29,5 @@ export const userSetup = () => {
 	removeUserSetup();
 	countUsersSetup();
 	dashboardStatisticSetup();
+	toggleFavArticleSetup();
 };
