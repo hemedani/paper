@@ -9,6 +9,7 @@ import {
 	pattern,
 	refine,
 	type RelationDataType,
+	type RelationSortOrderType,
 	string,
 } from "deps";
 import { createUpdateAt, isValidNationalNumber } from "../utils/mod.ts";
@@ -56,6 +57,25 @@ export const userRelations = {
 		type: "single" as RelationDataType,
 		optional: true,
 		relatedRelations: {},
+	},
+	favArticles: {
+		schemaName: "article",
+		optional: true,
+		type: "multiple" as RelationDataType,
+		sort: {
+			field: "_id",
+			order: "desc" as RelationSortOrderType,
+		},
+		relatedRelations: {
+			favByUsers: {
+				type: "multiple" as RelationDataType,
+				limit: 50,
+				sort: {
+					field: "_id",
+					order: "desc" as RelationSortOrderType,
+				},
+			},
+		},
 	},
 };
 
