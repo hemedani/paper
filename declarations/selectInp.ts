@@ -1,9 +1,9 @@
 
     export type userInp = {
       nationalCard?: number | fileInp
+favArticles?: number | articleInp
       uploadedAssets?: number | fileInp
 registeredPublications?: number | publicationInp
-registerArticles?: number | articleInp
     }
 
 
@@ -30,21 +30,7 @@ size: number;
 createdAt: Date;
 updatedAt: Date;
 };
-uploadedAssets: {
-_id?: string;
-name: string;
-type: string;
-size: number;
-createdAt: Date;
-updatedAt: Date;
-}[];
-registeredPublications: {
-_id?: string;
-title: string;
-createdAt: Date;
-updatedAt: Date;
-}[];
-registerArticles: {
+favArticles?: {
 _id?: string;
 key: string;
 articleType: ("journalArticle" | "book" );
@@ -62,46 +48,27 @@ volume: number;
 createdAt: Date;
 updatedAt: Date;
 }[];
-};
-;
-
-
-    export type fileInp = {
-      uploader?: number | userInp
-      
-    }
-
-
-    export type fileSchema = {
+uploadedAssets: {
 _id?: string;
 name: string;
 type: string;
 size: number;
 createdAt: Date;
 updatedAt: Date;
-uploader: {
+}[];
+registeredPublications: {
 _id?: string;
-first_name: string;
-last_name: string;
-father_name: string;
-mobile: string;
-gender: ("Male" | "Female" );
-birth_date?: Date;
-personnel_number: string;
-national_number: string;
-address: string;
-level: ("Ghost" | "Manager" | "Editor" );
-isVerified: boolean;
+title: string;
 createdAt: Date;
 updatedAt: Date;
-};
+}[];
 };
 ;
 
 
     export type publicationInp = {
       registrar?: number | userInp
-      articles?: number | articleInp
+      
     }
 
 
@@ -126,31 +93,13 @@ isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
 };
-articles: {
-_id?: string;
-key: string;
-articleType: ("journalArticle" | "book" );
-publicationYear: number;
-authors: string[];
-title: string;
-abstract: string;
-ISBN: string;
-ISNN: string;
-DOI: string;
-URL: string;
-page: string;
-issue: number;
-volume: number;
-createdAt: Date;
-updatedAt: Date;
-}[];
 };
 ;
 
 
     export type tagInp = {
       registrar?: number | userInp
-      articles?: number | articleInp
+      
     }
 
 
@@ -175,24 +124,6 @@ isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
 };
-articles: {
-_id?: string;
-key: string;
-articleType: ("journalArticle" | "book" );
-publicationYear: number;
-authors: string[];
-title: string;
-abstract: string;
-ISBN: string;
-ISNN: string;
-DOI: string;
-URL: string;
-page: string;
-issue: number;
-volume: number;
-createdAt: Date;
-updatedAt: Date;
-}[];
 };
 ;
 
@@ -201,7 +132,7 @@ updatedAt: Date;
       registrar?: number | userInp
 publication?: number | publicationInp
 tags?: number | tagInp
-      
+      favByUsers?: number | userInp
     }
 
 
@@ -250,6 +181,55 @@ name: string;
 createdAt: Date;
 updatedAt: Date;
 }[];
+favByUsers: {
+_id?: string;
+first_name: string;
+last_name: string;
+father_name: string;
+mobile: string;
+gender: ("Male" | "Female" );
+birth_date?: Date;
+personnel_number: string;
+national_number: string;
+address: string;
+level: ("Ghost" | "Manager" | "Editor" );
+isVerified: boolean;
+createdAt: Date;
+updatedAt: Date;
+}[];
+};
+;
+
+
+    export type fileInp = {
+      uploader?: number | userInp
+      
+    }
+
+
+    export type fileSchema = {
+_id?: string;
+name: string;
+type: string;
+size: number;
+createdAt: Date;
+updatedAt: Date;
+uploader: {
+_id?: string;
+first_name: string;
+last_name: string;
+father_name: string;
+mobile: string;
+gender: ("Male" | "Female" );
+birth_date?: Date;
+personnel_number: string;
+national_number: string;
+address: string;
+level: ("Ghost" | "Manager" | "Editor" );
+isVerified: boolean;
+createdAt: Date;
+updatedAt: Date;
+};
 };
 ;
 
@@ -302,21 +282,7 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-uploadedAssets?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registeredPublications?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
+favArticles?: {
 _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
@@ -331,6 +297,20 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -380,6 +360,68 @@ createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
 };
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+publication?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+tags?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -422,70 +464,6 @@ national_number?: (0 | 1 );
 address?: (0 | 1 );
 level?: (0 | 1 );
 isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-registerArticles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-registrar?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-publication?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-tags?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -537,6 +515,68 @@ createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
 };
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+publication?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+tags?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -582,70 +622,6 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-registerArticles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-registrar?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-publication?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-tags?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
 };
 };
 };
@@ -681,21 +657,7 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-uploadedAssets?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registeredPublications?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
+favArticles?: {
 _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
@@ -710,6 +672,20 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -760,21 +736,7 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-uploadedAssets?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registeredPublications?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
+favArticles?: {
 _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
@@ -789,6 +751,20 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -831,21 +807,7 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-uploadedAssets?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registeredPublications?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
+favArticles?: {
 _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
@@ -860,6 +822,20 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -895,21 +871,7 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-uploadedAssets?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registeredPublications?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
+favArticles?: {
 _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
@@ -924,6 +886,20 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -997,6 +973,68 @@ createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
 };
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+publication?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+tags?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1042,70 +1080,6 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-registerArticles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-registrar?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-publication?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-tags?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
 };
 };
 };
@@ -1139,6 +1113,69 @@ users?: (0 | 1 );
 tags?: (0 | 1 );
 publications?: (0 | 1 );
 articles?: (0 | 1 );
+};
+};
+
+          
+            toggleFavArticle: {
+set: {
+articleId: string;
+};
+get: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+nationalCard?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 };
 };
 
@@ -1214,6 +1251,22 @@ name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 };
 };
 
@@ -1262,21 +1315,7 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-uploadedAssets?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registeredPublications?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
+favArticles?: {
 _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
@@ -1291,6 +1330,20 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1316,24 +1369,6 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
 };
 tags?: {
 _id?: (0 | 1 );
@@ -1356,7 +1391,31 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-articles?: {
+};
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+nationalCard?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favArticles?: {
 _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
@@ -1371,6 +1430,20 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1438,21 +1511,7 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-uploadedAssets?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registeredPublications?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
+favArticles?: {
 _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
@@ -1467,6 +1526,20 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1492,24 +1565,6 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
 };
 tags?: {
 _id?: (0 | 1 );
@@ -1532,7 +1587,31 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-articles?: {
+};
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+nationalCard?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favArticles?: {
 _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
@@ -1547,6 +1626,20 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1619,6 +1712,22 @@ name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 };
 };
 
@@ -1666,21 +1775,7 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-uploadedAssets?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
-type?: (0 | 1 );
-size?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registeredPublications?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
+favArticles?: {
 _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
@@ -1695,6 +1790,20 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1769,24 +1878,6 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
 };
 };
 
@@ -1824,6 +1915,24 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1835,70 +1944,6 @@ updatedAt?: (0 | 1 );
 registeredPublications?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-registrar?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-publication?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-tags?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1939,6 +1984,24 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1950,70 +2013,6 @@ updatedAt?: (0 | 1 );
 registeredPublications?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-registrar?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-publication?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-tags?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -2056,6 +2055,24 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2067,70 +2084,6 @@ updatedAt?: (0 | 1 );
 registeredPublications?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-registrar?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-publication?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-tags?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -2192,24 +2145,6 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
 };
 };
 
@@ -2247,6 +2182,24 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2258,70 +2211,6 @@ updatedAt?: (0 | 1 );
 registeredPublications?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-registrar?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-publication?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-tags?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -2362,6 +2251,24 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2373,70 +2280,6 @@ updatedAt?: (0 | 1 );
 registeredPublications?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-registrar?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-publication?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-tags?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -2479,6 +2322,24 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2490,70 +2351,6 @@ updatedAt?: (0 | 1 );
 registeredPublications?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-registerArticles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-};
-articles?: {
-_id?: (0 | 1 );
-key?: (0 | 1 );
-articleType?: (0 | 1 );
-publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
-title?: (0 | 1 );
-abstract?: (0 | 1 );
-ISBN?: (0 | 1 );
-ISNN?: (0 | 1 );
-DOI?: (0 | 1 );
-URL?: (0 | 1 );
-page?: (0 | 1 );
-issue?: (0 | 1 );
-volume?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-registrar?: {
-_id?: (0 | 1 );
-first_name?: (0 | 1 );
-last_name?: (0 | 1 );
-father_name?: (0 | 1 );
-mobile?: (0 | 1 );
-gender?: (0 | 1 );
-birth_date?: (0 | 1 );
-personnel_number?: (0 | 1 );
-national_number?: (0 | 1 );
-address?: (0 | 1 );
-level?: (0 | 1 );
-isVerified?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-publication?: {
-_id?: (0 | 1 );
-title?: (0 | 1 );
-createdAt?: (0 | 1 );
-updatedAt?: (0 | 1 );
-};
-tags?: {
-_id?: (0 | 1 );
-name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };

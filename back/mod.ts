@@ -12,11 +12,11 @@ const client = await new MongoClient("mongodb://127.0.0.1:27017/").connect();
 const db = client.db("paper");
 coreApp.odm.setDb(db);
 
+export const article = articles();
 export const user = users();
 export const file = files();
 export const publication = publications();
 export const tag = tags();
-export const article = articles();
 
 export const { setAct, setService, getAtcsWithServices } = coreApp.acts;
 
