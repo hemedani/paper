@@ -1,8 +1,12 @@
 "use server";
 import { paperApi } from "@/services/api";
+import { ReqType } from "@/types/declarations/selectInp";
 import { cookies } from "next/headers";
 
-export const getPublications = async (title?: string, page?: number) => {
+export const getPublications = async ({
+  get,
+  set,
+}: ReqType["main"]["publication"]["getPublications"]) => {
   const token = (await cookies()).get("token");
   const getPublications = await paperApi().send(
     {
@@ -10,17 +14,11 @@ export const getPublications = async (title?: string, page?: number) => {
       model: "publication",
       act: "getPublications",
       details: {
-        set: {
-          page: page ? page : 1,
-          limit: 21,
-          title: title ? title : "",
-        },
-        get: {
-          title: 1,
-        },
+        set,
+        get,
       },
     },
-    { token : token?.value }
+    { token: token?.value }
   );
 
   if (getPublications.success) return getPublications.body;

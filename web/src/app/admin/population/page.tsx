@@ -3,17 +3,33 @@ import { getPublications } from "@/app/actions/publication/getPublications";
 import Pagination from "@/components/molecules/Pagination";
 import SearchBox from "@/components/molecules/SearchBox";
 import ClientPuplicationDashboard from "@/components/template/clientPuplicationDashboard";
+import { ReqType } from "@/types/declarations/selectInp";
 
 const PopulationDashboard = async ({
   searchParams,
 }: {
-  searchParams: { query?: string; page?: string };
+  searchParams: Promise<
+    ReqType["main"]["publication"]["getPublications"]["set"]
+  >;
 }) => {
-  const searchQuery = (await searchParams).query || "";
-  const currentPage = parseInt((await searchParams).page || "1");
+  const { limit = "21", page = "1", title = "" } = await searchParams;
 
-  const puplication = await getPublications(searchQuery, currentPage);
-  const countPublicationData = await CountPublications(searchQuery);
+  const set: ReqType["main"]["publication"]["getPublications"]["set"] = {
+    limit: +limit || 21,
+    page: +page,
+    title,
+  };
+
+  const get: ReqType["main"]["publication"]["getPublications"]["get"] = {
+    _id: 1,
+    title: 1,
+  };
+
+  const puplication = await getPublications({ get, set });
+  const countPublicationData = await CountPublications({
+    get: { qty: 1 },
+    set: { title },
+  });
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
@@ -22,12 +38,9 @@ const PopulationDashboard = async ({
       <SearchBox />
       <ClientPuplicationDashboard
         puplications={puplication}
-        searchQuery={searchQuery}
+        searchQuery={title}
       />
-      <Pagination
-        countPage={countPublicationData.qty}
-        initialPage={currentPage}
-      />
+      <Pagination countPage={countPublicationData.qty} initialPage={+page} />
     </div>
   );
 };
