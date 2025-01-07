@@ -1,8 +1,9 @@
 "use server";
 import { paperApi } from "@/services/api";
+import { ReqType } from "@/types/declarations/selectInp";
 import { cookies } from "next/headers";
 
-export const getUsers = async (name: string, currentPage: number) => {
+export const getUsers = async ({set,get}: ReqType["main"]["user"]["getUsers"]) => {
   const token = (await cookies()).get("token");
   const getUsers = await paperApi().send(
     {
@@ -10,13 +11,8 @@ export const getUsers = async (name: string, currentPage: number) => {
       model: "user",
       act: "getUsers",
       details: {
-        set: { page: currentPage ? currentPage : 1, limit: 21 },
-        get: {
-          _id: 1,
-          first_name: 1,
-          last_name: 1,
-          mobile: 1,
-        },
+        set,
+        get,
       },
     },
     { token: token?.value }

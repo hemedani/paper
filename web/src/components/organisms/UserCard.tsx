@@ -4,14 +4,12 @@ import { EditIcon, TrashIcon } from "../atoms/Icons";
 interface UserCardProps {
   first_name: string;
   last_name: string;
-  email: string;
   phone: string;
 }
 
 const UserCard: React.FC<UserCardProps> = ({
   first_name,
   last_name,
-  email,
   phone,
 }) => {
   console.log("UserCardProps:", first_name[0], last_name[0]);
@@ -28,7 +26,6 @@ const UserCard: React.FC<UserCardProps> = ({
           {first_name} {last_name}
         </h2>
         <p className="text-gray-600 text-sm mt-1">{phone}</p>
-        <p className="text-gray-500 text-xs mt-3">{email}</p>
       </div>
       <div className="flex flex-col gap-2">
         <button
