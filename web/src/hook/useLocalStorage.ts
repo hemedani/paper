@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export const useLocalStorage = <T>(
   key: string,
@@ -18,20 +18,20 @@ export const useLocalStorage = <T>(
       if (event.key !== key) return;
 
       const lsi = localStorage.getItem(key);
-      setValue(JSON.parse(lsi ?? ''));
+      setValue(JSON.parse(lsi ?? ""));
     };
 
-    window.addEventListener('storage', handler);
-    return () => window.removeEventListener('storage', handler);
-  }, []);
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
+  }, [initialValue, key]);
 
   const setValueWrap = (value: T) => {
     try {
       setValue(value);
 
       localStorage.setItem(key, JSON.stringify(value));
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new StorageEvent('storage', { key }));
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new StorageEvent("storage", { key }));
       }
     } catch (err) {
       console.error(err);
