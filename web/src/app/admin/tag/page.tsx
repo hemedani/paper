@@ -3,28 +3,37 @@ import ClientTagDashboard from "@/components/template/clientTagDashboard";
 import SearchBox from "@/components/molecules/SearchBox";
 import Pagination from "@/components/molecules/Pagination";
 import { CountTags } from "@/app/actions/tag/countTags";
+import { ReqType } from "@/types/declarations/selectInp";
 
 export default async function TagDashboard({
   searchParams,
 }: {
-  searchParams: { query?: string; page?: string };
+  searchParams: Promise<ReqType["main"]["tag"]["getTags"]["set"]>;
 }) {
-  const searchQuery = (await searchParams).query || "";
-  const currentPage = parseInt((await searchParams).page || "1");
+  const { limit = "21", page = "1", name = "" } = await searchParams;
 
-  const data = await getTags(searchQuery, currentPage);
-  const countPageData = await CountTags(searchQuery);
+  const set: ReqType["main"]["tag"]["getTags"]["set"] = {
+    limit: +limit,
+    page: +page,
+    name,
+  };
+  const get: ReqType["main"]["tag"]["getTags"]["get"] = {
+    _id: 1,
+    name: 1,
+  };
+
+  const data = await getTags({ set, get });
+  const countPageData = await CountTags({
+    set: { name: set.name },
+    get: { qty: 1 },
+  });
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
       <h1 className="text-2xl text-gray-600 font-bold">برچسب‌ها</h1>
-
-      <SearchBox defaultValue={searchQuery} />
+      <SearchBox defaultValue={name} />
       <ClientTagDashboard tags={data} />
-      <Pagination
-        countPage={countPageData.qty}
-        initialPage={currentPage}
-      />
+      <Pagination countPage={countPageData?.qty} initialPage={+page} />
     </div>
   );
 }

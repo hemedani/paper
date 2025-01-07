@@ -1,9 +1,12 @@
 "use server";
 import { paperApi } from "@/services/api";
+import { ReqType } from "@/types/declarations/selectInp";
 import { cookies } from "next/headers";
 
-
-export const getTags = async (name?: string, currentPage?:number) => {
+export const getTags = async ({
+  set,
+  get,
+}: ReqType["main"]["tag"]["getTags"]) => {
   const token = (await cookies()).get("token");
 
   const getTags = await paperApi().send(
@@ -12,18 +15,12 @@ export const getTags = async (name?: string, currentPage?:number) => {
       model: "tag",
       act: "getTags",
       details: {
-        set: {
-          page: currentPage ? currentPage : 1,
-          limit: 21,
-          name: name ? name : "",
-        },
-        get: {
-          name: 1,
-        },
+        set,
+        get,
       },
     },
     { token: token?.value }
-  );  
+  );
 
   if (getTags.success) return getTags.body;
 };

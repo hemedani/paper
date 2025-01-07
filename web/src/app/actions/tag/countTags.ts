@@ -1,8 +1,9 @@
 "use server";
 import { paperApi } from "@/services/api";
+import { ReqType } from "@/types/declarations/selectInp";
 import { cookies } from "next/headers";
 
-export const CountTags = async (name?: string) => {
+export const CountTags = async ({set,get}: ReqType["main"]["tag"]["countTags"]) => {
   const token = (await cookies()).get("token");
   const countTags = await paperApi().send(
     {
@@ -10,12 +11,13 @@ export const CountTags = async (name?: string) => {
       model: "tag",
       act: "countTags",
       details: {
-        set: { name: name ? name : "" },
-        get: { qty: 1 },
+        set,
+        get,
       },
     },
     { token: token?.value }
   );
+  
 
   if(countTags.success) return countTags.body
 };
