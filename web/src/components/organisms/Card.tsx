@@ -10,18 +10,20 @@ export const Card = ({
   abstract,
   authors,
   id,
+  isFavorite: initialFavorite,
 }: {
   id: string;
   title: string;
   abstract: string;
   authors: string[];
+  isFavorite: boolean; // دریافت وضعیت اولیه علاقه‌مندی
 }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(initialFavorite);
 
   const handleFavoriteClick = async () => {
     const isAddedFavorite = await addFavorite(id);
     if (isAddedFavorite) {
-      // setIsFavorite(true);
+      setIsFavorite(!isFavorite); // تغییر وضعیت علاقه‌مندی
     }
   };
 

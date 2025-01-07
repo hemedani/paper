@@ -4,10 +4,10 @@ import { Header } from "@/components/organisms/Header";
 import { Navbar } from "@/components/organisms/Navbar";
 import { ListCard } from "@/components/template/WraperCard";
 import { articleSchema } from "@/types/declarations/selectInp";
-// import Pagination from "@/components/molecules/Pagination";
 import { getArticles } from "./actions/article/getArticles";
 import Pagination from "@/components/molecules/Pagination";
 import { getCountArticles } from "./actions/article/countArticle";
+import { getMe } from "./actions/user/getMe";
 
 export const dynamic = "force-dynamic";
 
@@ -28,7 +28,7 @@ export default async function Home(searchParams: {
   const ISNN = (await searchQuery).ISNN ?? "";
 
   const set: Record<string, string> = {
-    page: page,
+    page,
     search: query,
     title,
     abstract,
@@ -41,6 +41,7 @@ export default async function Home(searchParams: {
   };
 
   const data = await getArticles(set);
+  const me = await getMe();
   const countDataArticle = await getCountArticles({
     abstract,
     authors,
@@ -53,6 +54,11 @@ export default async function Home(searchParams: {
     search: query,
   });
 
+  // تبدیل لیست علاقه‌مندی‌ها به Set برای جستجوی سریع‌تر
+  const favoriteIds = new Set(
+    me?.favArticles?.map((fav: { _id: string }) => fav._id)
+  );
+
   return (
     <>
       <Navbar />
@@ -60,13 +66,14 @@ export default async function Home(searchParams: {
       {data?.length > 0 && (
         <>
           <ListCard>
-            {data?.map((item: Partial<articleSchema>) => (
+            {data.map((item: Partial<articleSchema>) => (
               <Card
                 key={item._id}
                 id={item._id!}
                 title={item.title!}
                 abstract={item.abstract!}
                 authors={item.authors!}
+                isFavorite={favoriteIds.has(item._id!)} // بررسی علاقه‌مندی
               />
             ))}
           </ListCard>
