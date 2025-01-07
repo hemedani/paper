@@ -4,9 +4,8 @@ import { Header } from "@/components/organisms/Header";
 import { Navbar } from "@/components/organisms/Navbar";
 import { ListCard } from "@/components/template/WraperCard";
 import { articleSchema } from "@/types/declarations/selectInp";
-import Pagination from "@/components/molecules/Pagination";
+// import Pagination from "@/components/molecules/Pagination";
 import { getArticles } from "./actions/article/getArticles";
-import AdvancedSearch from "@/components/organisms/AdvancedSearch";
 
 export const dynamic = "force-dynamic";
 
@@ -19,24 +18,32 @@ export default async function Home(searchParams: {
   const page = (await searchQuery).page ?? "1";
   const title = (await searchQuery).title ?? "";
   const abstract = (await searchQuery).abstract ?? "";
+  const tag = (await searchQuery).tag ?? "";
+  const publication = (await searchQuery).publication ?? "";
+  const authors = (await searchQuery).authors ?? "";
+  const DOI = (await searchQuery).DOI ?? "";
+  const ISBN = (await searchQuery).ISBN ?? "";
+  const ISNN = (await searchQuery).ISNN ?? "";
 
-  const set: Record<string, any> = {
+  const set: Record<string, string> = {
     page: page,
-    limit: 15,
     search: query,
     title,
     abstract,
+    tag,
+    publication,
+    authors,
+    DOI,
+    ISBN,
+    ISNN,
   };
 
-  const data = await getArticles(set.title, set.page, set.abstract);
+  const data = await getArticles(set);
 
   return (
     <>
       <Navbar />
       <Header />
-      <div className="w-2/4 mx-auto p-4">
-        <AdvancedSearch />
-      </div>
       {data?.length > 0 && (
         <>
           <ListCard>
@@ -51,7 +58,7 @@ export default async function Home(searchParams: {
             ))}
           </ListCard>
           <div className="flex justify-center items-center gap-2">
-            <Pagination totalItems={data.length} initialPage={+set.page} />
+            {/* <Pagination totalItems={data.length} initialPage={+set.page} /> */}
           </div>
         </>
       )}

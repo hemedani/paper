@@ -1,24 +1,5 @@
 import { getArticleAction } from "@/app/actions/article/getArticle";
 
-interface Article {
-  id: string;
-  title: string;
-  articleType: string;
-  publicationYear: number;
-  abstract: string;
-  DOI: string;
-  URL: string;
-  page: string;
-  issue: number;
-  volume: number;
-  registrar: {
-    first_name: string;
-    last_name: string;
-    registerArticles: { title: string }[];
-  };
-  publication: { title: string };
-  tags: { name: string }[];
-}
 
 export default async function ArticlePage({
   params,
@@ -27,6 +8,7 @@ export default async function ArticlePage({
 }) {
   const articleId = (await params).Id
   const article = await getArticleAction(articleId);
+
 
   return (
     <div className="bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen flex justify-center items-center py-10 px-6">
@@ -64,7 +46,7 @@ export default async function ArticlePage({
         <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold text-gray-800">برچسب‌ها:</h2>
           <div className="flex flex-wrap gap-4 mt-4">
-            {article?.tags?.map((tag: any) => (
+            {article?.tags?.map((tag: {name: string}) => (
               <span
                 key={tag?.name}
                 className="bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-blue-300"
@@ -83,8 +65,8 @@ export default async function ArticlePage({
         <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold text-gray-800">مقالات مرتبط:</h2>
           <ul className="list-disc list-inside text-gray-700 mt-4 space-y-2">
-            {article?.registrar?.registerArticles?.map(
-              (item: any, index: number) => (
+            {article?.registrar?.registeredPublications?.map(
+              (item: {title:string}, index: number) => (
                 <li key={index}>{item?.title}</li>
               )
             )}
