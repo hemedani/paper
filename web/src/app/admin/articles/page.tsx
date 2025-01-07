@@ -7,22 +7,26 @@ import ClientArticleDashboard from "@/components/template/clientArticleDashboard
 const ArticleDashboard = async ({
   searchParams,
 }: {
-  searchParams: { query?: string; page?: string };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  const searchQuery = (await searchParams).query || "";
-  const currentPage = (await searchParams).page || "1";
+  const {
+    query = "",
+    page = "1",
+  } = await searchParams;
 
-  const data = await getArticles({ page: currentPage, search: searchQuery });
-  const countDataArticle = await getCountArticles({ search: searchQuery })
-  
+  const data = await getArticles({ page: page, search: query });
+  const countDataArticle = await getCountArticles({ search: query });
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
       <h1 className="text-2xl text-gray-600 font-bold">بخش مقالات</h1>
       <p className="text-gray-600">خوش آمدید!</p>
       <SearchBox />
-      <ClientArticleDashboard articles={data} searchQuery={searchQuery} />
-      <Pagination countPage={countDataArticle?.qty} initialPage={+currentPage} />
+      <ClientArticleDashboard articles={data} searchQuery={query} />
+      <Pagination
+        countPage={countDataArticle?.qty}
+        initialPage={+page}
+      />
     </div>
   );
 };

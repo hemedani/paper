@@ -11,21 +11,23 @@ import { getMe } from "./actions/user/getMe";
 
 export const dynamic = "force-dynamic";
 
-export default async function Home(searchParams: {
-  searchParams?: Record<string, string>;
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const searchQuery = searchParams.searchParams ?? {};
-
-  const query = (await searchQuery).query ?? "";
-  const page = (await searchQuery).page ?? "1";
-  const title = (await searchQuery).title ?? "";
-  const abstract = (await searchQuery).abstract ?? "";
-  const tag = (await searchQuery).tag ?? "";
-  const publication = (await searchQuery).publication ?? "";
-  const authors = (await searchQuery).authors ?? "";
-  const DOI = (await searchQuery).DOI ?? "";
-  const ISBN = (await searchQuery).ISBN ?? "";
-  const ISNN = (await searchQuery).ISNN ?? "";
+  const {
+    query = "",
+    page = "1",
+    title = "",
+    abstract = "",
+    tag = "",
+    publication = "",
+    authors = "",
+    DOI = "",
+    ISBN = "",
+    ISNN = "",
+  } = await searchParams;
 
   const set: Record<string, string> = {
     page,
@@ -56,7 +58,7 @@ export default async function Home(searchParams: {
 
   // تبدیل لیست علاقه‌مندی‌ها به Set برای جستجوی سریع‌تر
   const favoriteIds = new Set(
-    me?.favArticles?.map((fav: { _id: string }) => fav._id)
+    me?.favArticles?.map((fav: { _id: string }) => fav._id),
   );
 
   return (
