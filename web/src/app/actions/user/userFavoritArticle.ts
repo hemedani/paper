@@ -8,12 +8,13 @@ export const addFavorite = async (_id: string) => {
     {
       service: "main",
       model: "user",
-      act: "addFavorite",
+      act: "toggleFavArticle",
       details: {
-        set: { _id },
+        set: { articleId: _id },
         get: {
           _id: 1,
           first_name: 1,
+          favArticles: {abstract:1, title:1, authors:1},
         },
       },
     },

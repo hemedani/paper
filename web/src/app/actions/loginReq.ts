@@ -2,7 +2,6 @@
 
 import { paperApi } from "@/services/api";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export const loginReqAction = async ({ national_number }: { national_number: string }) => {
 

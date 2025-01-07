@@ -19,7 +19,7 @@ export const getArticleAction = async (_id: string) => {
       get: {
         _id: 1,
         key: 1,
-        registrar: { _id: 1, last_name: 1, registerArticles: { title: 1 } },
+        registrar: { _id: 1, first_name:1,last_name: 1, registeredPublications: { title: 1 } },
         publication: { title: 1 },
         tags: { name: 1 },
         articleType: 1,
@@ -34,8 +34,6 @@ export const getArticleAction = async (_id: string) => {
         page: 1,
         issue: 1,
         volume: 1,
-        createdAt: 1,
-        updatedAt: 1,
       },
     },
   });
