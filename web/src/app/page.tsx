@@ -3,7 +3,7 @@ import Footer from "@/components/organisms/footer";
 import { Header } from "@/components/organisms/Header";
 import { Navbar } from "@/components/organisms/Navbar";
 import { ListCard } from "@/components/template/WraperCard";
-import { articleSchema } from "@/types/declarations/selectInp";
+import { articleSchema, ReqType } from "@/types/declarations/selectInp";
 import { getArticles } from "./actions/article/getArticles";
 import Pagination from "@/components/molecules/Pagination";
 import { getCountArticles } from "./actions/article/countArticle";
@@ -14,14 +14,15 @@ export const dynamic = "force-dynamic";
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<ReqType["main"]["article"]["getArticles"]["set"]>;
 }) {
   const {
-    query = "",
+    search = "",
     page = "1",
+    limit = "21",
     title = "",
     abstract = "",
-    tag = "",
+    tags = "",
     publication = "",
     authors = "",
     DOI = "",
@@ -29,12 +30,13 @@ export default async function Home({
     ISNN = "",
   } = await searchParams;
 
-  const set: Record<string, string> = {
-    page,
-    search: query,
+  const set: ReqType["main"]["article"]["getArticles"]["set"] = {
+    page: +page,
+    limit: +limit || 21,
+    search,
     title,
     abstract,
-    tag,
+    tags,
     publication,
     authors,
     DOI,
@@ -42,18 +44,39 @@ export default async function Home({
     ISNN,
   };
 
-  const data = await getArticles(set);
+  const data = await getArticles({
+    set, get: {
+      _id: 1,
+      title: 1,
+      articleType: 1,
+      authors: 1,
+      abstract: 1,
+      tags: {
+        name: 1,
+      },
+      registrar: {
+        first_name: 1,
+        last_name: 1,
+      },
+      publication: {
+        title: 1,
+      },
+
+    }
+  });
   const me = await getMe();
   const countDataArticle = await getCountArticles({
-    abstract,
-    authors,
-    DOI,
-    ISBN,
-    ISNN,
-    publication,
-    tag,
-    title,
-    search: query,
+    set: {
+      abstract,
+      authors,
+      DOI,
+      ISBN,
+      ISNN,
+      publication,
+      tags,
+      title,
+      search,
+    }, get: { qty: 1 }
   });
 
   // تبدیل لیست علاقه‌مندی‌ها به Set برای جستجوی سریع‌تر
