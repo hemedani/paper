@@ -11,7 +11,7 @@ export const countTagsFn: ActFn = async (body) => {
 
 	const filters: Document = {};
 	name &&
-		(filters["name"] = name);
+		(filters["name"] = { $regex: new RegExp(name, "i") });
 
 	const foundedItemsLength = await tag.countDocument({
 		filter: filters,

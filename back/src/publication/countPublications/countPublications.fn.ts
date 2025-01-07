@@ -11,7 +11,7 @@ export const countPublicationsFn: ActFn = async (body) => {
 
 	const filters: Document = {};
 	title &&
-		(filters["title"] = title);
+		(filters["title"] = { $regex: new RegExp(title, "i") });
 
 	const lengthOfProvinces = await publication.countDocument({
 		filter: filters,
