@@ -18,12 +18,10 @@ const ModalTag = () => {
   });
 
   const onSubmit: SubmitHandler<TagFormValues> = async (data) => {
-    console.log("Tag Created:", data);
 
     const dataTag = await createTag(data.name);
     if(dataTag._id) {
       router.refresh()
-      // show alert
     }
     reset();
     setIsModalOpen(false);

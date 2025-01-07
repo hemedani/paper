@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import React from "react";
-import { EditIcon, ShowIcon, TrashIcon } from "../atoms/Icons";
+import { EditIcon, HideIcon, TrashIcon } from "../atoms/Icons";
 import { translateArticleType } from "@/utils/helper";
 
 type TArticle = {
@@ -32,12 +32,12 @@ export const ArticleCard = ({ _id, articleType, title }: TArticle) => {
           onClick={() => router.push(`/article/${_id}`)}
           className="flex items-center gap-2 text-green-500 hover:text-green-700"
         >
-          <ShowIcon />
+          <HideIcon />
           <span>مشاهده</span>
         </button>
       </div>
     </div>
-  );
+  );  
 };
 
 export default ArticleCard;

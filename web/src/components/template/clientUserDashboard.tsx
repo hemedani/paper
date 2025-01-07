@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
 import UserCard from "../organisms/UserCard";
 import { ModalUser } from "./ModalUser";
 

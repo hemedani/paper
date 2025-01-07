@@ -18,7 +18,6 @@ const ModalPupulation = () => {
   });
 
   const onSubmit: SubmitHandler<PupulationFormValues> = async (data) => {
-
     const dataPupulation = await createPublication(data.title);
     if (dataPupulation._id) {
       router.refresh();
@@ -37,38 +36,44 @@ const ModalPupulation = () => {
         ایجاد انتشارات جدید
       </button>
 
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h2 className="text-lg font-bold mb-4">ایجاد انتشارات جدید</h2>
-            {/* فرم انتشارات */}
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Input
-                label="نام انتشارات"
-                placeholder="نام انتشارات را وارد کنید"
-                name="title"
-                control={control}
-                rules={{ required: "نام انتشارات الزامی است" }}
-              />
-              <div className="flex justify-end mt-4 gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-                >
-                  بستن
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-                >
-                  ایجاد
-                </button>
-              </div>
-            </form>
-          </div>
+      <div
+        className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-500 ${
+          isModalOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+      >
+        <div
+          className={`bg-white p-6 rounded-lg shadow-lg w-1/3 transform transition-transform duration-500 ${
+            isModalOpen ? "translate-y-0" : "-translate-y-10"
+          }`}
+        >
+          <h2 className="text-lg font-bold mb-4">ایجاد انتشارات جدید</h2>
+          {/* فرم انتشارات */}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              label="نام انتشارات"
+              placeholder="نام انتشارات را وارد کنید"
+              name="title"
+              control={control}
+              rules={{ required: "نام انتشارات الزامی است" }}
+            />
+            <div className="flex justify-end mt-4 gap-2">
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+              >
+                بستن
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+              >
+                ایجاد
+              </button>
+            </div>
+          </form>
         </div>
-      )}
+      </div>
     </>
   );
 };

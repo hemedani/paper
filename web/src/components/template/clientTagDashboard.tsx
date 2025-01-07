@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import EntityCard from "../organisms/EntityCard";
-import ModalTag from "./ModalTag";
-import SearchBox from "../molecules/SearchBox";
+import { DeleteModal } from "./DeleteModal";
 import { deleteTag } from "@/app/actions/tag/removeTag";
+import ModalTag from "./ModalTag";
 
 interface Tag {
   _id: string;
@@ -13,15 +13,30 @@ interface Tag {
 
 interface ClientDashboardProps {
   tags: Tag[];
-  searchQuery: string;
 }
 
 const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
-  const handleDelete = async (_id:string) => {
-    const isDelete = await deleteTag(_id)
-    console.log("isDelete",isDelete);
-    
-  }
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTagId, setSelectedTagId] = useState<string | null>(null);
+
+  const openModal = (id: string) => {
+    setSelectedTagId(id);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => setSelectedTagId(null), 300); // برای حذف کامل داده پس از اتمام انیمیشن
+  };
+
+  const confirmDelete = async () => {
+    if (selectedTagId) {
+      await deleteTag(selectedTagId);
+      console.log(`Tag with ID ${selectedTagId} deleted.`);
+      closeModal();
+    }
+  };
+
   const handleEdit = (id: string) => {
     console.log(`ویرایش برچسب با آیدی ${id}`);
   };
@@ -34,11 +49,18 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
           <EntityCard
             key={tag._id}
             title={tag.name}
-            onDelete={() => handleDelete(tag._id)}
+            onDelete={() => openModal(tag._id)}
             onEdit={() => handleEdit(tag._id)}
           />
         ))}
       </div>
+
+      <DeleteModal
+        isVisible={isModalOpen}
+        onConfirm={confirmDelete}
+        onCancel={closeModal}
+        message="آیا مطمئن هستید که می‌خواهید این برچسب را حذف کنید؟ این عمل قابل بازگشت نیست."
+      />
     </div>
   );
 };

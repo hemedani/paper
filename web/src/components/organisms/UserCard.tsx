@@ -6,7 +6,6 @@ interface UserCardProps {
   last_name: string;
   email: string;
   phone: string;
-  avatarUrl?: string;
 }
 
 const UserCard: React.FC<UserCardProps> = ({
@@ -14,27 +13,16 @@ const UserCard: React.FC<UserCardProps> = ({
   last_name,
   email,
   phone,
-  avatarUrl,
 }) => {
   console.log("UserCardProps:", first_name[0], last_name[0]);
-  
+
   return (
     <div className="border w-full max-w-lg bg-white rounded-xl shadow-lg p-6 flex flex-col sm:flex-row items-center gap-4">
-      {/* عکس پروفایل */}
       <div className="w-24 h-24 flex-shrink-0">
-        {avatarUrl ? (
-          <img
-            src={avatarUrl}
-            alt="User Avatar"
-            className="w-full h-full object-cover rounded-full border border-gray-300"
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-r from-blue-400 to-green-400 flex items-center justify-center rounded-full text-white text-2xl font-semibold">
-            {first_name[0]} {last_name[0]}
-          </div>
-        )}
+        <div className="w-full h-full bg-gradient-to-r from-blue-400 to-green-400 flex items-center justify-center rounded-full text-white text-2xl font-semibold">
+          {first_name[0]} {last_name[0]}
+        </div>
       </div>
-      {/* مشخصات کاربر */}
       <div className="flex-1">
         <h2 className="text-2xl font-bold text-gray-800">
           {first_name} {last_name}
@@ -42,7 +30,6 @@ const UserCard: React.FC<UserCardProps> = ({
         <p className="text-gray-600 text-sm mt-1">{phone}</p>
         <p className="text-gray-500 text-xs mt-3">{email}</p>
       </div>
-      {/* آیکون‌ها */}
       <div className="flex flex-col gap-2">
         <button
           className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all duration-200 shadow"

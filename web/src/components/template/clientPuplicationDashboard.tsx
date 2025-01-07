@@ -3,7 +3,9 @@
 import React, { useState } from "react";
 import EntityCard from "../organisms/EntityCard";
 import ModalPuplication from "./ModalPublication";
-import { deletePublication } from "@/app/actions/publication/removePublication";
+import { DeleteModal } from "./DeleteModal";
+import { deletePublication } from "@/app/actions/publication/removePuplication";
+// import { deletePublication } from "@/app/actions/publication/removePublication";
 
 interface Puplication {
   _id: string;
@@ -18,8 +20,25 @@ interface ClientPuplicationProps {
 const ClientPuplicationDashboard: React.FC<ClientPuplicationProps> = ({
   puplications,
 }) => {
-  const handleDelete = async (id: string) => {
-    const isDeleted = await deletePublication(id)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPublicationId, setSelectedTagId] = useState<string | null>(
+    null
+  );
+
+  const openModal = (id: string) => {
+    setSelectedTagId(id);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedTagId(null);
+  };
+
+  const handleDelete = async () => {
+    if (!selectedPublicationId) return;
+    await deletePublication(selectedPublicationId);
+    closeModal();
   };
 
   const handleEdit = (id: string) => {
@@ -34,11 +53,18 @@ const ClientPuplicationDashboard: React.FC<ClientPuplicationProps> = ({
           <EntityCard
             key={puplication._id}
             title={puplication.title}
-            onDelete={() => handleDelete(puplication._id)}
+            onDelete={() => openModal(puplication._id)}
             onEdit={() => handleEdit(puplication._id)}
           />
         ))}
       </div>
+
+      <DeleteModal
+        isVisible={isModalOpen}
+        onConfirm={handleDelete}
+        onCancel={closeModal}
+        message="آیا از حذف مطمئن هستید؟ این عمل قابل بازگشت نیست."
+      />
     </div>
   );
 };

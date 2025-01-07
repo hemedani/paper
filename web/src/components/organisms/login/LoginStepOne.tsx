@@ -1,5 +1,5 @@
-import { loginReqAction } from "@/app/actions/user/loginReq";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { loginReqAction } from "@/app/actions/loginReq";
+import React, { Dispatch, SetStateAction } from "react";
 
 type TProps = {
   setStep: Dispatch<SetStateAction<number>>;
@@ -10,7 +10,6 @@ type TProps = {
 const LoginStepOne = ({ setStep, setPhone, phone }: TProps) => {
   const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(1);
     
     if (phone.length === 10) {
       loginReqAction({ national_number: phone });
