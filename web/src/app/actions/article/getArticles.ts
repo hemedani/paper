@@ -26,6 +26,7 @@ export const getArticles = async ({
   DOI,
   ISBN,
   ISNN,
+
 }: TArticle) => {
   const token = (await cookies()).get("token");
   const getArticles = await paperApi().send(

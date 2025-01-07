@@ -6,6 +6,8 @@ import { ListCard } from "@/components/template/WraperCard";
 import { articleSchema } from "@/types/declarations/selectInp";
 // import Pagination from "@/components/molecules/Pagination";
 import { getArticles } from "./actions/article/getArticles";
+import Pagination from "@/components/molecules/Pagination";
+import { getCountArticles } from "./actions/article/countArticle";
 
 export const dynamic = "force-dynamic";
 
@@ -39,6 +41,17 @@ export default async function Home(searchParams: {
   };
 
   const data = await getArticles(set);
+  const countDataArticle = await getCountArticles({
+    abstract,
+    authors,
+    DOI,
+    ISBN,
+    ISNN,
+    publication,
+    tag,
+    title,
+    search: query,
+  });
 
   return (
     <>
@@ -58,7 +71,10 @@ export default async function Home(searchParams: {
             ))}
           </ListCard>
           <div className="flex justify-center items-center gap-2">
-            {/* <Pagination totalItems={data.length} initialPage={+set.page} /> */}
+            <Pagination
+              countPage={countDataArticle.qty}
+              initialPage={+set.page}
+            />
           </div>
         </>
       )}

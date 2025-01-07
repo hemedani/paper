@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 
 export const getArticleAction = async (_id: string) => {
   const token = (await cookies()).get("token");
-
   const getArticle = await paperApi().send(
     {
       service: "main",

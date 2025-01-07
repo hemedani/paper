@@ -13,7 +13,8 @@ const ArticleDashboard = async ({
   const currentPage = (await searchParams).page || "1";
 
   const data = await getArticles({ page: currentPage, search: searchQuery });
-  const countDataArticle = await getCountArticles({ page: currentPage, search: searchQuery })
+  const countDataArticle = await getCountArticles({ search: searchQuery })
+  
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">

@@ -1,14 +1,12 @@
 import { getArticleAction } from "@/app/actions/article/getArticle";
 
-
 export default async function ArticlePage({
   params,
 }: {
   params: { Id: string };
 }) {
-  const articleId = (await params).Id
+  const articleId = (await params).Id;
   const article = await getArticleAction(articleId);
-
 
   return (
     <div className="bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen flex justify-center items-center py-10 px-6">
@@ -16,9 +14,12 @@ export default async function ArticlePage({
         <h1 className="text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
           {article?.title}
         </h1>
-        <p className="text-lg text-indigo-800 font-semibold italic">{article?.articleType}</p>
+        <p className="text-lg text-indigo-800 font-semibold italic">
+          {article?.articleType}
+        </p>
         <p className="mt-2 text-gray-700">
-          <span className="font-semibold">سال انتشار:</span> {article?.publicationYear}
+          <span className="font-semibold">سال انتشار:</span>{" "}
+          {article?.publicationYear}
         </p>
 
         <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
@@ -27,7 +28,9 @@ export default async function ArticlePage({
         </div>
 
         <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-800">اطلاعات مقاله:</h2>
+          <h2 className="text-2xl font-semibold text-gray-800">
+            اطلاعات مقاله:
+          </h2>
           <ul className="list-disc list-inside text-gray-700 mt-4 space-y-2">
             <li>DOI: {article?.DOI}</li>
             <li>صفحات: {article?.page}</li>
@@ -46,7 +49,7 @@ export default async function ArticlePage({
         <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold text-gray-800">برچسب‌ها:</h2>
           <div className="flex flex-wrap gap-4 mt-4">
-            {article?.tags?.map((tag: {name: string}) => (
+            {article?.tags?.map((tag: { name: string }) => (
               <span
                 key={tag?.name}
                 className="bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-blue-300"
@@ -62,17 +65,6 @@ export default async function ArticlePage({
           <p className="text-gray-700 mt-4">{article?.publication?.title}</p>
         </div>
 
-        <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-800">مقالات مرتبط:</h2>
-          <ul className="list-disc list-inside text-gray-700 mt-4 space-y-2">
-            {article?.registrar?.registeredPublications?.map(
-              (item: {title:string}, index: number) => (
-                <li key={index}>{item?.title}</li>
-              )
-            )}
-          </ul>
-        </div>
-            
         <a
           href={article?.URL}
           target="_blank"

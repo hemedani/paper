@@ -35,8 +35,6 @@ export const getCountArticles = async ({
       act: "countArticles",
       details: {
         set: {
-          page: page ? +page : 1,
-          limit: 21,
           search: search ? search : "",
           abstract: abstract ? abstract : "",
           tags: tag ? tag : "",
@@ -54,8 +52,6 @@ export const getCountArticles = async ({
     },
     { token: token?.value }
   );
-  console.log("getCountArticles",getCountArticles);
-  
 
   if (getCountArticles.success) return getCountArticles.body;
 };
