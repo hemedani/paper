@@ -1732,6 +1732,29 @@ updatedAt?: (0 | 1 );
 };
 
           
+            countArticles: {
+set: {
+search?: string;
+articleType?: ("journalArticle" | "book" );
+authors?: string;
+title?: string;
+abstract?: string;
+ISBN?: string;
+ISNN?: string;
+DOI?: string;
+pageCount?: string;
+issue?: number;
+volume?: number;
+publicationYear?: number;
+tags?: string;
+publication?: string;
+};
+get: {
+qty?: (0 | 1 );
+};
+};
+
+          
           }
 
         
