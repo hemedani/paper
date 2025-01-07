@@ -1,10 +1,14 @@
 import { lesanApi } from "@/types/declarations/selectInp";
 
-const baseUrl: string = "http://localhost:1382/lesan";
+const envLesanUrl = process.env.LESAN_URL as string;
 
-export const paperApi = (url?: string) =>
+export const paperApi = (lesanUrl?: string) =>
   lesanApi({
-    URL: url ? url : baseUrl,
+    URL: lesanUrl
+      ? lesanUrl
+      : envLesanUrl
+        ? `${envLesanUrl}/lesan`
+        : "http://localhost:1382/lesan",
     baseHeaders: {
       connection: "keep-alive",
     },
