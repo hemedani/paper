@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 
 type TArticle = {
   search?: string;
-  page?: string;
   title?: string;
   abstract?: string;
   tag?: string;
@@ -17,7 +16,6 @@ type TArticle = {
 
 export const getCountArticles = async ({
   search,
-  page,
   title,
   abstract,
   tag,
