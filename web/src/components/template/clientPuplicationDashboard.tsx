@@ -5,7 +5,6 @@ import EntityCard from "../organisms/EntityCard";
 import ModalPuplication from "./ModalPublication";
 import { DeleteModal } from "./DeleteModal";
 import { deletePublication } from "@/app/actions/publication/removePuplication";
-// import { deletePublication } from "@/app/actions/publication/removePublication";
 
 interface Puplication {
   _id: string;

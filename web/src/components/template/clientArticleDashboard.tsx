@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import ArticleCard from "../organisms/ArticleCard";
 
 interface Article {
@@ -14,9 +15,15 @@ interface ClientArticleProps {
 }
 
 const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles }) => {
+  const router = useRouter();
   return (
     <div>
-      {/* <ModalArticle /> */}
+      <button
+        onClick={() => router.push("/admin/articles/createArticle")}
+        className="px-6 h-10 bg-gradient-to-r from-blue-500 to-blue-700 text-white text-sm font-semibold rounded-md shadow hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
+      >
+        ایجاد مقاله جدید
+      </button>
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {articles?.map((article) => (
           <ArticleCard

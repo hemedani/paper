@@ -12,7 +12,7 @@ type TArticle = {
 export const ArticleCard = ({ _id, articleType, title }: TArticle) => {
   const router = useRouter();
   return (
-    <div className="bg-white border rounded-lg shadow-md p-4 max-w-sm mx-auto flex flex-col gap-4 min-h-[200px] justify-between">
+    <div className="bg-white border rounded-lg shadow-md p-4 w-[384px] mx-auto flex flex-col gap-4 min-h-[200px] justify-between">
       <div>
         <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
         <p className="text-sm text-red-500 italic">{translateArticleType(articleType)}</p>

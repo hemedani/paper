@@ -14,7 +14,7 @@ export const ListCard = ({ children }: { children: ReactNode }) => {
           </Link>
         </div>
 
-        <div className="columns-1 sm:columns-2 lg:columns-5 gap-4">
+        <div className="columns-1 sm:columns-2 lg:columns-4 gap-4">
           {children}
         </div>
       </div>

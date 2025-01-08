@@ -5,15 +5,16 @@ import React, { useState } from "react";
 
 interface SearchBoxProps {
   defaultValue?: string;
+  title: string;
 }
 
-const SearchBox: React.FC<SearchBoxProps> = ({ defaultValue = "" }) => {
+const SearchBox: React.FC<SearchBoxProps> = ({ defaultValue = "",title }) => {
   const [query, setQuery] = useState(defaultValue);
   const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push(`?query=${encodeURIComponent(query)}`);
+    router.push(`?${title}=${encodeURIComponent(query)}`);
   };
 
   return (

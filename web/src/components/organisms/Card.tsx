@@ -28,16 +28,15 @@ export const Card = ({
   };
 
   return (
-    <div className="max-w-sm mt-5 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 hover:border-indigo-500">
+    <div className="max-w-lg mt-5 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 hover:border-indigo-500">
       <div className="flex items-center justify-between p-5 border-b border-gray-200">
         <div className="flex items-center gap-2">
-          <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-green-400 border-2 border-indigo-400 rounded-full overflow-hidden flex-shrink-0">
-          </div>
+          
           <div className="">
-            <p className="text-lg font-semibold text-gray-900 truncate max-w-[12rem]">
+            <p className="text-lg font-semibold text-gray-900 ">
               {title}
             </p>
-            <p className="text-sm text-gray-600 truncate max-w-[12rem]">
+            <p className="text-sm text-gray-600 ">
               {authors?.join(" | ")}
             </p>
           </div>

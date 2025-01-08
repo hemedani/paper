@@ -2,26 +2,27 @@
 
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import Input from "../atoms/Input";
 import { createPublication } from "@/app/actions/publication/createPublication";
-import { useRouter } from "next/navigation";
-
-interface PupulationFormValues {
-  title: string;
-}
+import { ReqType } from "@/types/declarations/selectInp";
 
 const ModalPupulation = () => {
+  type PublicationSetType =
+    ReqType["main"]["publication"]["addPublication"]["set"];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
-  const { handleSubmit, control, reset } = useForm<PupulationFormValues>({
+  const { handleSubmit, control, reset } = useForm<PublicationSetType>({
     defaultValues: { title: "" },
   });
 
-  const onSubmit: SubmitHandler<PupulationFormValues> = async (data) => {
-    const dataPupulation = await createPublication(data.title);
+  const onSubmit: SubmitHandler<PublicationSetType> = async (data) => {
+    const dataPupulation = await createPublication({
+      set: data,
+      get: { _id: 1, title: 1 },
+    });
     if (dataPupulation._id) {
       router.refresh();
-      // show alert
     }
     reset();
     setIsModalOpen(false);
@@ -47,7 +48,6 @@ const ModalPupulation = () => {
           }`}
         >
           <h2 className="text-lg font-bold mb-4">ایجاد انتشارات جدید</h2>
-          {/* فرم انتشارات */}
           <form onSubmit={handleSubmit(onSubmit)}>
             <Input
               label="نام انتشارات"
