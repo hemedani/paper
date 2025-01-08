@@ -12,7 +12,7 @@ export const Header = () => {
   const handleSearch = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (query.trim()) {
-      router.push(`/?query=${query}`);
+      router.push(`/?search=${query}`);
     }
   };
 
