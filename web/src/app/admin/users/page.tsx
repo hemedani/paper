@@ -10,9 +10,6 @@ const UserDashboard = async ({
 }: {
   searchParams: Promise<ReqType["main"]["user"]["getUsers"]["set"]>;
 }) => {
-  // const searchQuery = (await searchParams).query || "";
-  // const currentPage = parseInt((await searchParams).page || "1");
-
   const { limit = "21", page = "1", levels } = await searchParams;
   const set: ReqType["main"]["user"]["getUsers"]["set"] = {
     limit: +limit || 21,
