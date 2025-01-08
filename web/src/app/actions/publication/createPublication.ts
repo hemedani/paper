@@ -1,8 +1,12 @@
 "use server";
 import { paperApi } from "@/services/api";
+import { ReqType } from "@/types/declarations/selectInp";
 import { cookies } from "next/headers";
 
-export const createPublication = async (title: string) => {
+export const createPublication = async ({
+  set,
+  get,
+}: ReqType["main"]["publication"]["addPublication"]) => {
   const token = (await cookies()).get("token");
   const addPublication = await paperApi().send(
     {
@@ -10,17 +14,12 @@ export const createPublication = async (title: string) => {
       model: "publication",
       act: "addPublication",
       details: {
-        set: {
-          title,
-        },
-        get: {
-          title: 1,
-        },
+        set,
+        get,
       },
     },
     { token: token?.value }
   );
-  console.log("addPublication", addPublication.body);
 
   if (addPublication.success) return addPublication.body;
 };
