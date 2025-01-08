@@ -24,7 +24,7 @@ const Pagination: FC<PaginationProps> = ({
   };
 
   return (
-    <div className="w-2/4 mx-auto flex items-center justify-between mt-4">
+    <div className="w-2/4 mx-auto flex items-center justify-center gap-5 mt-4">
       <button
         onClick={() => handlePageChange(1)}
         disabled={initialPage === 1}

@@ -3,7 +3,7 @@ import React, { ReactNode } from "react";
 
 const UserLayout = ({ children }: { children: ReactNode }) => {
     const menuItems = [
-        { label: "داشبورد", href: "/user" },
+        { label: "اطلاعات کاربری", href: "/user" },
         { label: "علاقه مندی ها", href: "/user/favorite" },
       ];
   return (

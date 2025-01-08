@@ -2,6 +2,7 @@
 
 import React, { FC } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const menuItems = [
   { label: "داشبورد", href: "/admin" },
@@ -16,6 +17,7 @@ type TProps = {
 };
 
 export const AdminSidebar: FC<TProps> = ({ menuItemsProps }) => {
+  const router = useRouter()
   return (
     <aside className="w-64 min-h-screen bg-gray-800 text-white flex flex-col">
       <div className="p-4 text-xl font-semibold border-b border-gray-700">
@@ -46,6 +48,12 @@ export const AdminSidebar: FC<TProps> = ({ menuItemsProps }) => {
               ))}
         </ul>
       </nav>
+      <div onClick={() => router.replace("/")} className="block px-5 py-2 rounded-md hover:bg-gray-700 transition">
+        <span>خانه</span>
+      </div>
+      <div className="block px-5 py-2 rounded-md hover:bg-gray-700 transition">
+        <span>خروج از حساب</span>
+      </div>
       <div className="p-4 border-t border-gray-700">
         <span className="text-sm">© 2024 پنل ادمین</span>
       </div>

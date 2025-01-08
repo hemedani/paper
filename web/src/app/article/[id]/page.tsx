@@ -1,5 +1,7 @@
 import { getArticleAction } from "@/app/actions/article/getArticle";
+import { Navbar } from "@/components/organisms/Navbar";
 import { ReqType } from "@/types/declarations/selectInp";
+import { translateArticleType } from "@/utils/helper";
 
 export default async function ArticlePage({
   params,
@@ -28,13 +30,15 @@ export default async function ArticlePage({
   const article = await getArticleAction({ set, get });
 
   return (
+    <>
+    <Navbar />
     <div className="bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen flex justify-center items-center py-10 px-6">
-      <div className="max-w-3xl w-full bg-white shadow-2xl rounded-xl p-8 border-4 ">
-        <h1 className="text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
+      <div className="max-w-6xl w-full bg-white shadow-2xl rounded-xl p-8 border-4 ">
+        <h1 className="text-2xl font-extrabold text-gray-900 mb-6 leading-tight">
           {article?.title}
         </h1>
         <p className="text-lg text-indigo-800 font-semibold italic">
-          {article?.articleType}
+          {translateArticleType(article?.articleType)}
         </p>
         <p className="mt-2 text-gray-700">
           <span className="font-semibold">سال انتشار:</span>{" "}
@@ -94,5 +98,6 @@ export default async function ArticlePage({
         </a>
       </div>
     </div>
+    </>
   );
 }
