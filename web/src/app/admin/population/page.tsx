@@ -12,10 +12,10 @@ const PopulationDashboard = async ({
     ReqType["main"]["publication"]["getPublications"]["set"]
   >;
 }) => {
-  const { limit = "21", page = "1", title = "" } = await searchParams;
+  const { limit = "20", page = "1", title = "" } = await searchParams;
 
   const set: ReqType["main"]["publication"]["getPublications"]["set"] = {
-    limit: +limit || 21,
+    limit: +limit || 20,
     page: +page,
     title,
   };

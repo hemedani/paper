@@ -10,10 +10,10 @@ export default async function TagDashboard({
 }: {
   searchParams: Promise<ReqType["main"]["tag"]["getTags"]["set"]>;
 }) {
-  const { limit = "21", page = "1", name = "" } = await searchParams;
+  const { limit = "20", page = "1", name = "" } = await searchParams;
 
   const set: ReqType["main"]["tag"]["getTags"]["set"] = {
-    limit: +limit,
+    limit: +limit || 20,
     page: +page,
     name,
   };

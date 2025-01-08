@@ -10,9 +10,9 @@ const UserDashboard = async ({
 }: {
   searchParams: Promise<ReqType["main"]["user"]["getUsers"]["set"]>;
 }) => {
-  const { limit = "21", page = "1", levels } = await searchParams;
+  const { limit = "20", page = "1", levels } = await searchParams;
   const set: ReqType["main"]["user"]["getUsers"]["set"] = {
-    limit: +limit || 21,
+    limit: +limit || 20,
     page: +page,
     levels,
   };

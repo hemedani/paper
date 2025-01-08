@@ -10,9 +10,9 @@ const ArticleDashboard = async ({
 }: {
   searchParams: Promise<ReqType["main"]["article"]["getArticles"]["set"]>;
 }) => {
-  const { limit = "21", page = "1", search = "" } = await searchParams;
+  const { limit = "20", page = "1", search = "" } = await searchParams;
   const set: ReqType["main"]["article"]["getArticles"]["set"] = {
-    limit: +limit || 21,
+    limit: +limit || 20,
     page: +page || 1,
     search: search,
   };

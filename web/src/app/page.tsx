@@ -19,7 +19,7 @@ export default async function Home({
   const {
     search = "",
     page = "1",
-    limit = "21",
+    limit = "20",
     title = "",
     abstract = "",
     tags = "",
@@ -32,7 +32,7 @@ export default async function Home({
 
   const set: ReqType["main"]["article"]["getArticles"]["set"] = {
     page: +page,
-    limit: +limit || 21,
+    limit: +limit || 20,
     search,
     title,
     abstract,

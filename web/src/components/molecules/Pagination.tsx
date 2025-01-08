@@ -8,13 +8,10 @@ interface PaginationProps {
   countPage: number; // تعداد کل آیتم‌های دیتابیس
 }
 
-const Pagination: FC<PaginationProps> = ({
-  initialPage,
-  countPage,
-}) => {
+const Pagination: FC<PaginationProps> = ({ initialPage, countPage }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const limit = 21;
+  const limit = 20;
   const totalPages = Math.ceil(countPage / limit);
 
   const handlePageChange = (newPage: number) => {
