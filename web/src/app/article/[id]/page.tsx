@@ -7,10 +7,6 @@ export default async function ArticlePage({
   params: Promise<{id:string}>
 }) {
   const articleId = (await params).id;
-  console.log(articleId);
-  
-  // const article = await getArticleAction(articleId);
-  // console.log(Id);Id
   
 
   const set: ReqType["main"]["article"]["getArticle"]["set"] = { _id: articleId };

@@ -20,7 +20,6 @@ export const CountPublications = async ({
     },
     { token: token?.value }
   );
-  console.log(countPublications);
   
 
   if (countPublications.success) return countPublications.body;

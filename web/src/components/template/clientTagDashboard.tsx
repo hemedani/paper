@@ -32,13 +32,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
   const confirmDelete = async () => {
     if (selectedTagId) {
       await deleteTag(selectedTagId);
-      console.log(`Tag with ID ${selectedTagId} deleted.`);
       closeModal();
     }
   };
 
-  const handleEdit = (id: string) => {
-    console.log(`ویرایش برچسب با آیدی ${id}`);
+  const handleEdit = () => {
   };
 
   return (
@@ -50,7 +48,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
             key={tag._id}
             title={tag.name}
             onDelete={() => openModal(tag._id)}
-            onEdit={() => handleEdit(tag._id)}
+            onEdit={() => handleEdit()}
           />
         ))}
       </div>

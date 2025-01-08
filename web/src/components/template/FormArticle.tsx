@@ -38,7 +38,6 @@ export const FormArticle = () => {
   });
 
   const onSubmit: SubmitHandler<AddUserSet> = async (data) => {
-    console.log(data);
     await createArticle(data);
     alert("مقاله با موفقیت ثبت شد!");
   };

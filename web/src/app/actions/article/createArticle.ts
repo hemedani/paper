@@ -25,7 +25,6 @@ export const createArticle = async (data: AddArticleSet) => {
     { token: token?.value }
   );
 
-  console.log("addArticle", addArticle.body);
 
   if (addArticle.success) return addArticle.body;
 };

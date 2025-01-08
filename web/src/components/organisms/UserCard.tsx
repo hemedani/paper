@@ -12,7 +12,6 @@ const UserCard: React.FC<UserCardProps> = ({
   last_name,
   phone,
 }) => {
-  console.log("UserCardProps:", first_name[0], last_name[0]);
 
   return (
     <div className="border w-full max-w-lg bg-white rounded-xl shadow-lg p-6 flex flex-col sm:flex-row items-center gap-4">

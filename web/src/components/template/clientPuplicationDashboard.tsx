@@ -40,9 +40,7 @@ const ClientPuplicationDashboard: React.FC<ClientPuplicationProps> = ({
     closeModal();
   };
 
-  const handleEdit = (id: string) => {
-    console.log(`ویرایش برچسب با آیدی ${id}`);
-  };
+  const handleEdit = () => {};
 
   return (
     <div>
@@ -53,7 +51,7 @@ const ClientPuplicationDashboard: React.FC<ClientPuplicationProps> = ({
             key={puplication._id}
             title={puplication.title}
             onDelete={() => openModal(puplication._id)}
-            onEdit={() => handleEdit(puplication._id)}
+            onEdit={() => handleEdit()}
           />
         ))}
       </div>

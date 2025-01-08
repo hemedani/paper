@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 export const deletePublication = async (publicationId: string) => {
     const token = (await cookies()).get("token");
-    const removePublication = paperApi().send({
+    const removePublication = await paperApi().send({
     service: "main",
     model: "publication",
     act: "removePublication",
@@ -14,6 +14,5 @@ export const deletePublication = async (publicationId: string) => {
     },
   }, { token: token?.value });
 
-  console.log("removePublication", removePublication);
-  
+  return removePublication
 };
