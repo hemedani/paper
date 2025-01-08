@@ -35,7 +35,7 @@ const PopulationDashboard = async ({
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
       <h1 className="text-2xl text-gray-600 font-bold">منتشر کننده</h1>
       <p className="text-gray-600">خوش آمدید!</p>
-      <SearchBox />
+      <SearchBox title="title" />
       <ClientPuplicationDashboard
         puplications={puplication}
         searchQuery={title}

@@ -3,7 +3,6 @@ import ClientArticleDashboard from "@/components/template/clientArticleDashboard
 
 const page = async () => {
   const me = await getMe();
-  console.log(me);
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
