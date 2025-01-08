@@ -1,12 +1,35 @@
 import { getArticleAction } from "@/app/actions/article/getArticle";
+import { ReqType } from "@/types/declarations/selectInp";
 
 export default async function ArticlePage({
   params,
 }: {
-  params: { Id: string };
+  params: Promise<{id:string}>
 }) {
-  const articleId = (await params).Id;
-  const article = await getArticleAction(articleId);
+  const articleId = (await params).id;
+  console.log(articleId);
+  
+  // const article = await getArticleAction(articleId);
+  // console.log(Id);Id
+  
+
+  const set: ReqType["main"]["article"]["getArticle"]["set"] = { _id: articleId };
+  const get: ReqType["main"]["article"]["getArticle"]["get"] = {
+    _id: 1,
+    title: 1,
+    articleType: 1,
+    publicationYear: 1,
+    abstract: 1,
+    DOI: 1,
+    page: 1,
+    issue: 1,
+    volume: 1,
+    registrar: { _id: 1, first_name: 1, last_name: 1 },
+    publication: { title: 1 },
+    tags: { name: 1 },
+    URL: 1,
+  };
+  const article = await getArticleAction({ set, get });
 
   return (
     <div className="bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen flex justify-center items-center py-10 px-6">
