@@ -1091,6 +1091,7 @@ updatedAt?: (0 | 1 );
             removeUser: {
 set: {
 _id: string;
+hardCascade?: boolean;
 };
 get: {
 success?: (0 | 1 );
@@ -1758,6 +1759,17 @@ qty?: (0 | 1 );
 };
 
           
+            removeArticle: {
+set: {
+_id: string;
+hardCascade?: boolean;
+};
+get: {
+success?: (0 | 1 );
+};
+};
+
+          
           }
 
         
@@ -2121,6 +2133,7 @@ updatedAt?: (0 | 1 );
             removePublication: {
 set: {
 _id: string;
+hardCascade?: boolean;
 };
 get: {
 success?: (0 | 1 );
@@ -2388,6 +2401,7 @@ updatedAt?: (0 | 1 );
             removeTag: {
 set: {
 _id: string;
+hardCascade?: boolean;
 };
 get: {
 success?: (0 | 1 );
