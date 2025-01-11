@@ -13,8 +13,7 @@ const LoginStepTwo = ({ setStep, phone, onCodeEntered }: TProps) => {
   const handleOtpSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (otp.length === 5) {
-      loginAction({national_number:phone,code:"11111"})
-      // alert("Login successful!");
+      loginAction({ national_number: phone, code: otp });
       onCodeEntered(); // توقف تایمر
     } else {
       alert("Invalid OTP. Please try again.");
@@ -25,15 +24,14 @@ const LoginStepTwo = ({ setStep, phone, onCodeEntered }: TProps) => {
       <div className="mb-4">
         <div className="flex items-center justify-between py-6">
           <p className="text-gray-500 text-sm text-right">
-            کدورود به شماره <span className="text-gray-600">{phone}</span> ارسال
-            شده است
+            کدورود ارسال شده است
           </p>
           <button
             type="button"
             onClick={() => setStep(1)}
             className="text-blue-500 hover:underline text-sm"
           >
-            ویرایش شماره
+            ویرایش کد ملی
           </button>
         </div>
         <input

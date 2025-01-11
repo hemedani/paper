@@ -6,6 +6,8 @@ import { cookies } from "next/headers";
 export type AddUserSet = ReqType["main"]["user"]["addUser"]["set"];
 
 export const createUser = async (data: AddUserSet) => {
+  console.log(data);
+  
   const token = (await cookies()).get("token");
   const addUser = await paperApi().send(
     {
@@ -24,6 +26,9 @@ export const createUser = async (data: AddUserSet) => {
     },
     { token: token?.value }
   );
+  console.log("addUser body",addUser.body);
+  console.log("addUser",addUser);
+  
 
   if (addUser.success) return addUser.body;
 };

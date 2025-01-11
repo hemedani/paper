@@ -5,6 +5,8 @@ import EntityCard from "../organisms/EntityCard";
 import ModalPuplication from "./ModalPublication";
 import { DeleteModal } from "./DeleteModal";
 import { deletePublication } from "@/app/actions/publication/removePuplication";
+import { useRouter } from "next/navigation";
+import { ToastNotify } from "@/utils/helper";
 
 interface Puplication {
   _id: string;
@@ -19,28 +21,29 @@ interface ClientPuplicationProps {
 const ClientPuplicationDashboard: React.FC<ClientPuplicationProps> = ({
   puplications,
 }) => {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPublicationId, setSelectedTagId] = useState<string | null>(
-    null
-  );
+  const [selectedPublicationId, setSelectedPublicationId] = useState<
+    string | null
+  >(null);
 
   const openModal = (id: string) => {
-    setSelectedTagId(id);
+    setSelectedPublicationId(id);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedTagId(null);
+    setSelectedPublicationId(null);
   };
 
   const handleDelete = async () => {
     if (!selectedPublicationId) return;
     await deletePublication(selectedPublicationId);
+    ToastNotify("success", "انتشارات با موفقیت حذف شد");
     closeModal();
+    router.refresh();
   };
-
-  const handleEdit = () => {};
 
   return (
     <div>
@@ -51,7 +54,7 @@ const ClientPuplicationDashboard: React.FC<ClientPuplicationProps> = ({
             key={puplication._id}
             title={puplication.title}
             onDelete={() => openModal(puplication._id)}
-            onEdit={() => handleEdit()}
+            onEdit={() => {}}
           />
         ))}
       </div>

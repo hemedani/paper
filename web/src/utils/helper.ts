@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 const translateArticleType = (articleType: string): string => {
   switch (articleType) {
     case "journalArticle":
@@ -14,4 +16,25 @@ const CalculateDivision = (countPage: number, limit: number = 21): string => {
   return countPageData.toFixed(0);
 };
 
-export { translateArticleType, CalculateDivision };
+const ToastNotify = (type: "success" | "error", message:string) => {
+  if(type === "success"){
+    toast.success(message);
+  }else {
+    toast.error("خطا")
+  }
+};
+
+const ArrayToSelectOptions = <T>(
+  data: T[],
+  valueKey: keyof T,
+  labelKey: keyof T,
+  secondaryLabelKey?: keyof T
+) => {
+  return data.map((item) => ({
+    value: item[valueKey],
+    label: `${item[labelKey]} ${secondaryLabelKey ? item[secondaryLabelKey] : ""}`,
+  }));
+};
+
+
+export { translateArticleType, CalculateDivision, ToastNotify,ArrayToSelectOptions };

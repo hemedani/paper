@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FavoriteIconFilled, FavoriteIconOutline } from "../atoms/Icons";
 import { addFavorite } from "@/app/actions/user/userFavoritArticle";
+import { useRouter } from "next/navigation";
 
 export const Card = ({
   title,
@@ -11,14 +12,17 @@ export const Card = ({
   authors,
   id,
   isFavorite: initialFavorite,
+  level,
 }: {
   id: string;
   title: string;
   abstract: string;
   authors: string[];
-  isFavorite: boolean; // دریافت وضعیت اولیه علاقه‌مندی
+  isFavorite: boolean;
+  level: "Editor" | "Manager" | "Ghost";
 }) => {
   const [isFavorite, setIsFavorite] = useState(initialFavorite);
+  const router = useRouter();
 
   const handleFavoriteClick = async () => {
     const isAddedFavorite = await addFavorite(id);
@@ -31,18 +35,13 @@ export const Card = ({
     <div className="max-w-lg mt-5 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 hover:border-indigo-500">
       <div className="flex items-center justify-between p-5 border-b border-gray-200">
         <div className="flex items-center gap-2">
-          
           <div className="">
-            <p className="text-lg font-semibold text-gray-900 ">
-              {title}
-            </p>
-            <p className="text-sm text-gray-600 ">
-              {authors?.join(" | ")}
-            </p>
+            <p className="text-lg font-semibold text-gray-900 ">{title}</p>
+            <p className="text-sm text-gray-600 ">{authors?.join(" | ")}</p>
           </div>
         </div>
         <button
-          onClick={handleFavoriteClick}
+          onClick={level ? handleFavoriteClick : () => router.push("/login")}
           className="focus:outline-none"
           aria-label="Add to favorites"
         >

@@ -10,6 +10,7 @@ const menuItems = [
   { label: "کاربران", href: "/admin/users" },
   { label: "دسته بندی ها", href: "/admin/tag" },
   { label: "منتشر کننده ها", href: "/admin/population" },
+  { label: "پنل کاربری", href: "/user" },
 ];
 
 type TProps = {
@@ -17,7 +18,13 @@ type TProps = {
 };
 
 export const AdminSidebar: FC<TProps> = ({ menuItemsProps }) => {
-  const router = useRouter()
+  const router = useRouter();
+
+  const logOutHandler = async () => {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    router.replace("/");
+  };
+
   return (
     <aside className="w-64 min-h-screen bg-gray-800 text-white flex flex-col">
       <div className="p-4 text-xl font-semibold border-b border-gray-700">
@@ -48,10 +55,16 @@ export const AdminSidebar: FC<TProps> = ({ menuItemsProps }) => {
               ))}
         </ul>
       </nav>
-      <div onClick={() => router.replace("/")} className="block px-5 py-2 rounded-md hover:bg-gray-700 transition">
+      <div
+        onClick={() => router.replace("/")}
+        className="block cursor-pointer px-5 py-2 rounded-md hover:bg-gray-700 transition"
+      >
         <span>خانه</span>
       </div>
-      <div className="block px-5 py-2 rounded-md hover:bg-gray-700 transition">
+      <div
+        onClick={logOutHandler}
+        className="block cursor-pointer px-5 py-2 rounded-md hover:bg-gray-700 transition"
+      >
         <span>خروج از حساب</span>
       </div>
       <div className="p-4 border-t border-gray-700">

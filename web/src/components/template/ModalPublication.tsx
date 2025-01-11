@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Input from "../atoms/Input";
 import { createPublication } from "@/app/actions/publication/createPublication";
 import { ReqType } from "@/types/declarations/selectInp";
+import { ToastNotify } from "@/utils/helper";
 
 const ModalPupulation = () => {
   type PublicationSetType =
@@ -23,6 +24,7 @@ const ModalPupulation = () => {
     });
     if (dataPupulation._id) {
       router.refresh();
+      ToastNotify("success", "انتشارات با موفقیت ایجاد شد");
     }
     reset();
     setIsModalOpen(false);

@@ -22,6 +22,7 @@ const UserDashboard = async ({
     first_name: 1,
     last_name: 1,
     level: 1,
+    national_number: 1,
   };
   const users = await getUsers({ set, get });
   const countDataUsers = await CountUsers({

@@ -13,11 +13,8 @@ type SearchFormValues = {
 export const Header = () => {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
   const router = useRouter();
-
-  const {
-    control,
-    handleSubmit,
-  } = useForm<SearchFormValues>({
+  // const pathname = usePathname(); 
+  const { control, handleSubmit } = useForm<SearchFormValues>({
     defaultValues: {
       query: "",
     },
@@ -34,6 +31,11 @@ export const Header = () => {
     setShowAdvancedSearch(!showAdvancedSearch);
   };
 
+  // const emptyQueryHandler = () => {
+  //   router.replace(pathname); 
+  //   router.refresh(); 
+  // };
+
   return (
     <section className="py-12">
       <div className="mx-auto text-center mt-10">
@@ -41,7 +43,7 @@ export const Header = () => {
           مقالات مرتبط را در یک نمودار بصری کاوش کنید
         </h1>
         <p className="text-2xl text-gray-600 m-10">
-          برای شروع، شناسه مقاله را وارد کنید
+          برای شروع، عنوان مقاله را وارد کنید
         </p>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="flex justify-center items-center gap-2">
@@ -50,7 +52,7 @@ export const Header = () => {
                 <Input
                   name="query"
                   control={control}
-                  placeholder="جستجو بر اساس کلمات کلیدی، عنوان مقاله، DOI..."
+                  placeholder="جستجو بر اساس متن عنوان و خلاصه مقاله، DOI..."
                   className="text-gray-700 rounded-3xl px-4 py-2 w-1/3"
                 />
                 <button
@@ -67,7 +69,7 @@ export const Header = () => {
               onClick={toggleAdvancedSearch}
               className={`px-4 py-2 rounded-3xl text-white transition-all ${
                 showAdvancedSearch
-                  ? "bg-red-500 hover:bg-red-600"
+                  ? "bg-blue-500 hover:bg-blue-600"
                   : "bg-gray-600 hover:bg-gray-500"
               }`}
             >
@@ -75,10 +77,15 @@ export const Header = () => {
                 ? "بستن جستجوی پیشرفته"
                 : "باز کردن جستجوی پیشرفته"}
             </button>
+            {/* <button
+              onClick={emptyQueryHandler}
+              className="bg-green-500 text-white px-6 py-2 rounded-3xl hover:bg-green-500"
+            >
+              خالی شدن
+            </button> */}
           </div>
         </form>
 
-        {/* نمایش فرم جستجوی پیشرفته */}
         <div className="w-2/4 mx-auto">
           <AdvancedSearch isOpen={showAdvancedSearch} />
         </div>

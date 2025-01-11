@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { HamburgerMenu, IconLogo, IconUser } from "../atoms/Icons";
-import Cookies from "js-cookie";
 
-export const Navbar = () => {
-  const token = Cookies.get("token");
+export const Navbar = ({ level }: { level: string }) => {
 
   return (
     <header className="bg-white shadow-xl">
@@ -21,7 +19,7 @@ export const Navbar = () => {
         <div className="hidden md:block">
           <nav className="hidden md:flex items-center space-x-10">
             <div className="flex gap-10 items-center">
-              {token && (
+              {level === "Ghost" && (
                 <Link
                   href="/admin"
                   className="text-gray-600 hover:text-blue-500"
@@ -29,7 +27,15 @@ export const Navbar = () => {
                   پنل ادمین
                 </Link>
               )}
-              {!token && (
+              {(level === "Manager" || level === "Editor") && (
+                <Link
+                  href="/user"
+                  className="text-gray-600 hover:text-blue-500"
+                >
+                  پنل کاربری
+                </Link>
+              )}
+              {!level && (
                 <div className="flex items-center gap-10 text-gray-600 hover:text-blue-500">
                   <Link href={"/login"} className="flex items-center gap-3">
                     <span>ورود</span>

@@ -1,4 +1,5 @@
 import { getArticleAction } from "@/app/actions/article/getArticle";
+import { getMe } from "@/app/actions/user/getMe";
 import { Navbar } from "@/components/organisms/Navbar";
 import { ReqType } from "@/types/declarations/selectInp";
 import { translateArticleType } from "@/utils/helper";
@@ -28,10 +29,11 @@ export default async function ArticlePage({
     URL: 1,
   };
   const article = await getArticleAction({ set, get });
+  const me = await getMe();
 
   return (
     <>
-    <Navbar />
+    <Navbar level={me?.level} />
     <div className="bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen flex justify-center items-center py-10 px-6">
       <div className="max-w-6xl w-full bg-white shadow-2xl rounded-xl p-8 border-4 ">
         <h1 className="text-2xl font-extrabold text-gray-900 mb-6 leading-tight">

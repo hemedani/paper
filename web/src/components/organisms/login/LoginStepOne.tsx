@@ -10,7 +10,7 @@ type TProps = {
 const LoginStepOne = ({ setStep, setPhone, phone }: TProps) => {
   const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (phone.length === 10) {
       loginReqAction({ national_number: phone });
       setStep(2);
@@ -25,14 +25,14 @@ const LoginStepOne = ({ setStep, setPhone, phone }: TProps) => {
           htmlFor="phone"
           className="block text-sm font-medium text-gray-700"
         >
-          کد ملی{" "}
+          کد ملی
         </label>
         <input
-          type="text"
+          type="password"
           id="phone"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          placeholder="9876543210"
+          placeholder="کد ملی"
           className="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-700 placeholder:text-gray-500"
         />
       </div>

@@ -7,13 +7,14 @@ import SelectBox from "../atoms/Select";
 import { createUser } from "@/app/actions/user/createUser";
 import { ReqType } from "@/types/declarations/selectInp";
 import { useRouter } from "next/navigation";
+import { ToastNotify } from "@/utils/helper";
 
 export type AddUserSet = ReqType["main"]["user"]["addUser"]["set"];
 
 export const ModalUser = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
-  const { control, handleSubmit } = useForm<AddUserSet>({
+  const { control, handleSubmit, reset } = useForm<AddUserSet>({
     defaultValues: {
       first_name: "",
       last_name: "",
@@ -30,9 +31,12 @@ export const ModalUser = () => {
   });
 
   const onSubmit: SubmitHandler<AddUserSet> = async (data) => {
+    console.log(data);
     await createUser(data);
     router.refresh();
     setIsModalOpen(false);
+    ToastNotify("success", "کاربر  جدید با موفقیت ایجاد شد");
+    reset()
   };
 
   return (
@@ -56,7 +60,7 @@ export const ModalUser = () => {
               <Input name="last_name" control={control} label="نام خانوادگی" />
               <Input name="father_name" control={control} label="نام پدر" />
               <Input name="mobile" control={control} label="شماره تماس" />
-              <Input name="national_number" control={control} label="کد ملی" />
+              <Input name="national_number" type="password" control={control} label="کد ملی" />
               <Input
                 name="personnel_number"
                 control={control}

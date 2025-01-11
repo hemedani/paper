@@ -5,6 +5,8 @@ import EntityCard from "../organisms/EntityCard";
 import { DeleteModal } from "./DeleteModal";
 import { deleteTag } from "@/app/actions/tag/removeTag";
 import ModalTag from "./ModalTag";
+import { useRouter } from "next/navigation";
+import { ToastNotify } from "@/utils/helper";
 
 interface Tag {
   _id: string;
@@ -16,6 +18,7 @@ interface ClientDashboardProps {
 }
 
 const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTagId, setSelectedTagId] = useState<string | null>(null);
 
@@ -32,8 +35,10 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
   const confirmDelete = async () => {
     if (selectedTagId) {
       await deleteTag(selectedTagId);
-      closeModal();
+      ToastNotify("success", "برچسب با موفقیت حذف شد");
     }
+    closeModal();
+    router.refresh()
   };
 
   const handleEdit = () => {

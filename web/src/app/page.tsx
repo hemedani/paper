@@ -45,7 +45,8 @@ export default async function Home({
   };
 
   const data = await getArticles({
-    set, get: {
+    set,
+    get: {
       _id: 1,
       title: 1,
       articleType: 1,
@@ -61,8 +62,7 @@ export default async function Home({
       publication: {
         title: 1,
       },
-
-    }
+    },
   });
   const me = await getMe();
   const countDataArticle = await getCountArticles({
@@ -76,17 +76,18 @@ export default async function Home({
       tags,
       title,
       search,
-    }, get: { qty: 1 }
+    },
+    get: { qty: 1 },
   });
 
   // تبدیل لیست علاقه‌مندی‌ها به Set برای جستجوی سریع‌تر
   const favoriteIds = new Set(
-    me?.favArticles?.map((fav: { _id: string }) => fav._id),
+    me?.favArticles?.map((fav: { _id: string }) => fav._id)
   );
 
   return (
     <>
-      <Navbar />
+      <Navbar level={me?.level} />
       <Header />
       {data?.length > 0 && (
         <>
@@ -98,7 +99,8 @@ export default async function Home({
                 title={item.title!}
                 abstract={item.abstract!}
                 authors={item.authors!}
-                isFavorite={favoriteIds.has(item._id!)} // بررسی علاقه‌مندی
+                isFavorite={favoriteIds.has(item._id!)}
+                level={me?.level}
               />
             ))}
           </ListCard>
@@ -111,6 +113,7 @@ export default async function Home({
         </>
       )}
       <Footer />
+      
     </>
   );
 }
