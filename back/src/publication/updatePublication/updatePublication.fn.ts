@@ -1,4 +1,4 @@
-import type { ActFn } from "deps";
+import { type ActFn, ObjectId } from "deps";
 import { publication } from "../../../mod.ts";
 
 export const updatePublicationFn: ActFn = async (body) => {
@@ -12,12 +12,11 @@ export const updatePublicationFn: ActFn = async (body) => {
 
 	const updateObj: Record<string, any> = {
 		updatedAt: new Date(),
+		title,
 	};
 
-	title && (updateObj.title = title);
-
 	return await publication.findOneAndUpdate({
-		filter: { _id: new Object(_id) },
+		filter: { _id: new ObjectId(_id) },
 		update: {
 			$set: updateObj,
 		},

@@ -1,4 +1,4 @@
-import type { ActFn } from "deps";
+import { type ActFn, ObjectId } from "deps";
 import { tag } from "../../../mod.ts";
 
 export const updateTagFn: ActFn = async (body) => {
@@ -12,12 +12,11 @@ export const updateTagFn: ActFn = async (body) => {
 
 	const updateObj: Record<string, any> = {
 		updatedAt: new Date(),
+		name,
 	};
 
-	name && (updateObj.name = name);
-
 	return await tag.findOneAndUpdate({
-		filter: { _id: new Object(_id) },
+		filter: { _id: new ObjectId(_id) },
 		update: {
 			$set: updateObj,
 		},

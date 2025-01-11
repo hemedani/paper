@@ -1,11 +1,11 @@
-import { object, string } from "deps";
+import { object, objectIdValidation, string } from "deps";
 import { selectStruct } from "../../../mod.ts";
 
 export const updateTagValidator = () => {
 	return object({
 		set: object({
-			_id: string(),
-			name: (string()),
+			_id: objectIdValidation,
+			name: string(),
 		}),
 		get: selectStruct("tag", 2),
 	});
