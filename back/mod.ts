@@ -32,6 +32,6 @@ coreApp.runServer({
 	cors: [
 		"http://localhost:3000",
 		"http://localhost:4000",
-		"http://185.252.86.16:3000",
+		"http://194.5.192.166:3000",
 	],
 });
