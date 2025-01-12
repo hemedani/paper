@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import AsyncSelect from "react-select/async";
 import { MultiValue, SingleValue } from "react-select";
@@ -10,14 +10,13 @@ import SelectBox from "../atoms/Select";
 import { getTags } from "@/app/actions/tag/getTags";
 import { getPublications } from "@/app/actions/publication/getPublications";
 import { createArticle } from "@/app/actions/article/createArticle";
-import { getArticleAction } from "@/app/actions/article/getArticle";
 import { ReqType } from "@/types/declarations/selectInp";
 import { ToastNotify } from "@/utils/helper";
 import { EditArticle } from "@/app/actions/article/updateArticle";
 
 export type AddUserSet = ReqType["main"]["article"]["addArticle"]["set"];
 
-export const FormArticle = () => {
+export const FormArticle = ({ defaultValues }: { defaultValues?: AddUserSet & { tags: { _id: string, name: string }[] } }) => {
   const router = useRouter();
   const searchParams = useParams();
   const articleId = searchParams.id;
@@ -26,67 +25,10 @@ export const FormArticle = () => {
     control,
     handleSubmit,
     setValue,
-    reset,
     formState: { errors },
   } = useForm<AddUserSet>({
-    defaultValues: {
-      key: "",
-      publicationYear: 0,
-      articleType: "journalArticle",
-      authors: [],
-      title: "",
-      abstract: "",
-      ISBN: "",
-      ISNN: "",
-      DOI: "",
-      URL: "",
-      page: "",
-      issue: 0,
-      volume: 0,
-      publicationId: "",
-      tagIds: [],
-    },
+    defaultValues
   });
-
-  useEffect(() => {
-    if (articleId) {
-      const fetchArticle = async () => {
-        const articleData = await getArticleAction({
-          set: { _id: articleId as string },
-          get: {
-            _id: 1,
-            title: 1,
-            articleType: 1,
-            publicationYear: 1,
-            abstract: 1,
-            DOI: 1,
-            page: 1,
-            issue: 1,
-            volume: 1,
-            key: 1,
-            ISBN: 1,
-            ISNN: 1,
-            authors: 1,
-            publication: { _id: 1, title: 1 },
-            tags: { _id: 1, name: 1 },
-            URL: 1,
-          },
-        });
-
-        const formattedData = {
-          ...articleData,
-          tagIds: articleData.tags.map((tag: { name: string , _id:string}) => ({
-            label: tag.name,
-            value: tag._id
-          })),
-        };
-        
-        reset(formattedData);
-      };
-
-      fetchArticle();
-    }
-  }, [articleId, reset]);
 
   const onSubmit: SubmitHandler<AddUserSet> = async (data) => {
     data.publicationYear = +data.publicationYear;
@@ -157,6 +99,7 @@ export const FormArticle = () => {
               cacheOptions
               loadOptions={loadTagOptions}
               defaultOptions
+              defaultValue={defaultValues && defaultValues.tags ? defaultValues.tags.map(tag => ({ label: tag.name, value: tag._id })) : []}
               onChange={handleTagChange}
               placeholder="برچسب‌ها را انتخاب کنید"
               classNamePrefix="react-select"
