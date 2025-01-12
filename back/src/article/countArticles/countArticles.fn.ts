@@ -28,7 +28,7 @@ export const countArticlesFn: ActFn = async (body) => {
 	const filters: Document = {};
 
 	search && (filters["$text"] = { $search: search });
-	tags && (filters["tags.name"] = { $in: [tags] });
+	tags && tags.length > 0 && (filters["tags.name"] = { $in: tags });
 	title && (filters["title"] = { $regex: new RegExp(title, "i") });
 	abstract && (filters["abstract"] = { $regex: new RegExp(abstract, "i") });
 	authors && (filters["authors"] = { $regex: new RegExp(authors, "i") });

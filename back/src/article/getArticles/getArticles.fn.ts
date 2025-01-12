@@ -31,7 +31,8 @@ export const getArticlesFn: ActFn = async (body) => {
 
 	search && pipeline.push({ $match: { $text: { $search: search } } });
 
-	tags && pipeline.push({ $match: { "tags.name": { $in: tags } } });
+	tags && tags.length > 0 &&
+		pipeline.push({ $match: { "tags.name": { $in: tags } } });
 	authors &&
 		pipeline.push({
 			$match: { "authors": { $regex: new RegExp(authors, "i") } },
