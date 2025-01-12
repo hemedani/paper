@@ -1,26 +1,32 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import AsyncSelect from "react-select/async";
 import { MultiValue, SingleValue } from "react-select";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import Input from "../atoms/Input";
 import SelectBox from "../atoms/Select";
 import { getTags } from "@/app/actions/tag/getTags";
 import { getPublications } from "@/app/actions/publication/getPublications";
 import { createArticle } from "@/app/actions/article/createArticle";
+import { getArticleAction } from "@/app/actions/article/getArticle";
 import { ReqType } from "@/types/declarations/selectInp";
 import { ToastNotify } from "@/utils/helper";
+import { EditArticle } from "@/app/actions/article/updateArticle";
 
 export type AddUserSet = ReqType["main"]["article"]["addArticle"]["set"];
 
 export const FormArticle = () => {
   const router = useRouter();
+  const searchParams = useParams();
+  const articleId = searchParams.id;
+
   const {
     control,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<AddUserSet>({
     defaultValues: {
@@ -42,13 +48,58 @@ export const FormArticle = () => {
     },
   });
 
+  useEffect(() => {
+    if (articleId) {
+      const fetchArticle = async () => {
+        const articleData = await getArticleAction({
+          set: { _id: articleId as string },
+          get: {
+            _id: 1,
+            title: 1,
+            articleType: 1,
+            publicationYear: 1,
+            abstract: 1,
+            DOI: 1,
+            page: 1,
+            issue: 1,
+            volume: 1,
+            key: 1,
+            ISBN: 1,
+            ISNN: 1,
+            authors: 1,
+            publication: { _id: 1, title: 1 },
+            tags: { _id: 1, name: 1 },
+            URL: 1,
+          },
+        });
+
+        const formattedData = {
+          ...articleData,
+          tagIds: articleData.tags.map((tag: { name: string , _id:string}) => ({
+            label: tag.name,
+            value: tag._id
+          })),
+        };
+        
+        reset(formattedData);
+      };
+
+      fetchArticle();
+    }
+  }, [articleId, reset]);
+
   const onSubmit: SubmitHandler<AddUserSet> = async (data) => {
     data.publicationYear = +data.publicationYear;
     data.issue = +data.issue;
     data.volume = +data.volume;
     data.authors = [data.authors.toString()];
-    await createArticle(data);
-    ToastNotify("success", "مقاله با موفقیت ایجاد شد");
+    if (articleId) {
+      // await EditArticle(data);
+      ToastNotify("success", "مقاله با موفقیت به‌روزرسانی شد");
+    } else {
+      await createArticle(data);
+      ToastNotify("success", "مقاله با موفقیت ایجاد شد");
+    }
     router.replace("/admin/articles");
   };
 
@@ -89,7 +140,9 @@ export const FormArticle = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-6">فرم انتشار مقاله</h2>
+      <h2 className="text-xl font-semibold mb-6">
+        {articleId ? "ویرایش مقاله" : "ایجاد مقاله جدید"}
+      </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-2">

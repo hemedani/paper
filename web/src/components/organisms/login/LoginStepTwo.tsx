@@ -9,8 +9,9 @@ type TProps = {
 
 const LoginStepTwo = ({ setStep, phone, onCodeEntered }: TProps) => {
   const [otp, setOtp] = useState("");
-
+  
   const handleOtpSubmit = (e: React.FormEvent) => {
+    console.log(otp,phone);
     e.preventDefault();
     if (otp.length === 5) {
       loginAction({ national_number: phone, code: otp });

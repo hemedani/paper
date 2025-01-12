@@ -4,7 +4,7 @@ import { paperApi } from "@/services/api";
 import { cookies } from "next/headers";
 
 export const loginReqAction = async ({ national_number }: { national_number: string }) => {
-
+  
   const logReq = await paperApi().send({
     service: "main",
     model: "user",
@@ -19,7 +19,8 @@ export const loginReqAction = async ({ national_number }: { national_number: str
       }
     }
   })
-
+  
+  console.log(logReq);
   if (logReq.success) {
     (await cookies()).set("national_number",national_number);
     (await cookies()).set("registration_step", "verification_code");

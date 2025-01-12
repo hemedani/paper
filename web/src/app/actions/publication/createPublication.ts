@@ -6,7 +6,10 @@ import { cookies } from "next/headers";
 export const createPublication = async ({
   set,
   get,
-}: ReqType["main"]["publication"]["addPublication"]) => {
+}: {
+  get: ReqType["main"]["publication"]["addPublication"]["get"];
+  set: { title: string };
+}) => {
   const token = (await cookies()).get("token");
   const addPublication = await paperApi().send(
     {

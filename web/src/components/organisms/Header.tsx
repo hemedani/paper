@@ -13,7 +13,7 @@ type SearchFormValues = {
 export const Header = () => {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
   const router = useRouter();
-  // const pathname = usePathname(); 
+  // const pathname = usePathname();
   const { control, handleSubmit } = useForm<SearchFormValues>({
     defaultValues: {
       query: "",
@@ -32,8 +32,8 @@ export const Header = () => {
   };
 
   // const emptyQueryHandler = () => {
-  //   router.replace(pathname); 
-  //   router.refresh(); 
+  //   router.replace(pathname);
+  //   router.refresh();
   // };
 
   return (
@@ -52,7 +52,7 @@ export const Header = () => {
                 <Input
                   name="query"
                   control={control}
-                  placeholder="جستجو بر اساس متن عنوان و خلاصه مقاله، DOI..."
+                  placeholder="جستجو بر اساس متن عنوان و خلاصه مقاله"
                   className="text-gray-700 rounded-3xl px-4 py-2 w-1/3"
                 />
                 <button
