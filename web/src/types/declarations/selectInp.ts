@@ -1,11 +1,11 @@
 /* eslint-disable */
 
 export type userInp = {
-  nationalCard?: number | fileInp;
-  favArticles?: number | articleInp;
-  uploadedAssets?: number | fileInp;
-  registeredPublications?: number | publicationInp;
-};
+  nationalCard?: number | fileInp
+  favArticles?: number | articleInp
+  uploadedAssets?: number | fileInp
+  registeredPublications?: number | publicationInp
+}
 
 export type userSchema = {
   _id?: string;
@@ -13,12 +13,12 @@ export type userSchema = {
   last_name: string;
   father_name: string;
   mobile: string;
-  gender: "Male" | "Female";
+  gender: ("Male" | "Female");
   birth_date?: Date;
   personnel_number: string;
   national_number: string;
   address: string;
-  level: "Ghost" | "Manager" | "Editor";
+  level: ("Ghost" | "Manager" | "Editor");
   isVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -33,7 +33,7 @@ export type userSchema = {
   favArticles?: {
     _id?: string;
     key: string;
-    articleType: "journalArticle" | "book";
+    articleType: ("journalArticle" | "book");
     publicationYear: number;
     authors: string[];
     title: string;
@@ -65,8 +65,8 @@ export type userSchema = {
 };
 
 export type publicationInp = {
-  registrar?: number | userInp;
-};
+  registrar?: number | userInp
+}
 
 export type publicationSchema = {
   _id?: string;
@@ -79,21 +79,25 @@ export type publicationSchema = {
     last_name: string;
     father_name: string;
     mobile: string;
-    gender: "Male" | "Female";
+    gender: ("Male" | "Female");
     birth_date?: Date;
     personnel_number: string;
     national_number: string;
     address: string;
-    level: "Ghost" | "Manager" | "Editor";
+    level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
     createdAt: Date;
     updatedAt: Date;
   };
 };
+;
+
 
 export type tagInp = {
-  registrar?: number | userInp;
-};
+  registrar?: number | userInp
+
+}
+
 
 export type tagSchema = {
   _id?: string;
@@ -106,29 +110,32 @@ export type tagSchema = {
     last_name: string;
     father_name: string;
     mobile: string;
-    gender: "Male" | "Female";
+    gender: ("Male" | "Female");
     birth_date?: Date;
     personnel_number: string;
     national_number: string;
     address: string;
-    level: "Ghost" | "Manager" | "Editor";
+    level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
     createdAt: Date;
     updatedAt: Date;
   };
 };
+;
+
 
 export type articleInp = {
-  registrar?: number | userInp;
-  publication?: number | publicationInp;
-  tags?: number | tagInp;
-  favByUsers?: number | userInp;
-};
+  registrar?: number | userInp
+  publication?: number | publicationInp
+  tags?: number | tagInp
+  favByUsers?: number | userInp
+}
+
 
 export type articleSchema = {
   _id?: string;
   key: string;
-  articleType: "journalArticle" | "book";
+  articleType: ("journalArticle" | "book");
   publicationYear: number;
   authors: string[];
   title: string;
@@ -148,12 +155,12 @@ export type articleSchema = {
     last_name: string;
     father_name: string;
     mobile: string;
-    gender: "Male" | "Female";
+    gender: ("Male" | "Female");
     birth_date?: Date;
     personnel_number: string;
     national_number: string;
     address: string;
-    level: "Ghost" | "Manager" | "Editor";
+    level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
     createdAt: Date;
     updatedAt: Date;
@@ -176,21 +183,25 @@ export type articleSchema = {
     last_name: string;
     father_name: string;
     mobile: string;
-    gender: "Male" | "Female";
+    gender: ("Male" | "Female");
     birth_date?: Date;
     personnel_number: string;
     national_number: string;
     address: string;
-    level: "Ghost" | "Manager" | "Editor";
+    level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
     createdAt: Date;
     updatedAt: Date;
   }[];
 };
+;
+
 
 export type fileInp = {
-  uploader?: number | userInp;
-};
+  uploader?: number | userInp
+
+}
+
 
 export type fileSchema = {
   _id?: string;
@@ -205,400 +216,412 @@ export type fileSchema = {
     last_name: string;
     father_name: string;
     mobile: string;
-    gender: "Male" | "Female";
+    gender: ("Male" | "Female");
     birth_date?: Date;
     personnel_number: string;
     national_number: string;
     address: string;
-    level: "Ghost" | "Manager" | "Editor";
+    level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
     createdAt: Date;
     updatedAt: Date;
   };
 };
+;
+
 
 export type ReqType = {
+
+
   main: {
+
+
     user: {
+
+
       addUser: {
         set: {
           first_name: string;
           last_name: string;
           father_name: string;
           mobile: string;
-          gender: "Male" | "Female";
+          gender: ("Male" | "Female");
           birth_date?: Date;
           personnel_number: string;
           national_number: string;
           address: string;
-          level: "Ghost" | "Manager" | "Editor";
+          level: ("Ghost" | "Manager" | "Editor");
           isVerified: boolean;
           createdAt: Date;
           updatedAt: Date;
         };
         get: {
-          _id?: 0 | 1;
-          first_name?: 0 | 1;
-          last_name?: 0 | 1;
-          father_name?: 0 | 1;
-          mobile?: 0 | 1;
-          gender?: 0 | 1;
-          birth_date?: 0 | 1;
-          personnel_number?: 0 | 1;
-          national_number?: 0 | 1;
-          address?: 0 | 1;
-          level?: 0 | 1;
-          isVerified?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          first_name?: (0 | 1);
+          last_name?: (0 | 1);
+          father_name?: (0 | 1);
+          mobile?: (0 | 1);
+          gender?: (0 | 1);
+          birth_date?: (0 | 1);
+          personnel_number?: (0 | 1);
+          national_number?: (0 | 1);
+          address?: (0 | 1);
+          level?: (0 | 1);
+          isVerified?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           nationalCard?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           favArticles?: {
-            _id?: 0 | 1;
-            key?: 0 | 1;
-            articleType?: 0 | 1;
-            publicationYear?: 0 | 1;
-            authors?: 0 | 1;
-            title?: 0 | 1;
-            abstract?: 0 | 1;
-            ISBN?: 0 | 1;
-            ISNN?: 0 | 1;
-            DOI?: 0 | 1;
-            URL?: 0 | 1;
-            page?: 0 | 1;
-            issue?: 0 | 1;
-            volume?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            key?: (0 | 1);
+            articleType?: (0 | 1);
+            publicationYear?: (0 | 1);
+            authors?: (0 | 1);
+            title?: (0 | 1);
+            abstract?: (0 | 1);
+            ISBN?: (0 | 1);
+            ISNN?: (0 | 1);
+            DOI?: (0 | 1);
+            URL?: (0 | 1);
+            page?: (0 | 1);
+            issue?: (0 | 1);
+            volume?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           uploadedAssets?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           registeredPublications?: {
-            _id?: 0 | 1;
-            title?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            title?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
         };
       };
 
+
       getMe: {
-        set: {};
+        set: {
+        };
         get: {
-          _id?: 0 | 1;
-          first_name?: 0 | 1;
-          last_name?: 0 | 1;
-          father_name?: 0 | 1;
-          mobile?: 0 | 1;
-          gender?: 0 | 1;
-          birth_date?: 0 | 1;
-          personnel_number?: 0 | 1;
-          national_number?: 0 | 1;
-          address?: 0 | 1;
-          level?: 0 | 1;
-          isVerified?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          first_name?: (0 | 1);
+          last_name?: (0 | 1);
+          father_name?: (0 | 1);
+          mobile?: (0 | 1);
+          gender?: (0 | 1);
+          birth_date?: (0 | 1);
+          personnel_number?: (0 | 1);
+          national_number?: (0 | 1);
+          address?: (0 | 1);
+          level?: (0 | 1);
+          isVerified?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           nationalCard?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             uploader?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           favArticles?: {
-            _id?: 0 | 1;
-            key?: 0 | 1;
-            articleType?: 0 | 1;
-            publicationYear?: 0 | 1;
-            authors?: 0 | 1;
-            title?: 0 | 1;
-            abstract?: 0 | 1;
-            ISBN?: 0 | 1;
-            ISNN?: 0 | 1;
-            DOI?: 0 | 1;
-            URL?: 0 | 1;
-            page?: 0 | 1;
-            issue?: 0 | 1;
-            volume?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            key?: (0 | 1);
+            articleType?: (0 | 1);
+            publicationYear?: (0 | 1);
+            authors?: (0 | 1);
+            title?: (0 | 1);
+            abstract?: (0 | 1);
+            ISBN?: (0 | 1);
+            ISNN?: (0 | 1);
+            DOI?: (0 | 1);
+            URL?: (0 | 1);
+            page?: (0 | 1);
+            issue?: (0 | 1);
+            volume?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             registrar?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             publication?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             tags?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favByUsers?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           uploadedAssets?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             uploader?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           registeredPublications?: {
-            _id?: 0 | 1;
-            title?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            title?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             registrar?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
+
 
       getUser: {
         set: {
           _id: string;
         };
         get: {
-          _id?: 0 | 1;
-          first_name?: 0 | 1;
-          last_name?: 0 | 1;
-          father_name?: 0 | 1;
-          mobile?: 0 | 1;
-          gender?: 0 | 1;
-          birth_date?: 0 | 1;
-          personnel_number?: 0 | 1;
-          national_number?: 0 | 1;
-          address?: 0 | 1;
-          level?: 0 | 1;
-          isVerified?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          first_name?: (0 | 1);
+          last_name?: (0 | 1);
+          father_name?: (0 | 1);
+          mobile?: (0 | 1);
+          gender?: (0 | 1);
+          birth_date?: (0 | 1);
+          personnel_number?: (0 | 1);
+          national_number?: (0 | 1);
+          address?: (0 | 1);
+          level?: (0 | 1);
+          isVerified?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           nationalCard?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             uploader?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           favArticles?: {
-            _id?: 0 | 1;
-            key?: 0 | 1;
-            articleType?: 0 | 1;
-            publicationYear?: 0 | 1;
-            authors?: 0 | 1;
-            title?: 0 | 1;
-            abstract?: 0 | 1;
-            ISBN?: 0 | 1;
-            ISNN?: 0 | 1;
-            DOI?: 0 | 1;
-            URL?: 0 | 1;
-            page?: 0 | 1;
-            issue?: 0 | 1;
-            volume?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            key?: (0 | 1);
+            articleType?: (0 | 1);
+            publicationYear?: (0 | 1);
+            authors?: (0 | 1);
+            title?: (0 | 1);
+            abstract?: (0 | 1);
+            ISBN?: (0 | 1);
+            ISNN?: (0 | 1);
+            DOI?: (0 | 1);
+            URL?: (0 | 1);
+            page?: (0 | 1);
+            issue?: (0 | 1);
+            volume?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             registrar?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             publication?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             tags?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favByUsers?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           uploadedAssets?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             uploader?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           registeredPublications?: {
-            _id?: 0 | 1;
-            title?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            title?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             registrar?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
+
 
       login: {
         set: {
@@ -606,75 +629,77 @@ export type ReqType = {
           code: string;
         };
         get?: {
-          token?: 0 | 1;
+          token?: (0 | 1);
           user: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             nationalCard?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favArticles?: {
-              _id?: 0 | 1;
-              key?: 0 | 1;
-              articleType?: 0 | 1;
-              publicationYear?: 0 | 1;
-              authors?: 0 | 1;
-              title?: 0 | 1;
-              abstract?: 0 | 1;
-              ISBN?: 0 | 1;
-              ISNN?: 0 | 1;
-              DOI?: 0 | 1;
-              URL?: 0 | 1;
-              page?: 0 | 1;
-              issue?: 0 | 1;
-              volume?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              key?: (0 | 1);
+              articleType?: (0 | 1);
+              publicationYear?: (0 | 1);
+              authors?: (0 | 1);
+              title?: (0 | 1);
+              abstract?: (0 | 1);
+              ISBN?: (0 | 1);
+              ISNN?: (0 | 1);
+              DOI?: (0 | 1);
+              URL?: (0 | 1);
+              page?: (0 | 1);
+              issue?: (0 | 1);
+              volume?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             uploadedAssets?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             registeredPublications?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
+
 
       loginReq: {
         set: {
           national_number: string;
         };
         get: {
-          mobile: 1;
-          national_number: 1;
+          mobile: (1);
+          national_number: (1);
         };
       };
+
 
       tempUser: {
         set: {
@@ -685,69 +710,70 @@ export type ReqType = {
           national_number: string;
         };
         get: {
-          _id?: 0 | 1;
-          first_name?: 0 | 1;
-          last_name?: 0 | 1;
-          father_name?: 0 | 1;
-          mobile?: 0 | 1;
-          gender?: 0 | 1;
-          birth_date?: 0 | 1;
-          personnel_number?: 0 | 1;
-          national_number?: 0 | 1;
-          address?: 0 | 1;
-          level?: 0 | 1;
-          isVerified?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          first_name?: (0 | 1);
+          last_name?: (0 | 1);
+          father_name?: (0 | 1);
+          mobile?: (0 | 1);
+          gender?: (0 | 1);
+          birth_date?: (0 | 1);
+          personnel_number?: (0 | 1);
+          national_number?: (0 | 1);
+          address?: (0 | 1);
+          level?: (0 | 1);
+          isVerified?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           nationalCard?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           favArticles?: {
-            _id?: 0 | 1;
-            key?: 0 | 1;
-            articleType?: 0 | 1;
-            publicationYear?: 0 | 1;
-            authors?: 0 | 1;
-            title?: 0 | 1;
-            abstract?: 0 | 1;
-            ISBN?: 0 | 1;
-            ISNN?: 0 | 1;
-            DOI?: 0 | 1;
-            URL?: 0 | 1;
-            page?: 0 | 1;
-            issue?: 0 | 1;
-            volume?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            key?: (0 | 1);
+            articleType?: (0 | 1);
+            publicationYear?: (0 | 1);
+            authors?: (0 | 1);
+            title?: (0 | 1);
+            abstract?: (0 | 1);
+            ISBN?: (0 | 1);
+            ISNN?: (0 | 1);
+            DOI?: (0 | 1);
+            URL?: (0 | 1);
+            page?: (0 | 1);
+            issue?: (0 | 1);
+            volume?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           uploadedAssets?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           registeredPublications?: {
-            _id?: 0 | 1;
-            title?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            title?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
         };
       };
+
 
       updateUser: {
         set: {
           first_name: string;
           last_name: string;
           father_name: string;
-          gender: "Male" | "Female";
+          gender: ("Male" | "Female");
           birth_date?: Date;
           personnel_number: string;
           address: string;
@@ -755,62 +781,63 @@ export type ReqType = {
           updatedAt: Date;
         };
         get: {
-          _id?: 0 | 1;
-          first_name?: 0 | 1;
-          last_name?: 0 | 1;
-          father_name?: 0 | 1;
-          mobile?: 0 | 1;
-          gender?: 0 | 1;
-          birth_date?: 0 | 1;
-          personnel_number?: 0 | 1;
-          national_number?: 0 | 1;
-          address?: 0 | 1;
-          level?: 0 | 1;
-          isVerified?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          first_name?: (0 | 1);
+          last_name?: (0 | 1);
+          father_name?: (0 | 1);
+          mobile?: (0 | 1);
+          gender?: (0 | 1);
+          birth_date?: (0 | 1);
+          personnel_number?: (0 | 1);
+          national_number?: (0 | 1);
+          address?: (0 | 1);
+          level?: (0 | 1);
+          isVerified?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           nationalCard?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           favArticles?: {
-            _id?: 0 | 1;
-            key?: 0 | 1;
-            articleType?: 0 | 1;
-            publicationYear?: 0 | 1;
-            authors?: 0 | 1;
-            title?: 0 | 1;
-            abstract?: 0 | 1;
-            ISBN?: 0 | 1;
-            ISNN?: 0 | 1;
-            DOI?: 0 | 1;
-            URL?: 0 | 1;
-            page?: 0 | 1;
-            issue?: 0 | 1;
-            volume?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            key?: (0 | 1);
+            articleType?: (0 | 1);
+            publicationYear?: (0 | 1);
+            authors?: (0 | 1);
+            title?: (0 | 1);
+            abstract?: (0 | 1);
+            ISBN?: (0 | 1);
+            ISNN?: (0 | 1);
+            DOI?: (0 | 1);
+            URL?: (0 | 1);
+            page?: (0 | 1);
+            issue?: (0 | 1);
+            volume?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           uploadedAssets?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           registeredPublications?: {
-            _id?: 0 | 1;
-            title?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            title?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
         };
       };
+
 
       registerUser: {
         set: {
@@ -818,69 +845,72 @@ export type ReqType = {
           national_number: string;
         };
         get: {
-          _id?: 0 | 1;
-          first_name?: 0 | 1;
-          last_name?: 0 | 1;
-          father_name?: 0 | 1;
-          mobile?: 0 | 1;
-          gender?: 0 | 1;
-          birth_date?: 0 | 1;
-          personnel_number?: 0 | 1;
-          national_number?: 0 | 1;
-          address?: 0 | 1;
-          level?: 0 | 1;
-          isVerified?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          first_name?: (0 | 1);
+          last_name?: (0 | 1);
+          father_name?: (0 | 1);
+          mobile?: (0 | 1);
+          gender?: (0 | 1);
+          birth_date?: (0 | 1);
+          personnel_number?: (0 | 1);
+          national_number?: (0 | 1);
+          address?: (0 | 1);
+          level?: (0 | 1);
+          isVerified?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           nationalCard?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           favArticles?: {
-            _id?: 0 | 1;
-            key?: 0 | 1;
-            articleType?: 0 | 1;
-            publicationYear?: 0 | 1;
-            authors?: 0 | 1;
-            title?: 0 | 1;
-            abstract?: 0 | 1;
-            ISBN?: 0 | 1;
-            ISNN?: 0 | 1;
-            DOI?: 0 | 1;
-            URL?: 0 | 1;
-            page?: 0 | 1;
-            issue?: 0 | 1;
-            volume?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            key?: (0 | 1);
+            articleType?: (0 | 1);
+            publicationYear?: (0 | 1);
+            authors?: (0 | 1);
+            title?: (0 | 1);
+            abstract?: (0 | 1);
+            ISBN?: (0 | 1);
+            ISNN?: (0 | 1);
+            DOI?: (0 | 1);
+            URL?: (0 | 1);
+            page?: (0 | 1);
+            issue?: (0 | 1);
+            volume?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           uploadedAssets?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           registeredPublications?: {
-            _id?: 0 | 1;
-            title?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            title?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
         };
       };
 
+
       insertCSV: {
-        set: {};
+        set: {
+        };
         get: {
-          ok: 0 | 1;
+          ok: (0 | 1);
         };
       };
+
 
       changeMobile: {
         set: {
@@ -888,263 +918,275 @@ export type ReqType = {
           mobile: string;
         };
         get: {
-          mobile: 1;
-          national_number: 1;
+          mobile: (1);
+          national_number: (1);
         };
       };
 
+
       getUsers: {
         set: {
-          levels?: "Ghost" | "Manager" | "Editor";
+          levels?: ("Ghost" | "Manager" | "Editor");
           page: number;
           limit: number;
         };
         get: {
-          _id?: 0 | 1;
-          first_name?: 0 | 1;
-          last_name?: 0 | 1;
-          father_name?: 0 | 1;
-          mobile?: 0 | 1;
-          gender?: 0 | 1;
-          birth_date?: 0 | 1;
-          personnel_number?: 0 | 1;
-          national_number?: 0 | 1;
-          address?: 0 | 1;
-          level?: 0 | 1;
-          isVerified?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          first_name?: (0 | 1);
+          last_name?: (0 | 1);
+          father_name?: (0 | 1);
+          mobile?: (0 | 1);
+          gender?: (0 | 1);
+          birth_date?: (0 | 1);
+          personnel_number?: (0 | 1);
+          national_number?: (0 | 1);
+          address?: (0 | 1);
+          level?: (0 | 1);
+          isVerified?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           nationalCard?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             uploader?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           favArticles?: {
-            _id?: 0 | 1;
-            key?: 0 | 1;
-            articleType?: 0 | 1;
-            publicationYear?: 0 | 1;
-            authors?: 0 | 1;
-            title?: 0 | 1;
-            abstract?: 0 | 1;
-            ISBN?: 0 | 1;
-            ISNN?: 0 | 1;
-            DOI?: 0 | 1;
-            URL?: 0 | 1;
-            page?: 0 | 1;
-            issue?: 0 | 1;
-            volume?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            key?: (0 | 1);
+            articleType?: (0 | 1);
+            publicationYear?: (0 | 1);
+            authors?: (0 | 1);
+            title?: (0 | 1);
+            abstract?: (0 | 1);
+            ISBN?: (0 | 1);
+            ISNN?: (0 | 1);
+            DOI?: (0 | 1);
+            URL?: (0 | 1);
+            page?: (0 | 1);
+            issue?: (0 | 1);
+            volume?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             registrar?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             publication?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             tags?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favByUsers?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           uploadedAssets?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             uploader?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           registeredPublications?: {
-            _id?: 0 | 1;
-            title?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            title?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             registrar?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
+
 
       removeUser: {
         set: {
           _id: string;
+          hardCascade?: boolean;
         };
         get: {
-          success?: 0 | 1;
+          success?: (0 | 1);
         };
       };
+
 
       countUsers: {
         set: {
-          levels?: "Ghost" | "Manager" | "Editor";
+          levels?: ("Ghost" | "Manager" | "Editor");
         };
         get: {
-          qty: 0 | 1;
+          qty: (0 | 1);
         };
       };
 
+
       dashboardStatistic: {
-        set: {};
+        set: {
+        };
         get: {
-          users?: 0 | 1;
-          tags?: 0 | 1;
-          publications?: 0 | 1;
-          articles?: 0 | 1;
+          users?: (0 | 1);
+          tags?: (0 | 1);
+          publications?: (0 | 1);
+          articles?: (0 | 1);
         };
       };
+
 
       toggleFavArticle: {
         set: {
           articleId: string;
         };
         get: {
-          _id?: 0 | 1;
-          first_name?: 0 | 1;
-          last_name?: 0 | 1;
-          father_name?: 0 | 1;
-          mobile?: 0 | 1;
-          gender?: 0 | 1;
-          birth_date?: 0 | 1;
-          personnel_number?: 0 | 1;
-          national_number?: 0 | 1;
-          address?: 0 | 1;
-          level?: 0 | 1;
-          isVerified?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          first_name?: (0 | 1);
+          last_name?: (0 | 1);
+          father_name?: (0 | 1);
+          mobile?: (0 | 1);
+          gender?: (0 | 1);
+          birth_date?: (0 | 1);
+          personnel_number?: (0 | 1);
+          national_number?: (0 | 1);
+          address?: (0 | 1);
+          level?: (0 | 1);
+          isVerified?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           nationalCard?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           favArticles?: {
-            _id?: 0 | 1;
-            key?: 0 | 1;
-            articleType?: 0 | 1;
-            publicationYear?: 0 | 1;
-            authors?: 0 | 1;
-            title?: 0 | 1;
-            abstract?: 0 | 1;
-            ISBN?: 0 | 1;
-            ISNN?: 0 | 1;
-            DOI?: 0 | 1;
-            URL?: 0 | 1;
-            page?: 0 | 1;
-            issue?: 0 | 1;
-            volume?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            key?: (0 | 1);
+            articleType?: (0 | 1);
+            publicationYear?: (0 | 1);
+            authors?: (0 | 1);
+            title?: (0 | 1);
+            abstract?: (0 | 1);
+            ISBN?: (0 | 1);
+            ISNN?: (0 | 1);
+            DOI?: (0 | 1);
+            URL?: (0 | 1);
+            page?: (0 | 1);
+            issue?: (0 | 1);
+            volume?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           uploadedAssets?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            type?: 0 | 1;
-            size?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            type?: (0 | 1);
+            size?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           registeredPublications?: {
-            _id?: 0 | 1;
-            title?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            title?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
         };
       };
-    };
+
+
+    }
+
 
     article: {
+
+
       addArticle: {
         set: {
           key: string;
-          articleType: "journalArticle" | "book";
+          articleType: ("journalArticle" | "book");
           publicationYear: number;
           authors: string[];
           title: string;
@@ -1162,255 +1204,257 @@ export type ReqType = {
           tagIds: string[];
         };
         get: {
-          _id?: 0 | 1;
-          key?: 0 | 1;
-          articleType?: 0 | 1;
-          publicationYear?: 0 | 1;
-          authors?: 0 | 1;
-          title?: 0 | 1;
-          abstract?: 0 | 1;
-          ISBN?: 0 | 1;
-          ISNN?: 0 | 1;
-          DOI?: 0 | 1;
-          URL?: 0 | 1;
-          page?: 0 | 1;
-          issue?: 0 | 1;
-          volume?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          key?: (0 | 1);
+          articleType?: (0 | 1);
+          publicationYear?: (0 | 1);
+          authors?: (0 | 1);
+          title?: (0 | 1);
+          abstract?: (0 | 1);
+          ISBN?: (0 | 1);
+          ISNN?: (0 | 1);
+          DOI?: (0 | 1);
+          URL?: (0 | 1);
+          page?: (0 | 1);
+          issue?: (0 | 1);
+          volume?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           registrar?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           publication?: {
-            _id?: 0 | 1;
-            title?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            title?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           tags?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           favByUsers?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
         };
       };
+
 
       getArticle: {
         set: {
           _id: string;
         };
         get: {
-          _id?: 0 | 1;
-          key?: 0 | 1;
-          articleType?: 0 | 1;
-          publicationYear?: 0 | 1;
-          authors?: 0 | 1;
-          title?: 0 | 1;
-          abstract?: 0 | 1;
-          ISBN?: 0 | 1;
-          ISNN?: 0 | 1;
-          DOI?: 0 | 1;
-          URL?: 0 | 1;
-          page?: 0 | 1;
-          issue?: 0 | 1;
-          volume?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          key?: (0 | 1);
+          articleType?: (0 | 1);
+          publicationYear?: (0 | 1);
+          authors?: (0 | 1);
+          title?: (0 | 1);
+          abstract?: (0 | 1);
+          ISBN?: (0 | 1);
+          ISNN?: (0 | 1);
+          DOI?: (0 | 1);
+          URL?: (0 | 1);
+          page?: (0 | 1);
+          issue?: (0 | 1);
+          volume?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           registrar?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             nationalCard?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favArticles?: {
-              _id?: 0 | 1;
-              key?: 0 | 1;
-              articleType?: 0 | 1;
-              publicationYear?: 0 | 1;
-              authors?: 0 | 1;
-              title?: 0 | 1;
-              abstract?: 0 | 1;
-              ISBN?: 0 | 1;
-              ISNN?: 0 | 1;
-              DOI?: 0 | 1;
-              URL?: 0 | 1;
-              page?: 0 | 1;
-              issue?: 0 | 1;
-              volume?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              key?: (0 | 1);
+              articleType?: (0 | 1);
+              publicationYear?: (0 | 1);
+              authors?: (0 | 1);
+              title?: (0 | 1);
+              abstract?: (0 | 1);
+              ISBN?: (0 | 1);
+              ISNN?: (0 | 1);
+              DOI?: (0 | 1);
+              URL?: (0 | 1);
+              page?: (0 | 1);
+              issue?: (0 | 1);
+              volume?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             uploadedAssets?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             registeredPublications?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           publication?: {
-            _id?: 0 | 1;
-            title?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            title?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             registrar?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           tags?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             registrar?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           favByUsers?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             nationalCard?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favArticles?: {
-              _id?: 0 | 1;
-              key?: 0 | 1;
-              articleType?: 0 | 1;
-              publicationYear?: 0 | 1;
-              authors?: 0 | 1;
-              title?: 0 | 1;
-              abstract?: 0 | 1;
-              ISBN?: 0 | 1;
-              ISNN?: 0 | 1;
-              DOI?: 0 | 1;
-              URL?: 0 | 1;
-              page?: 0 | 1;
-              issue?: 0 | 1;
-              volume?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              key?: (0 | 1);
+              articleType?: (0 | 1);
+              publicationYear?: (0 | 1);
+              authors?: (0 | 1);
+              title?: (0 | 1);
+              abstract?: (0 | 1);
+              ISBN?: (0 | 1);
+              ISNN?: (0 | 1);
+              DOI?: (0 | 1);
+              URL?: (0 | 1);
+              page?: (0 | 1);
+              issue?: (0 | 1);
+              volume?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             uploadedAssets?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             registeredPublications?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
+
 
       getArticles: {
         set: {
           page: number;
           limit: number;
           search?: string;
-          articleType?: "journalArticle" | "book";
+          articleType?: ("journalArticle" | "book");
           authors?: string;
           title?: string;
           abstract?: string;
@@ -1421,190 +1465,191 @@ export type ReqType = {
           issue?: number;
           volume?: number;
           publicationYear?: number;
-          tags?: string;
+          tags?: string[];
           publication?: string;
         };
         get: {
-          _id?: 0 | 1;
-          key?: 0 | 1;
-          articleType?: 0 | 1;
-          publicationYear?: 0 | 1;
-          authors?: 0 | 1;
-          title?: 0 | 1;
-          abstract?: 0 | 1;
-          ISBN?: 0 | 1;
-          ISNN?: 0 | 1;
-          DOI?: 0 | 1;
-          URL?: 0 | 1;
-          page?: 0 | 1;
-          issue?: 0 | 1;
-          volume?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          key?: (0 | 1);
+          articleType?: (0 | 1);
+          publicationYear?: (0 | 1);
+          authors?: (0 | 1);
+          title?: (0 | 1);
+          abstract?: (0 | 1);
+          ISBN?: (0 | 1);
+          ISNN?: (0 | 1);
+          DOI?: (0 | 1);
+          URL?: (0 | 1);
+          page?: (0 | 1);
+          issue?: (0 | 1);
+          volume?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           registrar?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             nationalCard?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favArticles?: {
-              _id?: 0 | 1;
-              key?: 0 | 1;
-              articleType?: 0 | 1;
-              publicationYear?: 0 | 1;
-              authors?: 0 | 1;
-              title?: 0 | 1;
-              abstract?: 0 | 1;
-              ISBN?: 0 | 1;
-              ISNN?: 0 | 1;
-              DOI?: 0 | 1;
-              URL?: 0 | 1;
-              page?: 0 | 1;
-              issue?: 0 | 1;
-              volume?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              key?: (0 | 1);
+              articleType?: (0 | 1);
+              publicationYear?: (0 | 1);
+              authors?: (0 | 1);
+              title?: (0 | 1);
+              abstract?: (0 | 1);
+              ISBN?: (0 | 1);
+              ISNN?: (0 | 1);
+              DOI?: (0 | 1);
+              URL?: (0 | 1);
+              page?: (0 | 1);
+              issue?: (0 | 1);
+              volume?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             uploadedAssets?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             registeredPublications?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           publication?: {
-            _id?: 0 | 1;
-            title?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            title?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             registrar?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           tags?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             registrar?: {
-              _id?: 0 | 1;
-              first_name?: 0 | 1;
-              last_name?: 0 | 1;
-              father_name?: 0 | 1;
-              mobile?: 0 | 1;
-              gender?: 0 | 1;
-              birth_date?: 0 | 1;
-              personnel_number?: 0 | 1;
-              national_number?: 0 | 1;
-              address?: 0 | 1;
-              level?: 0 | 1;
-              isVerified?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              first_name?: (0 | 1);
+              last_name?: (0 | 1);
+              father_name?: (0 | 1);
+              mobile?: (0 | 1);
+              gender?: (0 | 1);
+              birth_date?: (0 | 1);
+              personnel_number?: (0 | 1);
+              national_number?: (0 | 1);
+              address?: (0 | 1);
+              level?: (0 | 1);
+              isVerified?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
           favByUsers?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             nationalCard?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favArticles?: {
-              _id?: 0 | 1;
-              key?: 0 | 1;
-              articleType?: 0 | 1;
-              publicationYear?: 0 | 1;
-              authors?: 0 | 1;
-              title?: 0 | 1;
-              abstract?: 0 | 1;
-              ISBN?: 0 | 1;
-              ISNN?: 0 | 1;
-              DOI?: 0 | 1;
-              URL?: 0 | 1;
-              page?: 0 | 1;
-              issue?: 0 | 1;
-              volume?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              key?: (0 | 1);
+              articleType?: (0 | 1);
+              publicationYear?: (0 | 1);
+              authors?: (0 | 1);
+              title?: (0 | 1);
+              abstract?: (0 | 1);
+              ISBN?: (0 | 1);
+              ISNN?: (0 | 1);
+              DOI?: (0 | 1);
+              URL?: (0 | 1);
+              page?: (0 | 1);
+              issue?: (0 | 1);
+              volume?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             uploadedAssets?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             registeredPublications?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
 
+
       updateArticle: {
         set: {
           articleId: string;
           key: string;
-          articleType: "journalArticle" | "book";
+          articleType: ("journalArticle" | "book");
           publicationYear: number;
           authors: string[];
           title: string;
@@ -1620,73 +1665,74 @@ export type ReqType = {
           updatedAt: Date;
         };
         get: {
-          _id?: 0 | 1;
-          key?: 0 | 1;
-          articleType?: 0 | 1;
-          publicationYear?: 0 | 1;
-          authors?: 0 | 1;
-          title?: 0 | 1;
-          abstract?: 0 | 1;
-          ISBN?: 0 | 1;
-          ISNN?: 0 | 1;
-          DOI?: 0 | 1;
-          URL?: 0 | 1;
-          page?: 0 | 1;
-          issue?: 0 | 1;
-          volume?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          key?: (0 | 1);
+          articleType?: (0 | 1);
+          publicationYear?: (0 | 1);
+          authors?: (0 | 1);
+          title?: (0 | 1);
+          abstract?: (0 | 1);
+          ISBN?: (0 | 1);
+          ISNN?: (0 | 1);
+          DOI?: (0 | 1);
+          URL?: (0 | 1);
+          page?: (0 | 1);
+          issue?: (0 | 1);
+          volume?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           registrar?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           publication?: {
-            _id?: 0 | 1;
-            title?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            title?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           tags?: {
-            _id?: 0 | 1;
-            name?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            name?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
           favByUsers?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
         };
       };
 
+
       countArticles: {
         set: {
           search?: string;
-          articleType?: "journalArticle" | "book";
+          articleType?: ("journalArticle" | "book");
           authors?: string;
           title?: string;
           abstract?: string;
@@ -1697,123 +1743,145 @@ export type ReqType = {
           issue?: number;
           volume?: number;
           publicationYear?: number;
-          tags?: string;
+          tags?: string[];
           publication?: string;
         };
         get: {
-          qty?: 0 | 1;
+          qty?: (0 | 1);
         };
       };
-    };
+
+
+      removeArticle: {
+        set: {
+          _id: string;
+          hardCascade?: boolean;
+        };
+        get: {
+          success?: (0 | 1);
+        };
+      };
+
+
+    }
+
 
     file: {
+
+
       getFiles: {
         set: {
           page: number;
           limit: number;
           name?: string;
-          type?: "image" | "video";
+          type?: ("image" | "video");
         };
         get: {
-          _id?: 0 | 1;
-          name?: 0 | 1;
-          type?: 0 | 1;
-          size?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          name?: (0 | 1);
+          type?: (0 | 1);
+          size?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           uploader?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             nationalCard?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favArticles?: {
-              _id?: 0 | 1;
-              key?: 0 | 1;
-              articleType?: 0 | 1;
-              publicationYear?: 0 | 1;
-              authors?: 0 | 1;
-              title?: 0 | 1;
-              abstract?: 0 | 1;
-              ISBN?: 0 | 1;
-              ISNN?: 0 | 1;
-              DOI?: 0 | 1;
-              URL?: 0 | 1;
-              page?: 0 | 1;
-              issue?: 0 | 1;
-              volume?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              key?: (0 | 1);
+              articleType?: (0 | 1);
+              publicationYear?: (0 | 1);
+              authors?: (0 | 1);
+              title?: (0 | 1);
+              abstract?: (0 | 1);
+              ISBN?: (0 | 1);
+              ISNN?: (0 | 1);
+              DOI?: (0 | 1);
+              URL?: (0 | 1);
+              page?: (0 | 1);
+              issue?: (0 | 1);
+              volume?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             uploadedAssets?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             registeredPublications?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
 
+
       uploadImage: {
         set: {
-          updatePlus?: "nationalCard" | "carCard" | "taxiLicense";
+          updatePlus?: ("nationalCard" | "carCard" | "taxiLicense");
           createdAt: Date;
           updatedAt: Date;
         };
         get: {
-          _id?: 0 | 1;
-          name?: 0 | 1;
-          type?: 0 | 1;
-          size?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          name?: (0 | 1);
+          type?: (0 | 1);
+          size?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           uploader?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
         };
       };
-    };
+
+
+    }
+
 
     publication: {
+
+
       addPublication: {
         set: {
           title: string;
@@ -1821,28 +1889,29 @@ export type ReqType = {
           updatedAt: Date;
         };
         get: {
-          _id?: 0 | 1;
-          title?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          title?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           registrar?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
         };
       };
+
 
       updatePublication: {
         set: {
@@ -1850,136 +1919,138 @@ export type ReqType = {
           title: string;
         };
         get: {
-          _id?: 0 | 1;
-          title?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          title?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           registrar?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             nationalCard?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favArticles?: {
-              _id?: 0 | 1;
-              key?: 0 | 1;
-              articleType?: 0 | 1;
-              publicationYear?: 0 | 1;
-              authors?: 0 | 1;
-              title?: 0 | 1;
-              abstract?: 0 | 1;
-              ISBN?: 0 | 1;
-              ISNN?: 0 | 1;
-              DOI?: 0 | 1;
-              URL?: 0 | 1;
-              page?: 0 | 1;
-              issue?: 0 | 1;
-              volume?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              key?: (0 | 1);
+              articleType?: (0 | 1);
+              publicationYear?: (0 | 1);
+              authors?: (0 | 1);
+              title?: (0 | 1);
+              abstract?: (0 | 1);
+              ISBN?: (0 | 1);
+              ISNN?: (0 | 1);
+              DOI?: (0 | 1);
+              URL?: (0 | 1);
+              page?: (0 | 1);
+              issue?: (0 | 1);
+              volume?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             uploadedAssets?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             registeredPublications?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
+
 
       getPublication: {
         set: {
           _id: string;
         };
         get: {
-          _id?: 0 | 1;
-          title?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          title?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           registrar?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             nationalCard?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favArticles?: {
-              _id?: 0 | 1;
-              key?: 0 | 1;
-              articleType?: 0 | 1;
-              publicationYear?: 0 | 1;
-              authors?: 0 | 1;
-              title?: 0 | 1;
-              abstract?: 0 | 1;
-              ISBN?: 0 | 1;
-              ISNN?: 0 | 1;
-              DOI?: 0 | 1;
-              URL?: 0 | 1;
-              page?: 0 | 1;
-              issue?: 0 | 1;
-              volume?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              key?: (0 | 1);
+              articleType?: (0 | 1);
+              publicationYear?: (0 | 1);
+              authors?: (0 | 1);
+              title?: (0 | 1);
+              abstract?: (0 | 1);
+              ISBN?: (0 | 1);
+              ISNN?: (0 | 1);
+              DOI?: (0 | 1);
+              URL?: (0 | 1);
+              page?: (0 | 1);
+              issue?: (0 | 1);
+              volume?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             uploadedAssets?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             registeredPublications?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
+
 
       getPublications: {
         set: {
@@ -1988,89 +2059,97 @@ export type ReqType = {
           title?: string;
         };
         get: {
-          _id?: 0 | 1;
-          title?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          title?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           registrar?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             nationalCard?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favArticles?: {
-              _id?: 0 | 1;
-              key?: 0 | 1;
-              articleType?: 0 | 1;
-              publicationYear?: 0 | 1;
-              authors?: 0 | 1;
-              title?: 0 | 1;
-              abstract?: 0 | 1;
-              ISBN?: 0 | 1;
-              ISNN?: 0 | 1;
-              DOI?: 0 | 1;
-              URL?: 0 | 1;
-              page?: 0 | 1;
-              issue?: 0 | 1;
-              volume?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              key?: (0 | 1);
+              articleType?: (0 | 1);
+              publicationYear?: (0 | 1);
+              authors?: (0 | 1);
+              title?: (0 | 1);
+              abstract?: (0 | 1);
+              ISBN?: (0 | 1);
+              ISNN?: (0 | 1);
+              DOI?: (0 | 1);
+              URL?: (0 | 1);
+              page?: (0 | 1);
+              issue?: (0 | 1);
+              volume?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             uploadedAssets?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             registeredPublications?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
 
+
       removePublication: {
         set: {
           _id: string;
+          hardCascade?: boolean;
         };
         get: {
-          success?: 0 | 1;
+          success?: (0 | 1);
         };
       };
+
 
       countPublications: {
         set: {
           title?: string;
         };
         get: {
-          qty?: 0 | 1;
+          qty?: (0 | 1);
         };
       };
-    };
+
+
+    }
+
 
     tag: {
+
+
       addTag: {
         set: {
           name: string;
@@ -2078,28 +2157,29 @@ export type ReqType = {
           updatedAt: Date;
         };
         get: {
-          _id?: 0 | 1;
-          name?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          name?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           registrar?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
           };
         };
       };
+
 
       updateTag: {
         set: {
@@ -2107,136 +2187,138 @@ export type ReqType = {
           name: string;
         };
         get: {
-          _id?: 0 | 1;
-          name?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          name?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           registrar?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             nationalCard?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favArticles?: {
-              _id?: 0 | 1;
-              key?: 0 | 1;
-              articleType?: 0 | 1;
-              publicationYear?: 0 | 1;
-              authors?: 0 | 1;
-              title?: 0 | 1;
-              abstract?: 0 | 1;
-              ISBN?: 0 | 1;
-              ISNN?: 0 | 1;
-              DOI?: 0 | 1;
-              URL?: 0 | 1;
-              page?: 0 | 1;
-              issue?: 0 | 1;
-              volume?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              key?: (0 | 1);
+              articleType?: (0 | 1);
+              publicationYear?: (0 | 1);
+              authors?: (0 | 1);
+              title?: (0 | 1);
+              abstract?: (0 | 1);
+              ISBN?: (0 | 1);
+              ISNN?: (0 | 1);
+              DOI?: (0 | 1);
+              URL?: (0 | 1);
+              page?: (0 | 1);
+              issue?: (0 | 1);
+              volume?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             uploadedAssets?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             registeredPublications?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
+
 
       getTag: {
         set: {
           _id: string;
         };
         get: {
-          _id?: 0 | 1;
-          name?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          name?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           registrar?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             nationalCard?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favArticles?: {
-              _id?: 0 | 1;
-              key?: 0 | 1;
-              articleType?: 0 | 1;
-              publicationYear?: 0 | 1;
-              authors?: 0 | 1;
-              title?: 0 | 1;
-              abstract?: 0 | 1;
-              ISBN?: 0 | 1;
-              ISNN?: 0 | 1;
-              DOI?: 0 | 1;
-              URL?: 0 | 1;
-              page?: 0 | 1;
-              issue?: 0 | 1;
-              volume?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              key?: (0 | 1);
+              articleType?: (0 | 1);
+              publicationYear?: (0 | 1);
+              authors?: (0 | 1);
+              title?: (0 | 1);
+              abstract?: (0 | 1);
+              ISBN?: (0 | 1);
+              ISNN?: (0 | 1);
+              DOI?: (0 | 1);
+              URL?: (0 | 1);
+              page?: (0 | 1);
+              issue?: (0 | 1);
+              volume?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             uploadedAssets?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             registeredPublications?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
+
 
       getTags: {
         set: {
@@ -2245,89 +2327,99 @@ export type ReqType = {
           name?: string;
         };
         get: {
-          _id?: 0 | 1;
-          name?: 0 | 1;
-          createdAt?: 0 | 1;
-          updatedAt?: 0 | 1;
+          _id?: (0 | 1);
+          name?: (0 | 1);
+          createdAt?: (0 | 1);
+          updatedAt?: (0 | 1);
           registrar?: {
-            _id?: 0 | 1;
-            first_name?: 0 | 1;
-            last_name?: 0 | 1;
-            father_name?: 0 | 1;
-            mobile?: 0 | 1;
-            gender?: 0 | 1;
-            birth_date?: 0 | 1;
-            personnel_number?: 0 | 1;
-            national_number?: 0 | 1;
-            address?: 0 | 1;
-            level?: 0 | 1;
-            isVerified?: 0 | 1;
-            createdAt?: 0 | 1;
-            updatedAt?: 0 | 1;
+            _id?: (0 | 1);
+            first_name?: (0 | 1);
+            last_name?: (0 | 1);
+            father_name?: (0 | 1);
+            mobile?: (0 | 1);
+            gender?: (0 | 1);
+            birth_date?: (0 | 1);
+            personnel_number?: (0 | 1);
+            national_number?: (0 | 1);
+            address?: (0 | 1);
+            level?: (0 | 1);
+            isVerified?: (0 | 1);
+            createdAt?: (0 | 1);
+            updatedAt?: (0 | 1);
             nationalCard?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             favArticles?: {
-              _id?: 0 | 1;
-              key?: 0 | 1;
-              articleType?: 0 | 1;
-              publicationYear?: 0 | 1;
-              authors?: 0 | 1;
-              title?: 0 | 1;
-              abstract?: 0 | 1;
-              ISBN?: 0 | 1;
-              ISNN?: 0 | 1;
-              DOI?: 0 | 1;
-              URL?: 0 | 1;
-              page?: 0 | 1;
-              issue?: 0 | 1;
-              volume?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              key?: (0 | 1);
+              articleType?: (0 | 1);
+              publicationYear?: (0 | 1);
+              authors?: (0 | 1);
+              title?: (0 | 1);
+              abstract?: (0 | 1);
+              ISBN?: (0 | 1);
+              ISNN?: (0 | 1);
+              DOI?: (0 | 1);
+              URL?: (0 | 1);
+              page?: (0 | 1);
+              issue?: (0 | 1);
+              volume?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             uploadedAssets?: {
-              _id?: 0 | 1;
-              name?: 0 | 1;
-              type?: 0 | 1;
-              size?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              name?: (0 | 1);
+              type?: (0 | 1);
+              size?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
             registeredPublications?: {
-              _id?: 0 | 1;
-              title?: 0 | 1;
-              createdAt?: 0 | 1;
-              updatedAt?: 0 | 1;
+              _id?: (0 | 1);
+              title?: (0 | 1);
+              createdAt?: (0 | 1);
+              updatedAt?: (0 | 1);
             };
           };
         };
       };
 
+
       removeTag: {
         set: {
           _id: string;
+          hardCascade?: boolean;
         };
         get: {
-          success?: 0 | 1;
+          success?: (0 | 1);
         };
       };
+
 
       countTags: {
         set: {
           name?: string;
         };
         get: {
-          qty?: 0 | 1;
+          qty?: (0 | 1);
         };
       };
-    };
-  };
+
+
+    }
+
+
+  }
+
+
 };
+
 
 export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];

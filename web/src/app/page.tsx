@@ -64,7 +64,7 @@ export default async function Home({
       },
     },
   });
-  
+
   const me = await getMe();
   const countDataArticle = await getCountArticles({
     set: {
@@ -80,7 +80,7 @@ export default async function Home({
     },
     get: { qty: 1 },
   });
-  
+
 
   // تبدیل لیست علاقه‌مندی‌ها به Set برای جستجوی سریع‌تر
   const favoriteIds = new Set(
