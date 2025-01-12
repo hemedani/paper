@@ -16,6 +16,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.1",
     "react-hot-toast": "^2.5.1",
+    "react-multi-date-picker": "^4.5.2",
     "react-select": "^5.9.0"
   },
   "devDependencies": {

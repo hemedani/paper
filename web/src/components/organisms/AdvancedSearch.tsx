@@ -4,11 +4,14 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Input from "../atoms/Input";
+import AsyncSelect from "react-select/async";
+import { MultiValue } from "react-select";
+import { getTags } from "@/app/actions/tag/getTags";
 
 type SearchCriteria = {
   title?: string;
   abstract?: string;
-  tags?: string;
+  tags?: string[];
   publication?: string;
   authors?: string;
   DOI?: string;
@@ -17,11 +20,11 @@ type SearchCriteria = {
 };
 
 const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
-  const { control, handleSubmit } = useForm<SearchCriteria>({
+  const { control, handleSubmit, formState:{errors}, setValue } = useForm<SearchCriteria>({
     defaultValues: {
       title: "",
       abstract: "",
-      tags: "",
+      tags: [],
       publication: "",
       authors: "",
       DOI: "",
@@ -32,17 +35,53 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
 
   const router = useRouter();
 
+  const loadTagOptions = async (inputValue: string) => {
+      const response = await getTags({
+        set: { name: inputValue, limit: 10, page: 1 },
+        get: { _id: 1, name: 1 },
+      });
+      return response.map((tag: { _id: string; name: string }) => ({
+        value: tag._id,
+        label: tag.name,
+      }));
+    };
+  
+    const handleTagChange = (
+      selectedOptions: MultiValue<{ value: string; label: string }>
+    ) => {
+      const values = selectedOptions.map((option) => option.value);
+      setValue("tags", values);
+    };
+
+  // const onSubmit: SubmitHandler<SearchCriteria> = (criteria) => {
+  //   const queryString = Object.entries(criteria)
+  //     .filter(([value]) => value.trim() !== "")
+  //     .map(
+  //       ([key, value]) =>
+  //         `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+  //     )
+  //     .join("&");
+
+  //   router.push(`/?${queryString}`);
+  // };
   const onSubmit: SubmitHandler<SearchCriteria> = (criteria) => {
     const queryString = Object.entries(criteria)
-      .filter(([value]) => value.trim() !== "")
-      .map(
-        ([key, value]) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-      )
+      .filter(([key, value]) => value && value.toString().trim() !== "")
+      .map(([key, value]) => {
+        if (Array.isArray(value)) {
+          // اگر مقدار آرایه باشد، به رشته‌ای جدا شده با کاما تبدیل شود
+          return `${encodeURIComponent(key)}=${encodeURIComponent(
+            value.join(",")
+          )}`;
+        }
+        // برای مقادیر رشته‌ای یا دیگر انواع
+        return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+      })
       .join("&");
-
+  
     router.push(`/?${queryString}`);
   };
+  
 
   return (
     <div
@@ -67,13 +106,35 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
             control={control}
             className="w-full text-right"
           />
-          <Input
+          {/* <Input
             label="برچسب"
             name="tags"
             placeholder="برچسب مقاله"
             control={control}
             className="w-full text-right"
-          />
+          /> */}
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="tagIds"
+              className="text-sm font-medium text-gray-700"
+            >
+              برچسب‌ها
+            </label>
+            <AsyncSelect
+              isMulti
+              cacheOptions
+              loadOptions={loadTagOptions}
+              defaultOptions
+              onChange={handleTagChange}
+              placeholder="برچسب‌ها را انتخاب کنید"
+              classNamePrefix="react-select"
+            />
+            {errors.tags && (
+              <span className="text-red-500 text-xs">
+                {errors.tags.message}
+              </span>
+            )}
+          </div>
           <Input
             label="انتشارات"
             name="publication"

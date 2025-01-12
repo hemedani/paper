@@ -4,14 +4,21 @@ interface IProps {
   onConfirm: () => void;
   onCancel: () => void;
   message: string;
-  isVisible: boolean; // اضافه شده برای کنترل نمایش
+  isVisible: boolean;
 }
 
-export const DeleteModal: FC<IProps> = ({ onConfirm, onCancel, message, isVisible }) => {
+export const DeleteModal: FC<IProps> = ({
+  onConfirm,
+  onCancel,
+  message,
+  isVisible,
+}) => {
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
-        isVisible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        isVisible
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
       }`}
     >
       <div

@@ -2,71 +2,93 @@
 
 import React, { useState } from "react";
 import EntityCard from "../organisms/EntityCard";
-import ModalPuplication from "./ModalPublication";
+import ModalPublication from "./ModalPublication";
 import { DeleteModal } from "./DeleteModal";
 import { deletePublication } from "@/app/actions/publication/removePuplication";
 import { useRouter } from "next/navigation";
 import { ToastNotify } from "@/utils/helper";
 
-interface Puplication {
+interface Publication {
   _id: string;
   title: string;
 }
 
-interface ClientPuplicationProps {
-  puplications: Puplication[];
-  searchQuery: string;
+interface ClientPublicationProps {
+  publications: Publication[];
 }
 
-const ClientPuplicationDashboard: React.FC<ClientPuplicationProps> = ({
-  puplications,
+const ClientPublicationDashboard: React.FC<ClientPublicationProps> = ({
+  publications,
 }) => {
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPublicationId, setSelectedPublicationId] = useState<
-    string | null
-  >(null);
+  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(
+    null
+  );
+  const [selectedPublication, setSelectedPublication] =
+    useState<Publication | null>(null);
 
-  const openModal = (id: string) => {
-    setSelectedPublicationId(id);
-    setIsModalOpen(true);
+  const openModal = (
+    type: "edit" | "delete",
+    publication: Publication | null = null
+  ) => {
+    setSelectedPublication(publication);
+    setActiveModal(type);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedPublicationId(null);
+    setActiveModal(null);
+    setSelectedPublication(null);
   };
 
-  const handleDelete = async () => {
-    if (!selectedPublicationId) return;
-    await deletePublication(selectedPublicationId);
-    ToastNotify("success", "انتشارات با موفقیت حذف شد");
+  const confirmDelete = async () => {
+    if (selectedPublication?._id) {
+      await deletePublication(selectedPublication._id);
+      ToastNotify("success", "انتشارات با موفقیت حذف شد");
+      router.refresh();
+    }
     closeModal();
-    router.refresh();
   };
 
   return (
     <div>
-      <ModalPuplication />
+      <button
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        onClick={() => openModal("edit")}
+      >
+        ایجاد انتشارات جدید
+      </button>
+
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {puplications?.map((puplication) => (
+        {publications?.map((publication) => (
           <EntityCard
-            key={puplication._id}
-            title={puplication.title}
-            onDelete={() => openModal(puplication._id)}
-            onEdit={() => {}}
+            key={publication._id}
+            title={publication.title}
+            onDelete={() => openModal("delete", publication)}
+            onEdit={() => openModal("edit", publication)}
           />
         ))}
       </div>
 
-      <DeleteModal
-        isVisible={isModalOpen}
-        onConfirm={handleDelete}
-        onCancel={closeModal}
-        message="آیا از حذف مطمئن هستید؟ این عمل قابل بازگشت نیست."
-      />
+      {/* Modal for Create/Edit */}
+      {activeModal === "edit" && (
+        <ModalPublication
+          isOpen
+          onClose={closeModal}
+          publicationToEdit={selectedPublication}
+        />
+      )}
+
+      {/* Modal for Delete */}
+      {activeModal === "delete" && (
+        <DeleteModal
+          isVisible
+          onConfirm={confirmDelete}
+          onCancel={closeModal}
+          message="آیا از حذف مطمئن هستید؟ این عمل قابل بازگشت نیست."
+        />
+      )}
     </div>
   );
 };
 
-export default ClientPuplicationDashboard;
+export default ClientPublicationDashboard;

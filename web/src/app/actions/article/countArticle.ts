@@ -3,7 +3,10 @@ import { paperApi } from "@/services/api";
 import { ReqType } from "@/types/declarations/selectInp";
 import { cookies } from "next/headers";
 
-export const getCountArticles = async ({ set, get }: ReqType["main"]["article"]["countArticles"]) => {
+export const getCountArticles = async ({
+  set,
+  get,
+}: ReqType["main"]["article"]["countArticles"]) => {
   const token = (await cookies()).get("token");
   const getCountArticles = await paperApi().send(
     {

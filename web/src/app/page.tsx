@@ -6,8 +6,8 @@ import { ListCard } from "@/components/template/WraperCard";
 import { articleSchema, ReqType } from "@/types/declarations/selectInp";
 import { getArticles } from "./actions/article/getArticles";
 import Pagination from "@/components/molecules/Pagination";
-import { getCountArticles } from "./actions/article/countArticle";
 import { getMe } from "./actions/user/getMe";
+import { getCountArticles } from "./actions/article/countArticle";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +22,7 @@ export default async function Home({
     limit = "20",
     title = "",
     abstract = "",
-    tags = "",
+    tags = [],
     publication = "",
     authors = "",
     DOI = "",
@@ -64,6 +64,7 @@ export default async function Home({
       },
     },
   });
+  
   const me = await getMe();
   const countDataArticle = await getCountArticles({
     set: {
@@ -79,6 +80,7 @@ export default async function Home({
     },
     get: { qty: 1 },
   });
+  
 
   // تبدیل لیست علاقه‌مندی‌ها به Set برای جستجوی سریع‌تر
   const favoriteIds = new Set(
@@ -106,14 +108,13 @@ export default async function Home({
           </ListCard>
           <div className="flex justify-center items-center gap-2">
             <Pagination
-              countPage={countDataArticle.qty}
+              countPage={130}
               initialPage={+set.page}
             />
           </div>
         </>
       )}
       <Footer />
-      
     </>
   );
 }

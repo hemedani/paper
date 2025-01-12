@@ -25,11 +25,12 @@ const PopulationDashboard = async ({
     title: 1,
   };
 
-  const puplication = await getPublications({ get, set });
+  const puplications = await getPublications({ get, set });
   const countPublicationData = await CountPublications({
     get: { qty: 1 },
     set: { title },
   });
+  
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
@@ -37,8 +38,7 @@ const PopulationDashboard = async ({
       <p className="text-gray-600">خوش آمدید!</p>
       <SearchBox title="title" />
       <ClientPuplicationDashboard
-        puplications={puplication}
-        searchQuery={title}
+        publications={puplications}
       />
       <Pagination countPage={countPublicationData.qty} initialPage={+page} />
     </div>

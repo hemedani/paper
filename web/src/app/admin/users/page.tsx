@@ -2,7 +2,7 @@ import { CountUsers } from "@/app/actions/user/countUsers";
 import { getUsers } from "@/app/actions/user/getUsers";
 import Pagination from "@/components/molecules/Pagination";
 import SearchBox from "@/components/molecules/SearchBox";
-import { ClientUserDashboard } from "@/components/template/clientUserDashboard";
+import ClientUserDashboard from "@/components/template/clientUserDashboard";
 import { ReqType } from "@/types/declarations/selectInp";
 
 const UserDashboard = async ({
@@ -22,7 +22,6 @@ const UserDashboard = async ({
     first_name: 1,
     last_name: 1,
     level: 1,
-    national_number: 1,
   };
   const users = await getUsers({ set, get });
   const countDataUsers = await CountUsers({

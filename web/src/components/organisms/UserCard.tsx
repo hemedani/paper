@@ -5,14 +5,16 @@ interface UserCardProps {
   first_name: string;
   last_name: string;
   national_number: string;
-  onDelete: () => void
+  onDelete: () => void;
+  onEdit?: () => void; // اضافه کردن onEdit به عنوان پراپرتی اختیاری
 }
 
 const UserCard: React.FC<UserCardProps> = ({
   first_name,
   last_name,
   national_number,
-  onDelete
+  onDelete,
+  onEdit, // اضافه کردن onEdit
 }) => {
   return (
     <div className="border w-full max-w-lg bg-white rounded-xl shadow-lg p-6 flex flex-col sm:flex-row items-center gap-4">
@@ -37,12 +39,15 @@ const UserCard: React.FC<UserCardProps> = ({
             <TrashIcon />
           </button>
         )}
-        <button
-          className="p-2 bg-yellow-400 text-white rounded-full hover:bg-yellow-500 transition-all duration-200 shadow"
-          title="ویرایش"
-        >
-          <EditIcon />
-        </button>
+        {onEdit && ( // نمایش دکمه ویرایش فقط اگر onEdit تعریف شده باشد
+          <button
+            onClick={onEdit}
+            className="p-2 bg-yellow-400 text-white rounded-full hover:bg-yellow-500 transition-all duration-200 shadow"
+            title="ویرایش"
+          >
+            <EditIcon />
+          </button>
+        )}
       </div>
     </div>
   );

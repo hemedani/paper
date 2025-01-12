@@ -11,16 +11,22 @@ type TArticle = {
 
 export const ArticleCard = ({ _id, articleType, title }: TArticle) => {
   const router = useRouter();
+  
   return (
     <div className="bg-white border rounded-lg shadow-md p-4 w-[384px] mx-auto flex flex-col gap-4 min-h-[200px] justify-between">
       <div>
         <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
-        <p className="text-sm text-red-500 italic">{translateArticleType(articleType)}</p>
+        <p className="text-sm text-red-500 italic">
+          {translateArticleType(articleType)}
+        </p>
       </div>
 
       <div className="flex items-center justify-between mt-4 gap-5">
         <div className="flex">
-          <button className="flex items-center gap-2 text-blue-500 hover:text-blue-700">
+          <button
+            onClick={() => router.push(`/admin/articles/updateArticle/${_id}`)}
+            className="flex items-center gap-2 text-blue-500 hover:text-blue-700"
+          >
             <EditIcon />
           </button>
           <button className="flex items-center gap-2 text-red-500 hover:text-red-700">
@@ -37,7 +43,7 @@ export const ArticleCard = ({ _id, articleType, title }: TArticle) => {
         </button>
       </div>
     </div>
-  );  
+  );
 };
 
 export default ArticleCard;

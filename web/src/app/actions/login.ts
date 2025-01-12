@@ -33,6 +33,8 @@ export const loginAction = async ({
       },
     },
   });
+  console.log(logReq);
+  
   if (logReq.success) {
     (await cookies()).set("national_number",national_number);
     (await cookies()).set("token",logReq.body.token);

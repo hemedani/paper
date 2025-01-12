@@ -19,51 +19,69 @@ interface ClientDashboardProps {
 
 const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedTagId, setSelectedTagId] = useState<string | null>(null);
 
-  const openModal = (id: string) => {
-    setSelectedTagId(id);
-    setIsModalOpen(true);
+  // State for active modal
+  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(null);
+  const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
+
+  // Modal handlers
+  const openModal = (type: "edit" | "delete", tag: Tag | null = null) => {
+    setSelectedTag(tag);
+    setActiveModal(type);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
-    setTimeout(() => setSelectedTagId(null), 300); // برای حذف کامل داده پس از اتمام انیمیشن
+    setActiveModal(null);
+    setSelectedTag(null);
   };
 
+  // Handle delete action
   const confirmDelete = async () => {
-    if (selectedTagId) {
-      await deleteTag(selectedTagId);
+    if (selectedTag?._id) {
+      await deleteTag(selectedTag._id);
       ToastNotify("success", "برچسب با موفقیت حذف شد");
+      router.refresh();
     }
     closeModal();
-    router.refresh()
-  };
-
-  const handleEdit = () => {
   };
 
   return (
     <div>
-      <ModalTag />
+      <button
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        onClick={() => openModal("edit")}
+      >
+        ایجاد برچسب جدید
+      </button>
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {tags?.map((tag) => (
           <EntityCard
             key={tag._id}
             title={tag.name}
-            onDelete={() => openModal(tag._id)}
-            onEdit={() => handleEdit()}
+            onDelete={() => openModal("delete", tag)}
+            onEdit={() => openModal("edit", tag)}
           />
         ))}
       </div>
 
-      <DeleteModal
-        isVisible={isModalOpen}
-        onConfirm={confirmDelete}
-        onCancel={closeModal}
-        message="آیا مطمئن هستید که می‌خواهید این برچسب را حذف کنید؟ این عمل قابل بازگشت نیست."
-      />
+      {/* Modal for Create/Edit */}
+      {activeModal === "edit" && (
+        <ModalTag
+          isOpen
+          onClose={closeModal}
+          tagToEdit={selectedTag}
+        />
+      )}
+
+      {/* Modal for Delete */}
+      {activeModal === "delete" && (
+        <DeleteModal
+          isVisible
+          onConfirm={confirmDelete}
+          onCancel={closeModal}
+          message="آیا مطمئن هستید که می‌خواهید این برچسب را حذف کنید؟ این عمل قابل بازگشت نیست."
+        />
+      )}
     </div>
   );
 };

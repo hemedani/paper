@@ -26,9 +26,6 @@ export const createUser = async (data: AddUserSet) => {
     },
     { token: token?.value }
   );
-  console.log("addUser body",addUser.body);
-  console.log("addUser",addUser);
-  
 
   if (addUser.success) return addUser.body;
 };
