@@ -1750,7 +1750,7 @@ pageCount?: string;
 issue?: number;
 volume?: number;
 publicationYear?: number;
-tags?: string;
+tags?: string[];
 publication?: string;
 };
 get: {

@@ -1,4 +1,4 @@
-import { enums, number, object, optional, size, string } from "deps";
+import { array, enums, number, object, optional, size, string } from "deps";
 import { articleTypeEnums } from "@paper/lib";
 
 export const countArticlesValidator = () => {
@@ -21,7 +21,7 @@ export const countArticlesValidator = () => {
 			publicationYear: optional(size(number(), 1250, 1500)),
 
 			//advanced relation search
-			tags: optional(string()),
+			tags: optional(array(string())),
 			publication: optional(string()),
 		}),
 		get: object({ qty: optional(enums([0, 1])) }),
