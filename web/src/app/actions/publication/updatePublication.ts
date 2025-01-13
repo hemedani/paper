@@ -7,7 +7,6 @@ export const EditPublication = async ({
   set,
   get,
 }: ReqType["main"]["publication"]["updatePublication"]) => {
-  console.log(set._id,set.title);
 
   const token = (await cookies()).get("token");
   const updatePublication = await paperApi().send(
@@ -23,8 +22,6 @@ export const EditPublication = async ({
     { token: token?.value }
   );
 
-  console.log(updatePublication);
-  console.log(updatePublication.body);
 
 
   if (updatePublication.success) return updatePublication.body;
