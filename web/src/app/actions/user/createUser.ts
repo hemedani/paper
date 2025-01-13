@@ -1,12 +1,9 @@
 "use server";
 import { paperApi } from "@/services/api";
-import { ReqType } from "@/types/declarations/selectInp";
+import { UserFormValues } from "@/components/template/ModalUser";
 import { cookies } from "next/headers";
 
-export type AddUserSet = ReqType["main"]["user"]["addUser"]["set"];
-
-export const createUser = async (data: AddUserSet) => {
-  
+export const createUser = async (data: UserFormValues) => {
   const token = (await cookies()).get("token");
   const addUser = await paperApi().send(
     {

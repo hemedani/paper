@@ -1,145 +1,243 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import Input from "../atoms/Input";
-import SelectBox from "../atoms/Select";
-import { ReqType } from "@/types/declarations/selectInp";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastNotify } from "@/utils/helper";
-import { ExampleDatePicker } from "../atoms/DatePicker";
-import { getUser } from "@/app/actions/user/getUser";
-import { EditUser } from "@/app/actions/user/updateUser";
+import { createUser } from "@/app/actions/user/createUser";
+import { useRouter } from "next/navigation";
 
-export type AddUserSet = ReqType["main"]["user"]["addUser"]["set"];
+// تعریف اعتبارسنجی با Zod
+const userSchema = z.object({
+  first_name: z.string().min(1, "نام الزامی است"),
+  last_name: z.string().min(1, "نام خانوادگی الزامی است"),
+  father_name: z.string().optional(),
+  mobile: z.string().regex(/^\d{10}$/, "شماره تماس باید 10 رقم باشد"),
+  gender: z.enum(["Male", "Female"], { message: "جنسیت الزامی است" }),
+  birth_date: z.date(),
+  personnel_number: z.string().optional(),
+  national_number: z.string().regex(/^\d{10}$/, "کد ملی باید 10 رقم باشد"),
+  address: z.string().optional(),
+  level: z.enum(["Manager", "Editor", "Ghost"], { message: "سطح الزامی است" }),
+  isVerified: z.boolean(),
+});
 
+export type UserFormValues = z.infer<typeof userSchema>;
 interface ModalUserProps {
-  isOpen: boolean;
   onClose: () => void;
-  userToEditId?: string | null; // ID کاربری که باید ویرایش شود
 }
 
-export const ModalUser: React.FC<ModalUserProps> = ({
-  isOpen,
-  onClose,
-  userToEditId,
-}) => {
-  const { control, handleSubmit, reset, getValues, setValue, register } =
-    useForm<AddUserSet>({
-      defaultValues: {
-        first_name: "",
-        last_name: "",
-        father_name: "",
-        mobile: "",
-        gender: "Male",
-        birth_date: new Date(),
-        personnel_number: "",
-        national_number: "",
-        address: "",
-        level: "Manager",
-        isVerified: true,
-      },
-    });
+export const ModalUser: React.FC<ModalUserProps> = ({ onClose }) => {
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<UserFormValues>({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      first_name: "",
+      last_name: "",
+      father_name: "",
+      mobile: "",
+      gender: "Male",
+      birth_date: new Date(),
+      personnel_number: "",
+      national_number: "",
+      address: "",
+      level: "Manager",
+      isVerified: true,
+    },
+  });
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (userToEditId) {
-        try {
-          const userData = await getUser(userToEditId);
-          reset(userData);
-        } catch (error) {
-          console.error(error);
-          ToastNotify("error", "خطا در دریافت اطلاعات کاربر");
-        }
-      }
-    };
+  const onSubmit = async (data: UserFormValues) => {
+    await createUser(data);
+    ToastNotify("success", "کاربر جدید با موفقیت ایجاد شد");
+    router.refresh();
 
-    fetchUser();
-  }, [userToEditId, reset]);
-
-  const onSubmit: SubmitHandler<AddUserSet> = async (data) => {
-    try {
-      if (userToEditId) {
-        // ارسال ریکوئست به‌روزرسانی
-        await EditUser(userToEditId,data);
-        ToastNotify("success", "اطلاعات کاربر با موفقیت به‌روزرسانی شد");
-      } else {
-        // ارسال ریکوئست ایجاد
-        // await createUser(data);
-        ToastNotify("success", "کاربر جدید با موفقیت ایجاد شد");
-      }
-      reset();
-      onClose();
-    } catch (error) {
-      console.error("Error:", error);
-      ToastNotify("error", "عملیات با خطا مواجه شد");
-    }
+    reset();
+    onClose();
   };
-
-  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl">
-        <h2 className="text-lg font-bold mb-4">
-          {userToEditId ? "ویرایش کاربر" : "افزودن کاربر جدید"}
-        </h2>
+        <h2 className="text-lg font-bold mb-4">افزودن کاربر جدید</h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-2 gap-4"
         >
-          <Input name="first_name" control={control} label="نام" />
-          <Input name="last_name" control={control} label="نام خانوادگی" />
-          <Input name="father_name" control={control} label="نام پدر" />
-          <Input name="mobile" control={control} label="شماره تماس" />
-          <Input
-            name="national_number"
-            type="text"
-            control={control}
-            label="کد ملی"
-          />
-          <Input name="personnel_number" control={control} label="کد پرسنلی" />
-          <Input name="address" control={control} label="آدرس" />
-          <ExampleDatePicker
-            value={getValues("birth_date")!}
-            onChange={(date) => setValue("birth_date", date)}
-          />
-          <SelectBox
-            name="gender"
-            control={control}
-            label="جنسیت"
-            options={[
-              { value: "Male", label: "مرد" },
-              { value: "Female", label: "زن" },
-            ]}
-          />
-          <SelectBox
-            name="level"
-            control={control}
-            label="سطح"
-            options={[
-              { value: "Manager", label: "مدیر" },
-              { value: "Editor", label: "ویرایش کننده" },
-              { value: "Ghost", label: "ادمین اصلی" },
-            ]}
-          />
+          <div>
+            <label htmlFor="first_name" className="block text-sm font-medium">
+              نام
+            </label>
+            <input
+              id="first_name"
+              {...register("first_name")}
+              className={`mt-1 block w-full border rounded-md p-2 ${
+                errors.first_name ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.first_name && (
+              <span className="text-red-500 text-sm">
+                {errors.first_name.message}
+              </span>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="last_name" className="block text-sm font-medium">
+              نام خانوادگی
+            </label>
+            <input
+              id="last_name"
+              {...register("last_name")}
+              className={`mt-1 block w-full border rounded-md p-2 ${
+                errors.last_name ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.last_name && (
+              <span className="text-red-500 text-sm">
+                {errors.last_name.message}
+              </span>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="father_name" className="block text-sm font-medium">
+              نام پدر
+            </label>
+            <input
+              id="father_name"
+              {...register("father_name")}
+              className="mt-1 block w-full border rounded-md p-2 border-gray-300"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="mobile" className="block text-sm font-medium">
+              شماره تماس
+            </label>
+            <input
+              id="mobile"
+              {...register("mobile")}
+              className={`mt-1 block w-full border rounded-md p-2 ${
+                errors.mobile ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.mobile && (
+              <span className="text-red-500 text-sm">
+                {errors.mobile.message}
+              </span>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="gender" className="block text-sm font-medium">
+              جنسیت
+            </label>
+            <select
+              id="gender"
+              {...register("gender")}
+              className="mt-1 block w-full border rounded-md p-2 border-gray-300"
+            >
+              <option value="Male">مرد</option>
+              <option value="Female">زن</option>
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="birth_date" className="block text-sm font-medium">
+              تاریخ تولد
+            </label>
+            <input
+              id="birth_date"
+              type="date"
+              {...register("birth_date", { valueAsDate: true })}
+              className="mt-1 block w-full border rounded-md p-2 border-gray-300"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="national_number"
+              className="block text-sm font-medium"
+            >
+              کد ملی
+            </label>
+            <input
+              id="national_number"
+              {...register("national_number")}
+              className={`mt-1 block w-full border rounded-md p-2 ${
+                errors.national_number ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.national_number && (
+              <span className="text-red-500 text-sm">
+                {errors.national_number.message}
+              </span>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="personnel_number"
+              className="block text-sm font-medium"
+            >
+              کد پرسنلی
+            </label>
+            <input
+              id="personnel_number"
+              {...register("personnel_number")}
+              className="mt-1 block w-full border rounded-md p-2 border-gray-300"
+            />
+          </div>
+
           <div className="col-span-2">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                {...register("isVerified")}
-                className="mr-2"
-              />
+            <label htmlFor="address" className="block text-sm font-medium">
+              آدرس
+            </label>
+            <textarea
+              id="address"
+              {...register("address")}
+              className="mt-1 block w-full border rounded-md p-2 border-gray-300"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="level" className="block text-sm font-medium">
+              سطح
+            </label>
+            <select
+              id="level"
+              {...register("level")}
+              className="mt-1 block w-full border rounded-md p-2 border-gray-300"
+            >
+              <option value="Manager">مدیر</option>
+              <option value="Editor">ویرایش کننده</option>
+              <option value="Ghost">ادمین اصلی</option>
+            </select>
+          </div>
+
+          <div className="col-span-2 flex items-center">
+            <input
+              id="isVerified"
+              type="checkbox"
+              {...register("isVerified")}
+              className="mr-2"
+            />
+            <label htmlFor="isVerified" className="text-sm">
               تایید شده
             </label>
           </div>
+
           <div className="col-span-2 flex justify-end gap-4">
             <button
               type="button"
-              onClick={() => {
-                reset();
-                onClose();
-              }}
               className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+              onClick={onClose}
             >
               لغو
             </button>

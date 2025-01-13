@@ -31,7 +31,9 @@ interface ClientDashboardProps {
 const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
   const router = useRouter();
 
-  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(null);
+  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(
+    null
+  );
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const openModal = (type: "edit" | "delete", user: User | null = null) => {
@@ -55,6 +57,7 @@ const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
 
   return (
     <div>
+      {activeModal === "edit" && <ModalUser onClose={closeModal} />}
       <button
         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
         onClick={() => openModal("edit")}
@@ -70,17 +73,10 @@ const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
             last_name={user.last_name}
             national_number={user.national_number}
             onDelete={() => openModal("delete", user)}
-            onEdit={() => openModal("edit", user)}
           />
         ))}
       </div>
 
-      {/* مدال ایجاد/ویرایش */}
-      {activeModal === "edit" && (
-        <ModalUser isOpen onClose={closeModal} userToEditId={selectedUser?.national_number} />
-      )}
-
-      {/* مدال حذف */}
       {activeModal === "delete" && (
         <DeleteModal
           isVisible
