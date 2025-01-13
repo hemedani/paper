@@ -1,12 +1,22 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import Input from "../atoms/Input";
 import { ToastNotify } from "@/utils/helper";
 import { createPublication } from "@/app/actions/publication/createPublication";
 import { EditPublication } from "@/app/actions/publication/updatePublication";
+
+const publicationSchema = z.object({
+  title: z
+    .string()
+    .min(1, "نام انتشارات الزامی است")
+    .max(100, "حداکثر 100 کاراکتر مجاز است"),
+});
+
+type PublicationFormValues = z.infer<typeof publicationSchema>;
 
 interface ModalPublicationProps {
   isOpen: boolean;
@@ -20,11 +30,16 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
   publicationToEdit,
 }) => {
   const router = useRouter();
-  const { handleSubmit, control, reset, setValue } = useForm<{ title: string }>(
-    {
-      defaultValues: { title: "" },
-    }
-  );
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm<PublicationFormValues>({
+    resolver: zodResolver(publicationSchema),
+    defaultValues: { title: "" },
+  });
 
   useEffect(() => {
     if (publicationToEdit) {
@@ -34,19 +49,27 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
     }
   }, [publicationToEdit, setValue, reset]);
 
-  const onSubmit: SubmitHandler<{ title: string }> = async (data) => {
-    if (publicationToEdit?._id) {
-      await EditPublication({
-        set: { _id: publicationToEdit._id, title: data.title },
-        get: { _id: 1, title: 1 },
-      });
-      ToastNotify("success", "انتشارات با موفقیت ویرایش شد");
-    } else {
-      await createPublication({ set: {title: data.title}, get: { _id: 1, title: 1 } });
-      ToastNotify("success", "انتشارات با موفقیت ایجاد شد");
+  const onSubmit = async (data: PublicationFormValues) => {
+    try {
+      if (publicationToEdit?._id) {
+        await EditPublication({
+          set: { _id: publicationToEdit._id, title: data.title },
+          get: { _id: 1, title: 1 },
+        });
+        ToastNotify("success", "انتشارات با موفقیت ویرایش شد");
+      } else {
+        await createPublication({
+          set: { title: data.title },
+          get: { _id: 1, title: 1 },
+        });
+        ToastNotify("success", "انتشارات با موفقیت ایجاد شد");
+      }
+      router.refresh();
+      onClose();
+    } catch (err) {
+      ToastNotify("error", "خطا در انجام عملیات");
+      console.error(err);
     }
-    router.refresh();
-    onClose();
   };
 
   if (!isOpen) return null;
@@ -66,13 +89,28 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
           {publicationToEdit ? "ویرایش انتشارات" : "ایجاد انتشارات جدید"}
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            label="نام انتشارات"
-            placeholder="نام انتشارات را وارد کنید"
-            name="title"
-            control={control}
-            rules={{ required: "نام انتشارات الزامی است" }}
-          />
+          <div className="mb-4">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              نام انتشارات
+            </label>
+            <input
+              id="title"
+              type="text"
+              {...register("title")}
+              placeholder="نام انتشارات را وارد کنید"
+              className={`w-full p-2 border rounded ${
+                errors.title ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.title && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.title.message}
+              </p>
+            )}
+          </div>
           <div className="flex justify-end mt-4 gap-2">
             <button
               type="button"

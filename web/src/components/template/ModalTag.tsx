@@ -1,28 +1,39 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import Input from "../atoms/Input";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { createTag } from "@/app/actions/tag/createTag";
-// import { updateTag } from "@/app/actions/tag/updateTag"; // فرض می‌کنیم متدی برای آپدیت داریم
+import { EditTag } from "@/app/actions/tag/updateTag";
 import { useRouter } from "next/navigation";
 import { ToastNotify } from "@/utils/helper";
-import { EditTag } from "@/app/actions/tag/updateTag";
-
-interface TagFormValues {
-  name: string;
-}
 
 interface ModalTagProps {
   isOpen: boolean;
   onClose: () => void;
-  tagToEdit?: { _id: string; name: string } | null; // داده برای ویرایش
+  tagToEdit?: { _id: string; name: string } | null;
 }
+
+const tagSchema = z.object({
+  name: z
+    .string()
+    .min(1, "نام برچسب الزامی است")
+    .max(50, "حداکثر 50 کاراکتر مجاز است"),
+});
+
+type TagFormValues = z.infer<typeof tagSchema>;
 
 const ModalTag: React.FC<ModalTagProps> = ({ isOpen, onClose, tagToEdit }) => {
   const router = useRouter();
 
-  const { handleSubmit, control, reset } = useForm<TagFormValues>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<TagFormValues>({
+    resolver: zodResolver(tagSchema),
     defaultValues: { name: "" },
   });
 
@@ -34,17 +45,22 @@ const ModalTag: React.FC<ModalTagProps> = ({ isOpen, onClose, tagToEdit }) => {
     }
   }, [tagToEdit, reset]);
 
-  const onSubmit: SubmitHandler<TagFormValues> = async (data) => {
-    if (tagToEdit) {
-      await EditTag(tagToEdit._id, data.name);
-      ToastNotify("success", "برچسب با موفقیت ویرایش شد");
-    } else {
-      await createTag(data.name);
-      ToastNotify("success", "برچسب با موفقیت ایجاد شد");
+  const onSubmit = async (data: TagFormValues) => {
+    try {
+      if (tagToEdit) {
+        await EditTag(tagToEdit._id, data.name);
+        ToastNotify("success", "برچسب با موفقیت ویرایش شد");
+      } else {
+        await createTag(data.name);
+        ToastNotify("success", "برچسب با موفقیت ایجاد شد");
+      }
+      router.refresh();
+      reset();
+      onClose();
+    } catch (err) {
+      ToastNotify("error", "خطا در انجام عملیات");
+      console.error(err);
     }
-    router.refresh();
-    reset();
-    onClose();
   };
 
   return (
@@ -64,13 +80,27 @@ const ModalTag: React.FC<ModalTagProps> = ({ isOpen, onClose, tagToEdit }) => {
           {tagToEdit ? "ویرایش برچسب" : "ایجاد برچسب جدید"}
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            label="نام برچسب"
-            placeholder="نام برچسب را وارد کنید"
-            name="name"
-            control={control}
-            rules={{ required: "نام برچسب الزامی است" }}
-          />
+          <div className="mb-4">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              نام برچسب
+            </label>
+            <input
+              id="name"
+              type="text"
+              {...register("name")}
+              placeholder="نام برچسب را وارد کنید"
+              className={`w-full p-2 border rounded ${
+                errors.name ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+            )}
+          </div>
+
           <div className="flex justify-end mt-4 gap-2">
             <button
               type="button"
