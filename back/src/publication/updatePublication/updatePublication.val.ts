@@ -5,7 +5,7 @@ export const updatePublicationValidator = () => {
 	return object({
 		set: object({
 			_id: objectIdValidation,
-			title: (string()),
+			title: string(),
 		}),
 		get: selectStruct("publication", 2),
 	});
