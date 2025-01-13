@@ -60,7 +60,7 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
 
   const onSubmit: SubmitHandler<SearchCriteria> = (criteria) => {
     // فیلتر کردن مقادیری که غیر خالی هستند
-    const filteredCriteria = Object.entries(criteria).filter(([_, value]) => {
+    const filteredCriteria = Object.entries(criteria).filter(([value]) => {
       // برای مقادیر آرایه، بررسی می‌کنیم که آرایه غیر خالی باشد
       if (Array.isArray(value)) {
         return value.length > 0;

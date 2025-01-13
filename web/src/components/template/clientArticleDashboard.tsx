@@ -22,6 +22,9 @@ const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
 
+  // State for hard cascade
+  const [isHardCascade, setIsHardCascade] = useState(false);
+
   const handleDeleteClick = (article: Article) => {
     setSelectedArticle(article);
     setIsModalVisible(true);
@@ -31,7 +34,7 @@ const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles }) => {
     if (!selectedArticle) return;
 
     try {
-      const isSuccess = await deleteArticle(selectedArticle._id);
+      const isSuccess = await deleteArticle(selectedArticle._id, isHardCascade);
       if (isSuccess) {
         ToastNotify(
           "success",
@@ -45,12 +48,14 @@ const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles }) => {
     } finally {
       setIsModalVisible(false);
       setSelectedArticle(null);
+      setIsHardCascade(false); // Reset hard cascade
     }
   };
 
   const handleCancelDelete = () => {
     setIsModalVisible(false);
     setSelectedArticle(null);
+    setIsHardCascade(false); // Reset hard cascade
   };
 
   return (
@@ -72,6 +77,8 @@ const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles }) => {
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
         message={`آیا از حذف مقاله "${selectedArticle?.title}" مطمئن هستید؟ این عملیات غیرقابل بازگشت است.`}
+        isHardCascade={isHardCascade}
+        onHardCascadeChange={setIsHardCascade}
       />
     </div>
   );

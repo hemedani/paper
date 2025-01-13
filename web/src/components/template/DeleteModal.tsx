@@ -5,6 +5,8 @@ interface IProps {
   onCancel: () => void;
   message: string;
   isVisible: boolean;
+  isHardCascade: boolean; // state از والد دریافت می‌شود
+  onHardCascadeChange: (value: boolean) => void; // تغییر مقدار state
 }
 
 export const DeleteModal: FC<IProps> = ({
@@ -12,7 +14,13 @@ export const DeleteModal: FC<IProps> = ({
   onCancel,
   message,
   isVisible,
+  isHardCascade,
+  onHardCascadeChange,
 }) => {
+  const handleCheckboxChange = () => {
+    onHardCascadeChange(!isHardCascade); // تغییر مقدار state
+  };
+
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
@@ -27,6 +35,30 @@ export const DeleteModal: FC<IProps> = ({
         }`}
       >
         <p className="text-gray-600 mb-6">{message}</p>
+
+        <div className="flex items-center justify-start gap-2 mb-4">
+          <input
+            type="checkbox"
+            id="hardCascade"
+            checked={isHardCascade}
+            onChange={handleCheckboxChange}
+            className="w-5 h-5 cursor-pointer"
+          />
+          <label
+            htmlFor="hardCascade"
+            className="text-sm text-gray-800 cursor-pointer"
+          >
+            حذف کامل
+          </label>
+        </div>
+
+        {isHardCascade && (
+          <p className="text-sm text-red-500 mb-6">
+            هشدار: اگر این گزینه فعال شود، تمامی موارد مرتبط حذف خواهند شد.
+            مسئولیت این عملیات با شماست.
+          </p>
+        )}
+
         <div className="flex justify-center gap-4">
           <button
             onClick={onConfirm}

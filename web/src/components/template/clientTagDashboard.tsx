@@ -20,11 +20,13 @@ interface ClientDashboardProps {
 const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
   const router = useRouter();
 
-  // State for active modal
-  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(null);
+  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(
+    null
+  );
   const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
 
-  // Modal handlers
+  const [hardCascade, setHardCascade] = useState<boolean>(false);
+
   const openModal = (type: "edit" | "delete", tag: Tag | null = null) => {
     setSelectedTag(tag);
     setActiveModal(type);
@@ -33,12 +35,12 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
   const closeModal = () => {
     setActiveModal(null);
     setSelectedTag(null);
+    setHardCascade(false);
   };
 
-  // Handle delete action
   const confirmDelete = async () => {
     if (selectedTag?._id) {
-      await deleteTag(selectedTag._id);
+      await deleteTag(selectedTag._id, hardCascade);
       ToastNotify("success", "برچسب با موفقیت حذف شد");
       router.refresh();
     }
@@ -64,22 +66,18 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
         ))}
       </div>
 
-      {/* Modal for Create/Edit */}
       {activeModal === "edit" && (
-        <ModalTag
-          isOpen
-          onClose={closeModal}
-          tagToEdit={selectedTag}
-        />
+        <ModalTag isOpen onClose={closeModal} tagToEdit={selectedTag} />
       )}
 
-      {/* Modal for Delete */}
       {activeModal === "delete" && (
         <DeleteModal
           isVisible
           onConfirm={confirmDelete}
           onCancel={closeModal}
           message="آیا مطمئن هستید که می‌خواهید این برچسب را حذف کنید؟ این عمل قابل بازگشت نیست."
+          isHardCascade={hardCascade}
+          onHardCascadeChange={setHardCascade}
         />
       )}
     </div>

@@ -2,7 +2,7 @@
 import { paperApi } from "@/services/api";
 import { cookies } from "next/headers";
 
-export const deleteTag = async (tagId: string) => {
+export const deleteTag = async (tagId: string, hardCascade: boolean) => {
   const token = (await cookies()).get("token");
   const removeTag = await paperApi().send(
     {
@@ -10,7 +10,7 @@ export const deleteTag = async (tagId: string) => {
       model: "tag",
       act: "removeTag",
       details: {
-        set: { _id: tagId },
+        set: { _id: tagId, hardCascade: hardCascade },
         get: { success: 1 },
       },
     },

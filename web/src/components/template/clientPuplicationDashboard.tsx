@@ -21,11 +21,15 @@ const ClientPublicationDashboard: React.FC<ClientPublicationProps> = ({
   publications,
 }) => {
   const router = useRouter();
+
   const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(
     null
   );
   const [selectedPublication, setSelectedPublication] =
     useState<Publication | null>(null);
+
+  // State for hard cascade
+  const [isHardCascade, setIsHardCascade] = useState(false);
 
   const openModal = (
     type: "edit" | "delete",
@@ -38,11 +42,12 @@ const ClientPublicationDashboard: React.FC<ClientPublicationProps> = ({
   const closeModal = () => {
     setActiveModal(null);
     setSelectedPublication(null);
+    setIsHardCascade(false); // Reset hard cascade
   };
 
   const confirmDelete = async () => {
     if (selectedPublication?._id) {
-      await deletePublication(selectedPublication._id);
+      await deletePublication(selectedPublication._id, isHardCascade);
       ToastNotify("success", "انتشارات با موفقیت حذف شد");
       router.refresh();
     }
@@ -85,6 +90,8 @@ const ClientPublicationDashboard: React.FC<ClientPublicationProps> = ({
           onConfirm={confirmDelete}
           onCancel={closeModal}
           message="آیا از حذف مطمئن هستید؟ این عمل قابل بازگشت نیست."
+          isHardCascade={isHardCascade}
+          onHardCascadeChange={setIsHardCascade}
         />
       )}
     </div>

@@ -81,7 +81,6 @@ export default async function Home({
     get: { qty: 1 },
   });
 
-
   // تبدیل لیست علاقه‌مندی‌ها به Set برای جستجوی سریع‌تر
   const favoriteIds = new Set(
     me?.favArticles?.map((fav: { _id: string }) => fav._id)
@@ -108,7 +107,7 @@ export default async function Home({
           </ListCard>
           <div className="flex justify-center items-center gap-2">
             <Pagination
-              countPage={130}
+              countPage={countDataArticle.qty}
               initialPage={+set.page}
             />
           </div>

@@ -12,15 +12,9 @@ interface User {
   _id: string;
   first_name: string;
   last_name: string;
-  father_name: string;
-  mobile: string;
-  gender: string;
-  birth_date: string;
   personnel_number: string;
   national_number: string;
-  address: string;
   level: string;
-  isVerified: string[];
 }
 
 interface ClientDashboardProps {
@@ -36,6 +30,9 @@ const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
   );
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
+  // State for hard cascade
+  const [isHardCascade, setIsHardCascade] = useState(false);
+
   const openModal = (type: "edit" | "delete", user: User | null = null) => {
     setSelectedUser(user);
     setActiveModal(type);
@@ -44,15 +41,22 @@ const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
   const closeModal = () => {
     setSelectedUser(null);
     setActiveModal(null);
+    setIsHardCascade(false); // Reset hard cascade
   };
 
   const handleDelete = async () => {
     if (!selectedUser?._id) return;
 
-    await deleteUser(selectedUser._id);
-    ToastNotify("success", "کاربر با موفقیت حذف شد");
-    closeModal();
-    router.refresh();
+    try {
+      await deleteUser(selectedUser._id, isHardCascade);
+      ToastNotify("success", "کاربر با موفقیت حذف شد");
+      router.refresh();
+    } catch (error) {
+      console.error("خطا در حذف کاربر:", error);
+      alert("مشکلی در حذف کاربر به وجود آمده است.");
+    } finally {
+      closeModal();
+    }
   };
 
   return (
@@ -83,6 +87,8 @@ const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
           onConfirm={handleDelete}
           onCancel={closeModal}
           message="آیا از حذف کاربر مطمئن هستید؟ این عمل قابل بازگشت نیست."
+          isHardCascade={isHardCascade}
+          onHardCascadeChange={setIsHardCascade}
         />
       )}
     </div>
