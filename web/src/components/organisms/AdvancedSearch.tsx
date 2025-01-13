@@ -66,7 +66,7 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   // };
   const onSubmit: SubmitHandler<SearchCriteria> = (criteria) => {
     const queryString = Object.entries(criteria)
-      .filter(([key, value]) => value && value.toString().trim() !== "")
+      .filter(([value]) => value && value.toString().trim() !== "")
       .map(([key, value]) => {
         if (Array.isArray(value)) {
           // اگر مقدار آرایه باشد، به رشته‌ای جدا شده با کاما تبدیل شود

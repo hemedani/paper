@@ -17,8 +17,12 @@ const LoginStepOne = ({ setStep, setPhone, phone }: TProps) => {
       // alert("Please enter a valid 10-digit phone number.");
     }
   };
+
   return (
-    <form onSubmit={handlePhoneSubmit}>
+    <form
+      onSubmit={handlePhoneSubmit}
+      className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4"
+    >
       <div className="mb-4">
         <label
           htmlFor="phone"
