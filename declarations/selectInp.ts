@@ -1668,8 +1668,6 @@ URL: string;
 page: string;
 issue: number;
 volume: number;
-createdAt: Date;
-updatedAt: Date;
 };
 get: {
 _id?: (0 | 1 );
