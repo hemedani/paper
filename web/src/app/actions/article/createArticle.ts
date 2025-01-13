@@ -1,11 +1,9 @@
 "use server";
 import { paperApi } from "@/services/api";
-import { ReqType } from "@/types/declarations/selectInp";
 import { cookies } from "next/headers";
+import { ArticleFormCreateSchemaType } from "@/components/template/FormCreateArticle";
 
-export type AddArticleSet = ReqType["main"]["article"]["addArticle"]["set"];
-
-export const createArticle = async (data: AddArticleSet) => {
+export const createArticle = async (data: ArticleFormCreateSchemaType) => {
   const token = (await cookies()).get("token");
   const addArticle = await paperApi().send(
     {
@@ -24,10 +22,6 @@ export const createArticle = async (data: AddArticleSet) => {
     },
     { token: token?.value }
   );
-
-  console.log(addArticle.body);
-  
-
 
   if (addArticle.success) return addArticle.body;
 };

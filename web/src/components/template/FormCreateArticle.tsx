@@ -4,40 +4,68 @@ import AsyncSelect from "react-select/async";
 import { MultiValue, SingleValue } from "react-select";
 import { useRouter } from "next/navigation";
 
-import Input from "../atoms/Input";
 import SelectBox from "../atoms/Select";
 import { getTags } from "@/app/actions/tag/getTags";
 import { getPublications } from "@/app/actions/publication/getPublications";
 import { createArticle } from "@/app/actions/article/createArticle";
-import { ReqType } from "@/types/declarations/selectInp";
 import { ToastNotify } from "@/utils/helper";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export type AddUserSet = ReqType["main"]["article"]["addArticle"]["set"];
+export const ArticleCreateSchema = z.object({
+  tagIds: z.array(z.string()).nonempty("حداقل یک برچسب انتخاب کنید"),
+  publicationId: z.string().nonempty("انتشار الزامی است"),
+  key: z.string().nonempty("کلید الزامی است"),
+  articleType: z.enum(["journalArticle", "book"], {
+    required_error: "نوع مقاله الزامی است",
+  }),
+  authors: z
+    .string()
+    .nonempty("نویسندگان الزامی هستند")
+    .transform((val) => val.split(",").map((author) => author.trim())),
+  title: z.string().nonempty("عنوان الزامی است"),
+  abstract: z.string().nonempty("چکیده الزامی است"),
+  ISBN: z.string().nonempty("ISBN الزامی است"),
+  ISNN: z.string().nonempty("ISNN الزامی است"),
+  DOI: z.string().nonempty("DOI الزامی است"),
+  URL: z.string().url("فرمت URL نامعتبر است").nonempty("URL الزامی است"),
+  page: z.string().nonempty("تعداد صفحات الزامی است"),
+  publicationYear: z.coerce.number().int("سال انتشار باید عدد صحیح باشد"),
+  issue: z.coerce.number().int("شماره موضوع باید عدد صحیح باشد"),
+  volume: z.coerce.number().int("جلد باید عدد صحیح باشد"),
+});
+
+export type ArticleFormCreateSchemaType = z.infer<typeof ArticleCreateSchema>;
 
 export const FormCreateArticle = ({
   defaultValues,
 }: {
-  defaultValues?: AddUserSet & { tags: { _id: string; name: string }[] };
+  defaultValues?: ArticleFormCreateSchemaType & {
+    tags: { _id: string; name: string }[];
+  };
 }) => {
   const router = useRouter();
 
   const {
+    register,
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<AddUserSet>({
+  } = useForm<ArticleFormCreateSchemaType>({
     defaultValues,
+    resolver: zodResolver(ArticleCreateSchema),
   });
 
-  const onSubmit: SubmitHandler<AddUserSet> = async (data) => {
-    data.publicationYear = +data.publicationYear;
-    data.issue = +data.issue;
-    data.volume = +data.volume;
+  const onSubmit: SubmitHandler<ArticleFormCreateSchemaType> = async (data) => {
     data.authors = [data.authors.toString()];
-    await createArticle(data);
-    ToastNotify("success", "مقاله با موفقیت ایجاد شد");
-    router.replace("/admin/articles");
+    const newArticle = await createArticle(data);
+    console.log("newArticle", newArticle);
+
+    if (newArticle._id) {
+      ToastNotify("success", "مقاله با موفقیت ایجاد شد");
+      router.replace("/admin/articles");
+    }
   };
 
   const loadTagOptions = async (inputValue: string) => {
@@ -54,8 +82,12 @@ export const FormCreateArticle = ({
   const handleTagChange = (
     selectedOptions: MultiValue<{ value: string; label: string }>
   ) => {
-    const values = selectedOptions.map((option) => option.value);
-    setValue("tagIds", values);
+    const values: string[] =
+      selectedOptions.length > 0
+        ? selectedOptions.map((option) => option.value)
+        : [];
+
+    setValue("tagIds", values as [string, ...string[]]);
   };
 
   const loadPublicationOptions = async (inputValue: string) => {
@@ -133,13 +165,23 @@ export const FormCreateArticle = ({
             )}
           </div>
 
-          <Input
-            label="کلید"
-            placeholder="کلید را وارد کنید"
-            name="key"
-            control={control}
-            rules={{ required: "کلید الزامی است" }}
-          />
+          <div>
+            <label
+              htmlFor="key"
+              className="block text-sm font-medium text-gray-700"
+            >
+              کلید
+            </label>
+            <input
+              id="key"
+              type="text"
+              {...register("key")}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {errors.key && (
+              <span className="text-red-500 text-xs">{errors.key.message}</span>
+            )}
+          </div>
 
           <SelectBox
             label="نوع مقاله"
@@ -152,21 +194,45 @@ export const FormCreateArticle = ({
             rules={{ required: "نوع مقاله الزامی است" }}
           />
 
-          <Input
-            label="نویسندگان"
-            placeholder="نویسندگان را با کاما جدا کنید"
-            name="authors"
-            control={control}
-            rules={{ required: "نویسندگان الزامی هستند" }}
-          />
+          <div>
+            <label
+              htmlFor="authors"
+              className="block text-sm font-medium text-gray-700"
+            >
+              نویسندگان
+            </label>
+            <input
+              id="authors"
+              type="text"
+              {...register("authors")}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {errors.authors && (
+              <span className="text-red-500 text-xs">
+                {errors.authors.message}
+              </span>
+            )}
+          </div>
 
-          <Input
-            label="عنوان"
-            placeholder="عنوان را وارد کنید"
-            name="title"
-            control={control}
-            rules={{ required: "عنوان الزامی است" }}
-          />
+          <div>
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-700"
+            >
+              عنوان
+            </label>
+            <input
+              id="title"
+              type="text"
+              {...register("title")}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {errors.title && (
+              <span className="text-red-500 text-xs">
+                {errors.title.message}
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -193,75 +259,169 @@ export const FormCreateArticle = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Input
-            label="ISBN"
-            placeholder="ISBN را وارد کنید"
-            name="ISBN"
-            control={control}
-            rules={{ required: "ISBN الزامی است" }}
-          />
+          <div>
+            <label
+              htmlFor="ISBN"
+              className="block text-sm font-medium text-gray-700"
+            >
+              ISBN
+            </label>
+            <input
+              id="ISBN"
+              type="text"
+              placeholder="ISBN را وارد کنید"
+              {...register("ISBN")}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {errors.ISBN && (
+              <span className="text-red-500 text-xs">
+                {errors.ISBN.message}
+              </span>
+            )}
+          </div>
 
-          <Input
-            label="ISNN"
-            placeholder="ISNN را وارد کنید"
-            name="ISNN"
-            control={control}
-            rules={{ required: "ISNN الزامی است" }}
-          />
+          <div>
+            <label
+              htmlFor="ISNN"
+              className="block text-sm font-medium text-gray-700"
+            >
+              ISNN
+            </label>
+            <input
+              id="ISNN"
+              type="text"
+              placeholder="ISNN را وارد کنید"
+              {...register("ISNN")}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {errors.ISNN && (
+              <span className="text-red-500 text-xs">
+                {errors.ISNN.message}
+              </span>
+            )}
+          </div>
 
-          <Input
-            label="DOI"
-            placeholder="DOI را وارد کنید"
-            name="DOI"
-            control={control}
-            rules={{ required: "DOI الزامی است" }}
-          />
+          <div>
+            <label
+              htmlFor="DOI"
+              className="block text-sm font-medium text-gray-700"
+            >
+              DOI
+            </label>
+            <input
+              id="DOI"
+              type="text"
+              placeholder="DOI را وارد کنید"
+              {...register("DOI")}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {errors.DOI && (
+              <span className="text-red-500 text-xs">{errors.DOI.message}</span>
+            )}
+          </div>
 
-          <Input
-            label="URL"
-            placeholder="URL را وارد کنید"
-            name="URL"
-            control={control}
-            rules={{
-              required: "URL الزامی است",
-              pattern: {
-                value: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)\/?.*$/,
-                message: "URL نامعتبر است",
-              },
-            }}
-          />
+          <div>
+            <label
+              htmlFor="URL"
+              className="block text-sm font-medium text-gray-700"
+            >
+              URL
+            </label>
+            <input
+              id="URL"
+              type="text"
+              placeholder="URL را وارد کنید"
+              {...register("URL")}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {errors.URL && (
+              <span className="text-red-500 text-xs">{errors.URL.message}</span>
+            )}
+          </div>
 
-          <Input
-            label="صفحات"
-            placeholder="تعداد صفحات را وارد کنید"
-            name="page"
-            control={control}
-            rules={{ required: "تعداد صفحات الزامی است" }}
-          />
+          <div>
+            <label
+              htmlFor="page"
+              className="block text-sm font-medium text-gray-700"
+            >
+              صفحات
+            </label>
+            <input
+              id="page"
+              type="text"
+              placeholder="تعداد صفحات را وارد کنید"
+              {...register("page")}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {errors.page && (
+              <span className="text-red-500 text-xs">
+                {errors.page.message}
+              </span>
+            )}
+          </div>
 
-          <Input
-            label="سال انتشار"
-            placeholder="سال انتشار را وارد کنید"
-            name="publicationYear"
-            control={control}
-            type="number"
-          />
+          <div>
+            <label
+              htmlFor="publicationYear"
+              className="block text-sm font-medium text-gray-700"
+            >
+              سال انتشار
+            </label>
+            <input
+              id="publicationYear"
+              type="number"
+              placeholder="سال انتشار را وارد کنید"
+              {...register("publicationYear")}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {errors.publicationYear && (
+              <span className="text-red-500 text-xs">
+                {errors.publicationYear.message}
+              </span>
+            )}
+          </div>
 
-          <Input
-            label="شماره موضوع"
-            placeholder="شماره را وارد کنید"
-            name="issue"
-            control={control}
-            type="number"
-          />
+          <div>
+            <label
+              htmlFor="issue"
+              className="block text-sm font-medium text-gray-700"
+            >
+              شماره موضوع
+            </label>
+            <input
+              id="issue"
+              type="number"
+              placeholder="شماره را وارد کنید"
+              {...register("issue")}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {errors.issue && (
+              <span className="text-red-500 text-xs">
+                {errors.issue.message}
+              </span>
+            )}
+          </div>
 
-          <Input
-            label="جلد"
-            placeholder="جلد را وارد کنید"
-            name="volume"
-            control={control}
-            type="number"
-          />
+          <div>
+            <label
+              htmlFor="volume"
+              className="block text-sm font-medium text-gray-700"
+            >
+              جلد
+            </label>
+            <input
+              id="volume"
+              type="number"
+              placeholder="جلد را وارد کنید"
+              {...register("volume")}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {errors.volume && (
+              <span className="text-red-500 text-xs">
+                {errors.volume.message}
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex justify-end space-x-4">
