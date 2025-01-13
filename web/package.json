@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.10.0",
     "@types/js-cookie": "^3.0.6",
     "js-cookie": "^3.0.5",
     "next": "^15.1.4",
@@ -17,7 +18,8 @@
     "react-hook-form": "^7.54.1",
     "react-hot-toast": "^2.5.1",
     "react-multi-date-picker": "^4.5.2",
-    "react-select": "^5.9.0"
+    "react-select": "^5.9.0",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

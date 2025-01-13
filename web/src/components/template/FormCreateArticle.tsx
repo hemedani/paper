@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import AsyncSelect from "react-select/async";
 import { MultiValue, SingleValue } from "react-select";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import Input from "../atoms/Input";
 import SelectBox from "../atoms/Select";
@@ -12,14 +11,15 @@ import { getPublications } from "@/app/actions/publication/getPublications";
 import { createArticle } from "@/app/actions/article/createArticle";
 import { ReqType } from "@/types/declarations/selectInp";
 import { ToastNotify } from "@/utils/helper";
-import { EditArticle } from "@/app/actions/article/updateArticle";
 
 export type AddUserSet = ReqType["main"]["article"]["addArticle"]["set"];
 
-export const FormArticle = ({ defaultValues }: { defaultValues?: AddUserSet & { tags: { _id: string, name: string }[] } }) => {
+export const FormCreateArticle = ({
+  defaultValues,
+}: {
+  defaultValues?: AddUserSet & { tags: { _id: string; name: string }[] };
+}) => {
   const router = useRouter();
-  const searchParams = useParams();
-  const articleId = searchParams.id;
 
   const {
     control,
@@ -27,7 +27,7 @@ export const FormArticle = ({ defaultValues }: { defaultValues?: AddUserSet & { 
     setValue,
     formState: { errors },
   } = useForm<AddUserSet>({
-    defaultValues
+    defaultValues,
   });
 
   const onSubmit: SubmitHandler<AddUserSet> = async (data) => {
@@ -35,13 +35,8 @@ export const FormArticle = ({ defaultValues }: { defaultValues?: AddUserSet & { 
     data.issue = +data.issue;
     data.volume = +data.volume;
     data.authors = [data.authors.toString()];
-    if (articleId) {
-      // await EditArticle(data);
-      ToastNotify("success", "مقاله با موفقیت به‌روزرسانی شد");
-    } else {
-      await createArticle(data);
-      ToastNotify("success", "مقاله با موفقیت ایجاد شد");
-    }
+    await createArticle(data);
+    ToastNotify("success", "مقاله با موفقیت ایجاد شد");
     router.replace("/admin/articles");
   };
 
@@ -82,9 +77,7 @@ export const FormArticle = ({ defaultValues }: { defaultValues?: AddUserSet & { 
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-6">
-        {articleId ? "ویرایش مقاله" : "ایجاد مقاله جدید"}
-      </h2>
+      <h2 className="text-xl font-semibold mb-6">ایجاد مقاله جدید</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-2">
@@ -99,7 +92,14 @@ export const FormArticle = ({ defaultValues }: { defaultValues?: AddUserSet & { 
               cacheOptions
               loadOptions={loadTagOptions}
               defaultOptions
-              defaultValue={defaultValues && defaultValues.tags ? defaultValues.tags.map(tag => ({ label: tag.name, value: tag._id })) : []}
+              defaultValue={
+                defaultValues && defaultValues.tags
+                  ? defaultValues.tags.map((tag) => ({
+                      label: tag.name,
+                      value: tag._id,
+                    }))
+                  : []
+              }
               onChange={handleTagChange}
               placeholder="برچسب‌ها را انتخاب کنید"
               classNamePrefix="react-select"

@@ -1,5 +1,5 @@
 import { getArticleAction } from "@/app/actions/article/getArticle";
-import { FormArticle } from "@/components/template/FormArticle";
+import { FormUpdateArticle } from "@/components/template/FormUpdateArticle";
 
 const Page = async ({ params }: { params: Promise<{ id: string }>; }) => {
 
@@ -8,7 +8,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }>; }) => {
   const getArticle = await getArticleAction({
     set: { _id: articleId as string },
     get: {
-      _id: 1,
+      _id: 0,
       title: 1,
       articleType: 1,
       publicationYear: 1,
@@ -30,7 +30,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }>; }) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
       <h1 className="text-2xl text-gray-600 font-bold">ویرایش مقاله</h1>
-      <FormArticle defaultValues={getArticle} />
+      <FormUpdateArticle defaultValues={getArticle} />
     </div>
   );
 };
