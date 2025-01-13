@@ -7,11 +7,17 @@ type TArticle = {
   _id: string;
   title: string;
   articleType: string;
+  onDelete: () => void; // افزودن پراپ حذف
 };
 
-export const ArticleCard = ({ _id, articleType, title }: TArticle) => {
+export const ArticleCard = ({
+  _id,
+  articleType,
+  title,
+  onDelete,
+}: TArticle) => {
   const router = useRouter();
-  
+
   return (
     <div className="bg-white border rounded-lg shadow-md p-4 w-[384px] mx-auto flex flex-col gap-4 min-h-[200px] justify-between">
       <div>
@@ -29,7 +35,10 @@ export const ArticleCard = ({ _id, articleType, title }: TArticle) => {
           >
             <EditIcon />
           </button>
-          <button className="flex items-center gap-2 text-red-500 hover:text-red-700">
+          <button
+            onClick={onDelete} // فراخوانی حذف
+            className="flex items-center gap-2 text-red-500 hover:text-red-700"
+          >
             <TrashIcon />
           </button>
         </div>
