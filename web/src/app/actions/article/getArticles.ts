@@ -3,8 +3,13 @@ import { paperApi } from "@/services/api";
 import { ReqType } from "@/types/declarations/selectInp";
 import { cookies } from "next/headers";
 
-export const getArticles = async ({ set, get }: ReqType["main"]["article"]["getArticles"]) => {
+export const getArticles = async ({
+  set,
+  get,
+}: ReqType["main"]["article"]["getArticles"]) => {
   const token = (await cookies()).get("token");
+  set.tags = [set.tags?.toString() || ""];
+
   const getArticles = await paperApi().send(
     {
       service: "main",

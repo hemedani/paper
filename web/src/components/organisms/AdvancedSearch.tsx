@@ -20,7 +20,12 @@ type SearchCriteria = {
 };
 
 const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
-  const { control, handleSubmit, formState:{errors}, setValue } = useForm<SearchCriteria>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<SearchCriteria>({
     defaultValues: {
       title: "",
       abstract: "",
@@ -36,52 +41,57 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   const router = useRouter();
 
   const loadTagOptions = async (inputValue: string) => {
-      const response = await getTags({
-        set: { name: inputValue, limit: 10, page: 1 },
-        get: { _id: 1, name: 1 },
-      });
-      return response.map((tag: { _id: string; name: string }) => ({
-        value: tag._id,
-        label: tag.name,
-      }));
-    };
-  
-    const handleTagChange = (
-      selectedOptions: MultiValue<{ value: string; label: string }>
-    ) => {
-      const values = selectedOptions.map((option) => option.value);
-      setValue("tags", values);
-    };
+    const response = await getTags({
+      set: { name: inputValue, limit: 10, page: 1 },
+      get: { _id: 1, name: 1 },
+    });
+    return response.map((tag: { _id: string; name: string }) => ({
+      value: tag._id,
+      label: tag.name,
+    }));
+  };
 
-  // const onSubmit: SubmitHandler<SearchCriteria> = (criteria) => {
-  //   const queryString = Object.entries(criteria)
-  //     .filter(([value]) => value.trim() !== "")
-  //     .map(
-  //       ([key, value]) =>
-  //         `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-  //     )
-  //     .join("&");
+  const handleTagChange = (
+    selectedOptions: MultiValue<{ value: string; label: string }>
+  ) => {
+    const values = selectedOptions.map((option) => option.label);
+    setValue("tags", values);
+  };
 
-  //   router.push(`/?${queryString}`);
-  // };
   const onSubmit: SubmitHandler<SearchCriteria> = (criteria) => {
-    const queryString = Object.entries(criteria)
-      .filter(([value]) => value && value.toString().trim() !== "")
-      .map(([key, value]) => {
-        if (Array.isArray(value)) {
-          // اگر مقدار آرایه باشد، به رشته‌ای جدا شده با کاما تبدیل شود
-          return `${encodeURIComponent(key)}=${encodeURIComponent(
-            value.join(",")
-          )}`;
-        }
-        // برای مقادیر رشته‌ای یا دیگر انواع
-        return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
-      })
-      .join("&");
-  
+    // فیلتر کردن مقادیری که غیر خالی هستند
+    const filteredCriteria = Object.entries(criteria).filter(([_, value]) => {
+      // برای مقادیر آرایه، بررسی می‌کنیم که آرایه غیر خالی باشد
+      if (Array.isArray(value)) {
+        return value.length > 0;
+      }
+      // برای مقادیر غیر آرایه، بررسی می‌کنیم که غیر خالی باشند
+      return value && value.toString().trim() !== "";
+    });
+
+    console.log("filteredCriteria", filteredCriteria); // بررسی فیلتر شده‌ها
+
+    const queryStringParts = filteredCriteria.map(([key, value]) => {
+      // چک می‌کنیم که آیا مقدار یک آرایه است یا نه
+      if (Array.isArray(value)) {
+        console.log(`Array detected for key: ${key}, value: ${value}`);
+        // اگر آرایه باشد، آن را با کاما جدا می‌کنیم
+        return `${encodeURIComponent(key)}=${encodeURIComponent(
+          value.join(",")
+        )}`;
+      }
+      console.log(`Non-array detected for key: ${key}, value: ${value}`);
+      // برای سایر مقادیر، به همان صورت رشته می‌شود
+      return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+    });
+
+    // ترکیب تمامی بخش‌های queryString
+    const queryString = queryStringParts.join("&");
+    console.log("Final queryString:", queryString); // بررسی نتیجه نهایی
+
+    // ارسال به URL
     router.push(`/?${queryString}`);
   };
-  
 
   return (
     <div
@@ -106,13 +116,6 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
             control={control}
             className="w-full text-right"
           />
-          {/* <Input
-            label="برچسب"
-            name="tags"
-            placeholder="برچسب مقاله"
-            control={control}
-            className="w-full text-right"
-          /> */}
           <div className="flex flex-col gap-2">
             <label
               htmlFor="tagIds"
@@ -125,7 +128,8 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
               cacheOptions
               loadOptions={loadTagOptions}
               defaultOptions
-              onChange={handleTagChange}
+              onChange={handleTagChange} // به‌روزرسانی انتخاب‌ها
+              name="tags"
               placeholder="برچسب‌ها را انتخاب کنید"
               classNamePrefix="react-select"
             />

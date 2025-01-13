@@ -8,6 +8,7 @@ export const getCountArticles = async ({
   get,
 }: ReqType["main"]["article"]["countArticles"]) => {
   const token = (await cookies()).get("token");
+  set.tags = [set.tags?.toString() || ""];
   const getCountArticles = await paperApi().send(
     {
       service: "main",
