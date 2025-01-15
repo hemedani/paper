@@ -31,7 +31,7 @@ const LoginStepOne = ({ setStep, setPhone, phone }: TProps) => {
           کد ملی
         </label>
         <input
-          type="password"
+          type="text"
           id="phone"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
