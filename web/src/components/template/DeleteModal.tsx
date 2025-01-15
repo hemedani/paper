@@ -5,8 +5,8 @@ interface IProps {
   onCancel: () => void;
   message: string;
   isVisible: boolean;
-  isHardCascade: boolean; // state از والد دریافت می‌شود
-  onHardCascadeChange: (value: boolean) => void; // تغییر مقدار state
+  isHardCascade: boolean;
+  onHardCascadeChange: (value: boolean) => void;
 }
 
 export const DeleteModal: FC<IProps> = ({
@@ -17,10 +17,6 @@ export const DeleteModal: FC<IProps> = ({
   isHardCascade,
   onHardCascadeChange,
 }) => {
-  const handleCheckboxChange = () => {
-    onHardCascadeChange(!isHardCascade); // تغییر مقدار state
-  };
-
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
@@ -36,41 +32,53 @@ export const DeleteModal: FC<IProps> = ({
       >
         <p className="text-gray-600 mb-6">{message}</p>
 
-        <div className="flex items-center justify-start gap-2 mb-4">
-          <input
-            type="checkbox"
-            id="hardCascade"
-            checked={isHardCascade}
-            onChange={handleCheckboxChange}
-            className="w-5 h-5 cursor-pointer"
-          />
-          <label
-            htmlFor="hardCascade"
-            className="text-sm text-gray-800 cursor-pointer"
-          >
-            حذف کامل
-          </label>
+        <div className="flex items-center justify-start gap-2 mb-6">
+          <p className="text-sm text-gray-800">
+            آیا اسناد وابسته نیز حذف شوند؟
+          </p>
+          <div className="flex gap-2">
+            <button
+              onClick={() => onHardCascadeChange(true)}
+              className={`px-2 py-1 text-xs border border-gray-900 rounded-lg text-black transition-all duration-300 ${
+                !isHardCascade
+                  ? "bg-white"
+                  : "bg-red-500 border-none text-white hover:bg-red-600"
+              }`}
+            >
+              بله
+            </button>
+            <button
+              onClick={() => onHardCascadeChange(false)}
+              className={`px-2 py-1 text-xs border border-gray-900 rounded-lg text-black transition-all duration-300 ${
+                isHardCascade
+                  ? "bg-white"
+                  : "bg-red-500 border-none text-white hover:bg-red-600"
+              }`}
+            >
+              خیر
+            </button>
+          </div>
         </div>
 
         {isHardCascade && (
           <p className="text-sm text-red-500 mb-6">
-            هشدار: اگر این گزینه فعال شود، تمامی موارد مرتبط حذف خواهند شد.
-            مسئولیت این عملیات با شماست.
+            {/* هشدار: اگر این گزینه فعال شود، تمامی موارد مرتبط حذف خواهند شد.
+            مسئولیت این عملیات با شماست. */}
           </p>
         )}
 
-        <div className="flex justify-center gap-4">
-          <button
-            onClick={onConfirm}
-            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-all duration-300"
-          >
-            بله
-          </button>
+        <div className="flex justify-end gap-4">
           <button
             onClick={onCancel}
             className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-all duration-300"
           >
-            خیر
+            لغو
+          </button>
+          <button
+            onClick={onConfirm}
+            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-all duration-300"
+          >
+            تایید
           </button>
         </div>
       </div>
