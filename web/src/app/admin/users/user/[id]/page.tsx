@@ -5,8 +5,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const userId = (await params).id;
 
   const user = await getUser(userId);
-  console.log("user", user);
-  // <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
