@@ -16,7 +16,7 @@ export default function Tags({ tags }: { tags: { name: string }[] }) {
         <span
           onClick={handleQueryBack}
           key={tag?.name}
-          className="cursor-pointer bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-blue-300"
+          className="cursor-pointer hover:underline bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-blue-300"
         >
           {tag?.name}
         </span>
