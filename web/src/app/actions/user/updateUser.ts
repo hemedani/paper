@@ -3,10 +3,10 @@ import { paperApi } from "@/services/api";
 import { ReqType } from "@/types/declarations/selectInp";
 import { cookies } from "next/headers";
 
-export type AddUserSet = ReqType["main"]["user"]["addUser"]["set"];
+export type UpdateUserSet = ReqType["main"]["user"]["updateUser"]["set"];
 
-export const EditUser = async (userId:string,data: AddUserSet) => {
-  
+export const EditUser = async (data: UpdateUserSet) => {
+
   const token = (await cookies()).get("token");
   const updateUser = await paperApi().send(
     {
@@ -15,7 +15,7 @@ export const EditUser = async (userId:string,data: AddUserSet) => {
       act: "updateUser",
       details: {
         set: {
-          // ...data,
+          ...data,
         },
         get: {
           _id: 1,
