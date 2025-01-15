@@ -1,7 +1,9 @@
 import React from "react";
-import { EditIcon, TrashIcon } from "../atoms/Icons";
+import { EditIcon, HideIcon, TrashIcon } from "../atoms/Icons";
+import { useRouter } from "next/navigation";
 
 interface UserCardProps {
+  id: string;
   first_name: string;
   last_name: string;
   national_number: string;
@@ -10,12 +12,14 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({
+  id,
   first_name,
   last_name,
   national_number,
   onDelete,
   onEdit, // اضافه کردن onEdit
 }) => {
+  const router = useRouter();
   return (
     <div className="border w-full max-w-lg bg-white rounded-xl shadow-lg p-6 flex flex-col sm:flex-row items-center gap-4">
       <div className="w-24 h-24 flex-shrink-0">
@@ -39,7 +43,7 @@ const UserCard: React.FC<UserCardProps> = ({
             <TrashIcon />
           </button>
         )}
-        {onEdit && ( // نمایش دکمه ویرایش فقط اگر onEdit تعریف شده باشد
+        {onEdit && (
           <button
             onClick={onEdit}
             className="p-2 bg-yellow-400 text-white rounded-full hover:bg-yellow-500 transition-all duration-200 shadow"
@@ -48,6 +52,13 @@ const UserCard: React.FC<UserCardProps> = ({
             <EditIcon />
           </button>
         )}
+        <button
+          onClick={() => router.push(`/admin/users/user/${id}`)}
+          className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-200 shadow"
+          title="مشاهده جزئیات"
+        >
+          <HideIcon />
+        </button>
       </div>
     </div>
   );
