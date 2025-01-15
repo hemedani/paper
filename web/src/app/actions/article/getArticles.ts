@@ -8,7 +8,8 @@ export const getArticles = async ({
   get,
 }: ReqType["main"]["article"]["getArticles"]) => {
   const token = (await cookies()).get("token");
-  set.tags = [set.tags?.toString() || ""];
+  if (!set.tags?.length) delete set.tags;
+  set.tags = set.tags?.toString().split(",");
 
   const getArticles = await paperApi().send(
     {
