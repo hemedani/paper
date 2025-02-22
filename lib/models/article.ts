@@ -91,6 +91,25 @@ export const articleRelations = {
 			},
 		},
 	},
+	keyword: {
+		schemaName: "keyword",
+		optional: true,
+		type: "multiple" as RelationDataType,
+		sort: {
+			field: "_id",
+			order: "desc" as RelationSortOrderType,
+		},
+		relatedRelations: {
+			articles: {
+				type: "multiple" as RelationDataType,
+				limit: 50,
+				sort: {
+					field: "_id",
+					order: "desc" as RelationSortOrderType,
+				},
+			},
+		},
+	},
 };
 
 export const articles = () =>

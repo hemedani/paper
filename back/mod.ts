@@ -1,5 +1,12 @@
 import { lesan, MongoClient, redis } from "deps";
-import { articles, files, publications, tags, users } from "@paper/lib";
+import {
+	articles,
+	files,
+	keywords,
+	publications,
+	tags,
+	users,
+} from "@paper/lib";
 import { functionsSetup } from "./src/mod.ts";
 
 export const myRedis = await redis.connect({
@@ -17,6 +24,7 @@ export const user = users();
 export const file = files();
 export const publication = publications();
 export const tag = tags();
+export const keyword = keywords();
 
 export const { setAct, setService, getAtcsWithServices } = coreApp.acts;
 
