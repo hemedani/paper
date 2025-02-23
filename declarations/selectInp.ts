@@ -3,7 +3,8 @@
 
   
     export type userInp = {
-      nationalCard?: number | fileInp
+      avatar?: number | fileInp
+nationalCard?: number | fileInp
 favArticles?: number | articleInp
       uploadedAssets?: number | fileInp
 registeredPublications?: number | publicationInp
@@ -25,6 +26,14 @@ level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
 createdAt: Date;
 updatedAt: Date;
+avatar?: {
+_id?: string;
+name: string;
+type: string;
+size: number;
+createdAt: Date;
+updatedAt: Date;
+};
 nationalCard?: {
 _id?: string;
 name: string;
@@ -164,6 +173,8 @@ updatedAt: Date;
 
     export type articleInp = {
       registrar?: number | userInp
+avatar?: number | fileInp
+doc?: number | fileInp
 publication?: number | publicationInp
 tags?: number | tagInp
 keyword?: number | keywordInp
@@ -201,6 +212,22 @@ national_number: string;
 address: string;
 level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
+createdAt: Date;
+updatedAt: Date;
+};
+avatar?: {
+_id?: string;
+name: string;
+type: string;
+size: number;
+createdAt: Date;
+updatedAt: Date;
+};
+doc?: {
+_id?: string;
+name: string;
+type: string;
+size: number;
 createdAt: Date;
 updatedAt: Date;
 };
@@ -315,6 +342,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -377,6 +412,30 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+uploader?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -431,6 +490,22 @@ national_number?: (0 | 1 );
 address?: (0 | 1 );
 level?: (0 | 1 );
 isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+doc?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -538,6 +613,30 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+uploader?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -592,6 +691,22 @@ national_number?: (0 | 1 );
 address?: (0 | 1 );
 level?: (0 | 1 );
 isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+doc?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -702,6 +817,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -781,6 +904,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -852,6 +983,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -916,6 +1055,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1002,6 +1149,30 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+uploader?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1056,6 +1227,22 @@ national_number?: (0 | 1 );
 address?: (0 | 1 );
 level?: (0 | 1 );
 isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+doc?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1196,6 +1383,87 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+nationalCard?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+};
+
+          
+            updateUserRelations: {
+set: {
+_id: string;
+avatar?: string;
+nationalCard?: string;
+};
+get: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1299,6 +1567,22 @@ isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+doc?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 publication?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
@@ -1373,6 +1657,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1410,6 +1702,54 @@ updatedAt?: (0 | 1 );
 registeredPublications?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+uploader?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+doc?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+uploader?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1495,6 +1835,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1591,6 +1939,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1628,6 +1984,54 @@ updatedAt?: (0 | 1 );
 registeredPublications?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+uploader?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+doc?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+uploader?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1713,6 +2117,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1805,6 +2217,22 @@ national_number?: (0 | 1 );
 address?: (0 | 1 );
 level?: (0 | 1 );
 isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+doc?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1915,6 +2343,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2055,6 +2491,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2124,6 +2568,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2195,6 +2647,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2323,6 +2783,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2392,6 +2860,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2463,6 +2939,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2591,6 +3075,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2660,6 +3152,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2731,6 +3231,14 @@ level?: (0 | 1 );
 isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 nationalCard?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
