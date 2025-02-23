@@ -52,6 +52,12 @@ export const userPure = {
 };
 
 export const userRelations = {
+	avatar: {
+		schemaName: "file",
+		type: "single" as RelationDataType,
+		optional: true,
+		relatedRelations: {},
+	},
 	nationalCard: {
 		schemaName: "file",
 		type: "single" as RelationDataType,
