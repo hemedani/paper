@@ -177,7 +177,7 @@ avatar?: number | fileInp
 doc?: number | fileInp
 publication?: number | publicationInp
 tags?: number | tagInp
-keyword?: number | keywordInp
+keywords?: number | keywordInp
       favByUsers?: number | userInp
     }
 
@@ -243,7 +243,7 @@ name: string;
 createdAt: Date;
 updatedAt: Date;
 }[];
-keyword?: {
+keywords?: {
 _id?: string;
 name: string;
 createdAt: Date;
@@ -521,7 +521,7 @@ name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-keyword?: {
+keywords?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
 createdAt?: (0 | 1 );
@@ -722,7 +722,7 @@ name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-keyword?: {
+keywords?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
 createdAt?: (0 | 1 );
@@ -1258,7 +1258,7 @@ name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-keyword?: {
+keywords?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
 createdAt?: (0 | 1 );
@@ -1595,7 +1595,7 @@ name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-keyword?: {
+keywords?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
 createdAt?: (0 | 1 );
@@ -1798,7 +1798,7 @@ createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
 };
-keyword?: {
+keywords?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
 createdAt?: (0 | 1 );
@@ -2080,7 +2080,7 @@ createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
 };
-keyword?: {
+keywords?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
 createdAt?: (0 | 1 );
@@ -2248,7 +2248,7 @@ name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
-keyword?: {
+keywords?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
 createdAt?: (0 | 1 );
@@ -2304,6 +2304,102 @@ hardCascade?: boolean;
 };
 get: {
 success?: (0 | 1 );
+};
+};
+
+          
+            updateArticleRelations: {
+set: {
+_id: string;
+avatar?: string;
+doc?: string;
+publication?: string;
+tags?: string[];
+keywords?: string[];
+};
+get: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+authors?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+doc?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+publication?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+tags?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+keywords?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 };
 };
 

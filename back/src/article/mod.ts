@@ -4,6 +4,7 @@ import { getArticleSetup } from "./getArticle/mod.ts";
 import { getArticlesSetup } from "./getArticles/mod.ts";
 import { removeArticleSetup } from "./removeArticle/mod.ts";
 import { updateArticleSetup } from "./updateArticle/mod.ts";
+import { updateArticleRelationsSetup } from "./updateArticleRelations/mod.ts";
 
 export const articleSetup = () => {
 	addArticleSetup();
@@ -12,4 +13,5 @@ export const articleSetup = () => {
 	updateArticleSetup();
 	countArticlesSetup();
 	removeArticleSetup();
+	updateArticleRelationsSetup();
 };

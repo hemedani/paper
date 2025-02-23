@@ -57,6 +57,18 @@ export const articleRelations = {
 			},
 		},
 	},
+	avatar: {
+		schemaName: "file",
+		type: "single" as RelationDataType,
+		optional: true,
+		relatedRelations: {},
+	},
+	doc: {
+		schemaName: "file",
+		type: "single" as RelationDataType,
+		optional: true,
+		relatedRelations: {},
+	},
 	publication: {
 		schemaName: "publication",
 		optional: true,
@@ -91,7 +103,7 @@ export const articleRelations = {
 			},
 		},
 	},
-	keyword: {
+	keywords: {
 		schemaName: "keyword",
 		optional: true,
 		type: "multiple" as RelationDataType,
