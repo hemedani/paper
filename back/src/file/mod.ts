@@ -1,6 +1,6 @@
 import { getFilesSetup } from "./getFiles/mod.ts";
-import { uploadImageSetup } from "./uploadImage/mod.ts";
+import { uploadFileSetup } from "./uploadFile/mod.ts";
 
 export const fileSetup = () => {
-  getFilesSetup(), uploadImageSetup();
+	getFilesSetup(), uploadFileSetup();
 };

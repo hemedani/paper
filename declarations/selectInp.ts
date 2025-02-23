@@ -2415,7 +2415,7 @@ set: {
 page: number;
 limit: number;
 name?: string;
-type?: ("image" | "video" );
+type?: ("image" | "video" | "doc" );
 };
 get: {
 _id?: (0 | 1 );
@@ -2492,9 +2492,9 @@ updatedAt?: (0 | 1 );
 };
 
           
-            uploadImage: {
+            uploadFile: {
 set: {
-updatePlus?: ("nationalCard" | "carCard" | "taxiLicense" );
+type: ("video" | "image" | "doc" );
 createdAt: Date;
 updatedAt: Date;
 };

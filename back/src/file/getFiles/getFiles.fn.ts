@@ -17,7 +17,13 @@ export const getFilesFn: ActFn = async (body) => {
 	name && pipeline.push({ $match: { name } });
 	type &&
 		pipeline.push({
-			$match: { type: type === "image" ? "image/jpeg" : "video/mp4" },
+			$match: {
+				type: type === "image"
+					? "image/jpeg"
+					: type === "pdf"
+					? "application/pdf"
+					: "video/mp4",
+			},
 		});
 
 	pipeline.push({ $sort: { _id: -1 } });
