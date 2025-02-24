@@ -1,0 +1,115 @@
+"use client";
+import React, { useState } from "react";
+
+export const dynamic = "force-dynamic";
+
+interface IUploadImage {
+  setUploadedImage: React.Dispatch<React.SetStateAction<string | null>>;
+  token?: string;
+  lesanUrl?: string;
+  inputName: string;
+  type?: "video" | "image" | "doc";
+  filePath?: string;
+}
+
+export const UploadImage = ({
+  token,
+  lesanUrl,
+  inputName,
+  setUploadedImage,
+  type,
+  filePath,
+}: IUploadImage) => {
+  const [isUploaded, setIsUploaded] = useState<"uploading" | boolean>(false);
+  const [file, setFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!file) return;
+    setIsUploaded("uploading");
+
+    const lesanBody = {
+      service: "main",
+      model: "file",
+      act: "uploadFile",
+      details: {
+        get: { type: 1, _id: 1 },
+        set: type ? { type } : {},
+      },
+    };
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("lesan-body", JSON.stringify(lesanBody));
+
+    try {
+      const response = await fetch(`http://localhost:1382/lesan`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          token: token || "",
+        },
+      });
+      console.log({ response });
+
+      const data = await response.json();
+      console.log({ data });
+
+      if (data.success) {
+        setUploadedImage(data.body._id);
+        setIsUploaded(true);
+      } else {
+        console.error("Upload failed", data);
+        setIsUploaded(false);
+      }
+    } catch (error) {
+      console.error("Error uploading file", error);
+      setIsUploaded(false);
+    }
+  };
+
+  return (
+    <div className="w-full p-4 border rounded-lg shadow-md flex flex-col items-center">
+      <label
+        htmlFor={inputName}
+        className="w-full h-40 bg-gray-200 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-300"
+      >
+        <input type="file" id={inputName} hidden onChange={handleFileChange} />
+        انتخاب فایل
+      </label>
+
+      {(file || filePath) && (
+        <div className="w-full h-40 mt-4 rounded-lg overflow-hidden border">
+          <img
+            className="w-full h-full object-cover"
+            src={
+              file
+                ? URL.createObjectURL(file)
+                : `${lesanUrl}/uploads/images/${filePath}`
+            }
+            alt="Uploaded preview"
+          />
+        </div>
+      )}
+
+      {file && (
+        <button
+          onClick={handleUpload}
+          className="mt-4 w-full h-10 bg-blue-500 text-white rounded-lg transition-all duration-200 hover:shadow-md disabled:bg-gray-400"
+          disabled={isUploaded === "uploading"}
+        >
+          {isUploaded === "uploading"
+            ? "در حال بارگذاری..."
+            : isUploaded
+            ? "بارگذاری موفق"
+            : "بارگذاری"}
+        </button>
+      )}
+    </div>
+  );
+};
