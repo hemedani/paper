@@ -7,7 +7,7 @@ export const getFilesValidator = () => {
 			page: number(),
 			limit: number(),
 			name: optional(string()),
-			type: optional(enums(["image", "video"])),
+			type: optional(enums(["image", "video", "doc"])),
 		}),
 		get: selectStruct("file", 2),
 	});
