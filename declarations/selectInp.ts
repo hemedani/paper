@@ -2521,6 +2521,7 @@ doc?: string;
 publication?: string;
 tags?: string[];
 keywords?: string[];
+authors?: string[];
 };
 get: {
 _id?: (0 | 1 );
