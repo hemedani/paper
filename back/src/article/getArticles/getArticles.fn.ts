@@ -11,7 +11,8 @@ export const getArticlesFn: ActFn = async (body) => {
 			//advanced search
 			articleType,
 			publicationYear,
-			authors,
+			authorIds,
+			authorFamily,
 			title,
 			abstract,
 			ISBN,
@@ -33,9 +34,13 @@ export const getArticlesFn: ActFn = async (body) => {
 
 	tags && tags.length > 0 &&
 		pipeline.push({ $match: { "tags.name": { $in: tags } } });
-	authors &&
+	authorIds && authorIds.length > 0 &&
+		pipeline.push({ $match: { "authors._id": { $in: authorIds } } });
+	authorFamily &&
 		pipeline.push({
-			$match: { "authors": { $regex: new RegExp(authors, "i") } },
+			$match: {
+				"authors.last_name": { $regex: new RegExp(authorFamily, "i") },
+			},
 		});
 
 	articleType && pipeline.push({ $match: { articleType } });
