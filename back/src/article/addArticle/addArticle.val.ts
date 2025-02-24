@@ -7,7 +7,9 @@ export const addArticleValidator = () => {
 		set: object({
 			...articlePureFields,
 			publicationId: objectIdValidation,
-			tagIds: array(objectIdValidation),
+			tags: array(objectIdValidation),
+			keywords: array(objectIdValidation),
+			authors: array(objectIdValidation),
 		}),
 		get: selectStruct("article", 1),
 	});
