@@ -11,6 +11,7 @@ export const updateArticleRelationsFn: ActFn = async (body) => {
 			publication,
 			tags,
 			keywords,
+			authors,
 		},
 		get,
 	} = body.details;
@@ -119,6 +120,21 @@ export const updateArticleRelationsFn: ActFn = async (body) => {
 		} else if (keywords) {
 			relations.keywords = {
 				_ids: keywords.map((id: string) => new ObjectId(id)),
+				relatedRelations: { articles: true },
+			};
+		}
+
+		if (
+			foundedArticle.authors && foundedArticle.authors.length > 0 &&
+			authors
+		) {
+			const authorsIds: ObjectId[] = authors.map((id: string) =>
+				new ObjectId(id)
+			);
+			await handleMultipleRelations("authors", authorsIds, "articles");
+		} else if (authors) {
+			relations.authors = {
+				_ids: authors.map((id: string) => new ObjectId(id)),
 				relatedRelations: { articles: true },
 			};
 		}

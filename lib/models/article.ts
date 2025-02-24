@@ -1,5 +1,4 @@
 import {
-	array,
 	enums,
 	number,
 	type RelationDataType,
@@ -21,8 +20,6 @@ export const articlePureFields = {
 
 	articleType: articleTypeEnums,
 	publicationYear: size(number(), 1250, 1500),
-
-	authors: array(string()),
 
 	title: string(),
 	abstract: string(),
@@ -73,6 +70,25 @@ export const articleRelations = {
 		schemaName: "publication",
 		optional: true,
 		type: "single" as RelationDataType,
+		relatedRelations: {
+			articles: {
+				type: "multiple" as RelationDataType,
+				limit: 50,
+				sort: {
+					field: "_id",
+					order: "desc" as RelationSortOrderType,
+				},
+			},
+		},
+	},
+	authors: {
+		schemaName: "author",
+		optional: true,
+		type: "multiple" as RelationDataType,
+		sort: {
+			field: "_id",
+			order: "desc" as RelationSortOrderType,
+		},
 		relatedRelations: {
 			articles: {
 				type: "multiple" as RelationDataType,

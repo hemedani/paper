@@ -13,7 +13,9 @@ export const addArticleFn: ActFn = async (body) => {
 
 	const {
 		publicationId,
-		tagIds,
+		tags,
+		keywords,
+		authors,
 		...rest
 	} = set;
 
@@ -31,7 +33,19 @@ export const addArticleFn: ActFn = async (body) => {
 				},
 			},
 			tags: {
-				_ids: tagIds.map((id: string) => new ObjectId(id)),
+				_ids: tags.map((id: string) => new ObjectId(id)),
+				relatedRelations: {
+					articles: true,
+				},
+			},
+			authors: {
+				_ids: authors.map((id: string) => new ObjectId(id)),
+				relatedRelations: {
+					articles: true,
+				},
+			},
+			keywords: {
+				_ids: keywords.map((id: string) => new ObjectId(id)),
 				relatedRelations: {
 					articles: true,
 				},

@@ -48,7 +48,6 @@ _id?: string;
 key: string;
 articleType: ("journalArticle" | "book" );
 publicationYear: number;
-authors: string[];
 title: string;
 abstract: string;
 ISBN: string;
@@ -88,6 +87,39 @@ updatedAt: Date;
     export type publicationSchema = {
 _id?: string;
 title: string;
+createdAt: Date;
+updatedAt: Date;
+registrar: {
+_id?: string;
+first_name: string;
+last_name: string;
+father_name: string;
+mobile: string;
+gender: ("Male" | "Female" );
+birth_date?: Date;
+summery?: string;
+personnel_number: string;
+national_number: string;
+address: string;
+level: ("Ghost" | "Manager" | "Editor" );
+isVerified: boolean;
+createdAt: Date;
+updatedAt: Date;
+};
+};
+;
+
+
+    export type authorInp = {
+      registrar?: number | userInp
+      
+    }
+
+
+    export type authorSchema = {
+_id?: string;
+first_name: string;
+last_name: string;
 createdAt: Date;
 updatedAt: Date;
 registrar: {
@@ -180,6 +212,7 @@ updatedAt: Date;
 avatar?: number | fileInp
 doc?: number | fileInp
 publication?: number | publicationInp
+authors?: number | authorInp
 tags?: number | tagInp
 keywords?: number | keywordInp
       favByUsers?: number | userInp
@@ -191,7 +224,6 @@ _id?: string;
 key: string;
 articleType: ("journalArticle" | "book" );
 publicationYear: number;
-authors: string[];
 title: string;
 abstract: string;
 ISBN: string;
@@ -242,6 +274,13 @@ title: string;
 createdAt: Date;
 updatedAt: Date;
 };
+authors?: {
+_id?: string;
+first_name: string;
+last_name: string;
+createdAt: Date;
+updatedAt: Date;
+}[];
 tags?: {
 _id?: string;
 name: string;
@@ -418,7 +457,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -523,7 +561,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -571,6 +608,13 @@ updatedAt?: (0 | 1 );
 publication?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+authors?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -731,7 +775,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -779,6 +822,13 @@ updatedAt?: (0 | 1 );
 publication?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+authors?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -908,7 +958,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -996,7 +1045,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -1077,7 +1125,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -1150,7 +1197,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -1279,7 +1325,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -1327,6 +1372,13 @@ updatedAt?: (0 | 1 );
 publication?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+authors?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1486,7 +1538,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -1560,7 +1611,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -1602,7 +1652,6 @@ set: {
 key: string;
 articleType: ("journalArticle" | "book" );
 publicationYear: number;
-authors: string[];
 title: string;
 abstract: string;
 ISBN: string;
@@ -1615,14 +1664,15 @@ volume: number;
 createdAt: Date;
 updatedAt: Date;
 publicationId: string;
-tagIds: string[];
+tags: string[];
+keywords: string[];
+authors: string[];
 };
 get: {
 _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -1670,6 +1720,13 @@ updatedAt?: (0 | 1 );
 publication?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+authors?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1715,7 +1772,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -1764,7 +1820,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -1845,6 +1900,30 @@ updatedAt?: (0 | 1 );
 publication?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+authors?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 registrar?: {
@@ -1948,7 +2027,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -2004,7 +2082,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -2053,7 +2130,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -2134,6 +2210,30 @@ updatedAt?: (0 | 1 );
 publication?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+authors?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 registrar?: {
@@ -2237,7 +2337,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -2275,7 +2374,6 @@ articleId: string;
 key: string;
 articleType: ("journalArticle" | "book" );
 publicationYear: number;
-authors: string[];
 title: string;
 abstract: string;
 ISBN: string;
@@ -2291,7 +2389,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -2339,6 +2436,13 @@ updatedAt?: (0 | 1 );
 publication?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+authors?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -2417,13 +2521,13 @@ doc?: string;
 publication?: string;
 tags?: string[];
 keywords?: string[];
+authors?: string[];
 };
 get: {
 _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -2471,6 +2575,13 @@ updatedAt?: (0 | 1 );
 publication?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+authors?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -2663,7 +2774,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -2773,7 +2883,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -2908,7 +3017,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -3059,7 +3167,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -3137,7 +3244,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -3217,7 +3323,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -3355,7 +3460,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -3433,7 +3537,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -3513,7 +3616,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -3559,6 +3661,256 @@ success?: (0 | 1 );
             countTags: {
 set: {
 name?: string;
+};
+get: {
+qty?: (0 | 1 );
+};
+};
+
+          
+          }
+
+        
+        author: {
+
+      
+            add: {
+set: {
+first_name: string;
+last_name: string;
+createdAt: Date;
+updatedAt: Date;
+};
+get: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+};
+
+          
+            update: {
+set: {
+_id: string;
+first_name?: string;
+last_name?: string;
+};
+get: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+};
+
+          
+            get: {
+set: {
+_id: string;
+};
+get: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+nationalCard?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+};
+};
+
+          
+            gets: {
+set: {
+page: number;
+limit: number;
+};
+get: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+nationalCard?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+};
+};
+
+          
+            remove: {
+set: {
+_id: string;
+hardCascade?: boolean;
+};
+get: {
+success?: (0 | 1 );
+};
+};
+
+          
+            count: {
+set: {
 };
 get: {
 qty?: (0 | 1 );
@@ -3651,7 +4003,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -3729,7 +4080,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );
@@ -3809,7 +4159,6 @@ _id?: (0 | 1 );
 key?: (0 | 1 );
 articleType?: (0 | 1 );
 publicationYear?: (0 | 1 );
-authors?: (0 | 1 );
 title?: (0 | 1 );
 abstract?: (0 | 1 );
 ISBN?: (0 | 1 );

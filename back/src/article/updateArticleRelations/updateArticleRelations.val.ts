@@ -10,6 +10,7 @@ export const updateArticleRelationsValidator = () => {
 			publication: optional(objectIdValidation),
 			tags: optional(array(objectIdValidation)),
 			keywords: optional(array(objectIdValidation)),
+			authors: optional(array(objectIdValidation)),
 		}),
 		get: selectStruct("article", 1),
 	});
