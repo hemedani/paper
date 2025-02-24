@@ -5,6 +5,7 @@ import { tagSetup } from "./tag/mod.ts";
 import { keywordSetup } from "./keyword/mod.ts";
 import { userSetup } from "./user/mod.ts";
 import { blogSetup } from "./blog/mod.ts";
+import { authorSetup } from "./author/mod.ts";
 
 export const functionsSetup = () => {
 	userSetup();
@@ -13,5 +14,6 @@ export const functionsSetup = () => {
 	fileSetup();
 	publicationSetup();
 	tagSetup();
+	authorSetup();
 	keywordSetup();
 };

@@ -1,6 +1,7 @@
 import { lesan, MongoClient, redis } from "deps";
 import {
 	articles,
+	authors,
 	blogs,
 	files,
 	keywords,
@@ -26,6 +27,7 @@ export const user = users();
 export const file = files();
 export const publication = publications();
 export const tag = tags();
+export const author = authors();
 export const keyword = keywords();
 
 export const { setAct, setService, getAtcsWithServices } = coreApp.acts;
