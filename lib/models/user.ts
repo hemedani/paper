@@ -38,6 +38,7 @@ export const userPure = {
 	mobile: mobilePattern,
 	gender: userGenders,
 	birth_date: optional(coerce(date(), string(), (value) => new Date(value))),
+	summery: optional(string()),
 
 	// شماره شناسنامه
 	personnel_number: string(),

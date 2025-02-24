@@ -4,10 +4,12 @@ import { publicationSetup } from "./publication/mod.ts";
 import { tagSetup } from "./tag/mod.ts";
 import { keywordSetup } from "./keyword/mod.ts";
 import { userSetup } from "./user/mod.ts";
+import { blogSetup } from "./blog/mod.ts";
 
 export const functionsSetup = () => {
 	userSetup();
 	articleSetup();
+	blogSetup();
 	fileSetup();
 	publicationSetup();
 	tagSetup();

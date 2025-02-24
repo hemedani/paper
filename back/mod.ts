@@ -1,6 +1,7 @@
 import { lesan, MongoClient, redis } from "deps";
 import {
 	articles,
+	blogs,
 	files,
 	keywords,
 	publications,
@@ -20,6 +21,7 @@ const db = client.db("paper");
 coreApp.odm.setDb(db);
 
 export const article = articles();
+export const blog = blogs();
 export const user = users();
 export const file = files();
 export const publication = publications();
@@ -38,6 +40,7 @@ coreApp.runServer({
 	playground: true,
 	staticPath: ["/uploads"],
 	cors: [
+		"http://localhost:1382",
 		"http://localhost:3000",
 		"http://localhost:4000",
 		"http://194.5.192.166:3000",
