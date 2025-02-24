@@ -11,7 +11,7 @@ export const getArticlesValidator = () => {
 
 			//advanced search
 			articleType: optional(articleTypeEnums),
-			authors: optional(string()),
+			authorFamily: optional(string()),
 			title: optional(string()),
 			abstract: optional(string()),
 			ISBN: optional(string()),
@@ -25,6 +25,7 @@ export const getArticlesValidator = () => {
 
 			//advanced relation search
 			tags: optional(array(string())),
+			authorIds: optional(array(string())),
 			publication: optional(string()),
 		}),
 		get: selectStruct("article", 2),
