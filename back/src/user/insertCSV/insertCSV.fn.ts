@@ -1,5 +1,5 @@
 import type { ActFn, Document, ObjectId, TInsertRelations, WithId } from "deps";
-import { article, coreApp, publication, tag } from "../../../mod.ts";
+import { article, author, coreApp, publication, tag } from "../../../mod.ts";
 import { parse } from "jsr:@std/csv";
 import type { articleRelations, MyContext } from "@paper/lib";
 
@@ -95,6 +95,52 @@ export const insertCSVFn: ActFn = async (body) => {
 			}
 		}
 
+		const authorsList: ObjectId[] = [];
+		const authors = (item as any)["Author"];
+		if (authors) {
+			const replacedAuthors = (authors as string).replace(/؛/g, ";")
+				.replace(
+					/،/g,
+					";",
+				);
+			const splitedAuthors = replacedAuthors.split(";").map((tag) =>
+				tag.trim()
+			)
+				.filter((item) => ((item !== "-") && (item !== "ندارد")));
+
+			for await (const authorItem of splitedAuthors) {
+				const [last_name, first_name] = authorItem.split(",").map((a) =>
+					a.trim()
+				);
+
+				const foundedAuthor = await author.findOne({
+					filters: { first_name, last_name },
+					projection: { _id: 1 },
+				});
+
+				if (foundedAuthor === null) {
+					const insertedAuthor = await author.insertOne({
+						doc: {
+							first_name,
+							last_name,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						relations: {
+							registrar: {
+								_ids: user._id,
+							},
+						},
+					});
+					if (insertedAuthor) {
+						authorsList.push(insertedAuthor._id);
+					}
+				} else {
+					authorsList.push(foundedAuthor._id);
+				}
+			}
+		}
+
 		const relations: TInsertRelations<typeof articleRelations> = {
 			registrar: {
 				_ids: user._id,
@@ -109,6 +155,12 @@ export const insertCSVFn: ActFn = async (body) => {
 				articles: true,
 			},
 		});
+		authorsList.length > 0 && (relations.authors = {
+			_ids: removeDuplicates(authorsList),
+			relatedRelations: {
+				articles: true,
+			},
+		});
 		foundedPublication && (relations.publication = {
 			_ids: foundedPublication._id,
 			relatedRelations: {
@@ -116,12 +168,6 @@ export const insertCSVFn: ActFn = async (body) => {
 			},
 		});
 
-		let authors: string[] | null = null;
-		if (item["Author"]) {
-			authors = (item["Author"] as string).split(";").map((tag) =>
-				tag.trim()
-			);
-		}
 		const doc: Record<string, any> = {
 			createdAt: new Date(),
 			updatedAt: new Date(),
@@ -130,7 +176,6 @@ export const insertCSVFn: ActFn = async (body) => {
 		item["Item Type"] && (doc["articleType"] = item["Item Type"]);
 		item["Publication Year"] &&
 			(doc["publicationYear"] = Number(item["Publication Year"]));
-		authors && (doc["authors"] = authors);
 		item["Title"] && (doc["title"] = item["Title"]);
 		item["Abstract Note"] && (doc["abstract"] = item["Abstract Note"]);
 		item["ISBN"] && (doc["ISBN"] = item["ISBN"]);
