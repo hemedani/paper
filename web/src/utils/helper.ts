@@ -59,7 +59,7 @@ const ArrayToSelectOptions = <T>(
   secondaryLabelKey?: keyof T
 ) => {
   return data.map((item) => ({
-    value: item[valueKey],
+    value: String(item[valueKey]),
     label: `${item[labelKey]} ${
       secondaryLabelKey ? item[secondaryLabelKey] : ""
     }`,
