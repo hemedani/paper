@@ -3824,6 +3824,8 @@ updatedAt?: (0 | 1 );
           
             gets: {
 set: {
+first_name: string;
+last_name: string;
 page: number;
 limit: number;
 };
