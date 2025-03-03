@@ -1,8 +1,7 @@
 import { getArticleAction } from "@/app/actions/article/getArticle";
 import { FormUpdateArticle } from "@/components/template/FormUpdateArticle";
 
-const Page = async ({ params }: { params: Promise<{ id: string }>; }) => {
-
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const articleId = (await params).id;
 
   const getArticle = await getArticleAction({
@@ -20,12 +19,11 @@ const Page = async ({ params }: { params: Promise<{ id: string }>; }) => {
       key: 1,
       ISBN: 1,
       ISNN: 1,
-      authors: 1,
-      publication: { _id: 1, title: 1 },
-      tags: { _id: 1, name: 1 },
       URL: 1,
     },
   });
+
+  console.log({ getArticle });
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
