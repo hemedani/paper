@@ -1,16 +1,16 @@
 import { Graph } from "@/components/atoms/Chart";
-import { getArticles } from "../actions/article/getArticles";
+import { getTags } from "../actions/tag/getTags";
 
 const Page = async () => {
-  const articles = await getArticles({
+  const tags = await getTags({
     set: { page: 1, limit: 50 },
-    get: { _id: 1, title: 1, tags: { name: 1 } },
+    get: { _id: 1, name: 1 },
   });
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="w-full h-full">
-        <Graph articles={articles} />
+        <Graph tags={tags} />
       </div>
     </div>
   );
