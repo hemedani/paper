@@ -55,13 +55,11 @@ export const UploadImage = ({
           token: token || "",
         },
       });
-      console.log({ response });
-
       const data = await response.json();
       console.log({ data });
 
       if (data.success) {
-        setUploadedImage(data.body._id);
+        setUploadedImage(data.body._id); // اینجا باید _id برگشتی رو ست کنیم
         setIsUploaded(true);
       } else {
         console.error("Upload failed", data);
@@ -83,15 +81,11 @@ export const UploadImage = ({
         انتخاب فایل
       </label>
 
-      {(file || filePath) && (
+      {(file || filePath || lesanUrl) && ( // اضافه کردن lesanUrl به شرط
         <div className="w-full h-40 mt-4 rounded-lg overflow-hidden border">
           <img
             className="w-full h-full object-cover"
-            src={
-              file
-                ? URL.createObjectURL(file)
-                : `${lesanUrl}/uploads/images/${filePath}`
-            }
+            src={file ? URL.createObjectURL(file) : lesanUrl || filePath} // اولویت با file، بعد lesanUrl، بعد filePath
             alt="Uploaded preview"
           />
         </div>
