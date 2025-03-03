@@ -8,7 +8,7 @@ export const countArticlesValidator = () => {
 
 			//advanced search
 			articleType: optional(articleTypeEnums),
-			authors: optional(string()),
+			authorFamily: optional(string()),
 			title: optional(string()),
 			abstract: optional(string()),
 			ISBN: optional(string()),
@@ -22,6 +22,7 @@ export const countArticlesValidator = () => {
 
 			//advanced relation search
 			tags: optional(array(string())),
+			authorIds: optional(array(string())),
 			publication: optional(string()),
 		}),
 		get: object({ qty: optional(enums([0, 1])) }),
