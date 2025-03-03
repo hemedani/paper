@@ -3,26 +3,29 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import AsyncSelect from "react-select/async";
 import { MultiValue, SingleValue } from "react-select";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 import SelectBox from "../atoms/Select";
+import { UploadImage } from "@/components/molecules/UploadFile";
 import { getTags } from "@/app/actions/tag/getTags";
 import { getPublications } from "@/app/actions/publication/getPublications";
 import { createArticle } from "@/app/actions/article/createArticle";
+import { getAuthors } from "@/app/actions/author/getAuthors";
 import { ToastNotify } from "@/utils/helper";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { getKeywords } from "@/app/actions/keyword/getKeywords";
 
+// تعریف اسکیما برای اعتبارسنجی فرم
 export const ArticleCreateSchema = z.object({
-  tagIds: z.array(z.string()).nonempty("حداقل یک برچسب انتخاب کنید"),
-  publicationId: z.string().nonempty("انتشار الزامی است"),
+  tags: z.array(z.string()).nonempty("حداقل یک برچسب انتخاب کنید"),
+  keywords: z.array(z.string()).nonempty("حداقل یک کلمه کلیدی انتخاب کنید"),
+  authors: z.array(z.string()).nonempty("حداقل یک نویسنده انتخاب کنید"),
+  publication: z.string().nonempty("انتشار الزامی است"),
   key: z.string().nonempty("کلید الزامی است"),
   articleType: z.enum(["journalArticle", "book"], {
     required_error: "نوع مقاله الزامی است",
   }),
-  authors: z
-    .string()
-    .nonempty("نویسندگان الزامی هستند")
-    .transform((val) => val.split(",").map((author) => author.trim())),
   title: z.string().nonempty("عنوان الزامی است"),
   abstract: z.string().nonempty("چکیده الزامی است"),
   ISBN: z.string().nonempty("ISBN الزامی است"),
@@ -39,12 +42,18 @@ export type ArticleFormCreateSchemaType = z.infer<typeof ArticleCreateSchema>;
 
 export const FormCreateArticle = ({
   defaultValues,
+  token,
 }: {
   defaultValues?: ArticleFormCreateSchemaType & {
-    tags: { _id: string; name: string }[];
+    tagList: { _id: string; name: string }[];
   };
+  token?: string;
 }) => {
   const router = useRouter();
+  const [imageAvatar, setImageAvatar] = useState<string | null>(null);
+  const [imageNationalCard, setImageNationalCard] = useState<string | null>(
+    null
+  );
 
   const {
     register,
@@ -58,8 +67,17 @@ export const FormCreateArticle = ({
   });
 
   const onSubmit: SubmitHandler<ArticleFormCreateSchemaType> = async (data) => {
-    data.authors = [data.authors.toString()];
-    const newArticle = await createArticle(data);
+    console.log("قبل از اضافه کردن تصاویر:", data);
+
+    const updatedData = {
+      ...data,
+      avatart: imageAvatar,
+      doc: imageNationalCard,
+    };
+
+    console.log("بعد از اضافه کردن تصاویر:", updatedData);
+
+    const newArticle = await createArticle(updatedData);
     console.log("newArticle", newArticle);
 
     if (newArticle._id) {
@@ -82,12 +100,47 @@ export const FormCreateArticle = ({
   const handleTagChange = (
     selectedOptions: MultiValue<{ value: string; label: string }>
   ) => {
-    const values: string[] =
-      selectedOptions.length > 0
-        ? selectedOptions.map((option) => option.value)
-        : [];
+    const values = selectedOptions.map((option) => option.value);
+    setValue("tags", values as [string, ...string[]]);
+  };
 
-    setValue("tagIds", values as [string, ...string[]]);
+  const loadAuthorOptions = async (inputValue: string) => {
+    const value = inputValue.split(" ");
+    const response = await getAuthors({
+      set: { limit: 10, page: 1, first_name: value[0], last_name: value[1] },
+      get: { _id: 1, first_name: 1, last_name: 1 },
+    });
+    return response.map(
+      (author: { _id: string; first_name: string; last_name: string }) => ({
+        value: author._id,
+        label: `${author.first_name} ${author.last_name}`,
+      })
+    );
+  };
+
+  const handleAuthorChange = (
+    selectedOptions: MultiValue<{ value: string; label: string }>
+  ) => {
+    const values = selectedOptions.map((option) => option.value);
+    setValue("authors", values as [string, ...string[]]);
+  };
+
+  const loadKeywordOptions = async (inputValue: string) => {
+    const response = await getKeywords({
+      set: { name: inputValue, limit: 10, page: 1 },
+      get: { _id: 1, name: 1 },
+    });
+    return response.map((key: { _id: string; name: string }) => ({
+      value: key._id,
+      label: key.name,
+    }));
+  };
+
+  const handleKeywordChange = (
+    selectedOptions: MultiValue<{ value: string; label: string }>
+  ) => {
+    const values = selectedOptions.map((option) => option.value);
+    setValue("keywords", values as [string, ...string[]]);
   };
 
   const loadPublicationOptions = async (inputValue: string) => {
@@ -104,13 +157,14 @@ export const FormCreateArticle = ({
   const handlePublicationChange = (
     selectedOption: SingleValue<{ value: string; label: string }>
   ) => {
-    setValue("publicationId", selectedOption?.value || "");
+    setValue("publication", selectedOption?.value || "");
   };
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-6">ایجاد مقاله جدید</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* بخش انتخاب‌ها */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-2">
             <label
@@ -125,20 +179,41 @@ export const FormCreateArticle = ({
               loadOptions={loadTagOptions}
               defaultOptions
               defaultValue={
-                defaultValues && defaultValues.tags
-                  ? defaultValues.tags.map((tag) => ({
-                      label: tag.name,
-                      value: tag._id,
-                    }))
-                  : []
+                defaultValues?.tagList?.map((tag) => ({
+                  label: tag.name,
+                  value: tag._id,
+                })) || []
               }
               onChange={handleTagChange}
               placeholder="برچسب‌ها را انتخاب کنید"
               classNamePrefix="react-select"
             />
-            {errors.tagIds && (
+            {errors.tags && (
               <span className="text-red-500 text-xs">
-                {errors.tagIds.message}
+                {errors.tags.message}
+              </span>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="authorIds"
+              className="text-sm font-medium text-gray-700"
+            >
+              نویسندگان
+            </label>
+            <AsyncSelect
+              isMulti
+              cacheOptions
+              loadOptions={loadAuthorOptions}
+              defaultOptions
+              onChange={handleAuthorChange}
+              placeholder="نویسندگان را انتخاب کنید"
+              classNamePrefix="react-select"
+            />
+            {errors.authors && (
+              <span className="text-red-500 text-xs">
+                {errors.authors?.message}
               </span>
             )}
           </div>
@@ -158,13 +233,39 @@ export const FormCreateArticle = ({
               placeholder="انتشار را انتخاب کنید"
               classNamePrefix="react-select"
             />
-            {errors.publicationId && (
+            {errors.publication && (
               <span className="text-red-500 text-xs">
-                {errors.publicationId.message}
+                {errors.publication.message}
               </span>
             )}
           </div>
 
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="tagIds"
+              className="text-sm font-medium text-gray-700"
+            >
+              کلیمه های کلیدی
+            </label>
+            <AsyncSelect
+              isMulti
+              cacheOptions
+              loadOptions={loadKeywordOptions}
+              defaultOptions
+              onChange={handleKeywordChange}
+              placeholder="کلمه های کلیدی را انتخاب کنید"
+              classNamePrefix="react-select"
+            />
+            {errors.tags && (
+              <span className="text-red-500 text-xs">
+                {errors.tags.message}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* بخش اطلاعات اصلی */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label
               htmlFor="key"
@@ -196,26 +297,6 @@ export const FormCreateArticle = ({
 
           <div>
             <label
-              htmlFor="authors"
-              className="block text-sm font-medium text-gray-700"
-            >
-              نویسندگان
-            </label>
-            <input
-              id="authors"
-              type="text"
-              {...register("authors")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.authors && (
-              <span className="text-red-500 text-xs">
-                {errors.authors.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label
               htmlFor="title"
               className="block text-sm font-medium text-gray-700"
             >
@@ -235,6 +316,7 @@ export const FormCreateArticle = ({
           </div>
         </div>
 
+        {/* بخش چکیده */}
         <div className="flex flex-col gap-2">
           <label
             htmlFor="abstract"
@@ -247,9 +329,7 @@ export const FormCreateArticle = ({
             rows={6}
             className="resize-none px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="چکیده را وارد کنید"
-            {...control.register("abstract", {
-              required: "چکیده الزامی است",
-            })}
+            {...control.register("abstract", { required: "چکیده الزامی است" })}
           />
           {errors.abstract && (
             <span className="text-red-500 text-xs">
@@ -258,6 +338,7 @@ export const FormCreateArticle = ({
           )}
         </div>
 
+        {/* بخش اطلاعات تکمیلی */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label
@@ -424,6 +505,33 @@ export const FormCreateArticle = ({
           </div>
         </div>
 
+        {/* بخش آپلود تصاویر */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col gap-2">
+            <span className="text-sm font-medium text-gray-700">
+              عکس پروفایل کاربری
+            </span>
+            <UploadImage
+              inputName="avatar"
+              setUploadedImage={setImageAvatar}
+              type="image"
+              token={token}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="text-sm font-medium text-gray-700">
+              pdf مقاله را آپلود کنید
+            </span>
+            <UploadImage
+              inputName="nationalCard"
+              setUploadedImage={setImageNationalCard}
+              type="doc"
+              token={token}
+            />
+          </div>
+        </div>
+
+        {/* دکمه ارسال */}
         <div className="flex justify-end space-x-4">
           <button
             type="submit"

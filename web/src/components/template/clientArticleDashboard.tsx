@@ -61,7 +61,7 @@ const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles }) => {
   return (
     <div>
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {articles.map((article) => (
+        {articles?.map((article) => (
           <ArticleCard
             key={article._id}
             title={article.title}

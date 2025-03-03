@@ -14,20 +14,6 @@ const ArticleUpdateSchema = z.object({
   key: z.string().nonempty("کلید الزامی است"),
   articleType: z.enum(["journalArticle", "book"]),
   publicationYear: z.coerce.number().int("سال انتشار باید عدد صحیح باشد"),
-  authors: z
-    .union([
-      z.string().transform((val) =>
-        val
-          .split(",")
-          .map((author) => author.trim())
-          .filter((author) => author.length > 0)
-      ), // تبدیل رشته به آرایه
-      z.array(z.string().nonempty("نام نویسنده نمی‌تواند خالی باشد")),
-    ])
-    .refine(
-      (authors) => Array.isArray(authors) && authors.length > 0,
-      "لیست نویسندگان نمی‌تواند خالی باشد"
-    ),
   title: z.string().nonempty("عنوان مقاله الزامی است"),
   abstract: z.string().nonempty("چکیده الزامی است"),
   ISBN: z.string().nonempty("ISBN الزامی است"),
@@ -60,7 +46,6 @@ export const FormUpdateArticle = ({
       key: "",
       articleType: "journalArticle",
       publicationYear: 2023,
-      authors: [""],
       title: "",
       abstract: "",
       ISBN: "",
@@ -76,15 +61,6 @@ export const FormUpdateArticle = ({
   });
 
   const onSubmit: SubmitHandler<ArticleFormUpdateSchemaType> = async (data) => {
-    const authorsArray = data.authors[0]
-      .split(",")
-      .map((author: string) => author.trim())
-      .filter((author) => author.length > 0);
-
-    if (authorsArray.length === 0) {
-      authorsArray.push("");
-    }
-    data.authors = authorsArray as [string, ...string[]];
     data.articleId = params.id as string;
 
     const editDataArticle = await EditArticle(data);
@@ -134,26 +110,6 @@ export const FormUpdateArticle = ({
               { value: "book", label: "کتاب" },
             ]}
           />
-
-          <div>
-            <label
-              htmlFor="authors"
-              className="block text-sm font-medium text-gray-700"
-            >
-              نویسندگان
-            </label>
-            <input
-              id="authors"
-              type="text"
-              {...register("authors")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.authors && (
-              <span className="text-red-500 text-xs">
-                {errors.authors.message}
-              </span>
-            )}
-          </div>
 
           <div>
             <label

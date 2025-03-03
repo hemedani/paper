@@ -77,6 +77,7 @@ const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
             first_name={user.first_name}
             last_name={user.last_name}
             national_number={user.national_number}
+            onEdit={() => openModal("edit", user)}
             onDelete={() => openModal("delete", user)}
           />
         ))}
