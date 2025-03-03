@@ -14,7 +14,7 @@ export const addFavorite = async (_id: string) => {
         get: {
           _id: 1,
           first_name: 1,
-          favArticles: {abstract:1, title:1, authors:1},
+          favArticles: { abstract: 1, title: 1 },
         },
       },
     },
