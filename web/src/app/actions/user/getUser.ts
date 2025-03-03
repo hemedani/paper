@@ -25,6 +25,7 @@ export const getUser = async (_id: string) => {
           national_number: 1,
           personnel_number: 1,
           level: 1,
+          avatar: { _id: 1, name: 1 },
         },
       },
     },
