@@ -1,9 +1,9 @@
 "use server";
 import { paperApi } from "@/services/api";
 import { cookies } from "next/headers";
-import { ArticleFormUpdateSchemaType } from "@/components/template/FormUpdateArticle";
+import { FormSchemaType } from "@/components/organisms/EditArticleRelation";
 
-export const EditArticle = async (data: ArticleFormUpdateSchemaType) => {
+export const EditArticle = async (data: FormSchemaType, _id: string) => {
   const token = (await cookies()).get("token");
   const updateArticle = await paperApi().send(
     {
@@ -12,12 +12,12 @@ export const EditArticle = async (data: ArticleFormUpdateSchemaType) => {
       act: "updateArticleRelations",
       details: {
         set: {
-          _id: "",
-          avatar: "",
-          doc: "",
-          keywords: [],
-          publication: "",
-          tags: [],
+          _id,
+          avatar: data.avatar,
+          doc: data.doc,
+          keywords: data.keywords,
+          publication: data.publication,
+          tags: data.tags,
           //   articleId: data.articleId,
           //   abstract: data.abstract,
           //   articleType: data.articleType,

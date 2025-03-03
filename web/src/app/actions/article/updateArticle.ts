@@ -15,7 +15,6 @@ export const EditArticle = async (data: ArticleFormUpdateSchemaType) => {
           articleId: data.articleId,
           abstract: data.abstract,
           articleType: data.articleType,
-          authors: data.authors,
           DOI: data.DOI,
           ISBN: data.ISBN,
           ISNN: data.ISNN,
