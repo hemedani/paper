@@ -2486,7 +2486,7 @@ updatedAt?: (0 | 1 );
 set: {
 search?: string;
 articleType?: ("journalArticle" | "book" );
-authors?: string;
+authorFamily?: string;
 title?: string;
 abstract?: string;
 ISBN?: string;
@@ -2497,6 +2497,7 @@ issue?: number;
 volume?: number;
 publicationYear?: number;
 tags?: string[];
+authorIds?: string[];
 publication?: string;
 };
 get: {
@@ -3824,6 +3825,8 @@ updatedAt?: (0 | 1 );
           
             gets: {
 set: {
+first_name: string;
+last_name: string;
 page: number;
 limit: number;
 };

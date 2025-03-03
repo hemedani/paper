@@ -9,7 +9,6 @@ export const countArticlesFn: ActFn = async (body) => {
 			//advanced search
 			articleType,
 			publicationYear,
-			authors,
 			title,
 			abstract,
 			ISBN,
@@ -21,6 +20,8 @@ export const countArticlesFn: ActFn = async (body) => {
 			//advanced relation search
 			tags,
 			publication,
+			authorIds,
+			authorFamily,
 		},
 		get,
 	} = body.details;
@@ -31,7 +32,6 @@ export const countArticlesFn: ActFn = async (body) => {
 	tags && tags.length > 0 && (filters["tags.name"] = { $in: tags });
 	title && (filters["title"] = { $regex: new RegExp(title, "i") });
 	abstract && (filters["abstract"] = { $regex: new RegExp(abstract, "i") });
-	authors && (filters["authors"] = { $regex: new RegExp(authors, "i") });
 	articleType && (filters["articleType"] = articleType);
 	publicationYear && (filters["publicationYear"] = publicationYear);
 	ISBN && (filters["ISBN"] = ISBN);
@@ -42,6 +42,13 @@ export const countArticlesFn: ActFn = async (body) => {
 	publication &&
 		(filters["publication.title"] = {
 			$regex: new RegExp(publication, "i"),
+		});
+
+	authorIds && authorIds.length > 0 &&
+		(filters["authors._id"] = { $in: authorIds });
+	authorFamily &&
+		(filters["authors.last_name"] = {
+			$regex: new RegExp(authorFamily, "i"),
 		});
 
 	const foundedItemsLength = await article.countDocument({
