@@ -24,10 +24,10 @@ export default async function Home({
     abstract = "",
     tags = [],
     publication = "",
-    authors = "",
     DOI = "",
     ISBN = "",
     ISNN = "",
+    authorIds = [],
   } = await searchParams;
 
   const set: ReqType["main"]["article"]["getArticles"]["set"] = {
@@ -38,7 +38,7 @@ export default async function Home({
     abstract,
     tags,
     publication,
-    authors,
+    authorIds,
     DOI,
     ISBN,
     ISNN,
@@ -50,7 +50,6 @@ export default async function Home({
       _id: 1,
       title: 1,
       articleType: 1,
-      authors: 1,
       abstract: 1,
       tags: {
         name: 1,
@@ -66,10 +65,10 @@ export default async function Home({
   });
 
   const me = await getMe();
+
   const countDataArticle = await getCountArticles({
     set: {
       abstract,
-      authors,
       DOI,
       ISBN,
       ISNN,
@@ -77,6 +76,7 @@ export default async function Home({
       tags,
       title,
       search,
+      authorIds,
     },
     get: { qty: 1 },
   });
@@ -99,7 +99,6 @@ export default async function Home({
                 id={item._id!}
                 title={item.title!}
                 abstract={item.abstract!}
-                authors={item.authors!}
                 isFavorite={favoriteIds.has(item._id!)}
                 level={me?.level}
               />
