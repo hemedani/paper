@@ -1,4 +1,4 @@
-import type { ActFn } from "deps";
+import { type ActFn, ObjectId } from "deps";
 import { article } from "../../../mod.ts";
 
 export const getArticlesFn: ActFn = async (body) => {
@@ -35,7 +35,13 @@ export const getArticlesFn: ActFn = async (body) => {
 	tags && tags.length > 0 &&
 		pipeline.push({ $match: { "tags.name": { $in: tags } } });
 	authorIds && authorIds.length > 0 &&
-		pipeline.push({ $match: { "authors._id": { $in: authorIds } } });
+		pipeline.push({
+			$match: {
+				"authors._id": {
+					$in: authorIds.map((_id: string) => new ObjectId(_id)),
+				},
+			},
+		});
 	authorFamily &&
 		pipeline.push({
 			$match: {

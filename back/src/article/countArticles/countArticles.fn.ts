@@ -1,4 +1,4 @@
-import type { ActFn, Document } from "deps";
+import { type ActFn, type Document, ObjectId } from "deps";
 import { article } from "../../../mod.ts";
 
 export const countArticlesFn: ActFn = async (body) => {
@@ -45,7 +45,9 @@ export const countArticlesFn: ActFn = async (body) => {
 		});
 
 	authorIds && authorIds.length > 0 &&
-		(filters["authors._id"] = { $in: authorIds });
+		(filters["authors._id"] = {
+			$in: authorIds.map((_id: string) => new ObjectId(_id)),
+		});
 	authorFamily &&
 		(filters["authors.last_name"] = {
 			$regex: new RegExp(authorFamily, "i"),
