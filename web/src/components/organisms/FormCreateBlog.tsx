@@ -5,6 +5,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UploadImage } from "@/components/molecules/UploadFile";
 import { createBlog } from "@/app/actions/blog/createBlog";
+import { ToastNotify } from "@/utils/helper";
+import { useRouter } from "next/navigation";
 
 // تعریف اسکیما با استفاده از zod
 const FormSchema = z.object({
@@ -21,7 +23,6 @@ export type FormSchemaType = z.infer<typeof FormSchema>;
 
 export const FormCreateBlog = ({ token }: { token?: string }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  //   const [content, setContent] = useState<string>("");
 
   const {
     register,
@@ -40,14 +41,19 @@ export const FormCreateBlog = ({ token }: { token?: string }) => {
     },
   });
 
-  // هندل کردن ارسال فرم
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     const formData = {
       ...data,
       pic: imageUrl || "",
     };
-    console.log("Form Data:", formData);
     const blogData = await createBlog(formData);
+    if (blogData._id) {
+      ToastNotify("success", "با موفقیت ثبت شد");
+      const router = useRouter();
+      router.replace(`/admin`);
+    } else {
+      ToastNotify("error", "خطا در ثبت");
+    }
   };
 
   return (
