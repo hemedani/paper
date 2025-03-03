@@ -11,11 +11,19 @@ export default async function TagDashboard({
 }: {
   searchParams: Promise<ReqType["main"]["author"]["gets"]["set"]>;
 }) {
-  const { limit = "20", page = "1" } = await searchParams;
+  const {
+    limit = "20",
+    page = "1",
+    first_name = "",
+    last_name = "",
+  } = await searchParams;
+  console.log({ first_name });
 
   const set: ReqType["main"]["author"]["gets"]["set"] = {
     limit: +limit || 20,
     page: +page,
+    first_name,
+    last_name,
   };
   const get: ReqType["main"]["author"]["gets"]["get"] = {
     _id: 1,
@@ -24,15 +32,17 @@ export default async function TagDashboard({
   };
 
   const data = await getAuthors({ set, get });
+  console.log({ data });
+
   const countPageData = await CountAuthor({
-    set: {},
+    set: { first_name },
     get: { qty: 1 },
   });
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
       <h1 className="text-2xl text-gray-600 font-bold">نویسندگان</h1>
-      <SearchBox title="name" />
+      <SearchBox title="first_name" defaultValue={first_name} />
       <ClientDashboard authors={data} />
       <Pagination countPage={countPageData?.qty} initialPage={+page} />
     </div>
