@@ -17,7 +17,7 @@ export const Card = ({
   id: string;
   title: string;
   abstract: string;
-  authors: string[];
+  authors?: string[];
   isFavorite: boolean;
   level: "Editor" | "Manager" | "Ghost";
 }) => {

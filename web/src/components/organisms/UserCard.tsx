@@ -1,5 +1,5 @@
 import React from "react";
-import { EditIcon, HideIcon, TrashIcon } from "../atoms/Icons";
+import { EditIcon, HideIcon, TrashIcon, UpdateIcon } from "../atoms/Icons";
 import { useRouter } from "next/navigation";
 
 interface UserCardProps {
@@ -49,9 +49,16 @@ const UserCard: React.FC<UserCardProps> = ({
             className="p-2 bg-yellow-400 text-white rounded-full hover:bg-yellow-500 transition-all duration-200 shadow"
             title="ویرایش"
           >
-            <EditIcon />
+            <UpdateIcon />
           </button>
         )}
+        <button
+          onClick={() => router.push(`/admin/users/edit-user/${id}`)}
+          className="p-2 bg-yellow-400 text-white rounded-full hover:bg-yellow-500 transition-all duration-200 shadow"
+          title="ویرایش"
+        >
+          <EditIcon />
+        </button>
         <button
           onClick={() => router.push(`/admin/users/user/${id}`)}
           className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-200 shadow"

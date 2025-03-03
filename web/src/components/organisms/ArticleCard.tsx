@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import React from "react";
-import { EditIcon, HideIcon, TrashIcon } from "../atoms/Icons";
+import { EditIcon, HideIcon, TrashIcon, UpdateIcon } from "../atoms/Icons";
 import { translateArticleType } from "@/utils/helper";
 
 type TArticle = {
@@ -30,10 +30,16 @@ export const ArticleCard = ({
       <div className="flex items-center justify-between mt-4 gap-5">
         <div className="flex">
           <button
-            onClick={() => router.push(`/admin/articles/updateArticle/${_id}`)}
+            onClick={() => router.push(`/admin/articles/edit-article/${_id}`)}
             className="flex items-center gap-2 text-blue-500 hover:text-blue-700"
           >
             <EditIcon />
+          </button>
+          <button
+            onClick={() => router.push(`/admin/articles/updateArticle/${_id}`)}
+            className="flex items-center gap-2 text-blue-500 hover:text-blue-700"
+          >
+            <UpdateIcon />
           </button>
           <button
             onClick={onDelete} // فراخوانی حذف

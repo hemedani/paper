@@ -6,42 +6,102 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { UploadImage } from "@/components/molecules/UploadFile"; // فرض می‌کنیم این کامپوننت وجود دارد
+import { UploadImage } from "@/components/molecules/UploadFile";
 import { getTags } from "@/app/actions/tag/getTags";
 import { getPublications } from "@/app/actions/publication/getPublications";
 import { getAuthors } from "@/app/actions/author/getAuthors";
 import { getKeywords } from "@/app/actions/keyword/getKeywords";
+import { EditArticle } from "@/app/actions/article/editRelationArticle";
 
 // تعریف اسکیما برای اعتبارسنجی فرم
 export const FormSchema = z.object({
-  avatar: z.string().optional(), // آواتار اختیاری
-  doc: z.string().optional(), // سند اختیاری
-  publicationId: z.string().nonempty("انتشار الزامی است"), // انتشارات
-  tagIds: z.array(z.string()).nonempty("حداقل یک برچسب انتخاب کنید"), // برچسب‌ها
-  keywordIds: z.array(z.string()).nonempty("حداقل یک کلمه کلیدی انتخاب کنید"), // کلمات کلیدی
-  authorIds: z.array(z.string()).nonempty("حداقل یک نویسنده انتخاب کنید"), // نویسندگان
+  avatar: z.string().optional(),
+  doc: z.string().optional(),
+  publication: z.string().nonempty("انتشار الزامی است"),
+  tags: z.array(z.string()).nonempty("حداقل یک برچسب انتخاب کنید"),
+  keywords: z.array(z.string()).nonempty("حداقل یک کلمه کلیدی انتخاب کنید"),
+  authors: z.array(z.string()).nonempty("حداقل یک نویسنده انتخاب کنید"),
 });
 
 export type FormSchemaType = z.infer<typeof FormSchema>;
 
-export const EditArticleRelationForm = ({ token }: { token?: string }) => {
+// تایپ دیتای اولیه از بک‌اند
+type BackendData = {
+  _id: string;
+  authors: { _id: string; first_name: string; last_name: string }[];
+  avatar: { _id: string; name: string; type: string };
+  doc: { _id: string; name: string; type: string };
+  keywords: { _id: string; name: string }[];
+  publication: { _id: string; title: string };
+  tags: { _id: string; name: string }[];
+};
+
+export const EditArticleRelationForm = ({
+  defaultValues,
+  token,
+}: {
+  defaultValues?: BackendData; // دیتای خام از بک‌اند
+  token: string;
+}) => {
+  console.log({ defaultValues });
+
   const [imageAvatar, setImageAvatar] = useState<string | null>(null);
+  // defaultValues?.avatar._id as string
   const [imageDoc, setImageDoc] = useState<string | null>(null);
+  // defaultValues?.doc._id as string
 
   const {
-    register,
-    control,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<FormSchemaType>({
+    defaultValues: {
+      authors: defaultValues?.authors?.map((author) => author._id) || [],
+      keywords: defaultValues?.keywords?.map((keyword) => keyword._id) || [],
+      tags: defaultValues?.tags?.map((tag) => tag._id) || [],
+      avatar: defaultValues?.avatar?._id,
+      doc: defaultValues?.doc._id,
+      publication: defaultValues?.publication?._id || "",
+    },
     resolver: zodResolver(FormSchema),
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     console.log("Form Data:", data);
-    // ارسال داده‌ها به سرور
+    console.log({ imageAvatar, imageDoc });
+    data.avatar = imageAvatar || "";
+    data.doc = imageDoc || "";
+    console.log("Form Data:", data);
+
+    const dataArticle = await EditArticle(data, defaultValues?._id!);
+    // console.log({ dataArticle });
   };
+
+  // تبدیل دیتای اولیه به فرمت AsyncSelect
+  const defaultPublicationOption = defaultValues?.publication
+    ? {
+        value: defaultValues.publication._id,
+        label: defaultValues.publication.title,
+      }
+    : null;
+
+  const defaultTagOptions =
+    defaultValues?.tags?.map((tag) => ({
+      value: tag._id,
+      label: tag.name,
+    })) || [];
+
+  const defaultKeywordOptions =
+    defaultValues?.keywords?.map((keyword) => ({
+      value: keyword._id,
+      label: keyword.name,
+    })) || [];
+
+  const defaultAuthorOptions =
+    defaultValues?.authors?.map((author) => ({
+      value: author._id,
+      label: `${author.first_name} ${author.last_name}`,
+    })) || [];
 
   // بارگذاری گزینه‌های انتشارات
   const loadPublicationOptions = async (inputValue: string) => {
@@ -58,7 +118,7 @@ export const EditArticleRelationForm = ({ token }: { token?: string }) => {
   const handlePublicationChange = (
     selectedOption: SingleValue<{ value: string; label: string }>
   ) => {
-    setValue("publicationId", selectedOption?.value || "");
+    setValue("publication", selectedOption?.value || "");
   };
 
   // بارگذاری گزینه‌های برچسب‌ها
@@ -77,7 +137,7 @@ export const EditArticleRelationForm = ({ token }: { token?: string }) => {
     selectedOptions: MultiValue<{ value: string; label: string }>
   ) => {
     const values = selectedOptions.map((option) => option.value);
-    setValue("tagIds", values as [string, ...string[]]);
+    setValue("tags", values as [string, ...string[]]);
   };
 
   // بارگذاری گزینه‌های کلمات کلیدی
@@ -96,7 +156,7 @@ export const EditArticleRelationForm = ({ token }: { token?: string }) => {
     selectedOptions: MultiValue<{ value: string; label: string }>
   ) => {
     const values = selectedOptions.map((option) => option.value);
-    setValue("keywordIds", values as [string, ...string[]]);
+    setValue("keywords", values as [string, ...string[]]);
   };
 
   // بارگذاری گزینه‌های نویسندگان
@@ -117,12 +177,12 @@ export const EditArticleRelationForm = ({ token }: { token?: string }) => {
     selectedOptions: MultiValue<{ value: string; label: string }>
   ) => {
     const values = selectedOptions.map((option) => option.value);
-    setValue("authorIds", values as [string, ...string[]]);
+    setValue("authors", values as [string, ...string[]]);
   };
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-6">فرم ایجاد محتوا</h2>
+      <h2 className="text-xl font-semibold mb-6">فرم ویرایش محتوا</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* بخش آپلود تصاویر */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -142,6 +202,7 @@ export const EditArticleRelationForm = ({ token }: { token?: string }) => {
             <UploadImage
               inputName="doc"
               setUploadedImage={setImageDoc}
+              lesanUrl={`localhost:1382/uploads/docs/${defaultValues?.doc?.name}`}
               type="image"
               token={token}
             />
@@ -164,10 +225,11 @@ export const EditArticleRelationForm = ({ token }: { token?: string }) => {
               onChange={handlePublicationChange}
               placeholder="انتشارات را انتخاب کنید"
               classNamePrefix="react-select"
+              defaultValue={defaultPublicationOption}
             />
-            {errors.publicationId && (
+            {errors.publication && (
               <span className="text-red-500 text-xs">
-                {errors.publicationId.message}
+                {errors.publication.message}
               </span>
             )}
           </div>
@@ -187,10 +249,11 @@ export const EditArticleRelationForm = ({ token }: { token?: string }) => {
               onChange={handleTagChange}
               placeholder="برچسب‌ها را انتخاب کنید"
               classNamePrefix="react-select"
+              defaultValue={defaultTagOptions}
             />
-            {errors.tagIds && (
+            {errors.tags && (
               <span className="text-red-500 text-xs">
-                {errors.tagIds.message}
+                {errors.tags.message}
               </span>
             )}
           </div>
@@ -210,10 +273,11 @@ export const EditArticleRelationForm = ({ token }: { token?: string }) => {
               onChange={handleKeywordChange}
               placeholder="کلمات کلیدی را انتخاب کنید"
               classNamePrefix="react-select"
+              defaultValue={defaultKeywordOptions}
             />
-            {errors.keywordIds && (
+            {errors.keywords && (
               <span className="text-red-500 text-xs">
-                {errors.keywordIds.message}
+                {errors.keywords.message}
               </span>
             )}
           </div>
@@ -233,10 +297,11 @@ export const EditArticleRelationForm = ({ token }: { token?: string }) => {
               onChange={handleAuthorChange}
               placeholder="نویسندگان را انتخاب کنید"
               classNamePrefix="react-select"
+              defaultValue={defaultAuthorOptions}
             />
-            {errors.authorIds && (
+            {errors.authors && (
               <span className="text-red-500 text-xs">
-                {errors.authorIds.message}
+                {errors.authors.message}
               </span>
             )}
           </div>
