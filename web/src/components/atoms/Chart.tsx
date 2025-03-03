@@ -37,7 +37,6 @@ export const Graph: React.FC<GraphProps> = ({ tags }) => {
     if (!tags.length) return;
 
     // const edges = generateEdges(articles);
-    console.log(tags);
 
     const elements = {
       nodes: tags.map((tag) => ({
@@ -78,7 +77,7 @@ export const Graph: React.FC<GraphProps> = ({ tags }) => {
       },
     });
 
-        cyRef.current = cy;
+    cyRef.current = cy;
 
     cy.on("tap", "node", (event) => {
       const node = event.target;

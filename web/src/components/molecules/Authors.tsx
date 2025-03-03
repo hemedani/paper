@@ -8,12 +8,10 @@ export default function Authors({
   authors: { _id: string; first_name: string; last_name: string }[];
 }) {
   const router = useRouter();
-  console.log({ data: authors[0]._id });
 
   const handleQueryBack = () => {
     const query = new URLSearchParams();
     authors?.forEach((author) => query.append("authorIds", author._id));
-    console.log(query);
 
     router.push("/?" + query.toString());
   };

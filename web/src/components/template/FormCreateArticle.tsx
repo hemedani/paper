@@ -67,18 +67,13 @@ export const FormCreateArticle = ({
   });
 
   const onSubmit: SubmitHandler<ArticleFormCreateSchemaType> = async (data) => {
-    console.log("قبل از اضافه کردن تصاویر:", data);
-
     const updatedData = {
       ...data,
       avatart: imageAvatar,
       doc: imageNationalCard,
     };
 
-    console.log("بعد از اضافه کردن تصاویر:", updatedData);
-
     const newArticle = await createArticle(updatedData);
-    console.log("newArticle", newArticle);
 
     if (newArticle._id) {
       ToastNotify("success", "مقاله با موفقیت ایجاد شد");

@@ -28,7 +28,6 @@ export const DetailArticle = ({ article }: { article: IProps }) => {
   //     const query = new URLSearchParams();
   //     query.append("authorFamily", author);
   //   };
-  console.log(article.authors);
 
   return (
     <div className="bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen flex justify-center items-center py-10 px-6">

@@ -56,7 +56,6 @@ export const UploadImage = ({
         },
       });
       const data = await response.json();
-      console.log({ data });
 
       if (data.success) {
         setUploadedImage(data.body._id); // اینجا باید _id برگشتی رو ست کنیم

@@ -17,7 +17,6 @@ export default async function TagDashboard({
     first_name = "",
     last_name = "",
   } = await searchParams;
-  console.log({ first_name });
 
   const set: ReqType["main"]["author"]["gets"]["set"] = {
     limit: +limit || 20,
@@ -32,7 +31,6 @@ export default async function TagDashboard({
   };
 
   const data = await getAuthors({ set, get });
-  console.log({ data });
 
   const countPageData = await CountAuthor({
     set: { first_name },

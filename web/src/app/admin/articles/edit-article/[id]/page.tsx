@@ -17,7 +17,6 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     },
   });
   const token = (await cookies()).get("token");
-  console.log(getArticle);
 
   return (
     <EditArticleRelationForm defaultValues={getArticle} token={token?.value!} />

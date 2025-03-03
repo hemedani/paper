@@ -8,7 +8,6 @@ export const updateRelationUser = async ({
   get,
 }: ReqType["main"]["user"]["updateUserRelations"]) => {
   const token = (await cookies()).get("token");
-  console.log({ set, get });
 
   const updateUser = await paperApi().send(
     {
@@ -22,8 +21,6 @@ export const updateRelationUser = async ({
     },
     { token: token?.value }
   );
-
-  console.log(updateUser);
 
   if (updateUser.success) return updateUser.body;
 };

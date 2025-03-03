@@ -43,8 +43,6 @@ export const EditArticleRelationForm = ({
   defaultValues?: BackendData; // دیتای خام از بک‌اند
   token: string;
 }) => {
-  console.log({ defaultValues });
-
   const [imageAvatar, setImageAvatar] = useState<string | null>(null);
   // defaultValues?.avatar._id as string
   const [imageDoc, setImageDoc] = useState<string | null>(null);
@@ -67,14 +65,10 @@ export const EditArticleRelationForm = ({
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-    console.log("Form Data:", data);
-    console.log({ imageAvatar, imageDoc });
     data.avatar = imageAvatar || "";
     data.doc = imageDoc || "";
-    console.log("Form Data:", data);
 
     const dataArticle = await EditArticle(data, defaultValues?._id!);
-    // console.log({ dataArticle });
   };
 
   // تبدیل دیتای اولیه به فرمت AsyncSelect
@@ -162,7 +156,7 @@ export const EditArticleRelationForm = ({
   // بارگذاری گزینه‌های نویسندگان
   const loadAuthorOptions = async (inputValue: string) => {
     const response = await getAuthors({
-      set: { limit: 10, page: 1 },
+      set: { limit: 10, page: 1, first_name: "", last_name: "" },
       get: { _id: 1, first_name: 1, last_name: 1 },
     });
     return response.map(

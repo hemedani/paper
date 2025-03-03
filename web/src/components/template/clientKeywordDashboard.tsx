@@ -31,8 +31,6 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ keywords }) => {
     type: "edit" | "delete",
     keyword: Keyword | null = null
   ) => {
-    console.log(type);
-
     setSelectedKeyword(keyword);
     setActiveModal(type);
   };

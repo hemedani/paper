@@ -69,25 +69,20 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
       return value && value.toString().trim() !== "";
     });
 
-    console.log("filteredCriteria", filteredCriteria); // بررسی فیلتر شده‌ها
-
     const queryStringParts = filteredCriteria.map(([key, value]) => {
       // چک می‌کنیم که آیا مقدار یک آرایه است یا نه
       if (Array.isArray(value)) {
-        console.log(`Array detected for key: ${key}, value: ${value}`);
         // اگر آرایه باشد، آن را با کاما جدا می‌کنیم
         return `${encodeURIComponent(key)}=${encodeURIComponent(
           value.join(",")
         )}`;
       }
-      console.log(`Non-array detected for key: ${key}, value: ${value}`);
       // برای سایر مقادیر، به همان صورت رشته می‌شود
       return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
     });
 
     // ترکیب تمامی بخش‌های queryString
     const queryString = queryStringParts.join("&");
-    console.log("Final queryString:", queryString); // بررسی نتیجه نهایی
 
     // ارسال به URL
     router.push(`/?${queryString}`);

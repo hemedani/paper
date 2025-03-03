@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 export const EditUserRelations = ({ data, id }: { data: any; id: string }) => {
   const { handleSubmit } = useForm();
   const token = Cookies.get("token");
-  console.log(data);
 
   const [imageAvatar, setImageAvatar] = useState<string | null>(null);
   const [imageNationalCard, setImageNationalCard] = useState<string | null>(
@@ -20,7 +19,6 @@ export const EditUserRelations = ({ data, id }: { data: any; id: string }) => {
   const router = useRouter();
 
   const onSubmit = async () => {
-    console.log({ imageAvatar, imageNationalCard });
     const data = await updateRelationUser({
       get: { first_name: 1 },
       set: {

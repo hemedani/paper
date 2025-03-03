@@ -4,8 +4,6 @@ import { cookies } from "next/headers";
 import { ArticleFormCreateSchemaType } from "@/components/template/FormCreateArticle";
 
 export const createArticle = async (data: ArticleFormCreateSchemaType) => {
-  console.log({ data });
-
   const token = (await cookies()).get("token");
   const addArticle = await paperApi().send(
     {
