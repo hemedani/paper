@@ -19,6 +19,7 @@ export const countArticlesFn: ActFn = async (body) => {
 
 			//advanced relation search
 			tags,
+			keywords,
 			publication,
 			authorIds,
 			authorFamily,
@@ -30,6 +31,8 @@ export const countArticlesFn: ActFn = async (body) => {
 
 	search && (filters["$text"] = { $search: search });
 	tags && tags.length > 0 && (filters["tags.name"] = { $in: tags });
+	keywords && keywords.length > 0 &&
+		(filters["keywords.name"] = { $in: keywords });
 	title && (filters["title"] = { $regex: new RegExp(title, "i") });
 	abstract && (filters["abstract"] = { $regex: new RegExp(abstract, "i") });
 	articleType && (filters["articleType"] = articleType);

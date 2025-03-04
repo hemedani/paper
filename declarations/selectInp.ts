@@ -2501,6 +2501,7 @@ issue?: number;
 volume?: number;
 publicationYear?: number;
 tags?: string[];
+keywords?: string[];
 authorIds?: string[];
 publication?: string;
 };
