@@ -1670,7 +1670,7 @@ publication: string;
 avatart?: string;
 doc?: string;
 tags: string[];
-keywords: string[];
+keywords?: string[];
 authors: string[];
 };
 get: {

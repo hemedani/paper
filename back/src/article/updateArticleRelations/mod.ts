@@ -7,7 +7,6 @@ import { checkGhostUser } from "../../user/addUser/mod.ts";
 export const updateArticleRelationsSetup = () =>
 	coreApp.acts.setAct({
 		schema: "article",
-		fn: updateArticleRelationsFn,
 		actName: "updateArticleRelations",
 		preAct: [
 			setTokens,
@@ -17,6 +16,7 @@ export const updateArticleRelationsSetup = () =>
 			}),
 			checkGhostUser,
 		],
-		validator: updateArticleRelationsValidator(),
 		validationRunType: "create",
+		validator: updateArticleRelationsValidator(),
+		fn: updateArticleRelationsFn,
 	});
