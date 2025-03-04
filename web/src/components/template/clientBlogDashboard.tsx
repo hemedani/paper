@@ -35,7 +35,7 @@ const ClientBlogDashboard: React.FC<ClientDashboardProps> = ({ blogs }) => {
             className="bg-white rounded-xl shadow-md overflow-hidden w-64"
           >
             <img
-              src={`localhost:1382/uploads/images/${blog.pic.name}`}
+              src={`http://127.0.0.1:1382 /uploads/images/${blog.pic.name}`}
               alt={blog.title}
               className="w-full h-32 object-cover"
             />
@@ -45,7 +45,7 @@ const ClientBlogDashboard: React.FC<ClientDashboardProps> = ({ blogs }) => {
                 {blog.abstract}
               </p>
               <a
-                href={blog._id}
+                href={`/blog/${blog._id}`}
                 className="text-blue-500 text-sm mt-2 inline-block"
               >
                 ادامه مطلب ←
