@@ -3,7 +3,7 @@ import { paperApi } from "@/services/api";
 import { ReqType } from "@/types/declarations/selectInp";
 import { cookies } from "next/headers";
 
-export const getBlog = async ({ set, get }: ReqType["main"]["blog"]["get"]) => {
+export const getBlog = async (_id: string) => {
   const token = (await cookies()).get("token");
   const getBlog = await paperApi().send(
     {
@@ -11,12 +11,25 @@ export const getBlog = async ({ set, get }: ReqType["main"]["blog"]["get"]) => {
       model: "blog",
       act: "get",
       details: {
-        set,
-        get,
+        set: {
+          _id,
+        },
+        get: {
+          content: 1,
+          abstract: 1,
+          _id: 1,
+          isInSwipper: 1,
+          likes: 1,
+          pic: { _id: 1, name: 1, type: 1 },
+          subtitle: 1,
+          title: 1,
+        },
       },
     },
     { token }
   );
 
-  if (getBlog.success) return getBlog.body;
+  console.log(getBlog);
+
+  if (getBlog.success) return getBlog.body[0];
 };

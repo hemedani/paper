@@ -18,9 +18,7 @@ interface ClientDashboardProps {
 
 const ClientBlogDashboard: React.FC<ClientDashboardProps> = ({ blogs }) => {
   const router = useRouter();
-  console.log(blogs);
-
-  const [hardCascade, setHardCascade] = useState<boolean>(false);
+  // const [hardCascade, setHardCascade] = useState<boolean>(false);
 
   return (
     <div>
@@ -50,7 +48,7 @@ const ClientBlogDashboard: React.FC<ClientDashboardProps> = ({ blogs }) => {
                 href={blog._id}
                 className="text-blue-500 text-sm mt-2 inline-block"
               >
-                ادامه مطلب →
+                ادامه مطلب ←
               </a>
             </div>
           </div>
