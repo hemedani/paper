@@ -9,9 +9,9 @@ export default function Authors({
 }) {
   const router = useRouter();
 
-  const handleQueryBack = () => {
+  const handleQueryBack = (id: string) => {
     const query = new URLSearchParams();
-    authors?.forEach((author) => query.append("authorIds", author._id));
+    query.append("authorIds", id);
 
     router.push("/?" + query.toString());
   };
@@ -20,7 +20,7 @@ export default function Authors({
     <div className="flex flex-wrap gap-4 mt-4">
       {authors?.map((author, index) => (
         <span
-          onClick={handleQueryBack}
+          onClick={() => handleQueryBack(author._id)}
           key={index}
           className="cursor-pointer hover:underline bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-blue-300"
         >
