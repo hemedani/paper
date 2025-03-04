@@ -28,6 +28,12 @@ export default async function Home({
     ISBN = "",
     ISNN = "",
     authorIds = [],
+    keywords = [],
+    articleType = "journalArticle",
+    publicationYear = "",
+    issue = "",
+    volume = "",
+    pageCount = "",
   } = await searchParams;
 
   const set: ReqType["main"]["article"]["getArticles"]["set"] = {
@@ -42,6 +48,12 @@ export default async function Home({
     DOI,
     ISBN,
     ISNN,
+    keywords,
+    articleType,
+    issue: +issue,
+    pageCount,
+    volume: +volume,
+    publicationYear: +publicationYear,
   };
 
   const data = await getArticles({
@@ -63,6 +75,7 @@ export default async function Home({
       },
     },
   });
+  console.log(data);
 
   const me = await getMe();
 
@@ -77,6 +90,12 @@ export default async function Home({
       title,
       search,
       authorIds,
+      keywords,
+      articleType,
+      issue: +issue,
+      pageCount,
+      volume: +volume,
+      publicationYear: +publicationYear,
     },
     get: { qty: 1 },
   });
