@@ -10,9 +10,10 @@ export const getArticles = async ({
   const token = (await cookies()).get("token");
   if (!set.tags?.length) delete set.tags;
   if (!set.authorIds?.length) delete set.authorIds;
+  if (!set.keywords?.length) delete set.keywords;
   set.tags = set.tags?.toString().split(",");
   set.authorIds = set.authorIds?.toString().split(",");
-  console.log(set);
+  set.keywords = set.keywords?.toString().split(",");
 
   const getArticles = await paperApi().send(
     {
@@ -26,7 +27,6 @@ export const getArticles = async ({
     },
     { token: token?.value }
   );
-  console.log(getArticles);
 
   if (getArticles.success) return getArticles.body;
 };
