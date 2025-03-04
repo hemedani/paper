@@ -1,4 +1,3 @@
-import { getTags } from "@/app/actions/tag/getTags";
 import SearchBox from "@/components/molecules/SearchBox";
 import Pagination from "@/components/molecules/Pagination";
 import { ReqType } from "@/types/declarations/selectInp";

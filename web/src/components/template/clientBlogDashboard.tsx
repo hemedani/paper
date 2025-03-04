@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 
 interface Blog {
@@ -59,18 +59,3 @@ const ClientBlogDashboard: React.FC<ClientDashboardProps> = ({ blogs }) => {
 };
 
 export default ClientBlogDashboard;
-
-interface BlogCardProps {
-  title: string;
-  description: string;
-  image: string;
-  link: string;
-}
-export const BlogCard: React.FC<BlogCardProps> = ({
-  title,
-  description,
-  image,
-  link,
-}) => {
-  return <div></div>;
-};

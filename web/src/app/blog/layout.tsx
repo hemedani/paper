@@ -1,4 +1,3 @@
-import { AdminSidebar } from "@/components/organisms/SideBar";
 import React, { ReactNode } from "react";
 import { getMe } from "../actions/user/getMe";
 import { Navbar } from "@/components/organisms/Navbar";

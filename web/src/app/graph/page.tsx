@@ -1,10 +1,10 @@
 import { Graph } from "@/components/atoms/Chart";
-import { getTags } from "../actions/tag/getTags";
+import { getArticles } from "../actions/article/getArticles";
 
 const Page = async () => {
-  const tags = await getTags({
+  const tags = await getArticles({
     set: { page: 1, limit: 50 },
-    get: { _id: 1, name: 1 },
+    get: { _id: 1, articleType: 1 },
   });
 
   return (

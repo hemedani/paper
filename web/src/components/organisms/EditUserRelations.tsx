@@ -7,7 +7,7 @@ import { updateRelationUser } from "@/app/actions/user/updateRelationUser";
 import { ToastNotify } from "@/utils/helper";
 import { useRouter } from "next/navigation";
 
-export const EditUserRelations = ({ data, id }: { data: any; id: string }) => {
+export const EditUserRelations = ({ id }: { id: string }) => {
   const { handleSubmit } = useForm();
   const token = Cookies.get("token");
 

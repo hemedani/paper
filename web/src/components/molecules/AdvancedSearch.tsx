@@ -1,13 +1,12 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Input from "../atoms/Input";
 import AsyncSelect from "react-select/async";
 import { MultiValue } from "react-select";
 import { getTags } from "@/app/actions/tag/getTags";
 import { getKeywords } from "@/app/actions/keyword/getKeywords";
-import { getAuthor } from "@/app/actions/author/getAuthor";
 import { getAuthors } from "@/app/actions/author/getAuthors";
 
 type SearchCriteria = {
@@ -23,7 +22,6 @@ type SearchCriteria = {
 };
 
 const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
-  const params = useSearchParams();
   const router = useRouter();
 
   const {
@@ -101,7 +99,7 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   };
 
   const onSubmit: SubmitHandler<SearchCriteria> = (criteria) => {
-    const filteredCriteria = Object.entries(criteria).filter(([_, value]) => {
+    const filteredCriteria = Object.entries(criteria).filter(([value]) => {
       if (Array.isArray(value)) return value.length > 0;
       return value && value.toString().trim() !== "";
     });

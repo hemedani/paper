@@ -1,7 +1,6 @@
 "use server";
 import { FormSchemaType } from "@/components/organisms/FormCreateBlog";
 import { paperApi } from "@/services/api";
-import { ReqType } from "@/types/declarations/selectInp";
 import { cookies } from "next/headers";
 
 export const createBlog = async ({

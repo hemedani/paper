@@ -3,8 +3,6 @@
 import { useState } from "react";
 import EntityCard from "../organisms/EntityCard";
 import { DeleteModal } from "./DeleteModal";
-import { deleteTag } from "@/app/actions/tag/removeTag";
-import ModalTag from "./ModalTag";
 import { useRouter } from "next/navigation";
 import { ToastNotify } from "@/utils/helper";
 import { ModalAuthor } from "./ModalAuthor";

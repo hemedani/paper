@@ -6,13 +6,13 @@ import { cookies } from "next/headers";
 export const UploadImage = async ({
   set,
   get,
-}: ReqType["main"]["file"]["uploadImage"]) => {
+}: ReqType["main"]["file"]["uploadFile"]) => {
   const token = (await cookies()).get("token");
   const addedFile = await paperApi().send(
     {
       service: "main",
       model: "file",
-      act: "uploadImage",
+      act: "uploadFile",
       details: {
         set: set,
         get: get,

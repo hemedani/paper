@@ -12,8 +12,8 @@ import { getPublications } from "@/app/actions/publication/getPublications";
 import { getAuthors } from "@/app/actions/author/getAuthors";
 import { getKeywords } from "@/app/actions/keyword/getKeywords";
 import { EditArticle } from "@/app/actions/article/editRelationArticle";
+import { ToastNotify } from "@/utils/helper";
 
-// تعریف اسکیما برای اعتبارسنجی فرم
 export const FormSchema = z.object({
   avatar: z.string().optional(),
   doc: z.string().optional(),
@@ -25,7 +25,6 @@ export const FormSchema = z.object({
 
 export type FormSchemaType = z.infer<typeof FormSchema>;
 
-// تایپ دیتای اولیه از بک‌اند
 type BackendData = {
   _id: string;
   authors: { _id: string; first_name: string; last_name: string }[];
@@ -40,13 +39,11 @@ export const EditArticleRelationForm = ({
   defaultValues,
   token,
 }: {
-  defaultValues?: BackendData; // دیتای خام از بک‌اند
+  defaultValues?: BackendData;
   token: string;
 }) => {
   const [imageAvatar, setImageAvatar] = useState<string | null>(null);
-  // defaultValues?.avatar._id as string
   const [imageDoc, setImageDoc] = useState<string | null>(null);
-  // defaultValues?.doc._id as string
 
   const {
     handleSubmit,
@@ -68,10 +65,14 @@ export const EditArticleRelationForm = ({
     data.avatar = imageAvatar || "";
     data.doc = imageDoc || "";
 
-    const dataArticle = await EditArticle(data, defaultValues?._id!);
+    const dataArticle = await EditArticle(data, defaultValues?._id as string);
+    if (dataArticle) {
+      ToastNotify("success", "با موفقیت انجام شد");
+    } else {
+      ToastNotify("error", "خطا در انجام عملیات");
+    }
   };
 
-  // تبدیل دیتای اولیه به فرمت AsyncSelect
   const defaultPublicationOption = defaultValues?.publication
     ? {
         value: defaultValues.publication._id,
@@ -154,7 +155,7 @@ export const EditArticleRelationForm = ({
   };
 
   // بارگذاری گزینه‌های نویسندگان
-  const loadAuthorOptions = async (inputValue: string) => {
+  const loadAuthorOptions = async () => {
     const response = await getAuthors({
       set: { limit: 10, page: 1, first_name: "", last_name: "" },
       get: { _id: 1, first_name: 1, last_name: 1 },

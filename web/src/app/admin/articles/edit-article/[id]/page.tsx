@@ -19,7 +19,10 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const token = (await cookies()).get("token");
 
   return (
-    <EditArticleRelationForm defaultValues={getArticle} token={token?.value!} />
+    <EditArticleRelationForm
+      defaultValues={getArticle}
+      token={token?.value as string}
+    />
   );
 };
 
