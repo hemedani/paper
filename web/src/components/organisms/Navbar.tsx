@@ -4,7 +4,6 @@ import Link from "next/link";
 import { HamburgerMenu, IconLogo, IconUser } from "../atoms/Icons";
 
 export const Navbar = ({ level }: { level: string }) => {
-
   return (
     <header className="bg-white shadow-xl">
       <div className="mx-auto flex justify-between items-center py-2 px-6">
@@ -14,6 +13,9 @@ export const Navbar = ({ level }: { level: string }) => {
           </div>
           <div className="text-lg font-bold text-blue-600">
             <Link href={"/"}>خانه</Link>
+          </div>
+          <div className="text-lg font-bold text-blue-600">
+            <Link href={"/blog"}>وبلاگ</Link>
           </div>
         </div>
         <div className="hidden md:block">
