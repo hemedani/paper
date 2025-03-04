@@ -10,7 +10,6 @@ export default async function ArticlePage({
   params: Promise<{ id: string }>;
 }) {
   const articleId = (await params).id;
-  // const router = useRouter();
 
   const set: ReqType["main"]["article"]["getArticle"]["set"] = {
     _id: articleId,
