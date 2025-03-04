@@ -8,6 +8,9 @@ export const dashboardStatisticValidator = () => {
 			tags: optional(enums([0, 1])),
 			publications: optional(enums([0, 1])),
 			articles: optional(enums([0, 1])),
+			blogs: optional(enums([0, 1])),
+			authors: optional(enums([0, 1])),
+			keywords: optional(enums([0, 1])),
 		}),
 	});
 };

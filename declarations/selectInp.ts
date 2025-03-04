@@ -1493,6 +1493,9 @@ users?: (0 | 1 );
 tags?: (0 | 1 );
 publications?: (0 | 1 );
 articles?: (0 | 1 );
+blogs?: (0 | 1 );
+authors?: (0 | 1 );
+keywords?: (0 | 1 );
 };
 };
 
