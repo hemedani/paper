@@ -1,9 +1,9 @@
 import { getCountArticles } from "@/app/actions/article/countArticle";
 import { getArticles } from "@/app/actions/article/getArticles";
 import Pagination from "@/components/molecules/Pagination";
-import SearchBox from "@/components/molecules/SearchBox";
 import ClientArticleDashboard from "@/components/template/clientArticleDashboard";
 import { ReqType } from "@/types/declarations/selectInp";
+import ToggleAdvancedSearch from "@/components/molecules/ToggleAdvancedSearch";
 
 const ArticleDashboard = async ({
   searchParams,
@@ -31,7 +31,8 @@ const ArticleDashboard = async ({
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
       <h1 className="text-2xl text-gray-600 font-bold">بخش مقالات</h1>
-      <SearchBox title="search" />
+      <ToggleAdvancedSearch />
+
       <ClientArticleDashboard articles={data} />
       <Pagination countPage={countDataArticle?.qty} initialPage={+page} />
     </div>
