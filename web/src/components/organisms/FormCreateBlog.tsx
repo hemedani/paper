@@ -40,6 +40,7 @@ export const FormCreateBlog = ({ token }: { token?: string }) => {
       pic: "",
     },
   });
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     const formData = {
@@ -49,8 +50,7 @@ export const FormCreateBlog = ({ token }: { token?: string }) => {
     const blogData = await createBlog(formData);
     if (blogData._id) {
       ToastNotify("success", "با موفقیت ثبت شد");
-      const router = useRouter();
-      router.replace(`/admin`);
+      router.replace(`/admin/blog`);
     } else {
       ToastNotify("error", "خطا در ثبت");
     }
