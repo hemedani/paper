@@ -23,6 +23,7 @@ export const getArticlesFn: ActFn = async (body) => {
 
 			//advanced relation search
 			tags,
+			keywords,
 			publication,
 		},
 		get,
@@ -34,6 +35,8 @@ export const getArticlesFn: ActFn = async (body) => {
 
 	tags && tags.length > 0 &&
 		pipeline.push({ $match: { "tags.name": { $in: tags } } });
+	keywords && keywords.length > 0 &&
+		pipeline.push({ $match: { "keywords.name": { $in: keywords } } });
 	authorIds && authorIds.length > 0 &&
 		pipeline.push({
 			$match: {

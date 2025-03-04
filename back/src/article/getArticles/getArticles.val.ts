@@ -25,6 +25,7 @@ export const getArticlesValidator = () => {
 
 			//advanced relation search
 			tags: optional(array(string())),
+			keywords: optional(array(string())),
 			authorIds: optional(array(string())),
 			publication: optional(string()),
 		}),
