@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import AdvancedSearch from "./AdvancedSearch";
+import AdvancedSearch from "../molecules/AdvancedSearch";
 import Input from "../atoms/Input";
 
 type SearchFormValues = {
@@ -76,7 +76,9 @@ export const Header = () => {
 
         <div
           className={`w-full md:w-2/3 mx-auto mt-6 overflow-hidden transition-all duration-500 ${
-            showAdvancedSearch ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+            showAdvancedSearch
+              ? "max-h-screen opacity-100"
+              : "max-h-0 opacity-0"
           }`}
         >
           <AdvancedSearch isOpen={showAdvancedSearch} />

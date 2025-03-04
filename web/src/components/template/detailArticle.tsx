@@ -3,9 +3,7 @@
 import { translateArticleType } from "@/utils/helper";
 import Tags from "../molecules/Tags";
 import Authors from "../molecules/Authors";
-import { ReqType } from "@/types/declarations/selectInp";
-import { getArticleAction } from "@/app/actions/article/getArticle";
-import { getMe } from "@/app/actions/user/getMe";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   title: string;
@@ -24,10 +22,13 @@ interface IProps {
 }
 
 export const DetailArticle = ({ article }: { article: IProps }) => {
-  //   const handleAuthorClick = (author: string) => {
-  //     const query = new URLSearchParams();
-  //     query.append("authorFamily", author);
-  //   };
+  const router = useRouter();
+
+  const handleQuery = (queryType: string, title: string) => {
+    const query = new URLSearchParams();
+    query.append(queryType, title);
+    router.push(`/?${query}`);
+  };
 
   return (
     <div className="bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen flex justify-center items-center py-10 px-6">
@@ -35,11 +36,19 @@ export const DetailArticle = ({ article }: { article: IProps }) => {
         <h1 className="text-2xl font-extrabold text-gray-900 mb-6 leading-tight">
           {article?.title}
         </h1>
-        <p className="text-lg text-indigo-800 font-semibold italic">
+        <p
+          onClick={() => handleQuery("articleType", article.articleType)}
+          className="cursor-pointer text-lg text-indigo-800 font-semibold italic"
+        >
           {translateArticleType(article?.articleType)}
         </p>
-        <p className="mt-2 text-gray-700">
-          <span className="font-semibold">سال انتشار:</span>{" "}
+        <p
+          onClick={() =>
+            handleQuery("publicationYear", article?.publicationYear)
+          }
+          className="cursor-pointer mt-2 text-gray-700"
+        >
+          <span className="font-semibold">سال انتشار:</span>
           {article?.publicationYear}
         </p>
 
@@ -52,11 +61,32 @@ export const DetailArticle = ({ article }: { article: IProps }) => {
           <h2 className="text-2xl font-semibold text-gray-800">
             اطلاعات مقاله:
           </h2>
-          <ul className="list-disc list-inside text-gray-700 mt-4 space-y-2">
-            <li>DOI: {article?.DOI}</li>
-            <li>صفحات: {article?.page}</li>
-            <li>شماره: {article?.issue}</li>
-            <li>جلد: {article?.volume}</li>
+          <ul className="flex items-center gap-2 text-gray-700 mt-4">
+            <span
+              onClick={() => handleQuery("DOI", article.DOI)}
+              className="cursor-pointer  bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-blue-300"
+            >
+              DOI:
+              {article?.DOI}
+            </span>
+            <span
+              onClick={() => handleQuery("pageCount", article.page)}
+              className="cursor-pointer bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-blue-300"
+            >
+              صفحات: {article?.page}
+            </span>
+            <span
+              onClick={() => handleQuery("issue", article.issue)}
+              className="cursor-pointer bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-blue-300"
+            >
+              شماره: {article?.issue}
+            </span>
+            <span
+              onClick={() => handleQuery("volume", article.volume)}
+              className="cursor-pointer bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-blue-300"
+            >
+              جلد: {article?.volume}
+            </span>
           </ul>
         </div>
 
@@ -66,13 +96,27 @@ export const DetailArticle = ({ article }: { article: IProps }) => {
         </div>
 
         <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-800">برچسب‌ها:</h2>
+          <h2 className="text-2xl font-semibold text-gray-800">ثبت کننده:</h2>
+          <span className="bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition-colors mt-8 hover:bg-blue-300">
+            {article.registrar.first_name} {article.registrar.last_name}
+          </span>
+        </div>
+
+        <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-semibold text-gray-800">برچسب‌ها:</h2>x
           <Tags tags={article?.tags} />
         </div>
 
         <div className="border mt-8 bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold text-gray-800">انتشارات:</h2>
-          <p className="text-gray-700 mt-4">{article?.publication?.title}</p>
+          <p
+            onClick={() =>
+              handleQuery("publication", article?.publication?.title)
+            }
+            className="cursor-pointer text-gray-700 mt-4"
+          >
+            {article?.publication?.title}
+          </p>
         </div>
 
         <a
