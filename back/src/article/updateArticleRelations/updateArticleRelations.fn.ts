@@ -19,24 +19,24 @@ export const updateArticleRelationsFn: ActFn = async (body) => {
 	const relations: TInsertRelations<typeof articleRelations> = {};
 
 	avatar && (relations.avatar = {
-		_ids: new ObjectId(avatar),
+		_ids: new ObjectId(avatar as string),
 		relatedRelations: {},
 	});
 
 	doc && (relations.doc = {
-		_ids: new ObjectId(doc),
+		_ids: new ObjectId(doc as string),
 		relatedRelations: {},
 	});
 
 	publication && (relations.publication = {
-		_ids: new ObjectId(publication),
+		_ids: new ObjectId(publication as string),
 		relatedRelations: {
 			articles: true,
 		},
 	});
 
 	const foundedArticle = await article.findOne({
-		filters: { _id: new ObjectId(_id) },
+		filters: { _id: new ObjectId(_id as string) },
 		projection: {
 			tags: {
 				_id: 1,
@@ -83,14 +83,14 @@ export const updateArticleRelationsFn: ActFn = async (body) => {
 
 		if (removedIDs.length > 0) {
 			await article.removeRelation({
-				filters: { _id: new ObjectId(_id) },
+				filters: { _id: new ObjectId(_id as string) },
 				relations: removeRelations,
 			});
 		}
 
 		if (addedIDs.length > 0) {
 			await article.addRelation({
-				filters: { _id: new ObjectId(_id) },
+				filters: { _id: new ObjectId(_id as string) },
 				relations: addRelations,
 				replace: true,
 			});
