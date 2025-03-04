@@ -10,7 +10,7 @@ export const addArticleValidator = () => {
 			avatart: optional(objectIdValidation),
 			doc: optional(objectIdValidation),
 			tags: array(objectIdValidation),
-			keywords: array(objectIdValidation),
+			keywords: optional(array(objectIdValidation)),
 			authors: array(objectIdValidation),
 		}),
 		get: selectStruct("article", 1),

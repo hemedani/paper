@@ -40,22 +40,22 @@ export const addArticleFn: ActFn = async (body) => {
 				articles: true,
 			},
 		},
-		keywords: {
-			_ids: keywords.map((id: string) => new ObjectId(id)),
-			relatedRelations: {
-				articles: true,
-			},
-		},
 		publication: {
-			_ids: new ObjectId(publication),
+			_ids: new ObjectId(publication as string),
 			relatedRelations: {
 				articles: true,
 			},
 		},
 	};
 
-	doc && (relations.doc = { _ids: new ObjectId(doc) });
-	avatar && (relations.avatar = { _ids: new ObjectId(avatar) });
+	doc && (relations.doc = { _ids: new ObjectId(doc as string) });
+	avatar && (relations.avatar = { _ids: new ObjectId(avatar as string) });
+	keywords && (relations.keywords = {
+		_ids: keywords.map((id: string) => new ObjectId(id)),
+		relatedRelations: {
+			articles: true,
+		},
+	});
 
 	return await article.insertOne({
 		doc: {
