@@ -15,12 +15,12 @@ import { EditArticle } from "@/app/actions/article/editRelationArticle";
 import { ToastNotify } from "@/utils/helper";
 
 export const FormSchema = z.object({
-  avatar: z.string().optional(),
-  doc: z.string().optional(),
-  publication: z.string().nonempty("انتشار الزامی است"),
-  tags: z.array(z.string()).nonempty("حداقل یک برچسب انتخاب کنید"),
-  keywords: z.array(z.string()).nonempty("حداقل یک کلمه کلیدی انتخاب کنید"),
-  authors: z.array(z.string()).nonempty("حداقل یک نویسنده انتخاب کنید"),
+  avatar: z.optional(z.string()),
+  doc: z.optional(z.string()),
+  publication: z.optional(z.string().nonempty("انتشار الزامی است")),
+  tags: z.optional(z.array(z.string()).nonempty("حداقل یک برچسب انتخاب کنید")),
+  keywords: z.optional(z.array(z.string()).nonempty("حداقل یک کلمه کلیدی انتخاب کنید")),
+  authors: z.optional(z.array(z.string()).nonempty("حداقل یک نویسنده انتخاب کنید")),
 });
 
 export type FormSchemaType = z.infer<typeof FormSchema>;
@@ -38,9 +38,11 @@ type BackendData = {
 export const EditArticleRelationForm = ({
   defaultValues,
   token,
+  lesanUrl
 }: {
   defaultValues?: BackendData;
   token: string;
+  lesanUrl?: string
 }) => {
   const [imageAvatar, setImageAvatar] = useState<string | null>(null);
   const [imageDoc, setImageDoc] = useState<string | null>(null);
@@ -54,8 +56,6 @@ export const EditArticleRelationForm = ({
       authors: defaultValues?.authors?.map((author) => author._id) || [],
       keywords: defaultValues?.keywords?.map((keyword) => keyword._id) || [],
       tags: defaultValues?.tags?.map((tag) => tag._id) || [],
-      avatar: defaultValues?.avatar?._id,
-      doc: defaultValues?.doc._id,
       publication: defaultValues?.publication?._id || "",
     },
     resolver: zodResolver(FormSchema),
@@ -75,9 +75,9 @@ export const EditArticleRelationForm = ({
 
   const defaultPublicationOption = defaultValues?.publication
     ? {
-        value: defaultValues.publication._id,
-        label: defaultValues.publication.title,
-      }
+      value: defaultValues.publication._id,
+      label: defaultValues.publication.title,
+    }
     : null;
 
   const defaultTagOptions =
@@ -177,29 +177,32 @@ export const EditArticleRelationForm = ({
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-6">فرم ویرایش محتوا</h2>
+      <h2 className="text-xl font-semibold mb-6">فرم ویرایش رابطه‌ها</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* بخش آپلود تصاویر */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-2">
             <span className="text-sm font-medium text-gray-700">
-              عکس پروفایل
+              عکس مقاله
             </span>
             <UploadImage
               inputName="avatar"
               setUploadedImage={setImageAvatar}
               type="image"
               token={token}
+              lesanUrl={lesanUrl}
+              filePath={defaultValues?.avatar ? defaultValues.avatar.name : ""}
             />
           </div>
           <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium text-gray-700">عکس سند</span>
+            <span className="text-sm font-medium text-gray-700">فایل مقاله</span>
             <UploadImage
               inputName="doc"
               setUploadedImage={setImageDoc}
-              lesanUrl={`localhost:1382/uploads/docs/${defaultValues?.doc?.name}`}
-              type="image"
+              lesanUrl={lesanUrl}
+              type="doc"
               token={token}
+              filePath={defaultValues?.doc ? defaultValues.doc.name : ""}
             />
           </div>
         </div>
