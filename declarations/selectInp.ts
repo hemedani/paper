@@ -2847,6 +2847,7 @@ set: {
 page: number;
 limit: number;
 search?: string;
+isInSwipper?: boolean;
 };
 get: {
 _id?: (0 | 1 );
