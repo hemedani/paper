@@ -22,7 +22,7 @@ export const addFn: ActFn = async (body) => {
 				},
 			},
 			pic: {
-				_ids: new ObjectId(pic),
+				_ids: new ObjectId(pic as string),
 			},
 		},
 		projection: get,
