@@ -1,17 +1,9 @@
 "use server";
-import { FormSchemaType } from "@/components/organisms/FormCreateBlog";
 import { paperApi } from "@/services/api";
+import { ReqType } from "@/types/declarations/selectInp";
 import { cookies } from "next/headers";
 
-export const createBlog = async ({
-  abstract,
-  content,
-  isInSwipper,
-  likes,
-  pic,
-  subtitle,
-  title,
-}: FormSchemaType) => {
+export const createBlog = async ({ set, get }: ReqType["main"]["blog"]["add"]) => {
   const token = (await cookies()).get("token");
   const addBlog = await paperApi().send(
     {
@@ -19,26 +11,12 @@ export const createBlog = async ({
       model: "blog",
       act: "add",
       details: {
-        set: {
-          abstract,
-          content,
-          isInSwipper,
-          likes,
-          pic,
-          subtitle,
-          title,
-        },
-        get: {
-          _id: 1,
-          abstract: 1,
-          content: 1,
-          title: 1,
-        },
+        set,
+        get,
       },
     },
     { token: token?.value }
   );
-  console.log(addBlog);
 
   if (addBlog.success) return addBlog.body;
 };
