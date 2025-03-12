@@ -16,11 +16,15 @@ export const countArticlesFn: ActFn = async (body) => {
 			DOI,
 			issue,
 			volume,
+			publication,
 
 			//advanced relation search
 			tags,
+			tagIds,
+
 			keywords,
-			publication,
+			keywordIds,
+
 			authorIds,
 			authorFamily,
 		},
@@ -30,9 +34,7 @@ export const countArticlesFn: ActFn = async (body) => {
 	const filters: Document = {};
 
 	search && (filters["$text"] = { $search: search });
-	tags && tags.length > 0 && (filters["tags.name"] = { $in: tags });
-	keywords && keywords.length > 0 &&
-		(filters["keywords.name"] = { $in: keywords });
+
 	title && (filters["title"] = { $regex: new RegExp(title, "i") });
 	abstract && (filters["abstract"] = { $regex: new RegExp(abstract, "i") });
 	articleType && (filters["articleType"] = articleType);
@@ -54,6 +56,19 @@ export const countArticlesFn: ActFn = async (body) => {
 	authorFamily &&
 		(filters["authors.last_name"] = {
 			$regex: new RegExp(authorFamily, "i"),
+		});
+
+	tags && tags.length > 0 && (filters["tags.name"] = { $in: tags });
+	tagIds && tagIds.length > 0 &&
+		(filters["tags._id"] = {
+			$in: tagIds.map((_id: string) => new ObjectId(_id)),
+		});
+
+	keywords && keywords.length > 0 &&
+		(filters["keywords.name"] = { $in: keywords });
+	keywordIds && keywordIds.length > 0 &&
+		(filters["keywords._id"] = {
+			$in: keywordIds.map((_id: string) => new ObjectId(_id)),
 		});
 
 	const foundedItemsLength = await article.countDocument({

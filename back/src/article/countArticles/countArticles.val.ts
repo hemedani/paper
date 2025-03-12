@@ -1,4 +1,13 @@
-import { array, enums, number, object, optional, size, string } from "deps";
+import {
+	array,
+	enums,
+	number,
+	object,
+	objectIdValidation,
+	optional,
+	size,
+	string,
+} from "deps";
 import { articleTypeEnums } from "@paper/lib";
 
 export const countArticlesValidator = () => {
@@ -8,7 +17,6 @@ export const countArticlesValidator = () => {
 
 			//advanced search
 			articleType: optional(articleTypeEnums),
-			authorFamily: optional(string()),
 			title: optional(string()),
 			abstract: optional(string()),
 			ISBN: optional(string()),
@@ -22,8 +30,14 @@ export const countArticlesValidator = () => {
 
 			//advanced relation search
 			tags: optional(array(string())),
+			tagIds: optional(array(objectIdValidation)),
+
 			keywords: optional(array(string())),
-			authorIds: optional(array(string())),
+			keywordIds: optional(array(objectIdValidation)),
+
+			authorFamily: optional(string()),
+			authorIds: optional(array(objectIdValidation)),
+
 			publication: optional(string()),
 		}),
 		get: object({ qty: optional(enums([0, 1])) }),
