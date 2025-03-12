@@ -1,11 +1,10 @@
-"use client";
 import { isValidImageExtension, isValidPdfExtension } from "@/utils/checkFileExtension";
 import React, { useState } from "react";
 
 export const dynamic = "force-dynamic";
 
 interface IUploadImage {
-  setUploadedImage: React.Dispatch<React.SetStateAction<string | null>>;
+  setUploadedImage: (pic: string) => void;
   token?: string;
   lesanUrl?: string;
   inputName: string;
@@ -50,7 +49,7 @@ export const UploadImage = ({
     formData.append("lesan-body", JSON.stringify(lesanBody));
 
     try {
-      const response = await fetch(`http://localhost:1382/lesan`, {
+      const response = await fetch(`${lesanUrl}/lesan`, {
         method: "POST",
         body: formData,
         headers: {
@@ -81,17 +80,6 @@ export const UploadImage = ({
         <input type="file" id={inputName} hidden onChange={handleFileChange} />
         انتخاب فایل
       </label>
-
-      { /* (file || filePath || lesanUrl) && ( // اضافه کردن lesanUrl به شرط
-        <div className="w-full h-40 mt-4 rounded-lg overflow-hidden border">
-          <img
-            className="w-full h-full object-cover"
-            src={file ? URL.createObjectURL(file) : lesanUrl || filePath} // اولویت با file، بعد lesanUrl، بعد filePath
-            alt="Uploaded preview"
-          />
-        </div>
-      ) */ }
-
 
       {(file && file.type === "image/jpeg") ? (
         <div className="w-full h-40 mt-4 rounded-lg overflow-hidden border">
