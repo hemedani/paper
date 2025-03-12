@@ -1,50 +1,35 @@
 "use client";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import Input from "../atoms/Input";
-import AsyncSelect from "react-select/async";
-import { MultiValue } from "react-select";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getTags } from "@/app/actions/tag/getTags";
 import { getKeywords } from "@/app/actions/keyword/getKeywords";
 import { getAuthors } from "@/app/actions/author/getAuthors";
+import MyInput from "../atoms/MyInput";
+import MyAsyncMultiSelect from "../atoms/MyAsyncMultiSelect";
+import { DeepPartial, ReqType } from "@/types/declarations/selectInp";
+import { DefaultSearchArrayValues } from "@/app/page";
 
-type SearchCriteria = {
-  title?: string;
-  abstract?: string;
-  tags?: string[];
-  authors?: string[];
-  keywords?: string[];
-  publication?: string;
-  DOI?: string;
-  ISBN?: string;
-  ISNN?: string;
-};
+export type AdvencedArticleSearchParams = ReqType["main"]["article"]["getArticles"]["set"]
 
-const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
+const AdvancedSearch: React.FC<{ isOpen: boolean, defaultSearchArrayValues: DefaultSearchArrayValues }> = ({ isOpen, defaultSearchArrayValues: { tags, keywords, authors } }) => {
   const router = useRouter();
+  const searchParams: DeepPartial<AdvencedArticleSearchParams> = Array.from(useSearchParams().entries()).reduce((acc, [key, value]) =>
+    ({ ...acc, [key]: (key === "tagIds" || key === "keywordIds" || key === "authorIds") ? value.split(",") : value })
+    , {});
 
   const {
-    control,
+    register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<SearchCriteria>();
+  } = useForm<AdvencedArticleSearchParams>({ defaultValues: searchParams, });
 
-  // useEffect(() => {
-  //   setValue("title", params.get("title") || "");
-  //   setValue("abstract", params.get("abstract") || "");
-  //   setValue("tags", params.get("tags")?.split(",") || []);
-  //   setValue("publication", params.get("publication") || "");
-  //   setValue("authors", params.get("authors") || "");
-  //   setValue("DOI", params.get("DOI") || "");
-  //   setValue("ISBN", params.get("ISBN") || "");
-  //   setValue("ISNN", params.get("ISNN") || "");
-  // }, [params, setValue]);
-
-  const loadKeywordsOptions = async (inputValue: string) => {
+  const loadKeywordsOptions = async (keywordName?: string) => {
+    let set: ReqType["main"]["keyword"]["getKeywords"]["set"] = { limit: 10, page: 1 }
+    keywordName && (set.name = keywordName)
     const response = await getKeywords({
-      set: { name: inputValue, limit: 10, page: 1 },
+      set,
       get: { _id: 1, name: 1 },
     });
     return response.map((keyword: { _id: string; name: string }) => ({
@@ -53,18 +38,14 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
     }));
   };
 
-  const handleKeywordsChange = (
-    selectedOptions: MultiValue<{ value: string; label: string }>
-  ) => {
-    const values = selectedOptions.map((option) => option.label);
-    setValue("keywords", values);
-  };
-
-  const loadAuthorsOptions = async (inputValue: string) => {
+  const loadAuthorsOptions = async (authorLastname?: string) => {
+    let set: ReqType["main"]["author"]["gets"]["set"] = { limit: 10, page: 1 }
+    authorLastname && (set.last_name = authorLastname)
     const response = await getAuthors({
-      set: { first_name: "", last_name: inputValue, limit: 10, page: 1 },
+      set,
       get: { _id: 1, first_name: 1, last_name: 1 },
     });
+
     return response.map(
       (author: { _id: string; first_name: string; last_name: string }) => ({
         value: author._id,
@@ -73,16 +54,11 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
     );
   };
 
-  const handleAuthorsChange = (
-    selectedOptions: MultiValue<{ value: string; label: string }>
-  ) => {
-    const values = selectedOptions.map((option) => option.label);
-    setValue("authors", values);
-  };
-
-  const loadTagOptions = async (inputValue: string) => {
+  const loadTagOptions = async (tagName?: string) => {
+    let set: ReqType["main"]["tag"]["getTags"]["set"] = { limit: 10, page: 1 }
+    tagName && (set.name = tagName)
     const response = await getTags({
-      set: { name: inputValue, limit: 10, page: 1 },
+      set,
       get: { _id: 1, name: 1 },
     });
     return response.map((tag: { _id: string; name: string }) => ({
@@ -91,25 +67,16 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
     }));
   };
 
-  const handleTagChange = (
-    selectedOptions: MultiValue<{ value: string; label: string }>
-  ) => {
-    const values = selectedOptions.map((option) => option.label);
-    setValue("tags", values);
-  };
 
-  const onSubmit: SubmitHandler<SearchCriteria> = (criteria) => {
-    const filteredCriteria = Object.entries(criteria).filter(([value]) => {
+  const onSubmit: SubmitHandler<AdvencedArticleSearchParams> = (criteria) => {
+    const queryString = Object.entries(criteria).filter(([_key, value]) => {
       if (Array.isArray(value)) return value.length > 0;
       return value && value.toString().trim() !== "";
-    });
-
-    const queryString = filteredCriteria
-      .map(([key, value]) =>
-        Array.isArray(value)
-          ? `${encodeURIComponent(key)}=${encodeURIComponent(value.join(","))}`
-          : `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-      )
+    }).map(([key, value]) =>
+      Array.isArray(value)
+        ? `${encodeURIComponent(key)}=${encodeURIComponent(value.join(","))}`
+        : `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+    )
       .join("&");
 
     router.push(`/?${queryString}`);
@@ -117,128 +84,24 @@ const AdvancedSearch: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
 
   return (
     <div
-      className={`transition-all duration-500 ease-in-out overflow-hidden bg-white border rounded-lg shadow-lg mt-4 ${
-        isOpen ? "max-h-[1000px] opacity-100 p-6" : "max-h-0 opacity-0"
-      }`}
+      className={`transition-all duration-500 ease-in-out bg-white border rounded-lg shadow-lg mt-4 min-h-[30rem] ${isOpen ? "max-h-[1000px] opacity-100 p-6" : "max-h-0 opacity-0"
+        }`}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <h3 className="text-2xl font-bold text-gray-800">جستجوی پیشرفته</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Input
-            label="عنوان"
-            name="title"
-            placeholder="عنوان مقاله"
-            control={control}
-            className="w-full text-right"
-          />
-          <Input
-            label="چکیده"
-            name="abstract"
-            placeholder="چکیده مقاله"
-            control={control}
-            className="w-full text-right"
-          />
-          <div className="flex flex-col gap-2">
-            <label htmlFor="tags" className="text-sm font-medium text-gray-700">
-              برچسب‌ها
-            </label>
-            <AsyncSelect
-              isMulti
-              cacheOptions
-              loadOptions={loadTagOptions}
-              defaultOptions
-              onChange={handleTagChange}
-              name="tags"
-              placeholder="برچسب‌ها را انتخاب کنید"
-              classNamePrefix="react-select"
-            />
-            {errors.tags && (
-              <span className="text-red-500 text-xs">
-                {errors.tags.message}
-              </span>
-            )}
-          </div>
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="authors"
-              className="text-sm text-right font-medium text-gray-700"
-            >
-              نویسندگان
-            </label>
-            <AsyncSelect
-              isMulti
-              cacheOptions
-              loadOptions={loadAuthorsOptions}
-              defaultOptions
-              onChange={handleAuthorsChange}
-              name="authors"
-              placeholder="نویسنده ها را انتخاب کنید"
-              classNamePrefix="react-select"
-            />
-            {errors.authors && (
-              <span className="text-red-500 text-xs">
-                {errors.authors.message}
-              </span>
-            )}
-          </div>
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="keywords"
-              className="text-sm text-right font-medium text-gray-700"
-            >
-              کلمه های کلیدی
-            </label>
-            <AsyncSelect
-              isMulti
-              cacheOptions
-              loadOptions={loadKeywordsOptions}
-              defaultOptions
-              onChange={handleKeywordsChange}
-              name="keywords"
-              placeholder="کلمه های کلیدی  را انتخاب کنید"
-              classNamePrefix="react-select"
-            />
-            {errors.keywords && (
-              <span className="text-red-500 text-xs">
-                {errors.keywords.message}
-              </span>
-            )}
-          </div>
-          <Input
-            label="انتشارات"
-            name="publication"
-            placeholder="نام انتشارات"
-            control={control}
-            className="w-full text-right"
-          />
-          {/* <Input
-            label="نویسنده"
-            name="authors"
-            placeholder="نام نویسنده"
-            control={control}
-            className="w-full text-right"
-          /> */}
-          <Input
-            label="DOI"
-            name="DOI"
-            placeholder=""
-            control={control}
-            className="w-full text-right"
-          />
-          <Input
-            label="ISBN"
-            name="ISBN"
-            placeholder=""
-            control={control}
-            className="w-full text-right"
-          />
-          <Input
-            label="ISNN"
-            name="ISNN"
-            placeholder=""
-            control={control}
-            className="w-full text-right"
-          />
+
+          <MyAsyncMultiSelect label="برچسب ها" setValue={setValue} defaultValue={tags} name="tagIds" defaultOptions loadOptions={loadTagOptions} errMsg={errors.tagIds?.message} />
+          <MyAsyncMultiSelect label="کلمات کلیدی" setValue={setValue} defaultValue={keywords} name="keywordIds" defaultOptions loadOptions={loadKeywordsOptions} errMsg={errors.keywordIds?.message} />
+          <MyAsyncMultiSelect label="نویسندگان" setValue={setValue} defaultValue={authors} name="authorIds" defaultOptions loadOptions={loadAuthorsOptions} errMsg={errors.authorIds?.message} />
+
+          <MyInput name="title" errMsg={errors.title?.message} label="عنوان" placeholder="عنوان مقاله" register={register} className="w-full text-right" />
+          <MyInput name="abstract" errMsg={errors.abstract?.message} label="چکیده" placeholder="چکیده مقاله" register={register} className="w-full text-right" />
+          <MyInput name="publication" errMsg={errors.publication?.message} label="انتشارات" register={register} className="w-full text-right" />
+          <MyInput name="DOI" errMsg={errors.publication?.message} label="DOI" register={register} className="w-full text-right" />
+          <MyInput name="ISBN" errMsg={errors.publication?.message} label="ISBN" register={register} className="w-full text-right" />
+          <MyInput name="ISNN" errMsg={errors.publication?.message} label="ISNN" register={register} className="w-full text-right" />
+
         </div>
         <div className="flex justify-end items-center">
           <button
