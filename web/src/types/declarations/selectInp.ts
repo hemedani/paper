@@ -25,23 +25,23 @@ export type userSchema = {
   address: string;
   level: ("Ghost" | "Manager" | "Editor");
   isVerified: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   avatar?: {
     _id?: string;
     name: string;
     type: string;
     size: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
   nationalCard?: {
     _id?: string;
     name: string;
     type: string;
     size: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
   favArticles?: {
     _id?: string;
@@ -57,22 +57,22 @@ export type userSchema = {
     page: string;
     issue: number;
     volume: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   }[];
   uploadedAssets: {
     _id?: string;
     name: string;
     type: string;
     size: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   }[];
   registeredPublications: {
     _id?: string;
     title: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   }[];
 };
 ;
@@ -87,8 +87,8 @@ export type publicationInp = {
 export type publicationSchema = {
   _id?: string;
   title: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   registrar: {
     _id?: string;
     first_name: string;
@@ -103,8 +103,8 @@ export type publicationSchema = {
     address: string;
     level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
 };
 ;
@@ -120,8 +120,8 @@ export type authorSchema = {
   _id?: string;
   first_name: string;
   last_name: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   registrar: {
     _id?: string;
     first_name: string;
@@ -136,8 +136,8 @@ export type authorSchema = {
     address: string;
     level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
 };
 ;
@@ -152,8 +152,8 @@ export type tagInp = {
 export type tagSchema = {
   _id?: string;
   name: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   registrar: {
     _id?: string;
     first_name: string;
@@ -168,8 +168,8 @@ export type tagSchema = {
     address: string;
     level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
 };
 ;
@@ -184,8 +184,8 @@ export type keywordInp = {
 export type keywordSchema = {
   _id?: string;
   name: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   registrar: {
     _id?: string;
     first_name: string;
@@ -200,8 +200,8 @@ export type keywordSchema = {
     address: string;
     level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
 };
 ;
@@ -233,8 +233,8 @@ export type articleSchema = {
   page: string;
   issue: number;
   volume: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   registrar: {
     _id?: string;
     first_name: string;
@@ -249,49 +249,49 @@ export type articleSchema = {
     address: string;
     level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
   avatar?: {
     _id?: string;
     name: string;
     type: string;
     size: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
   doc?: {
     _id?: string;
     name: string;
     type: string;
     size: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
   publication?: {
     _id?: string;
     title: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
   authors?: {
     _id?: string;
     first_name: string;
     last_name: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   }[];
   tags?: {
     _id?: string;
     name: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   }[];
   keywords?: {
     _id?: string;
     name: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   }[];
   favByUsers: {
     _id?: string;
@@ -307,8 +307,8 @@ export type articleSchema = {
     address: string;
     level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   }[];
 };
 ;
@@ -329,8 +329,8 @@ export type blogSchema = {
   content: string;
   likes?: number;
   isInSwipper?: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   author: {
     _id?: string;
     first_name: string;
@@ -345,16 +345,16 @@ export type blogSchema = {
     address: string;
     level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
   pic: {
     _id?: string;
     name: string;
     type: string;
     size: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
 };
 ;
@@ -371,8 +371,8 @@ export type fileSchema = {
   name: string;
   type: string;
   size: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   uploader: {
     _id?: string;
     first_name: string;
@@ -387,8 +387,8 @@ export type fileSchema = {
     address: string;
     level: ("Ghost" | "Manager" | "Editor");
     isVerified: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
 };
 ;
@@ -417,8 +417,8 @@ export type ReqType = {
           address: string;
           level: ("Ghost" | "Manager" | "Editor");
           isVerified: boolean;
-          createdAt: Date;
-          updatedAt: Date;
+          createdAt?: Date;
+          updatedAt?: Date;
         };
         get: {
           _id?: (0 | 1);
@@ -1085,8 +1085,8 @@ export type ReqType = {
           summery?: string;
           personnel_number: string;
           address: string;
-          createdAt: Date;
-          updatedAt: Date;
+          createdAt?: Date;
+          updatedAt?: Date;
         };
         get: {
           _id?: (0 | 1);
@@ -1664,8 +1664,8 @@ export type ReqType = {
           page: string;
           issue: number;
           volume: number;
-          createdAt: Date;
-          updatedAt: Date;
+          createdAt?: Date;
+          updatedAt?: Date;
           publication: string;
           avatart?: string;
           doc?: string;
@@ -2643,10 +2643,9 @@ export type ReqType = {
           subtitle: string;
           abstract: string;
           content: string;
-          likes?: number;
           isInSwipper?: boolean;
-          createdAt: Date;
-          updatedAt: Date;
+          createdAt?: Date;
+          updatedAt?: Date;
           pic: string;
         };
         get: {
@@ -3064,8 +3063,8 @@ export type ReqType = {
       uploadFile: {
         set: {
           type: ("video" | "image" | "doc");
-          createdAt: Date;
-          updatedAt: Date;
+          createdAt?: Date;
+          updatedAt?: Date;
         };
         get: {
           _id?: (0 | 1);
@@ -3104,8 +3103,8 @@ export type ReqType = {
       addPublication: {
         set: {
           title: string;
-          createdAt: Date;
-          updatedAt: Date;
+          createdAt?: Date;
+          updatedAt?: Date;
         };
         get: {
           _id?: (0 | 1);
@@ -3397,8 +3396,8 @@ export type ReqType = {
       addTag: {
         set: {
           name: string;
-          createdAt: Date;
-          updatedAt: Date;
+          createdAt?: Date;
+          updatedAt?: Date;
         };
         get: {
           _id?: (0 | 1);
@@ -3692,8 +3691,8 @@ export type ReqType = {
         set: {
           first_name: string;
           last_name: string;
-          createdAt: Date;
-          updatedAt: Date;
+          createdAt?: Date;
+          updatedAt?: Date;
         };
         get: {
           _id?: (0 | 1);
@@ -3944,8 +3943,8 @@ export type ReqType = {
       addKeyword: {
         set: {
           name: string;
-          createdAt: Date;
-          updatedAt: Date;
+          createdAt?: Date;
+          updatedAt?: Date;
         };
         get: {
           _id?: (0 | 1);
