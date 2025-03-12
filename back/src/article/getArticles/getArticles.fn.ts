@@ -11,8 +11,6 @@ export const getArticlesFn: ActFn = async (body) => {
 			//advanced search
 			articleType,
 			publicationYear,
-			authorIds,
-			authorFamily,
 			title,
 			abstract,
 			ISBN,
@@ -23,7 +21,14 @@ export const getArticlesFn: ActFn = async (body) => {
 
 			//advanced relation search
 			tags,
+			tagIds,
+
 			keywords,
+			keywordIds,
+
+			authorIds,
+			authorFamily,
+
 			publication,
 		},
 		get,
@@ -32,11 +37,42 @@ export const getArticlesFn: ActFn = async (body) => {
 	const pipeline = [];
 
 	search && pipeline.push({ $match: { $text: { $search: search } } });
+	articleType && pipeline.push({ $match: { articleType } });
+	publicationYear && pipeline.push({ $match: { publicationYear } });
+	ISBN && pipeline.push({ $match: { ISBN } });
+	ISNN && pipeline.push({ $match: { ISNN } });
+	DOI && pipeline.push({ $match: { DOI } });
+	issue && pipeline.push({ $match: { issue: { $gte: issue } } });
+	volume && pipeline.push({ $match: { volume: { $gte: volume } } });
 
 	tags && tags.length > 0 &&
 		pipeline.push({ $match: { "tags.name": { $in: tags } } });
+	tagIds && tagIds.length > 0 &&
+		pipeline.push({
+			$match: {
+				"tags._id": {
+					$in: tagIds.map((_id: string) => new ObjectId(_id)),
+				},
+			},
+		});
+
 	keywords && keywords.length > 0 &&
 		pipeline.push({ $match: { "keywords.name": { $in: keywords } } });
+	keywordIds && keywordIds.length > 0 &&
+		pipeline.push({
+			$match: {
+				"keywords._id": {
+					$in: keywordIds.map((_id: string) => new ObjectId(_id)),
+				},
+			},
+		});
+
+	authorFamily &&
+		pipeline.push({
+			$match: {
+				"authors.last_name": { $regex: new RegExp(authorFamily, "i") },
+			},
+		});
 	authorIds && authorIds.length > 0 &&
 		pipeline.push({
 			$match: {
@@ -45,20 +81,6 @@ export const getArticlesFn: ActFn = async (body) => {
 				},
 			},
 		});
-	authorFamily &&
-		pipeline.push({
-			$match: {
-				"authors.last_name": { $regex: new RegExp(authorFamily, "i") },
-			},
-		});
-
-	articleType && pipeline.push({ $match: { articleType } });
-	publicationYear && pipeline.push({ $match: { publicationYear } });
-	ISBN && pipeline.push({ $match: { ISBN } });
-	ISNN && pipeline.push({ $match: { ISNN } });
-	DOI && pipeline.push({ $match: { DOI } });
-	issue && pipeline.push({ $match: { issue: { $gte: issue } } });
-	volume && pipeline.push({ $match: { volume: { $gte: volume } } });
 
 	publication &&
 		pipeline.push({

@@ -1,4 +1,12 @@
-import { array, number, object, optional, size, string } from "deps";
+import {
+	array,
+	number,
+	object,
+	objectIdValidation,
+	optional,
+	size,
+	string,
+} from "deps";
 import { selectStruct } from "../../../mod.ts";
 import { articleTypeEnums } from "@paper/lib";
 
@@ -11,7 +19,6 @@ export const getArticlesValidator = () => {
 
 			//advanced search
 			articleType: optional(articleTypeEnums),
-			authorFamily: optional(string()),
 			title: optional(string()),
 			abstract: optional(string()),
 			ISBN: optional(string()),
@@ -25,8 +32,14 @@ export const getArticlesValidator = () => {
 
 			//advanced relation search
 			tags: optional(array(string())),
+			tagIds: optional(array(objectIdValidation)),
+
 			keywords: optional(array(string())),
-			authorIds: optional(array(string())),
+			keywordIds: optional(array(objectIdValidation)),
+
+			authorFamily: optional(string()),
+			authorIds: optional(array(objectIdValidation)),
+
 			publication: optional(string()),
 		}),
 		get: selectStruct("article", 2),
