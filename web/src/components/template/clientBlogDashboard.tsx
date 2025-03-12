@@ -14,9 +14,10 @@ interface Blog {
 
 interface ClientDashboardProps {
   blogs: Blog[];
+  lesanUrl: string;
 }
 
-const ClientBlogDashboard: React.FC<ClientDashboardProps> = ({ blogs }) => {
+const ClientBlogDashboard: React.FC<ClientDashboardProps> = ({ blogs, lesanUrl }) => {
   const router = useRouter();
   // const [hardCascade, setHardCascade] = useState<boolean>(false);
 
@@ -35,7 +36,7 @@ const ClientBlogDashboard: React.FC<ClientDashboardProps> = ({ blogs }) => {
             className="bg-white rounded-xl shadow-md overflow-hidden w-64"
           >
             <img
-              src={`http://127.0.0.1:1382 /uploads/images/${blog.pic.name}`}
+              src={`${lesanUrl}/uploads/images/${blog.pic.name}`}
               alt={blog.title}
               className="w-full h-32 object-cover"
             />
