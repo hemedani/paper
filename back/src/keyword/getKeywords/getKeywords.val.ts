@@ -1,4 +1,11 @@
-import { number, object, optional, string } from "deps";
+import {
+	array,
+	number,
+	object,
+	objectIdValidation,
+	optional,
+	string,
+} from "deps";
 import { selectStruct } from "../../../mod.ts";
 
 export const getKeywordsValidator = () => {
@@ -7,6 +14,8 @@ export const getKeywordsValidator = () => {
 			page: number(),
 			limit: number(),
 			name: optional(string()),
+
+			keywordIds: optional(array(objectIdValidation)),
 		}),
 		get: selectStruct("keyword", 2),
 	});

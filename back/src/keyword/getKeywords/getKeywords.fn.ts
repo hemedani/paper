@@ -1,4 +1,4 @@
-import type { ActFn } from "deps";
+import { type ActFn, ObjectId } from "deps";
 import { keyword } from "../../../mod.ts";
 
 export const getKeywordsFn: ActFn = async (body) => {
@@ -7,6 +7,8 @@ export const getKeywordsFn: ActFn = async (body) => {
 			page,
 			limit,
 			name,
+
+			keywordIds,
 		},
 		get,
 	} = body.details;
@@ -16,6 +18,15 @@ export const getKeywordsFn: ActFn = async (body) => {
 	name &&
 		pipeline.push({
 			$match: { "name": { $regex: new RegExp(name, "i") } },
+		});
+
+	keywordIds && keywordIds.length > 0 &&
+		pipeline.push({
+			$match: {
+				_id: {
+					$in: keywordIds.map((_id: string) => new ObjectId(_id)),
+				},
+			},
 		});
 
 	pipeline.push({ $sort: { _id: -1 } });
