@@ -21,7 +21,7 @@ interface Blog {
   subtitle: string;
 }
 
-export const BLogList = ({ blogs }: { blogs: Blog[] }) => {
+export const BLogList = ({ blogs, lesanUrl }: { blogs: Blog[], lesanUrl: string }) => {
   return (
     <>
       <h1 className="text-3xl font-bold text-center mb-8 text-gray-900 ">
@@ -58,9 +58,7 @@ export const BLogList = ({ blogs }: { blogs: Blog[] }) => {
             className="rounded-2xl overflow-hidden shadow-lg bg-white dark:bg-gray-900"
           >
             <Image
-              src={encodeURI(
-                `http://127.0.0.1:1382/uploads/images/${blog.pic.name}`
-              )}
+              src={encodeURI(`${lesanUrl}/uploads/images/${blog.pic.name}`)}
               alt={blog.title}
               width={400}
               height={250}
