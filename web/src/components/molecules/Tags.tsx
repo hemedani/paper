@@ -1,8 +1,8 @@
 "use client";
-
+import { articleSchema } from "@/types/declarations/selectInp";
 import { useRouter } from "next/navigation";
 
-export default function Tags({ tags }: { tags: { name: string }[] }) {
+export default function Tags({ tags }: { tags: articleSchema["tags"] }) {
   const router = useRouter();
   const handleQueryBack = (name: string) => {
     const query = new URLSearchParams();

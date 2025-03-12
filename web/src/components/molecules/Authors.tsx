@@ -1,11 +1,11 @@
 "use client";
-
+import { articleSchema } from "@/types/declarations/selectInp";
 import { useRouter } from "next/navigation";
 
 export default function Authors({
   authors,
 }: {
-  authors: { _id: string; first_name: string; last_name: string }[];
+  authors: articleSchema["authors"];
 }) {
   const router = useRouter();
 
@@ -20,7 +20,7 @@ export default function Authors({
     <div className="flex flex-wrap gap-4 mt-4">
       {authors?.map((author, index) => (
         <span
-          onClick={() => handleQueryBack(author._id)}
+          onClick={() => handleQueryBack(author._id!)}
           key={index}
           className="cursor-pointer hover:underline bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-blue-300"
         >
