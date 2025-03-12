@@ -16,19 +16,28 @@ export default async function ArticlePage({
   };
   const get: ReqType["main"]["article"]["getArticle"]["get"] = {
     _id: 1,
-    title: 1,
+    key: 1,
     articleType: 1,
     publicationYear: 1,
+    title: 1,
     abstract: 1,
+    ISBN: 1,
+    ISNN: 1,
     DOI: 1,
+    URL: 1,
     page: 1,
     issue: 1,
     volume: 1,
+    createdAt: 1,
+    updatedAt: 1,
     registrar: { _id: 1, first_name: 1, last_name: 1 },
+    avatar: { _id: 1, name: 1 },
+    doc: { _id: 1, name: 1 },
     publication: { title: 1 },
-    tags: { name: 1 },
     authors: { _id: 1, first_name: 1, last_name: 1 },
-    URL: 1,
+    tags: { _id: 1, name: 1 },
+    keywords: { _id: 1, name: 1 },
+    favByUsers: { _id: 1, first_name: 1, last_name: 1 },
   };
   const article = await getArticleAction({ set, get });
   const me = await getMe();
