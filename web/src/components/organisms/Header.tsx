@@ -5,12 +5,14 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import AdvancedSearch from "../molecules/AdvancedSearch";
 import Input from "../atoms/Input";
+import { DefaultSearchArrayValues } from "@/app/page";
 
 type SearchFormValues = {
   query: string;
 };
 
-export const Header = () => {
+export const Header: React.FC<{ defaultSearchArrayValues: DefaultSearchArrayValues }> = ({ defaultSearchArrayValues }) => {
+
   const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
   const router = useRouter();
   const { control, handleSubmit } = useForm<SearchFormValues>({
@@ -61,11 +63,10 @@ export const Header = () => {
             <button
               type="button"
               onClick={toggleAdvancedSearch}
-              className={`px-4 py-2 rounded-3xl text-white w-full md:w-auto transition-all ${
-                showAdvancedSearch
-                  ? "bg-blue-500 hover:bg-blue-600"
-                  : "bg-gray-600 hover:bg-gray-500"
-              }`}
+              className={`px-4 py-2 rounded-3xl text-white w-full md:w-auto transition-all ${showAdvancedSearch
+                ? "bg-blue-500 hover:bg-blue-600"
+                : "bg-gray-600 hover:bg-gray-500"
+                }`}
             >
               {showAdvancedSearch
                 ? "بستن جستجوی پیشرفته"
@@ -75,13 +76,12 @@ export const Header = () => {
         </form>
 
         <div
-          className={`w-full md:w-2/3 mx-auto mt-6 overflow-hidden transition-all duration-500 ${
-            showAdvancedSearch
-              ? "max-h-screen opacity-100"
-              : "max-h-0 opacity-0"
-          }`}
+          className={`w-full md:w-2/3 mx-auto mt-6 overflow-hidden transition-all duration-500 ${showAdvancedSearch
+            ? "max-h-screen opacity-100"
+            : "max-h-0 opacity-0"
+            }`}
         >
-          <AdvancedSearch isOpen={showAdvancedSearch} />
+          <AdvancedSearch defaultSearchArrayValues={defaultSearchArrayValues} isOpen={showAdvancedSearch} />
         </div>
       </div>
     </section>
