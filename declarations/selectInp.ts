@@ -2069,7 +2069,6 @@ page: number;
 limit: number;
 search?: string;
 articleType?: ("journalArticle" | "book" );
-authorFamily?: string;
 title?: string;
 abstract?: string;
 ISBN?: string;
@@ -2080,7 +2079,10 @@ issue?: number;
 volume?: number;
 publicationYear?: number;
 tags?: string[];
+tagIds?: string[];
 keywords?: string[];
+keywordIds?: string[];
+authorFamily?: string;
 authorIds?: string[];
 publication?: string;
 };
@@ -2490,7 +2492,6 @@ updatedAt?: (0 | 1 );
 set: {
 search?: string;
 articleType?: ("journalArticle" | "book" );
-authorFamily?: string;
 title?: string;
 abstract?: string;
 ISBN?: string;
@@ -2501,7 +2502,10 @@ issue?: number;
 volume?: number;
 publicationYear?: number;
 tags?: string[];
+tagIds?: string[];
 keywords?: string[];
+keywordIds?: string[];
+authorFamily?: string;
 authorIds?: string[];
 publication?: string;
 };
@@ -3582,6 +3586,7 @@ set: {
 page: number;
 limit: number;
 name?: string;
+tagIds?: string[];
 };
 get: {
 _id?: (0 | 1 );
@@ -3830,10 +3835,11 @@ updatedAt?: (0 | 1 );
           
             gets: {
 set: {
-first_name: string;
-last_name: string;
 page: number;
 limit: number;
+first_name?: string;
+last_name?: string;
+authorIds?: string[];
 };
 get: {
 _id?: (0 | 1 );
@@ -4127,6 +4133,7 @@ set: {
 page: number;
 limit: number;
 name?: string;
+keywordIds?: string[];
 };
 get: {
 _id?: (0 | 1 );

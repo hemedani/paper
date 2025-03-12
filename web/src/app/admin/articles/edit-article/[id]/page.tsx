@@ -17,11 +17,13 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     },
   });
   const token = (await cookies()).get("token");
+  const lesanUrl = process.env.LESAN_URL ? process.env.LESAN_URL : "http://localhost:1382"
 
   return (
     <EditArticleRelationForm
       defaultValues={getArticle}
       token={token?.value as string}
+      lesanUrl={lesanUrl}
     />
   );
 };
