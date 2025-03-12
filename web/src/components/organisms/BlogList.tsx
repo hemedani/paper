@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 
-import { Swiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/scrollbar";
@@ -11,17 +11,9 @@ import "swiper/css/pagination";
 
 import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper/modules";
 import Link from "next/link";
+import { blogSchema } from "@/types/declarations/selectInp";
 
-interface Blog {
-  _id: string;
-  abstract: string;
-  pic: { _id: string; name: string; type: string };
-  isInSwipper: string;
-  title: string;
-  subtitle: string;
-}
-
-export const BLogList = ({ blogs, lesanUrl }: { blogs: Blog[], lesanUrl: string }) => {
+export const BLogList = ({ blogs, lesanUrl, swiperBlogPosts }: { blogs: blogSchema[], swiperBlogPosts: blogSchema[], lesanUrl: string }) => {
   return (
     <>
       <h1 className="text-3xl font-bold text-center mb-8 text-gray-900 ">
@@ -42,14 +34,14 @@ export const BLogList = ({ blogs, lesanUrl }: { blogs: Blog[], lesanUrl: string 
         modules={[Keyboard, Scrollbar, Navigation, Pagination]}
         className="mySwiper max-w-[800px] mb-8"
       >
-        {/* {blogs.map((blog) => (
-          <SwiperSlide>
+        {swiperBlogPosts.map((blog) => (
+          <SwiperSlide key={blog._id}>
             <img
-              src={`http://127.0.0.1:1382/uploads/images/${blog.pic.name}`}
+              src={`${lesanUrl}/uploads/images/${blog.pic.name}`}
               className="h-48 object-cover rounded-xl"
             />
           </SwiperSlide>
-        ))} */}
+        ))}
       </Swiper>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-right">
         {blogs?.map((blog, index) => (

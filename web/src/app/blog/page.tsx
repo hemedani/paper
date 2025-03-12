@@ -6,7 +6,6 @@ const BlogList = async () => {
   const set: ReqType["main"]["blog"]["gets"]["set"] = {
     limit: 20,
     page: 1,
-    search: "",
   };
 
   const get: ReqType["main"]["blog"]["gets"]["get"] = {
@@ -21,11 +20,12 @@ const BlogList = async () => {
   };
 
   const blogData = await getBlogs({ set, get });
+  const swiperBlogPosts = await getBlogs({ set: { ...set, isInSwipper: true }, get });
   const lesanUrl = process.env.LESAN_URL ? process.env.LESAN_URL : "http://localhost:1382"
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <BLogList blogs={blogData} lesanUrl={lesanUrl} />
+      <BLogList blogs={blogData} lesanUrl={lesanUrl} swiperBlogPosts={swiperBlogPosts} />
     </div>
   );
 };
