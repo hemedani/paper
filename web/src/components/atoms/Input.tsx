@@ -10,6 +10,7 @@ interface InputProps<T extends FieldValues> extends UseControllerProps<T> {
   className?: string;
 }
 
+// TODO : this input components should be deleted after completly replaced with new one
 const Input = <T extends FieldValues>({
   label,
   placeholder,
@@ -31,9 +32,8 @@ const Input = <T extends FieldValues>({
         {...field}
         type={type}
         placeholder={placeholder}
-        className={`text-gray-600 border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-700 ${
-          fieldState.error ? "border-red-500" : "border-gray-300"
-        }`}
+        className={`text-gray-600 border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-700 ${fieldState.error ? "border-red-500" : "border-gray-300"
+          }`}
       />
       {fieldState.error && (
         <span className="text-red-500 text-xs">{fieldState.error.message}</span>
