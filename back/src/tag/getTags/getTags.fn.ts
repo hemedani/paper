@@ -1,4 +1,4 @@
-import type { ActFn } from "deps";
+import { type ActFn, ObjectId } from "deps";
 import { tag } from "../../../mod.ts";
 
 export const getTagsFn: ActFn = async (body) => {
@@ -7,6 +7,8 @@ export const getTagsFn: ActFn = async (body) => {
 			page,
 			limit,
 			name,
+
+			tagIds,
 		},
 		get,
 	} = body.details;
@@ -16,6 +18,15 @@ export const getTagsFn: ActFn = async (body) => {
 	name &&
 		pipeline.push({
 			$match: { "name": { $regex: new RegExp(name, "i") } },
+		});
+
+	tagIds && tagIds.length > 0 &&
+		pipeline.push({
+			$match: {
+				_id: {
+					$in: tagIds.map((_id: string) => new ObjectId(_id)),
+				},
+			},
 		});
 
 	pipeline.push({ $sort: { _id: -1 } });

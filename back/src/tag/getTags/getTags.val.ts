@@ -1,4 +1,11 @@
-import { number, object, optional, string } from "deps";
+import {
+	array,
+	number,
+	object,
+	objectIdValidation,
+	optional,
+	string,
+} from "deps";
 import { selectStruct } from "../../../mod.ts";
 
 export const getTagsValidator = () => {
@@ -7,6 +14,8 @@ export const getTagsValidator = () => {
 			page: number(),
 			limit: number(),
 			name: optional(string()),
+
+			tagIds: optional(array(objectIdValidation)),
 		}),
 		get: selectStruct("tag", 2),
 	});
