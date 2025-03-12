@@ -21,10 +21,11 @@ const BlogList = async () => {
   };
 
   const blogData = await getBlogs({ set, get });
+  const lesanUrl = process.env.LESAN_URL ? process.env.LESAN_URL : "http://localhost:1382"
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <BLogList blogs={blogData} />
+      <BLogList blogs={blogData} lesanUrl={lesanUrl} />
     </div>
   );
 };

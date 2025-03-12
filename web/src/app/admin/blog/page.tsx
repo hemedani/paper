@@ -32,12 +32,13 @@ export default async function BlogDashboard({
     set: { search },
     get: { qty: 1 },
   });
+  const lesanUrl = process.env.LESAN_URL ? process.env.LESAN_URL : "http://localhost:1382"
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
       <h1 className="text-2xl text-gray-600 font-bold">وبلاگ</h1>
       <SearchBox title="title" defaultValue={search} />
-      <ClientDashboard blogs={data} />
+      <ClientDashboard blogs={data} lesanUrl={lesanUrl} />
       <Pagination countPage={countPageData?.qty} initialPage={+page} />
     </div>
   );
