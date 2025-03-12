@@ -25,23 +25,23 @@ national_number: string;
 address: string;
 level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 avatar?: {
 _id?: string;
 name: string;
 type: string;
 size: number;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 nationalCard?: {
 _id?: string;
 name: string;
 type: string;
 size: number;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 favArticles?: {
 _id?: string;
@@ -57,22 +57,22 @@ URL: string;
 page: string;
 issue: number;
 volume: number;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 }[];
 uploadedAssets: {
 _id?: string;
 name: string;
 type: string;
 size: number;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 }[];
 registeredPublications: {
 _id?: string;
 title: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 }[];
 };
 ;
@@ -87,8 +87,8 @@ updatedAt: Date;
     export type publicationSchema = {
 _id?: string;
 title: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 registrar: {
 _id?: string;
 first_name: string;
@@ -103,8 +103,8 @@ national_number: string;
 address: string;
 level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 };
 ;
@@ -120,8 +120,8 @@ updatedAt: Date;
 _id?: string;
 first_name: string;
 last_name: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 registrar: {
 _id?: string;
 first_name: string;
@@ -136,8 +136,8 @@ national_number: string;
 address: string;
 level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 };
 ;
@@ -152,8 +152,8 @@ updatedAt: Date;
     export type tagSchema = {
 _id?: string;
 name: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 registrar: {
 _id?: string;
 first_name: string;
@@ -168,8 +168,8 @@ national_number: string;
 address: string;
 level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 };
 ;
@@ -184,8 +184,8 @@ updatedAt: Date;
     export type keywordSchema = {
 _id?: string;
 name: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 registrar: {
 _id?: string;
 first_name: string;
@@ -200,8 +200,8 @@ national_number: string;
 address: string;
 level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 };
 ;
@@ -233,8 +233,8 @@ URL: string;
 page: string;
 issue: number;
 volume: number;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 registrar: {
 _id?: string;
 first_name: string;
@@ -249,49 +249,49 @@ national_number: string;
 address: string;
 level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 avatar?: {
 _id?: string;
 name: string;
 type: string;
 size: number;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 doc?: {
 _id?: string;
 name: string;
 type: string;
 size: number;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 publication?: {
 _id?: string;
 title: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 authors?: {
 _id?: string;
 first_name: string;
 last_name: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 }[];
 tags?: {
 _id?: string;
 name: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 }[];
 keywords?: {
 _id?: string;
 name: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 }[];
 favByUsers: {
 _id?: string;
@@ -307,8 +307,8 @@ national_number: string;
 address: string;
 level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 }[];
 };
 ;
@@ -329,8 +329,8 @@ abstract: string;
 content: string;
 likes?: number;
 isInSwipper?: boolean;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 author: {
 _id?: string;
 first_name: string;
@@ -345,16 +345,16 @@ national_number: string;
 address: string;
 level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 pic: {
 _id?: string;
 name: string;
 type: string;
 size: number;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 };
 ;
@@ -371,8 +371,8 @@ _id?: string;
 name: string;
 type: string;
 size: number;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 uploader: {
 _id?: string;
 first_name: string;
@@ -387,8 +387,8 @@ national_number: string;
 address: string;
 level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 };
 ;
@@ -417,8 +417,8 @@ national_number: string;
 address: string;
 level: ("Ghost" | "Manager" | "Editor" );
 isVerified: boolean;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 get: {
 _id?: (0 | 1 );
@@ -1085,8 +1085,8 @@ birth_date?: Date;
 summery?: string;
 personnel_number: string;
 address: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 get: {
 _id?: (0 | 1 );
@@ -1664,8 +1664,8 @@ URL: string;
 page: string;
 issue: number;
 volume: number;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 publication: string;
 avatart?: string;
 doc?: string;
@@ -2643,10 +2643,9 @@ title: string;
 subtitle: string;
 abstract: string;
 content: string;
-likes?: number;
 isInSwipper?: boolean;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 pic: string;
 };
 get: {
@@ -3064,8 +3063,8 @@ updatedAt?: (0 | 1 );
             uploadFile: {
 set: {
 type: ("video" | "image" | "doc" );
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 get: {
 _id?: (0 | 1 );
@@ -3104,8 +3103,8 @@ updatedAt?: (0 | 1 );
             addPublication: {
 set: {
 title: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 get: {
 _id?: (0 | 1 );
@@ -3397,8 +3396,8 @@ qty?: (0 | 1 );
             addTag: {
 set: {
 name: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 get: {
 _id?: (0 | 1 );
@@ -3692,8 +3691,8 @@ qty?: (0 | 1 );
 set: {
 first_name: string;
 last_name: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 get: {
 _id?: (0 | 1 );
@@ -3944,8 +3943,8 @@ qty?: (0 | 1 );
             addKeyword: {
 set: {
 name: string;
-createdAt: Date;
-updatedAt: Date;
+createdAt?: Date;
+updatedAt?: Date;
 };
 get: {
 _id?: (0 | 1 );
