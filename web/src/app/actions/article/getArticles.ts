@@ -8,12 +8,6 @@ export const getArticles = async ({
   get,
 }: ReqType["main"]["article"]["getArticles"]) => {
   const token = (await cookies()).get("token");
-  if (!set.tags?.length) delete set.tags;
-  if (!set.authorIds?.length) delete set.authorIds;
-  if (!set.keywords?.length) delete set.keywords;
-  set.tags = set.tags?.toString().split(",");
-  set.authorIds = set.authorIds?.toString().split(",");
-  set.keywords = set.keywords?.toString().split(",");
 
   const getArticles = await paperApi().send(
     {
