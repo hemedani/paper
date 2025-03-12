@@ -7,6 +7,7 @@ export const getsFn: ActFn = async (body) => {
 			page,
 			limit,
 			search,
+			isInSwipper,
 		},
 		get,
 	} = body.details;
@@ -14,6 +15,7 @@ export const getsFn: ActFn = async (body) => {
 	const pipeline = [];
 
 	search && pipeline.push({ $match: { $text: { $search: search } } });
+	isInSwipper && pipeline.push({ $match: { isInSwipper } });
 
 	pipeline.push({ $sort: { _id: -1 } });
 	pipeline.push({ $skip: (page - 1) * limit });
