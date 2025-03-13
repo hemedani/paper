@@ -1,5 +1,4 @@
 import { Card } from "@/components/organisms/Card";
-import Footer from "@/components/organisms/footer";
 import { Header } from "@/components/organisms/Header";
 import { Navbar } from "@/components/organisms/Navbar";
 import { ListCard } from "@/components/template/WraperCard";
@@ -11,6 +10,7 @@ import { getCountArticles } from "./actions/article/countArticle";
 import { getTags } from "./actions/tag/getTags";
 import { getKeywords } from "./actions/keyword/getKeywords";
 import { getAuthors } from "./actions/author/getAuthors";
+import { Footer } from "@/components/organisms/NewFooter";
 
 export type GetArticleSetParams = ReqType["main"]["article"]["getArticles"]["set"];
 export type DefaultSearchArrayValues = { tags: [], authors: [], keywords: [] }
@@ -148,7 +148,7 @@ export default async function Home({
       <Navbar level={me?.level} />
       <Header defaultSearchArrayValues={defaultSearchArrayValues} />
       {data?.length > 0 && (
-        <>
+        <div className="bg-gray-300">
           <ListCard>
             {data.map((item: Partial<articleSchema>) => (
               <Card
@@ -161,13 +161,13 @@ export default async function Home({
               />
             ))}
           </ListCard>
-          <div className="flex justify-center items-center gap-2">
+          <div className="flex justify-center items-center gap-2 pb-6">
             <Pagination
               countPage={countDataArticle ? countDataArticle.qty : 0}
               initialPage={+set.page}
             />
           </div>
-        </>
+        </div>
       )}
       <Footer />
     </>

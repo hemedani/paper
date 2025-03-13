@@ -20,12 +20,13 @@ const BlogList = async () => {
   };
 
   const blogData = await getBlogs({ set, get });
+  const mostLikedPosts = await getBlogs({ set: { ...set, sortByLikes: true }, get });
   const swiperBlogPosts = await getBlogs({ set: { ...set, isInSwipper: true }, get });
   const lesanUrl = process.env.LESAN_URL ? process.env.LESAN_URL : "http://localhost:1382"
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <BLogList blogs={blogData} lesanUrl={lesanUrl} swiperBlogPosts={swiperBlogPosts} />
+      <BLogList blogs={blogData} mostLikedPosts={mostLikedPosts} lesanUrl={lesanUrl} swiperBlogPosts={swiperBlogPosts} />
     </div>
   );
 };
