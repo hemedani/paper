@@ -2848,6 +2848,7 @@ page: number;
 limit: number;
 search?: string;
 isInSwipper?: boolean;
+sortByLikes?: boolean;
 };
 get: {
 _id?: (0 | 1 );

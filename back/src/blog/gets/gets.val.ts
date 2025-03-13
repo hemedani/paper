@@ -8,6 +8,7 @@ export const getsValidator = () => {
 			limit: number(),
 			search: optional(string()),
 			isInSwipper: optional(boolean()),
+			sortByLikes: optional(boolean()),
 		}),
 		get: selectStruct("blog", 2),
 	});
