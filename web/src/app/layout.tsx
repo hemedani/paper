@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { Navbar } from "@/components/organisms/Navbar";
+import { getMe } from "./actions/user/getMe";
+import { Footer } from "@/components/organisms/NewFooter";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -12,13 +15,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const me = await getMe();
   return (
     <html lang="fa" dir="rtl">
       <body className={``}>
-        <>
-          {children}
-          <Toaster position="top-center" reverseOrder={false} />
-        </>
+        <div className="h-screen">
+          <Navbar level={me?.level} />
+          <div className="flex-1 p-6 bg-gray-300 mt-16">{children}</div>
+          <Footer />
+        </div>
+        <Toaster position="top-center" reverseOrder={false} />
       </body>
     </html>
   );
