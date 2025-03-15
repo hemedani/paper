@@ -1,60 +1,224 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { HamburgerMenu, IconLogo, IconUser } from "../atoms/Icons";
 
 export const Navbar = ({ level }: { level: string }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
-    <header className="bg-white shadow-xl">
-      <div className="mx-auto flex justify-between items-center py-2 px-6">
-        <div className="flex justify-between items-center gap-3 text-bold">
-          <div className="text-lg font-bold text-blue-600">
+    <header className="fixed top-0 left-0 w-full bg-white shadow-md border-b border-gray-200 z-50">
+      <div className="mx-auto max-w-7xl flex items-center justify-between py-4 px-6">
+        {/* Logo */}
+        <div className="text-xl font-bold text-blue-700">
+          <Link href="/" className="flex items-center gap-2">
             <IconLogo />
-          </div>
-          <div className="text-lg font-bold text-blue-600">
-            <Link href={"/"}>خانه</Link>
-          </div>
-          <div className="text-lg font-bold text-blue-600">
-            <Link href={"/blog"}>وبلاگ</Link>
-          </div>
-        </div>
-        <div className="hidden md:block">
-          <nav className="hidden md:flex items-center space-x-10">
-            <div className="flex gap-10 items-center">
-              {level === "Ghost" && (
-                <Link
-                  href="/admin"
-                  className="text-gray-600 hover:text-blue-500"
-                >
-                  پنل ادمین
-                </Link>
-              )}
-              {(level === "Manager" || level === "Editor") && (
-                <Link
-                  href="/user"
-                  className="text-gray-600 hover:text-blue-500"
-                >
-                  پنل کاربری
-                </Link>
-              )}
-              {!level && (
-                <div className="flex items-center gap-10 text-gray-600 hover:text-blue-500">
-                  <Link href={"/login"} className="flex items-center gap-3">
-                    <span>ورود</span>
-                    <IconUser />
-                  </Link>
-                </div>
-              )}
-            </div>
-          </nav>
+            <span className="hidden sm:inline">معماری اسلامی</span>
+          </Link>
         </div>
 
-        <div className="md:hidden">
-          <button className="text-gray-600 hover:text-blue-500">
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-6 space-x-reverse">
+          <Link
+            href="/"
+            className="text-gray-800 hover:text-blue-600 hover:border-b-2 hover:border-blue-600 pb-1 transition-all duration-300"
+          >
+            خانه
+          </Link>
+          <Link
+            href="/blog"
+            className="text-gray-800 hover:text-blue-600 hover:border-b-2 hover:border-blue-600 pb-1 transition-all duration-300"
+          >
+            وبلاگ
+          </Link>
+          <Link
+            href="/graph"
+            className="text-gray-800 hover:text-blue-600 hover:border-b-2 hover:border-blue-600 pb-1 transition-all duration-300"
+          >
+            نمودار
+          </Link>
+          <Link
+            href="/chatbot"
+            className="text-gray-800 hover:text-blue-600 hover:border-b-2 hover:border-blue-600 pb-1 transition-all duration-300"
+          >
+            چت‌بات
+          </Link>
+          {/* Dropdown for Additional Links */}
+          <div className="relative group">
+            <button className="text-gray-800 hover:text-blue-600 pb-1 transition-all duration-300">
+              بیشتر
+            </button>
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-95 transition-all duration-300 z-10">
+              <Link
+                href="/faq"
+                className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+              >
+                سوالات متداول
+              </Link>
+              <Link
+                href="/about"
+                className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+              >
+                درباره ما
+              </Link>
+              <Link
+                href="/contact"
+                className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+              >
+                تماس با ما
+              </Link>
+              <Link
+                href="/terms"
+                className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+              >
+                شرایط
+              </Link>
+              <Link
+                href="/privacy"
+                className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+              >
+                حریم خصوصی
+              </Link>
+            </div>
+          </div>
+        </nav>
+
+        {/* User Links and Hamburger */}
+        <div className="flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-4">
+            {level === "Ghost" && (
+              <Link
+                href="/admin"
+                className="text-gray-800 hover:text-blue-600 transition-colors duration-300"
+              >
+                پنل ادمین
+              </Link>
+            )}
+            {(level === "Manager" || level === "Editor") && (
+              <Link
+                href="/user"
+                className="text-gray-800 hover:text-blue-600 transition-colors duration-300"
+              >
+                پنل کاربری
+              </Link>
+            )}
+            {!level && (
+              <Link
+                href="/login"
+                className="flex items-center gap-2 text-gray-800 hover:text-blue-600 transition-colors duration-300"
+              >
+                <span>ورود</span>
+                <IconUser />
+              </Link>
+            )}
+          </div>
+          <button
+            className="md:hidden text-gray-800 hover:text-blue-600 focus:outline-none"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
             <HamburgerMenu />
           </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-lg z-50">
+          <nav className="flex flex-col items-center py-6 space-y-4">
+            <Link
+              href="/"
+              className="text-gray-800 hover:text-blue-600 py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              خانه
+            </Link>
+            <Link
+              href="/blog"
+              className="text-gray-800 hover:text-blue-600 py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              وبلاگ
+            </Link>
+            <Link
+              href="/graph"
+              className="text-gray-800 hover:text-blue-600 py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              نمودار
+            </Link>
+            <Link
+              href="/chatbot"
+              className="text-gray-800 hover:text-blue-600 py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              چت‌بات
+            </Link>
+            <Link
+              href="/faq"
+              className="text-gray-800 hover:text-blue-600 py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              سوالات متداول
+            </Link>
+            <Link
+              href="/about"
+              className="text-gray-800 hover:text-blue-600 py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              درباره ما
+            </Link>
+            <Link
+              href="/contact"
+              className="text-gray-800 hover:text-blue-600 py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              تماس با ما
+            </Link>
+            <Link
+              href="/terms"
+              className="text-gray-800 hover:text-blue-600 py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              شرایط
+            </Link>
+            <Link
+              href="/privacy"
+              className="text-gray-800 hover:text-blue-600 py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              حریم خصوصی
+            </Link>
+            {level === "Ghost" && (
+              <Link
+                href="/admin"
+                className="text-gray-800 hover:text-blue-600 py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                پنل ادمین
+              </Link>
+            )}
+            {(level === "Manager" || level === "Editor") && (
+              <Link
+                href="/user"
+                className="text-gray-800 hover:text-blue-600 py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                پنل کاربری
+              </Link>
+            )}
+            {!level && (
+              <Link
+                href="/login"
+                className="text-gray-800 hover:text-blue-600 py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                ورود
+              </Link>
+            )}
+          </nav>
+        </div>
+      )}
     </header>
   );
 };
