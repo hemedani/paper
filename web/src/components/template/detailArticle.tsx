@@ -119,6 +119,7 @@ export const DetailArticle = ({ article }: { article: articleSchema }) => {
               </h2>
               {article.authors.map(author => (
                 <p
+                  key={author._id}
                   className="text-lg text-indigo-700 cursor-pointer hover:text-indigo-900 transition-all duration-300 bg-white px-6 py-3 rounded-full inline-block shadow-sm hover:shadow-md hover:scale-105"
                   onClick={() =>
                     handleQuery("authorIds", author._id!)
@@ -174,7 +175,7 @@ export const DetailArticle = ({ article }: { article: articleSchema }) => {
               <div className="flex flex-wrap gap-3">
                 {article.favByUsers.map((user, index) => (
                   <span
-                    key={index}
+                    key={user._id}
                     className="bg-white px-4 py-2 rounded-full text-indigo-700 font-medium shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 animate-pop-in"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
@@ -209,6 +210,7 @@ export const DetailArticle = ({ article }: { article: articleSchema }) => {
               </h2>
               {article.tags.map(tag => (
                 <p
+                  key={tag._id}
                   className="text-lg text-indigo-700 cursor-pointer hover:text-indigo-900 transition-all duration-300 bg-white px-6 py-3 rounded-full inline-block shadow-sm hover:shadow-md hover:scale-105"
                   onClick={() =>
                     handleQuery("tagIds", tag._id!)
@@ -227,6 +229,7 @@ export const DetailArticle = ({ article }: { article: articleSchema }) => {
               </h2>
               {article.keywords.map(keyword => (
                 <p
+                  key={keyword._id}
                   className="text-lg text-indigo-700 cursor-pointer hover:text-indigo-900 transition-all duration-300 bg-white px-6 py-3 rounded-full inline-block shadow-sm hover:shadow-md hover:scale-105"
                   onClick={() =>
                     handleQuery("keywordIds", keyword._id!)
