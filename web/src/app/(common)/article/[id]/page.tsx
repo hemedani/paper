@@ -1,6 +1,4 @@
 import { getArticleAction } from "@/app/actions/article/getArticle";
-import { getMe } from "@/app/actions/user/getMe";
-import { Navbar } from "@/components/organisms/Navbar";
 import { DetailArticle } from "@/components/template/detailArticle";
 import { ReqType } from "@/types/declarations/selectInp";
 
@@ -40,12 +38,8 @@ export default async function ArticlePage({
     favByUsers: { _id: 1, first_name: 1, last_name: 1 },
   };
   const article = await getArticleAction({ set, get });
-  const me = await getMe();
 
   return (
-    <>
-      <Navbar level={me?.level} />
-      <DetailArticle article={article} />
-    </>
+    <DetailArticle article={article} />
   );
 }
