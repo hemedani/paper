@@ -14,7 +14,7 @@ export default async function GraphPage({
 }) {
   const {
     page = "1",
-    limit = "20",
+    limit = "30",
     search,
     title,
     abstract,
@@ -98,7 +98,6 @@ export default async function GraphPage({
       _id: 1,
       title: 1,
       articleType: 1,
-      abstract: 1,
       tags: {
         _id: 1,
         name: 1,
@@ -111,10 +110,6 @@ export default async function GraphPage({
         _id: 1,
         first_name: 1,
         last_name: 1,
-      },
-      publication: {
-        _id: 1,
-        title: 1,
       },
     },
   });
