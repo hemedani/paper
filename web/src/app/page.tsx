@@ -1,8 +1,11 @@
 import { Card } from "@/components/organisms/Card";
 import { Header } from "@/components/organisms/Header";
-import { Navbar } from "@/components/organisms/Navbar";
 import { ListCard } from "@/components/template/WraperCard";
-import { articleSchema, DeepPartial, ReqType } from "@/types/declarations/selectInp";
+import {
+  articleSchema,
+  DeepPartial,
+  ReqType,
+} from "@/types/declarations/selectInp";
 import { getArticles } from "./actions/article/getArticles";
 import Pagination from "@/components/molecules/Pagination";
 import { getMe } from "./actions/user/getMe";
@@ -10,10 +13,10 @@ import { getCountArticles } from "./actions/article/countArticle";
 import { getTags } from "./actions/tag/getTags";
 import { getKeywords } from "./actions/keyword/getKeywords";
 import { getAuthors } from "./actions/author/getAuthors";
-import { Footer } from "@/components/organisms/NewFooter";
 
-export type GetArticleSetParams = ReqType["main"]["article"]["getArticles"]["set"];
-export type DefaultSearchArrayValues = { tags: [], authors: [], keywords: [] }
+export type GetArticleSetParams =
+  ReqType["main"]["article"]["getArticles"]["set"];
+export type DefaultSearchArrayValues = { tags: []; authors: []; keywords: [] };
 
 export default async function Home({
   searchParams,
@@ -43,39 +46,61 @@ export default async function Home({
     keywordIds,
 
     tags,
-    tagIds
+    tagIds,
   } = await searchParams;
 
-  const setSearch: DeepPartial<GetArticleSetParams> = {}
-  const defaultSearchArrayValues: DefaultSearchArrayValues = { tags: [], authors: [], keywords: [] }
+  const setSearch: DeepPartial<GetArticleSetParams> = {};
+  const defaultSearchArrayValues: DefaultSearchArrayValues = {
+    tags: [],
+    authors: [],
+    keywords: [],
+  };
 
   search && search !== "undefined" && (setSearch.search = search);
   title && title !== "undefined" && (setSearch.title = title);
   abstract && abstract !== "undefined" && (setSearch.abstract = abstract);
-  publication && publication !== "undefined" && (setSearch.publication = publication);
+  publication &&
+    publication !== "undefined" &&
+    (setSearch.publication = publication);
   DOI && DOI !== "undefined" && (setSearch.DOI = DOI);
   ISBN && ISBN !== "undefined" && (setSearch.ISBN = ISBN);
   ISNN && ISNN !== "undefined" && (setSearch.ISNN = ISNN);
 
   authorFamily && (setSearch.authorFamily = authorFamily);
-  authorIds && authorIds.length > 0 && (setSearch.authorIds = (authorIds as unknown as string).split(","));
+  authorIds &&
+    authorIds.length > 0 &&
+    (setSearch.authorIds = (authorIds as unknown as string).split(","));
 
-  keywordIds && keywordIds.length > 0 && (setSearch.keywordIds = (keywordIds as unknown as string).split(","));
-  keywords && keywords.length > 0 && (setSearch.keywords = (keywords as unknown as string).split(","));
+  keywordIds &&
+    keywordIds.length > 0 &&
+    (setSearch.keywordIds = (keywordIds as unknown as string).split(","));
+  keywords &&
+    keywords.length > 0 &&
+    (setSearch.keywords = (keywords as unknown as string).split(","));
 
-  tagIds && tagIds.length > 0 && (setSearch.tagIds = (tagIds as unknown as string).split(","));
-  tags && tags.length > 0 && (setSearch.tags = (tags as unknown as string).split(","));
+  tagIds &&
+    tagIds.length > 0 &&
+    (setSearch.tagIds = (tagIds as unknown as string).split(","));
+  tags &&
+    tags.length > 0 &&
+    (setSearch.tags = (tags as unknown as string).split(","));
 
-  articleType && (articleType as any) !== "undefined" && (setSearch.articleType = articleType);
+  articleType &&
+    (articleType as any) !== "undefined" &&
+    (setSearch.articleType = articleType);
   issue && (issue as any) !== "undefined" && (setSearch.issue = +issue);
-  pageCount && (pageCount as any) !== "undefined" && (setSearch.pageCount = pageCount);
+  pageCount &&
+    (pageCount as any) !== "undefined" &&
+    (setSearch.pageCount = pageCount);
   volume && (volume as any) !== "undefined" && (setSearch.volume = +volume);
-  publicationYear && (publicationYear as any) !== "undefined" && (setSearch.publicationYear = +publicationYear);
+  publicationYear &&
+    (publicationYear as any) !== "undefined" &&
+    (setSearch.publicationYear = +publicationYear);
 
   const set: ReqType["main"]["article"]["getArticles"]["set"] = {
     page: +page,
     limit: +limit || 20,
-    ...setSearch
+    ...setSearch,
   };
 
   const data = await getArticles({
@@ -86,13 +111,20 @@ export default async function Home({
       articleType: 1,
       abstract: 1,
       tags: {
+        _id: 1,
         name: 1,
       },
-      registrar: {
+      keywords: {
+        _id: 1,
+        name: 1,
+      },
+      authors: {
+        _id: 1,
         first_name: 1,
         last_name: 1,
       },
       publication: {
+        _id: 1,
         title: 1,
       },
     },
@@ -115,10 +147,13 @@ export default async function Home({
       set: { tagIds: setSearch.tagIds, page: 1, limit: 10 },
       get: { _id: 1, name: 1 },
     });
-    response && (defaultSearchArrayValues.tags = response.map(({ _id, name }: { _id: string; name: string }) => ({
-      value: _id,
-      label: name,
-    })))
+    response &&
+      (defaultSearchArrayValues.tags = response.map(
+        ({ _id, name }: { _id: string; name: string }) => ({
+          value: _id,
+          label: name,
+        })
+      ));
   }
 
   if (setSearch?.keywordIds) {
@@ -126,10 +161,13 @@ export default async function Home({
       set: { keywordIds: setSearch.keywordIds, page: 1, limit: 10 },
       get: { _id: 1, name: 1 },
     });
-    response && (defaultSearchArrayValues.keywords = response.map(({ _id, name }: { _id: string; name: string }) => ({
-      value: _id,
-      label: name,
-    })))
+    response &&
+      (defaultSearchArrayValues.keywords = response.map(
+        ({ _id, name }: { _id: string; name: string }) => ({
+          value: _id,
+          label: name,
+        })
+      ));
   }
 
   if (setSearch?.authorIds) {
@@ -137,10 +175,21 @@ export default async function Home({
       set: { authorIds: setSearch.authorIds, page: 1, limit: 10 },
       get: { _id: 1, first_name: 1, last_name: 1 },
     });
-    response && (defaultSearchArrayValues.authors = response.map(({ _id, first_name, last_name }: { _id: string; first_name: string, last_name: string }) => ({
-      value: _id,
-      label: `${first_name} ${last_name}`,
-    })))
+    response &&
+      (defaultSearchArrayValues.authors = response.map(
+        ({
+          _id,
+          first_name,
+          last_name,
+        }: {
+          _id: string;
+          first_name: string;
+          last_name: string;
+        }) => ({
+          value: _id,
+          label: `${first_name} ${last_name}`,
+        })
+      ));
   }
 
   return (
@@ -152,9 +201,7 @@ export default async function Home({
             {data.map((item: Partial<articleSchema>) => (
               <Card
                 key={item._id}
-                id={item._id!}
-                title={item.title!}
-                abstract={item.abstract!}
+                {...item}
                 isFavorite={favoriteIds.has(item._id!)}
                 level={me?.level}
               />
