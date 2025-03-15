@@ -8,7 +8,10 @@ export const ListCard = ({ children }: { children: ReactNode }) => {
     <section>
       <div className="w-full p-8">
         <div className="flex-end text-left h-12">
-          <Link href={"/"} className="bg-blue-500 hover:bg-blue-600 p-2 rounded text-white">
+          <Link
+            href={"/"}
+            className="bg-blue-500 hover:bg-blue-600 p-2 rounded text-white"
+          >
             نمایش نموداری
           </Link>
         </div>
