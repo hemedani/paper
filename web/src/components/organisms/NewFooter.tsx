@@ -9,7 +9,6 @@ export const Footer = () => {
     <footer className="bg-gray-900 text-white pt-12 pb-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-right">
-          {/* About Section */}
           <div>
             <h3 className="text-xl font-bold mb-4 border-b border-gray-700 pb-2">درباره ما</h3>
             <p className="text-gray-300 mb-4 text-sm leading-relaxed">
@@ -34,7 +33,6 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* Features Section */}
           <div>
             <h3 className="text-xl font-bold mb-4 border-b border-gray-700 pb-2">امکانات</h3>
             <ul className="space-y-3 text-sm">
@@ -71,7 +69,6 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Section */}
           <div>
             <h3 className="text-xl font-bold mb-4 border-b border-gray-700 pb-2">تماس با ما</h3>
             <ul className="space-y-3 text-sm">
@@ -97,7 +94,6 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Newsletter Section */}
           <div>
             <h3 className="text-xl font-bold mb-4 border-b border-gray-700 pb-2">خبرنامه</h3>
             <p className="text-gray-300 text-sm mb-4">برای دریافت آخرین مقالات و اخبار ثبت‌نام کنید</p>
@@ -117,12 +113,29 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-gray-800 text-center text-sm text-gray-400">
           <p>
-            © {currentYear} تمامی حقوق برای وبسایت معماری اسلامی محفوظ است. |
-            <Link href="/privacy" className="hover:text-white transition mx-2">حریم خصوصی</Link> |
-            <Link href="/terms" className="hover:text-white transition mx-2">شرایط استفاده</Link>
+            © {currentYear} تمامی حقوق برای وبسایت معماری اسلامی محفوظ است.
+
+            <Link href="/privacy" className="hover:text-gray-300 transition mx-2">
+              حریم خصوصی
+            </Link>
+            <span>|</span>
+            <Link href="/terms" className="hover:text-gray-300 transition mx-2">
+              شرایط استفاده
+            </Link>
+            <span>|</span>
+            <Link href="/about" className="hover:text-gray-300 transition mx-2">
+              درباره ما
+            </Link>
+            <span>|</span>
+            <Link href="/contact" className="hover:text-gray-300 transition mx-2">
+              تماس با ما
+            </Link>
+            <span>|</span>
+            <Link href="/faq" className="hover:text-gray-300 transition mx-2">
+              سئوالات متداول
+            </Link>
           </p>
         </div>
       </div>
