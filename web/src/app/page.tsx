@@ -103,7 +103,7 @@ export default async function Home({
     ...setSearch,
   };
 
-  const data = await getArticles({
+  const articles = await getArticles({
     set,
     get: {
       _id: 1,
@@ -195,10 +195,10 @@ export default async function Home({
   return (
     <>
       <Header defaultSearchArrayValues={defaultSearchArrayValues} />
-      {data?.length > 0 && (
+      {articles?.length > 0 && (
         <div className="bg-gray-300">
           <ListCard>
-            {data.map((item: Partial<articleSchema>) => (
+            {articles.map((item: Partial<articleSchema>) => (
               <Card
                 key={item._id}
                 {...item}

@@ -11,7 +11,7 @@ type SearchFormValues = {
   query: string;
 };
 
-export const Header: React.FC<{ defaultSearchArrayValues: DefaultSearchArrayValues }> = ({ defaultSearchArrayValues }) => {
+export const Header: React.FC<{ defaultSearchArrayValues: DefaultSearchArrayValues, pageAddress?: string }> = ({ defaultSearchArrayValues, pageAddress }) => {
 
   const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
   const router = useRouter();
@@ -24,7 +24,8 @@ export const Header: React.FC<{ defaultSearchArrayValues: DefaultSearchArrayValu
   const onSubmit: SubmitHandler<SearchFormValues> = async (data) => {
     const { query } = data;
     if (query.trim()) {
-      router.push(`/?search=${query}`);
+      const newRoute = pageAddress ? `${pageAddress}/?search=${query}` : `/?search=${query}`
+      router.push(newRoute);
     }
   };
 
@@ -81,7 +82,7 @@ export const Header: React.FC<{ defaultSearchArrayValues: DefaultSearchArrayValu
             : "max-h-0 opacity-0"
             }`}
         >
-          <AdvancedSearch defaultSearchArrayValues={defaultSearchArrayValues} isOpen={showAdvancedSearch} />
+          <AdvancedSearch defaultSearchArrayValues={defaultSearchArrayValues} isOpen={showAdvancedSearch} pageAddress={pageAddress} />
         </div>
       </div>
     </section>
