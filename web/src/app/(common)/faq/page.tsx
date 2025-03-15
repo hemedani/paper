@@ -19,8 +19,9 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
           {question}
         </span>
         <span
-          className={`text-indigo-600 transform transition-transform duration-300 ${isOpen ? "rotate-180" : ""
-            }`}
+          className={`text-indigo-600 transform transition-transform duration-300 ${
+            isOpen ? "rotate-180" : ""
+          }`}
         >
           ▼
         </span>
@@ -37,11 +38,10 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
 const FAQPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-gray-100 overflow-hidden">
-      {/* Hero Section */}
       <div
         className="relative bg-cover bg-center h-80 md:h-[28rem] lg:h-[36rem]"
         style={{
-          backgroundImage: "url(/images/faq-hero.jpg)",
+          backgroundImage: "url(/images/faq.jpg)",
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -55,9 +55,7 @@ const FAQPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="container mx-auto px-4 md:px-8 py-16">
-        {/* General Questions Section */}
         <section className="mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-indigo-900 mb-8 text-center tracking-tight">
             سوالات عمومی
@@ -74,7 +72,6 @@ const FAQPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Content Section */}
         <section className="mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-indigo-900 mb-8 text-center tracking-tight">
             محتوا و مقالات
@@ -91,7 +88,6 @@ const FAQPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Future Features Section */}
         <section>
           <h2 className="text-3xl md:text-4xl font-bold text-indigo-900 mb-8 text-center tracking-tight">
             امکانات آینده

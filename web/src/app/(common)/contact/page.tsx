@@ -1,12 +1,11 @@
-import React from 'react';
+import React from "react";
 
 const ContactUsPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Hero Section */}
       <div
         className="relative bg-cover bg-center h-72 md:h-96"
-        style={{ backgroundImage: 'url(/contact-hero.jpg)' }}
+        style={{ backgroundImage: "url(/images/contact.jpg)" }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 flex items-center justify-center h-full">
@@ -16,16 +15,18 @@ const ContactUsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         <p className="text-lg md:text-xl text-gray-700 leading-relaxed text-center mb-12 max-w-2xl mx-auto">
-          ما مشتاق شنیدن نظرات و سوالات شما هستیم. از طریق فرم زیر یا اطلاعات تماس با ما در ارتباط باشید.
+          ما مشتاق شنیدن نظرات و سوالات شما هستیم. از طریق فرم زیر یا اطلاعات
+          تماس با ما در ارتباط باشید.
         </p>
 
-        {/* Contact Form */}
         <form className="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-6 mb-12">
           <div className="mb-6">
-            <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
+            <label
+              htmlFor="name"
+              className="block text-gray-700 font-semibold mb-2"
+            >
               نام
             </label>
             <input
@@ -35,7 +36,10 @@ const ContactUsPage: React.FC = () => {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
+            <label
+              htmlFor="email"
+              className="block text-gray-700 font-semibold mb-2"
+            >
               ایمیل
             </label>
             <input
@@ -45,7 +49,10 @@ const ContactUsPage: React.FC = () => {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="message" className="block text-gray-700 font-semibold mb-2">
+            <label
+              htmlFor="message"
+              className="block text-gray-700 font-semibold mb-2"
+            >
               پیام
             </label>
             <textarea
@@ -62,7 +69,6 @@ const ContactUsPage: React.FC = () => {
           </button>
         </form>
 
-        {/* Contact Info */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center bg-white rounded-lg shadow-lg p-6">
             <h3 className="text-xl font-semibold text-blue-900 mb-2">ایمیل</h3>
