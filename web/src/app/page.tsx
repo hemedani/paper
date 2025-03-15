@@ -145,7 +145,6 @@ export default async function Home({
 
   return (
     <>
-      <Navbar level={me?.level} />
       <Header defaultSearchArrayValues={defaultSearchArrayValues} />
       {data?.length > 0 && (
         <div className="bg-gray-300">
@@ -169,7 +168,6 @@ export default async function Home({
           </div>
         </div>
       )}
-      <Footer />
     </>
   );
 }
