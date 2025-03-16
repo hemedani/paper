@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Network } from "vis-network/standalone";
 import { DataSet } from "vis-data";
+import Link from "next/link";
 
 interface Tag {
   _id: string;
@@ -439,9 +440,11 @@ const GraphVisualization = ({ articles }: GraphPageProps) => {
                         key={article._id}
                         className="border-r-4 border-indigo-500 pr-4 py-2 hover:bg-indigo-50 transition duration-200"
                       >
-                        <h4 className="font-medium text-gray-900">
-                          {getNodeTruncatedLabel(article.title)}
-                        </h4>
+                        <Link href={`/article/${article._id}`}>
+                          <h4 className="font-medium text-gray-900">
+                            {getNodeTruncatedLabel(article.title)}
+                          </h4>
+                        </Link>
                         <p className="text-sm text-gray-500 mt-1">
                           {article.authors
                             .map(
