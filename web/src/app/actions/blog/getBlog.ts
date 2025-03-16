@@ -22,6 +22,13 @@ export const getBlog = async (_id: string) => {
           pic: { _id: 1, name: 1, type: 1 },
           subtitle: 1,
           title: 1,
+          author: {
+            _id: 1,
+            first_name: 1,
+            last_name: 1,
+          },
+          createdAt: 1,
+          updatedAt: 1,
         },
       },
     },
