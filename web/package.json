@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.10.0",
     "@tiptap/extension-color": "^2.11.5",
     "@tiptap/extension-document": "^2.11.5",
@@ -22,6 +23,7 @@
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",
     "@types/js-cookie": "^3.0.6",
+    "date-fns-jalali": "^4.1.0-0",
     "js-cookie": "^3.0.5",
     "next": "^15.1.4",
     "react": "^19.0.0",
