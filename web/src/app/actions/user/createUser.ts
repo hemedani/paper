@@ -1,11 +1,11 @@
 "use server";
 import { paperApi } from "@/services/api";
-import { UserFormValues } from "@/components/template/ModalUser";
 import { cookies } from "next/headers";
+import { ReqType } from "@/types/declarations/selectInp";
 
-export const createUser = async (data: UserFormValues) => {
+export const createUser = async (data: ReqType["main"]["user"]["addUser"]["set"]) => {
   const token = (await cookies()).get("token");
-  const addUser = await paperApi().send(
+  return await paperApi().send(
     {
       service: "main",
       model: "user",
@@ -23,5 +23,4 @@ export const createUser = async (data: UserFormValues) => {
     { token: token?.value }
   );
 
-  if (addUser.success) return addUser.body;
 };
