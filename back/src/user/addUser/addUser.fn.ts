@@ -10,6 +10,7 @@ export const addUserFn: ActFn = async (body) => {
 
 	const {
 		nationalCard,
+		avatar,
 		...rest
 	} = set;
 
@@ -17,6 +18,10 @@ export const addUserFn: ActFn = async (body) => {
 
 	nationalCard && (relations.nationalCard = {
 		_ids: new ObjectId(nationalCard),
+	});
+
+	avatar && (relations.avatar = {
+		_ids: new ObjectId(avatar),
 	});
 
 	const addedUser = await user.insertOne({
