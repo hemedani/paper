@@ -1667,7 +1667,7 @@ export type ReqType = {
           createdAt?: Date;
           updatedAt?: Date;
           publication: string;
-          avatart?: string;
+          avatar?: string;
           doc?: string;
           tags: string[];
           keywords?: string[];

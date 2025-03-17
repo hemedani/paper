@@ -7,7 +7,7 @@ export const addArticleValidator = () => {
 		set: object({
 			...articlePureFields,
 			publication: objectIdValidation,
-			avatart: optional(objectIdValidation),
+			avatar: optional(objectIdValidation),
 			doc: optional(objectIdValidation),
 			tags: array(objectIdValidation),
 			keywords: optional(array(objectIdValidation)),
