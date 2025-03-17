@@ -5,7 +5,7 @@ import { ArticleFormCreateSchemaType } from "@/components/template/FormCreateArt
 
 export const createArticle = async (data: ArticleFormCreateSchemaType) => {
   const token = (await cookies()).get("token");
-  const addArticle = await paperApi().send(
+  return await paperApi().send(
     {
       service: "main",
       model: "article",
@@ -23,5 +23,4 @@ export const createArticle = async (data: ArticleFormCreateSchemaType) => {
     { token: token?.value }
   );
 
-  if (addArticle.success) return addArticle.body;
 };
