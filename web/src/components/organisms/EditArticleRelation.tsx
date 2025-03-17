@@ -1,8 +1,7 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import AsyncSelect from "react-select/async";
-import { MultiValue, SingleValue } from "react-select";
-import { useState } from "react";
+import { SingleValue } from "react-select";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -13,6 +12,8 @@ import { getAuthors } from "@/app/actions/author/getAuthors";
 import { getKeywords } from "@/app/actions/keyword/getKeywords";
 import { EditArticle } from "@/app/actions/article/editRelationArticle";
 import { ToastNotify } from "@/utils/helper";
+import MyAsyncMultiSelect from "../atoms/MyAsyncMultiSelect";
+import { useRouter } from "next/navigation";
 
 export const FormSchema = z.object({
   avatar: z.optional(z.string()),
@@ -44,8 +45,6 @@ export const EditArticleRelationForm = ({
   token: string;
   lesanUrl?: string
 }) => {
-  const [imageAvatar, setImageAvatar] = useState<string | null>(null);
-  const [imageDoc, setImageDoc] = useState<string | null>(null);
 
   const {
     handleSubmit,
@@ -61,13 +60,15 @@ export const EditArticleRelationForm = ({
     resolver: zodResolver(FormSchema),
   });
 
+  const router = useRouter();
+
+
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-    data.avatar = imageAvatar || "";
-    data.doc = imageDoc || "";
 
     const dataArticle = await EditArticle(data, defaultValues?._id as string);
     if (dataArticle) {
       ToastNotify("success", "با موفقیت انجام شد");
+      router.replace(`/admin/articles`);
     } else {
       ToastNotify("error", "خطا در انجام عملیات");
     }
@@ -128,13 +129,6 @@ export const EditArticleRelationForm = ({
     }));
   };
 
-  const handleTagChange = (
-    selectedOptions: MultiValue<{ value: string; label: string }>
-  ) => {
-    const values = selectedOptions.map((option) => option.value);
-    setValue("tags", values as [string, ...string[]]);
-  };
-
   // بارگذاری گزینه‌های کلمات کلیدی
   const loadKeywordOptions = async (inputValue: string) => {
     const response = await getKeywords({
@@ -145,13 +139,6 @@ export const EditArticleRelationForm = ({
       value: keyword._id,
       label: keyword.name,
     }));
-  };
-
-  const handleKeywordChange = (
-    selectedOptions: MultiValue<{ value: string; label: string }>
-  ) => {
-    const values = selectedOptions.map((option) => option.value);
-    setValue("keywords", values as [string, ...string[]]);
   };
 
   // بارگذاری گزینه‌های نویسندگان
@@ -168,18 +155,10 @@ export const EditArticleRelationForm = ({
     );
   };
 
-  const handleAuthorChange = (
-    selectedOptions: MultiValue<{ value: string; label: string }>
-  ) => {
-    const values = selectedOptions.map((option) => option.value);
-    setValue("authors", values as [string, ...string[]]);
-  };
-
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-6">فرم ویرایش رابطه‌ها</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* بخش آپلود تصاویر */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-2">
             <span className="text-sm font-medium text-gray-700">
@@ -187,7 +166,7 @@ export const EditArticleRelationForm = ({
             </span>
             <UploadImage
               inputName="avatar"
-              setUploadedImage={setImageAvatar}
+              setUploadedImage={(uploaded: string) => setValue("avatar", uploaded)}
               type="image"
               token={token}
               lesanUrl={lesanUrl}
@@ -198,7 +177,7 @@ export const EditArticleRelationForm = ({
             <span className="text-sm font-medium text-gray-700">فایل مقاله</span>
             <UploadImage
               inputName="doc"
-              setUploadedImage={setImageDoc}
+              setUploadedImage={(uploaded: string) => setValue("doc", uploaded)}
               lesanUrl={lesanUrl}
               type="doc"
               token={token}
@@ -207,7 +186,6 @@ export const EditArticleRelationForm = ({
           </div>
         </div>
 
-        {/* بخش انتخاب‌ها */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-2">
             <label
@@ -231,81 +209,35 @@ export const EditArticleRelationForm = ({
               </span>
             )}
           </div>
-
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="tagIds"
-              className="text-sm font-medium text-gray-700"
-            >
-              برچسب‌ها
-            </label>
-            <AsyncSelect
-              isMulti
-              cacheOptions
-              loadOptions={loadTagOptions}
-              defaultOptions
-              onChange={handleTagChange}
-              placeholder="برچسب‌ها را انتخاب کنید"
-              classNamePrefix="react-select"
-              defaultValue={defaultTagOptions}
-            />
-            {errors.tags && (
-              <span className="text-red-500 text-xs">
-                {errors.tags.message}
-              </span>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="keywordIds"
-              className="text-sm font-medium text-gray-700"
-            >
-              کلمات کلیدی
-            </label>
-            <AsyncSelect
-              isMulti
-              cacheOptions
-              loadOptions={loadKeywordOptions}
-              defaultOptions
-              onChange={handleKeywordChange}
-              placeholder="کلمات کلیدی را انتخاب کنید"
-              classNamePrefix="react-select"
-              defaultValue={defaultKeywordOptions}
-            />
-            {errors.keywords && (
-              <span className="text-red-500 text-xs">
-                {errors.keywords.message}
-              </span>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="authorIds"
-              className="text-sm font-medium text-gray-700"
-            >
-              نویسندگان
-            </label>
-            <AsyncSelect
-              isMulti
-              cacheOptions
-              loadOptions={loadAuthorOptions}
-              defaultOptions
-              onChange={handleAuthorChange}
-              placeholder="نویسندگان را انتخاب کنید"
-              classNamePrefix="react-select"
-              defaultValue={defaultAuthorOptions}
-            />
-            {errors.authors && (
-              <span className="text-red-500 text-xs">
-                {errors.authors.message}
-              </span>
-            )}
-          </div>
         </div>
 
-        {/* دکمه ارسال */}
+        <MyAsyncMultiSelect
+          errMsg={errors.tags?.message}
+          name="tags"
+          label="برچسب"
+          loadOptions={loadTagOptions}
+          setValue={setValue}
+          defaultOptions
+          defaultValue={defaultTagOptions} />
+
+        <MyAsyncMultiSelect
+          errMsg={errors.keywords?.message}
+          name="keywords"
+          label="کلمات کلیدی"
+          loadOptions={loadKeywordOptions}
+          setValue={setValue}
+          defaultOptions
+          defaultValue={defaultKeywordOptions} />
+
+        <MyAsyncMultiSelect
+          errMsg={errors.authors?.message}
+          name="authors"
+          label="نویسندگان"
+          loadOptions={loadAuthorOptions}
+          setValue={setValue}
+          defaultOptions
+          defaultValue={defaultAuthorOptions} />
+
         <div className="flex justify-end space-x-4">
           <button
             type="submit"
