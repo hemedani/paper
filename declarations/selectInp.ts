@@ -416,9 +416,10 @@ personnel_number: string;
 national_number: string;
 address: string;
 level: ("Ghost" | "Manager" | "Editor" );
-isVerified: boolean;
 createdAt?: Date;
 updatedAt?: Date;
+avatar?: string;
+nationalCard?: string;
 };
 get: {
 _id?: (0 | 1 );
