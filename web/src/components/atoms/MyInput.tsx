@@ -26,8 +26,7 @@ const MyInput = <T extends FieldValues = FieldValues>({ className, errMsg, name,
       ) : (
         <input className={`text-gray-600 border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-700 ${errMsg ? "border-red-500" : "border-gray-300"}`} {...register(name)} id={name} name={name} type={type ? type : "text"} placeholder={placeholder ? placeholder : label} />
       )}
-      {errMsg && (<span className="text-red-500 text-xs">{errMsg}</span>
-      )}
+      {errMsg && (<span className="text-red-500 text-xs">{errMsg}</span>)}
     </div>
   );
 };
