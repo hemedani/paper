@@ -7,10 +7,11 @@ import { useParams, useRouter } from "next/navigation";
 import { EditArticle } from "@/app/actions/article/updateArticle";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastNotify } from "@/utils/helper";
+import MyInput from "../atoms/MyInput";
 
 // Schema تعریف اعتبارسنجی
 const ArticleUpdateSchema = z.object({
-  articleId: z.string(),
+  articleId: z.optional(z.string()),
   key: z.string().nonempty("کلید الزامی است"),
   articleType: z.enum(["journalArticle", "book"]),
   publicationYear: z.coerce.number().int("سال انتشار باید عدد صحیح باشد"),
@@ -36,26 +37,12 @@ export const FormUpdateArticle = ({
 
   const params = useParams();
   const {
-    control,
     handleSubmit,
+    setValue,
     formState: { errors, isValid, isSubmitting },
     register,
   } = useForm<ArticleFormUpdateSchemaType>({
-    defaultValues: defaultValues || {
-      articleId: params.id as string,
-      key: "",
-      articleType: "journalArticle",
-      publicationYear: 2023,
-      title: "",
-      abstract: "",
-      ISBN: "",
-      ISNN: "",
-      DOI: "",
-      URL: "",
-      page: "",
-      issue: 1,
-      volume: 1,
-    },
+    defaultValues: defaultValues,
     resolver: zodResolver(ArticleUpdateSchema),
     mode: "onChange",
   });
@@ -82,241 +69,33 @@ export const FormUpdateArticle = ({
           disabled
           hidden
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label
-              htmlFor="key"
-              className="block text-sm font-medium text-gray-700"
-            >
-              کلید
-            </label>
-            <input
-              id="key"
-              type="text"
-              {...register("key")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.key && (
-              <span className="text-red-500 text-xs">{errors.key.message}</span>
-            )}
-          </div>
 
+        <MyInput label="عنوان" register={register} name="title" errMsg={errors.title?.message} />
+        <MyInput label="چکیده" register={register} name="abstract" type="textarea" errMsg={errors.abstract?.message} />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <MyInput label="کلید" register={register} name="key" errMsg={errors.key?.message} />
           <SelectBox
             label="نوع مقاله"
             name="articleType"
-            control={control}
+            setValue={setValue}
+            errMsg={errors.articleType?.message}
             options={[
               { value: "journalArticle", label: "مقاله ژورنال" },
               { value: "book", label: "کتاب" },
             ]}
+            defaultValue={(defaultValues && defaultValues.articleType) ?
+              { value: defaultValues.articleType, label: defaultValues.articleType === "journalArticle" ? "مقاله ژورنال" : "کتاب" }
+              : undefined}
           />
-
-          <div>
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-gray-700"
-            >
-              عنوان
-            </label>
-            <input
-              id="title"
-              type="text"
-              {...register("title")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.title && (
-              <span className="text-red-500 text-xs">
-                {errors.title.message}
-              </span>
-            )}
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="abstract"
-            className="text-sm font-medium text-gray-700"
-          >
-            چکیده
-          </label>
-          <textarea
-            id="abstract"
-            rows={6}
-            className="resize-none px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="چکیده را وارد کنید"
-            {...register("abstract")}
-          />
-          {errors.abstract && (
-            <span className="text-red-500 text-xs">
-              {errors.abstract.message}
-            </span>
-          )}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label
-              htmlFor="ISBN"
-              className="block text-sm font-medium text-gray-700"
-            >
-              ISBN
-            </label>
-            <input
-              id="ISBN"
-              type="text"
-              placeholder="ISBN را وارد کنید"
-              {...register("ISBN")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.ISBN && (
-              <span className="text-red-500 text-xs">
-                {errors.ISBN.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="ISNN"
-              className="block text-sm font-medium text-gray-700"
-            >
-              ISNN
-            </label>
-            <input
-              id="ISNN"
-              type="text"
-              placeholder="ISNN را وارد کنید"
-              {...register("ISNN")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.ISNN && (
-              <span className="text-red-500 text-xs">
-                {errors.ISNN.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="DOI"
-              className="block text-sm font-medium text-gray-700"
-            >
-              DOI
-            </label>
-            <input
-              id="DOI"
-              type="text"
-              placeholder="DOI را وارد کنید"
-              {...register("DOI")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.DOI && (
-              <span className="text-red-500 text-xs">{errors.DOI.message}</span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="URL"
-              className="block text-sm font-medium text-gray-700"
-            >
-              URL
-            </label>
-            <input
-              id="URL"
-              type="text"
-              placeholder="URL را وارد کنید"
-              {...register("URL")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.URL && (
-              <span className="text-red-500 text-xs">{errors.URL.message}</span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="page"
-              className="block text-sm font-medium text-gray-700"
-            >
-              صفحات
-            </label>
-            <input
-              id="page"
-              type="text"
-              placeholder="تعداد صفحات را وارد کنید"
-              {...register("page")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.page && (
-              <span className="text-red-500 text-xs">
-                {errors.page.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="publicationYear"
-              className="block text-sm font-medium text-gray-700"
-            >
-              سال انتشار
-            </label>
-            <input
-              id="publicationYear"
-              type="number"
-              placeholder="سال انتشار را وارد کنید"
-              {...register("publicationYear")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.publicationYear && (
-              <span className="text-red-500 text-xs">
-                {errors.publicationYear.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="issue"
-              className="block text-sm font-medium text-gray-700"
-            >
-              شماره موضوع
-            </label>
-            <input
-              id="issue"
-              type="number"
-              placeholder="شماره را وارد کنید"
-              {...register("issue")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.issue && (
-              <span className="text-red-500 text-xs">
-                {errors.issue.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="volume"
-              className="block text-sm font-medium text-gray-700"
-            >
-              جلد
-            </label>
-            <input
-              id="volume"
-              type="number"
-              placeholder="جلد را وارد کنید"
-              {...register("volume")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.volume && (
-              <span className="text-red-500 text-xs">
-                {errors.volume.message}
-              </span>
-            )}
-          </div>
+          <MyInput label="ISBN" register={register} name="ISBN" errMsg={errors.ISBN?.message} />
+          <MyInput label="ISNN" register={register} name="ISNN" errMsg={errors.ISNN?.message} />
+          <MyInput label="DOI" register={register} name="DOI" errMsg={errors.DOI?.message} />
+          <MyInput label="URL" register={register} name="URL" errMsg={errors.URL?.message} />
+          <MyInput label="صفحات" register={register} name="page" errMsg={errors.page?.message} />
+          <MyInput label="سال انتشار" register={register} name="publicationYear" errMsg={errors.publicationYear?.message} />
+          <MyInput label="شماره موضوع" type="number" register={register} name="issue" errMsg={errors.issue?.message} />
+          <MyInput label="جلد" type="number" register={register} name="volume" errMsg={errors.volume?.message} />
         </div>
 
         <div className="flex justify-end space-x-4">
