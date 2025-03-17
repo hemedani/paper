@@ -48,7 +48,7 @@ const ToastNotify = (type: "success" | "error", message: string) => {
   if (type === "success") {
     toast.success(message);
   } else {
-    toast.error("خطا");
+    toast.error(`خطا - ${message}`);
   }
 };
 
@@ -60,9 +60,8 @@ const ArrayToSelectOptions = <T>(
 ) => {
   return data.map((item) => ({
     value: String(item[valueKey]),
-    label: `${item[labelKey]} ${
-      secondaryLabelKey ? item[secondaryLabelKey] : ""
-    }`,
+    label: `${item[labelKey]} ${secondaryLabelKey ? item[secondaryLabelKey] : ""
+      }`,
   }));
 };
 
