@@ -1,58 +1,62 @@
 "use client";
 import React from "react";
-import Select from "react-select";
+import Select, { GroupBase, OptionsOrGroups, PropsValue } from "react-select";
 import {
-  useController,
-  UseControllerProps,
   FieldValues,
+  FieldPath,
+  UseFormSetValue,
+  PathValue,
+  Path,
 } from "react-hook-form";
+import { ReactSelectOption } from "@/types/option";
 
-interface SelectBoxProps<T extends FieldValues> extends UseControllerProps<T> {
-  label?: string;
-  options: { value: string | number; label: string }[];
+interface SelectBoxProps<Option, Group extends GroupBase<Option>, T extends FieldValues = FieldValues> {
+  name: FieldPath<T>;
+  label: string;
+  setValue: UseFormSetValue<T>;
+  options: ReactSelectOption[];
   placeholder?: string;
+  labelAsValue?: boolean;
   className?: string;
+  errMsg?: string
+  defaultValue?: PropsValue<ReactSelectOption>;
+  defaultOptions?: OptionsOrGroups<Option, Group> | boolean;
 }
 
-const SelectBox = <T extends FieldValues>({
+const SelectBox = <Option, Group extends GroupBase<Option>, T extends FieldValues = FieldValues>({
+  name,
+  setValue,
   label,
   options,
+  errMsg,
   placeholder = "انتخاب کنید",
   className = "",
-  ...controllerProps
-}: SelectBoxProps<T>) => {
-  const { field, fieldState } = useController(controllerProps);
-
-  const handleChange = (
-    selectedOption: { value: string | number; label: string } | null
-  ) => {
-    field.onChange(selectedOption?.value || "");
-  };
-  
+  labelAsValue,
+  defaultValue
+}: SelectBoxProps<Option, Group, T>) => {
 
   return (
     <div className={`flex flex-col gap-1 ${className}`}>
       {label && (
         <label
-          htmlFor={field.name}
+          htmlFor={name}
           className="text-sm font-medium text-gray-700"
         >
           {label}
         </label>
       )}
       <Select
-        id={field.name}
+        id={name}
         options={options}
-        value={options?.find((option) => option.value === field.value) || null}
-        onChange={handleChange}
+        onChange={(newVal) => setValue(name, (labelAsValue ? newVal!.label : newVal!.value) as unknown as PathValue<T, Path<T>>)}
         placeholder={placeholder}
         classNamePrefix="react-select"
-        className={`text-sm ${
-          fieldState.error ? "border-red-500" : "border-gray-300"
-        }`}
+        className={`text-sm ${errMsg ? "border-red-500" : "border-gray-300"
+          }`}
+        defaultValue={defaultValue}
       />
-      {fieldState.error && (
-        <span className="text-red-500 text-xs">{fieldState.error.message}</span>
+      {errMsg && (
+        <span className="text-red-500 text-xs">{errMsg}</span>
       )}
     </div>
   );
