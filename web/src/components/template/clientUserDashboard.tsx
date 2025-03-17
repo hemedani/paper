@@ -7,6 +7,7 @@ import { ModalUser } from "./ModalUser";
 import { useState } from "react";
 import { deleteUser } from "@/app/actions/user/removeUser";
 import { ToastNotify } from "@/utils/helper";
+import Link from "next/link";
 
 interface User {
   _id: string;
@@ -61,13 +62,11 @@ const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
 
   return (
     <div>
-      {activeModal === "edit" && <ModalUser onClose={closeModal} />}
-      <button
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        onClick={() => openModal("edit")}
-      >
+      <Link
+        href="/admin/users/createUser"
+        className="absolute top-1 left-5 mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
         ایجاد کاربر جدید
-      </button>
+      </Link>
 
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {users?.map((user) => (
