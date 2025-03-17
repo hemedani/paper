@@ -49,7 +49,7 @@ export const Navbar = ({ level }: { level: string }) => {
             <button className="text-gray-800 hover:text-blue-600 pb-1 transition-all duration-300">
               بیشتر
             </button>
-            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-95 transition-all duration-300 z-10">
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:visible group-hover:opacity-100 group-hover:scale-100 scale-95 transition-all duration-300 z-10">
               <Link
                 href="/faq"
                 className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
