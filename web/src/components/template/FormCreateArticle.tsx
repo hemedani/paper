@@ -1,12 +1,10 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import AsyncSelect from "react-select/async";
-import { MultiValue, SingleValue } from "react-select";
+import { SingleValue } from "react-select";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-
 import SelectBox from "../atoms/Select";
 import { UploadImage } from "@/components/molecules/UploadFile";
 import { getTags } from "@/app/actions/tag/getTags";
@@ -15,6 +13,8 @@ import { createArticle } from "@/app/actions/article/createArticle";
 import { getAuthors } from "@/app/actions/author/getAuthors";
 import { ToastNotify } from "@/utils/helper";
 import { getKeywords } from "@/app/actions/keyword/getKeywords";
+import MyAsyncMultiSelect from "../atoms/MyAsyncMultiSelect";
+import MyInput from "../atoms/MyInput";
 
 // تعریف اسکیما برای اعتبارسنجی فرم
 export const ArticleCreateSchema = z.object({
@@ -36,48 +36,39 @@ export const ArticleCreateSchema = z.object({
   publicationYear: z.coerce.number().int("سال انتشار باید عدد صحیح باشد"),
   issue: z.coerce.number().int("شماره موضوع باید عدد صحیح باشد"),
   volume: z.coerce.number().int("جلد باید عدد صحیح باشد"),
+  avatar: z.optional(z.string()),
+  doc: z.optional(z.string()),
 });
 
 export type ArticleFormCreateSchemaType = z.infer<typeof ArticleCreateSchema>;
 
 export const FormCreateArticle = ({
-  defaultValues,
   token,
+  lesanUrl
 }: {
-  defaultValues?: ArticleFormCreateSchemaType & {
-    tagList: { _id: string; name: string }[];
-  };
   token?: string;
+  lesanUrl: string;
 }) => {
   const router = useRouter();
-  const [imageAvatar, setImageAvatar] = useState<string | null>(null);
-  const [imageNationalCard, setImageNationalCard] = useState<string | null>(
-    null
-  );
 
   const {
     register,
-    control,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<ArticleFormCreateSchemaType>({
-    defaultValues,
     resolver: zodResolver(ArticleCreateSchema),
   });
 
   const onSubmit: SubmitHandler<ArticleFormCreateSchemaType> = async (data) => {
-    const updatedData = {
-      ...data,
-      avatart: imageAvatar,
-      doc: imageNationalCard,
-    };
 
-    const newArticle = await createArticle(updatedData);
+    const newArticle = await createArticle(data);
 
-    if (newArticle._id) {
+    if (newArticle.success) {
       ToastNotify("success", "مقاله با موفقیت ایجاد شد");
       router.replace("/admin/articles");
+    } else {
+      ToastNotify("error", newArticle.body.message);
     }
   };
 
@@ -90,13 +81,6 @@ export const FormCreateArticle = ({
       value: tag._id,
       label: tag.name,
     }));
-  };
-
-  const handleTagChange = (
-    selectedOptions: MultiValue<{ value: string; label: string }>
-  ) => {
-    const values = selectedOptions.map((option) => option.value);
-    setValue("tags", values as [string, ...string[]]);
   };
 
   const loadAuthorOptions = async (inputValue: string) => {
@@ -113,13 +97,6 @@ export const FormCreateArticle = ({
     );
   };
 
-  const handleAuthorChange = (
-    selectedOptions: MultiValue<{ value: string; label: string }>
-  ) => {
-    const values = selectedOptions.map((option) => option.value);
-    setValue("authors", values as [string, ...string[]]);
-  };
-
   const loadKeywordOptions = async (inputValue: string) => {
     const response = await getKeywords({
       set: { name: inputValue, limit: 10, page: 1 },
@@ -129,13 +106,6 @@ export const FormCreateArticle = ({
       value: key._id,
       label: key.name,
     }));
-  };
-
-  const handleKeywordChange = (
-    selectedOptions: MultiValue<{ value: string; label: string }>
-  ) => {
-    const values = selectedOptions.map((option) => option.value);
-    setValue("keywords", values as [string, ...string[]]);
   };
 
   const loadPublicationOptions = async (inputValue: string) => {
@@ -159,59 +129,60 @@ export const FormCreateArticle = ({
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-6">ایجاد مقاله جدید</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* بخش انتخاب‌ها */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-2">
-            <label
-              htmlFor="tagIds"
-              className="text-sm font-medium text-gray-700"
-            >
-              برچسب‌ها
-            </label>
-            <AsyncSelect
-              isMulti
-              cacheOptions
-              loadOptions={loadTagOptions}
-              defaultOptions
-              defaultValue={
-                defaultValues?.tagList?.map((tag) => ({
-                  label: tag.name,
-                  value: tag._id,
-                })) || []
-              }
-              onChange={handleTagChange}
-              placeholder="برچسب‌ها را انتخاب کنید"
-              classNamePrefix="react-select"
+            <span className="text-sm font-medium text-gray-700">
+              عکس مقاله
+            </span>
+            <UploadImage
+              inputName="avatar"
+              setUploadedImage={(uploaded: string) => setValue("avatar", uploaded)}
+              type="image"
+              token={token}
+              lesanUrl={lesanUrl}
             />
-            {errors.tags && (
-              <span className="text-red-500 text-xs">
-                {errors.tags.message}
-              </span>
-            )}
           </div>
-
           <div className="flex flex-col gap-2">
-            <label
-              htmlFor="authorIds"
-              className="text-sm font-medium text-gray-700"
-            >
-              نویسندگان
-            </label>
-            <AsyncSelect
-              isMulti
-              cacheOptions
-              loadOptions={loadAuthorOptions}
-              defaultOptions
-              onChange={handleAuthorChange}
-              placeholder="نویسندگان را انتخاب کنید"
-              classNamePrefix="react-select"
+            <span className="text-sm font-medium text-gray-700">فایل مقاله</span>
+            <UploadImage
+              inputName="doc"
+              setUploadedImage={(uploaded: string) => setValue("doc", uploaded)}
+              lesanUrl={lesanUrl}
+              type="doc"
+              token={token}
             />
-            {errors.authors && (
-              <span className="text-red-500 text-xs">
-                {errors.authors?.message}
-              </span>
-            )}
           </div>
+        </div>
+
+        <MyInput label="عنوان" register={register} name="title" errMsg={errors.title?.message} />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+
+          <MyAsyncMultiSelect
+            errMsg={errors.tags?.message}
+            name="tags"
+            label="برچسب"
+            loadOptions={loadTagOptions}
+            setValue={setValue}
+            defaultOptions />
+
+          <MyAsyncMultiSelect
+            errMsg={errors.keywords?.message}
+            name="keywords"
+            label="کلمات کلیدی"
+            loadOptions={loadKeywordOptions}
+            setValue={setValue}
+            defaultOptions />
+
+          <MyAsyncMultiSelect
+            errMsg={errors.authors?.message}
+            name="authors"
+            label="نویسندگان"
+            loadOptions={loadAuthorOptions}
+            setValue={setValue}
+            defaultOptions />
 
           <div className="flex flex-col gap-2">
             <label
@@ -234,299 +205,32 @@ export const FormCreateArticle = ({
               </span>
             )}
           </div>
-
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="tagIds"
-              className="text-sm font-medium text-gray-700"
-            >
-              کلیمه های کلیدی
-            </label>
-            <AsyncSelect
-              isMulti
-              cacheOptions
-              loadOptions={loadKeywordOptions}
-              defaultOptions
-              onChange={handleKeywordChange}
-              placeholder="کلمه های کلیدی را انتخاب کنید"
-              classNamePrefix="react-select"
-            />
-            {errors.tags && (
-              <span className="text-red-500 text-xs">
-                {errors.tags.message}
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* بخش اطلاعات اصلی */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label
-              htmlFor="key"
-              className="block text-sm font-medium text-gray-700"
-            >
-              کلید
-            </label>
-            <input
-              id="key"
-              type="text"
-              {...register("key")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.key && (
-              <span className="text-red-500 text-xs">{errors.key.message}</span>
-            )}
-          </div>
-
           <SelectBox
             label="نوع مقاله"
             name="articleType"
-            control={control}
+            setValue={setValue}
+            errMsg={errors.articleType?.message}
             options={[
               { value: "journalArticle", label: "مقاله ژورنال" },
               { value: "book", label: "کتاب" },
             ]}
-            rules={{ required: "نوع مقاله الزامی است" }}
           />
-
-          <div>
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-gray-700"
-            >
-              عنوان
-            </label>
-            <input
-              id="title"
-              type="text"
-              {...register("title")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.title && (
-              <span className="text-red-500 text-xs">
-                {errors.title.message}
-              </span>
-            )}
-          </div>
+          <MyInput label="کلید" register={register} name="key" errMsg={errors.key?.message} />
         </div>
 
-        {/* بخش چکیده */}
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="abstract"
-            className="text-sm font-medium text-gray-700"
-          >
-            چکیده
-          </label>
-          <textarea
-            id="abstract"
-            rows={6}
-            className="resize-none px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="چکیده را وارد کنید"
-            {...control.register("abstract", { required: "چکیده الزامی است" })}
-          />
-          {errors.abstract && (
-            <span className="text-red-500 text-xs">
-              {errors.abstract.message}
-            </span>
-          )}
-        </div>
+        <MyInput label="چکیده" register={register} name="abstract" type="textarea" errMsg={errors.abstract?.message} />
 
-        {/* بخش اطلاعات تکمیلی */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label
-              htmlFor="ISBN"
-              className="block text-sm font-medium text-gray-700"
-            >
-              ISBN
-            </label>
-            <input
-              id="ISBN"
-              type="text"
-              placeholder="ISBN را وارد کنید"
-              {...register("ISBN")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.ISBN && (
-              <span className="text-red-500 text-xs">
-                {errors.ISBN.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="ISNN"
-              className="block text-sm font-medium text-gray-700"
-            >
-              ISNN
-            </label>
-            <input
-              id="ISNN"
-              type="text"
-              placeholder="ISNN را وارد کنید"
-              {...register("ISNN")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.ISNN && (
-              <span className="text-red-500 text-xs">
-                {errors.ISNN.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="DOI"
-              className="block text-sm font-medium text-gray-700"
-            >
-              DOI
-            </label>
-            <input
-              id="DOI"
-              type="text"
-              placeholder="DOI را وارد کنید"
-              {...register("DOI")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.DOI && (
-              <span className="text-red-500 text-xs">{errors.DOI.message}</span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="URL"
-              className="block text-sm font-medium text-gray-700"
-            >
-              URL
-            </label>
-            <input
-              id="URL"
-              type="text"
-              placeholder="URL را وارد کنید"
-              {...register("URL")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.URL && (
-              <span className="text-red-500 text-xs">{errors.URL.message}</span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="page"
-              className="block text-sm font-medium text-gray-700"
-            >
-              صفحات
-            </label>
-            <input
-              id="page"
-              type="text"
-              placeholder="تعداد صفحات را وارد کنید"
-              {...register("page")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.page && (
-              <span className="text-red-500 text-xs">
-                {errors.page.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="publicationYear"
-              className="block text-sm font-medium text-gray-700"
-            >
-              سال انتشار
-            </label>
-            <input
-              id="publicationYear"
-              type="number"
-              placeholder="سال انتشار را وارد کنید"
-              {...register("publicationYear")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.publicationYear && (
-              <span className="text-red-500 text-xs">
-                {errors.publicationYear.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="issue"
-              className="block text-sm font-medium text-gray-700"
-            >
-              شماره موضوع
-            </label>
-            <input
-              id="issue"
-              type="number"
-              placeholder="شماره را وارد کنید"
-              {...register("issue")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.issue && (
-              <span className="text-red-500 text-xs">
-                {errors.issue.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="volume"
-              className="block text-sm font-medium text-gray-700"
-            >
-              جلد
-            </label>
-            <input
-              id="volume"
-              type="number"
-              placeholder="جلد را وارد کنید"
-              {...register("volume")}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            {errors.volume && (
-              <span className="text-red-500 text-xs">
-                {errors.volume.message}
-              </span>
-            )}
-          </div>
+          <MyInput label="ISBN" register={register} name="ISBN" errMsg={errors.ISBN?.message} />
+          <MyInput label="ISNN" register={register} name="ISNN" errMsg={errors.ISNN?.message} />
+          <MyInput label="DOI" register={register} name="DOI" errMsg={errors.DOI?.message} />
+          <MyInput label="URL" register={register} name="URL" errMsg={errors.URL?.message} />
+          <MyInput label="صفحات" register={register} name="page" errMsg={errors.page?.message} />
+          <MyInput label="سال انتشار" register={register} name="publicationYear" errMsg={errors.publicationYear?.message} />
+          <MyInput label="شماره موضوع" type="number" register={register} name="issue" errMsg={errors.issue?.message} />
+          <MyInput label="جلد" type="number" register={register} name="volume" errMsg={errors.volume?.message} />
         </div>
 
-        {/* بخش آپلود تصاویر */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium text-gray-700">
-              عکس پروفایل کاربری
-            </span>
-            <UploadImage
-              inputName="avatar"
-              setUploadedImage={setImageAvatar}
-              type="image"
-              token={token}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium text-gray-700">
-              pdf مقاله را آپلود کنید
-            </span>
-            <UploadImage
-              inputName="nationalCard"
-              setUploadedImage={setImageNationalCard}
-              type="doc"
-              token={token}
-            />
-          </div>
-        </div>
-
-        {/* دکمه ارسال */}
         <div className="flex justify-end space-x-4">
           <button
             type="submit"
