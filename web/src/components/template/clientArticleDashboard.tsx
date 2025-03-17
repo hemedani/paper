@@ -6,6 +6,7 @@ import { DeleteModal } from "./DeleteModal";
 import { deleteArticle } from "@/app/actions/article/removeArticle";
 import { ToastNotify } from "@/utils/helper";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Article {
   _id: string;
@@ -60,6 +61,13 @@ const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles }) => {
 
   return (
     <div>
+      <Link
+        href="/admin/articles/createArticle"
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" >
+        ایجاد مقاله جدید
+      </Link>
+
+
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {articles?.map((article) => (
           <ArticleCard
