@@ -1,38 +1,40 @@
 "use client";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { UploadImage } from "../molecules/UploadFile";
-import { useState } from "react";
 import Cookies from "js-cookie";
 import { updateRelationUser } from "@/app/actions/user/updateRelationUser";
 import { ToastNotify } from "@/utils/helper";
 import { useRouter } from "next/navigation";
+import { ReqType, userSchema } from "@/types/declarations/selectInp";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export const EditUserRelations = ({ id }: { id: string }) => {
-  const { handleSubmit } = useForm();
+export const UpdateUserRelationSchema = z.object({
+  avatar: z.any().optional(), // برای عکس پروفایل
+  nationalCard: z.any().optional(), // برای کارت ملی
+});
+
+export type UpdateUserRelationSchemaType = z.infer<typeof UpdateUserRelationSchema>;
+export type UpdateUserRelationSet = ReqType["main"]["user"]["updateUserRelations"]["set"]
+
+export const EditUserRelations = ({ _id, lesanUrl, avatar, nationalCard }: userSchema & { lesanUrl: string }) => {
+  const { handleSubmit, setValue } = useForm<UpdateUserRelationSet>({
+    resolver: zodResolver(UpdateUserRelationSchema),
+  });
+
   const token = Cookies.get("token");
-
-  const [imageAvatar, setImageAvatar] = useState<string | null>(null);
-  const [imageNationalCard, setImageNationalCard] = useState<string | null>(
-    null
-  );
-
   const router = useRouter();
 
-  const onSubmit = async () => {
-    const data = await updateRelationUser({
+  const onSubmit: SubmitHandler<UpdateUserRelationSet> = async (formData) => {
+    const updatedUserRelations = await updateRelationUser({
       get: { first_name: 1 },
-      set: {
-        _id: id,
-        avatar: imageAvatar as string,
-        nationalCard: imageNationalCard as string,
-      },
+      set: { ...formData, _id: _id! },
     });
-    if (data._id) {
+    if (updatedUserRelations.success) {
       ToastNotify("success", "با موقیت ویرایش شد");
       router.replace("/admin/users");
     } else {
       ToastNotify("error", "با خطا مواجه شد");
-      router.replace("/admin/users");
     }
   };
   return (
@@ -42,18 +44,22 @@ export const EditUserRelations = ({ id }: { id: string }) => {
           <span>عکس پروفایل کاربری</span>
           <UploadImage
             inputName="avatar"
-            setUploadedImage={setImageAvatar}
+            setUploadedImage={(uploaded: string) => setValue("avatar", uploaded)}
             type="image"
             token={token}
+            lesanUrl={lesanUrl}
+            filePath={avatar ? avatar.name : undefined}
           />
         </div>
         <div>
           <span>عکس کارت ملی</span>
           <UploadImage
             inputName="nationalCard"
-            setUploadedImage={setImageNationalCard}
+            setUploadedImage={(uploaded: string) => setValue("nationalCard", uploaded)}
             type="image"
             token={token}
+            lesanUrl={lesanUrl}
+            filePath={nationalCard ? nationalCard.name : undefined}
           />
         </div>
       </div>
