@@ -29,6 +29,8 @@ const translateLevel = (level: string): string => {
     case "Manager":
       return "مدیر";
     case "Editor":
+      return "ویرایشگر";
+    case "Normal":
       return "عادی";
     default:
       return "نامشخص";
