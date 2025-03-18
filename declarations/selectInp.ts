@@ -1078,6 +1078,7 @@ updatedAt?: (0 | 1 );
           
             updateUser: {
 set: {
+_id: string;
 first_name: string;
 last_name: string;
 father_name: string;
@@ -1086,6 +1087,7 @@ birth_date?: Date;
 summery?: string;
 personnel_number: string;
 address: string;
+level: ("Ghost" | "Manager" | "Editor" | "Normal" );
 createdAt?: Date;
 updatedAt?: Date;
 };
