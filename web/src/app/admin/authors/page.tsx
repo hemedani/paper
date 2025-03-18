@@ -37,7 +37,7 @@ export default async function TagDashboard({
   });
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
+    <div className="relative bg-white p-6 rounded-lg shadow-md min-h-full">
       <h1 className="text-2xl text-gray-600 font-bold">نویسندگان</h1>
       <SearchBox title="first_name" defaultValue={first_name} />
       <ClientDashboard authors={data} />

@@ -30,16 +30,14 @@ const PopulationDashboard = async ({
     get: { qty: 1 },
     set: { title },
   });
-  
+
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
+    <div className="relative bg-white p-6 rounded-lg shadow-md min-h-full">
       <h1 className="text-2xl text-gray-600 font-bold">منتشر کننده</h1>
       <p className="text-gray-600">خوش آمدید!</p>
       <SearchBox title="title" />
-      <ClientPuplicationDashboard
-        publications={puplications}
-      />
+      <ClientPuplicationDashboard publications={puplications} />
       <Pagination countPage={countPublicationData.qty} initialPage={+page} />
     </div>
   );

@@ -29,7 +29,7 @@ export default async function TagDashboard({
   });
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
+    <div className="relative bg-white p-6 rounded-lg shadow-md min-h-full">
       <h1 className="text-2xl text-gray-600 font-bold">برچسب‌ها</h1>
       <SearchBox title="name" defaultValue={name} />
       <ClientTagDashboard tags={data} />
