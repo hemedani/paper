@@ -1,13 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import UserCard from "../organisms/UserCard";
 import { DeleteModal } from "./DeleteModal";
-import { ModalUser } from "./ModalUser";
 import { useState } from "react";
 import { deleteUser } from "@/app/actions/user/removeUser";
 import { ToastNotify } from "@/utils/helper";
 import Link from "next/link";
+import UserCard from "@/components/organisms/user/UserCard";
 
 interface User {
   _id: string;
@@ -76,7 +75,6 @@ const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
             first_name={user.first_name}
             last_name={user.last_name}
             national_number={user.national_number}
-            onEdit={() => openModal("edit", user)}
             onDelete={() => openModal("delete", user)}
           />
         ))}
