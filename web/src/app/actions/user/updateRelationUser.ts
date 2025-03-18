@@ -9,7 +9,7 @@ export const updateRelationUser = async ({
 }: ReqType["main"]["user"]["updateUserRelations"]) => {
   const token = (await cookies()).get("token");
 
-  const updateUser = await paperApi().send(
+  return await paperApi().send(
     {
       service: "main",
       model: "user",
@@ -22,5 +22,4 @@ export const updateRelationUser = async ({
     { token: token?.value }
   );
 
-  if (updateUser.success) return updateUser.body;
 };

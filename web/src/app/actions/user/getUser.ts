@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 export const getUser = async (_id: string) => {
   const token = (await cookies()).get("token");
-  const getUser = await paperApi().send(
+  return await paperApi().send(
     {
       service: "main",
       model: "user",
@@ -26,11 +26,10 @@ export const getUser = async (_id: string) => {
           personnel_number: 1,
           level: 1,
           avatar: { _id: 1, name: 1 },
+          nationalCard: { _id: 1, name: 1 },
         },
       },
     },
     { token: token?.value }
   );
-
-  if (getUser.success) return getUser.body;
 };
