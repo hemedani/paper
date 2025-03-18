@@ -24,20 +24,6 @@ export const updateUserRelationsFn: ActFn = async (body) => {
 		relatedRelations: {},
 	});
 
-	/*
-	 * 	@LOG @DEBUG @INFO
-	 * 	This log written by ::==> {{ `` }}
-	 *
-	 * 	Please remove your log after debugging
-	 */
-	console.log(" ============= ");
-	console.group("relations ------ ");
-	console.log();
-	console.info({ relations }, " ------ ");
-	console.log();
-	console.groupEnd();
-	console.log(" ============= ");
-
 	return await user.addRelation({
 		filters: { _id: new ObjectId(_id) },
 		relations,
