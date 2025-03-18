@@ -22,7 +22,7 @@ export const UserCreateSchema = z.object({
   national_number: z.string().regex(/^\d{10}$/, "کد ملی باید 10 رقم باشد"),
   address: z.string().optional(),
   summery: z.string().optional(),
-  level: z.enum(["Manager", "Editor", "Ghost"], { message: "سطح الزامی است" }),
+  level: z.enum(["Normal", "Manager", "Editor", "Ghost"], { message: "سطح الزامی است" }),
   avatar: z.any().optional(), // برای عکس پروفایل
   nationalCard: z.any().optional(), // برای کارت ملی
 });
@@ -79,10 +79,10 @@ export const FormCreateUser = ({
           <div className="flex flex-col gap-2">
             <span className="text-sm font-medium text-gray-700">عکس کارت ملی</span>
             <UploadImage
-              inputName="doc"
+              inputName="nationalCard"
               setUploadedImage={(uploaded: string) => setValue("nationalCard", uploaded)}
               lesanUrl={lesanUrl}
-              type="doc"
+              type="image"
               token={token}
             />
           </div>
@@ -126,6 +126,7 @@ export const FormCreateUser = ({
             options={[
               { value: "Manager", label: "مدیر" },
               { value: "Editor", label: "ویرایشگر" },
+              { value: "Normal", label: "عادی" },
             ]}
           />
         </div>
