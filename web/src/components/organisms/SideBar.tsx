@@ -11,8 +11,8 @@ const menuItems = [
   { label: "نویسندگان", href: "/admin/authors" },
   { label: "دسته بندی ها", href: "/admin/tag" },
   { label: "کلمات کلیدی", href: "/admin/keyword" },
+  { label: "منتشر کننده ها", href: "/admin/publication" },
   { label: "بلاگ", href: "/admin/blog" },
-  { label: "منتشر کننده ها", href: "/admin/population" },
   { label: "پنل کاربری", href: "/user" },
 ];
 
@@ -37,25 +37,25 @@ export const AdminSidebar: FC<TProps> = ({ menuItemsProps }) => {
         <ul className="space-y-2 p-4">
           {!menuItemsProps
             ? menuItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="block px-3 py-2 rounded-md hover:bg-gray-700 transition"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="block px-3 py-2 rounded-md hover:bg-gray-700 transition"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))
             : menuItemsProps.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="block px-3 py-2 rounded-md hover:bg-gray-700 transition"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="block px-3 py-2 rounded-md hover:bg-gray-700 transition"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
         </ul>
       </nav>
       <div

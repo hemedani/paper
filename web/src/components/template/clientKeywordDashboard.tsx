@@ -53,7 +53,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ keywords }) => {
   return (
     <div>
       <button
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        className="absolute top-1 left-5 mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
         onClick={() => openModal("edit")}
       >
         ایجاد واژه جدید
