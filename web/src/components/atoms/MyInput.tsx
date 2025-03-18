@@ -15,7 +15,7 @@ interface InputProps<T extends FieldValues = FieldValues> {
 const MyInput = <T extends FieldValues = FieldValues>({ className, errMsg, name, type, label, placeholder, register }: InputProps<T>) => {
 
   return (
-    <div className={`flex flex-col gap-1 ${className}`}>
+    <div className={`w-1/2 p-4 flex flex-col gap-1 ${className}`}>
       <label htmlFor={name}>{label}</label>
       {type === "textarea" ? (
         <textarea

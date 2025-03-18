@@ -36,7 +36,7 @@ const SelectBox = <Option, Group extends GroupBase<Option>, T extends FieldValue
 }: SelectBoxProps<Option, Group, T>) => {
 
   return (
-    <div className={`flex flex-col gap-1 ${className}`}>
+    <div className={`w-1/2 p-4 flex flex-col gap-1 ${className}`}>
       {label && (
         <label
           htmlFor={name}
