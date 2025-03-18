@@ -10,6 +10,7 @@ import MyInput from "../atoms/MyInput";
 import { createUser } from "@/app/actions/user/createUser";
 import { DatePicker } from "zaman";
 import { ReqType } from "@/types/declarations/selectInp";
+import Link from "next/link";
 
 export const UserCreateSchema = z.object({
   first_name: z.string().min(1, "نام الزامی است"),
@@ -63,8 +64,9 @@ export const FormCreateUser = ({
     <div className="p-8">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-2">
+        <div className="w-full flex flex-wrap">
+
+          <div className="w-1/2 p-4">
             <span className="text-sm font-medium text-gray-700">
               عکس پروفایل
             </span>
@@ -76,7 +78,7 @@ export const FormCreateUser = ({
               lesanUrl={lesanUrl}
             />
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="w-1/2 p-4">
             <span className="text-sm font-medium text-gray-700">عکس کارت ملی</span>
             <UploadImage
               inputName="nationalCard"
@@ -86,9 +88,6 @@ export const FormCreateUser = ({
               token={token}
             />
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           <MyInput label="نام" register={register} name="first_name" errMsg={errors.father_name?.message} />
           <MyInput label="نام خانوادگی" register={register} name="last_name" errMsg={errors.last_name?.message} />
@@ -99,12 +98,12 @@ export const FormCreateUser = ({
           <MyInput label="آدرس" register={register} name="address" errMsg={errors.address?.message} />
           <MyInput label="توضیحات" register={register} name="summery" errMsg={errors.summery?.message} />
 
-          <div className={`flex flex-col gap-1`}>
+          <div className={`w-1/2 p-4 flex flex-col gap-1`}>
             <label htmlFor="birth_date">تاریخ تولد</label>
             <DatePicker
               className={`text-gray-600 border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-700 bg-gray-100 ${errors.birth_date?.message ? "border-red-500" : "border-gray-300"}`
               }
-              onChange={(e) => console.log(e.value)} />
+              onChange={(e) => setValue("birth_date", e.value)} />
             {errors.birth_date?.message && (<span className="text-red-500 text-xs">{errors.birth_date?.message}</span>)}
           </div>
 
@@ -131,14 +130,16 @@ export const FormCreateUser = ({
           />
         </div>
 
-        <div className="flex justify-end space-x-4">
-          <button
-            type="submit"
-            className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-          >
+        <div className={`w-full flex gap-4`}>
+          <button className="w-1/2 p-4 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700">
             ارسال
           </button>
+          <Link href="/admin/users" className="w-1/2 p-4 bg-gray-600 text-white text-center font-semibold rounded-lg hover:bg-gray-700">
+            بازگشت
+          </Link>
         </div>
+
+
       </form>
     </div>
   );
