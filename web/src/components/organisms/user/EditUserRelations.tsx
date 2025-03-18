@@ -1,6 +1,5 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { UploadImage } from "../molecules/UploadFile";
 import Cookies from "js-cookie";
 import { updateRelationUser } from "@/app/actions/user/updateRelationUser";
 import { ToastNotify } from "@/utils/helper";
@@ -8,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { ReqType, userSchema } from "@/types/declarations/selectInp";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { UploadImage } from "@/components/molecules/UploadFile";
+import Link from "next/link";
 
 export const UpdateUserRelationSchema = z.object({
   avatar: z.any().optional(), // برای عکس پروفایل
@@ -39,8 +40,8 @@ export const EditUserRelations = ({ _id, lesanUrl, avatar, nationalCard }: userS
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="grid grid-cols-2 gap-4">
-        <div>
+      <div className="flex flex-wrap w-full">
+        <div className="w-1/2 p-4">
           <span>عکس پروفایل کاربری</span>
           <UploadImage
             inputName="avatar"
@@ -51,7 +52,7 @@ export const EditUserRelations = ({ _id, lesanUrl, avatar, nationalCard }: userS
             filePath={avatar ? avatar.name : undefined}
           />
         </div>
-        <div>
+        <div className="w-1/2 p-4">
           <span>عکس کارت ملی</span>
           <UploadImage
             inputName="nationalCard"
@@ -63,10 +64,15 @@ export const EditUserRelations = ({ _id, lesanUrl, avatar, nationalCard }: userS
           />
         </div>
       </div>
-      {/* Submit Button */}
-      <button className="w-full p-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700">
-        ثبت
-      </button>
+      <div className={`w-full flex gap-4`}>
+        <button className="w-1/2 p-4 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700">
+          ارسال
+        </button>
+        <Link href="/admin/users" className="w-1/2 p-4 bg-gray-600 text-white text-center font-semibold rounded-lg hover:bg-gray-700">
+          بازگشت
+        </Link>
+      </div>
+
     </form>
   );
 };

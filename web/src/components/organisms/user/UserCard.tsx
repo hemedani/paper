@@ -1,5 +1,5 @@
 import React from "react";
-import { EditIcon, HideIcon, TrashIcon, UpdateIcon } from "../atoms/Icons";
+import { EditIcon, HideIcon, TrashIcon, UpdateIcon } from "@/components/atoms/Icons";
 import { useRouter } from "next/navigation";
 
 interface UserCardProps {
@@ -8,7 +8,6 @@ interface UserCardProps {
   last_name: string;
   national_number: string;
   onDelete: () => void;
-  onEdit?: () => void; // اضافه کردن onEdit به عنوان پراپرتی اختیاری
 }
 
 const UserCard: React.FC<UserCardProps> = ({
@@ -17,7 +16,6 @@ const UserCard: React.FC<UserCardProps> = ({
   last_name,
   national_number,
   onDelete,
-  onEdit, // اضافه کردن onEdit
 }) => {
   const router = useRouter();
   return (
@@ -43,17 +41,15 @@ const UserCard: React.FC<UserCardProps> = ({
             <TrashIcon />
           </button>
         )}
-        {onEdit && (
-          <button
-            onClick={onEdit}
-            className="p-2 bg-yellow-400 text-white rounded-full hover:bg-yellow-500 transition-all duration-200 shadow"
-            title="ویرایش"
-          >
-            <UpdateIcon />
-          </button>
-        )}
         <button
-          onClick={() => router.push(`/admin/users/edit-user/${id}`)}
+          onClick={() => router.push(`/admin/users/edit/pure/${id}`)}
+          className="p-2 bg-yellow-400 text-white rounded-full hover:bg-yellow-500 transition-all duration-200 shadow"
+          title="ویرایش"
+        >
+          <UpdateIcon />
+        </button>
+        <button
+          onClick={() => router.push(`/admin/users/edit/relation/${id}`)}
           className="p-2 bg-yellow-400 text-white rounded-full hover:bg-yellow-500 transition-all duration-200 shadow"
           title="ویرایش"
         >
