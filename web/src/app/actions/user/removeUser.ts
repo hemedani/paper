@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 export const deleteUser = async (userId: string, hardCascade: boolean) => {
   const token = (await cookies()).get("token");
-  const removeUser = await paperApi().send(
+  return await paperApi().send(
     {
       service: "main",
       model: "user",
@@ -16,8 +16,4 @@ export const deleteUser = async (userId: string, hardCascade: boolean) => {
     },
     { token: token?.value }
   );
-
-  if (removeUser.body) {
-    return removeUser.body;
-  }
 };

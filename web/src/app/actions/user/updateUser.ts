@@ -5,10 +5,9 @@ import { cookies } from "next/headers";
 
 export type UpdateUserSet = ReqType["main"]["user"]["updateUser"]["set"];
 
-export const EditUser = async (data: UpdateUserSet) => {
-
+export const updateUserPure = async (data: UpdateUserSet) => {
   const token = (await cookies()).get("token");
-  const updateUser = await paperApi().send(
+  return await paperApi().send(
     {
       service: "main",
       model: "user",
@@ -25,6 +24,4 @@ export const EditUser = async (data: UpdateUserSet) => {
     },
     { token: token?.value }
   );
-
-  if (updateUser.success) return updateUser.body;
 };
