@@ -1,4 +1,4 @@
-import { setTokens, setUser } from "@paper/lib";
+import { grantAccess, setTokens, setUser } from "@paper/lib";
 import { coreApp } from "../../../mod.ts";
 import { updateUserFn } from "./updateUser.fn.ts";
 import { updateUserValidator } from "./updateUser.val.ts";
@@ -11,6 +11,9 @@ export const updateUserSetup = () =>
 		preAct: [
 			setTokens,
 			setUser,
+			grantAccess({
+				levels: ["Manager"],
+			}),
 		],
 		validator: updateUserValidator(),
 		validationRunType: "create",
