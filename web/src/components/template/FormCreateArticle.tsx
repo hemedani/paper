@@ -15,6 +15,7 @@ import { ToastNotify } from "@/utils/helper";
 import { getKeywords } from "@/app/actions/keyword/getKeywords";
 import MyAsyncMultiSelect from "../atoms/MyAsyncMultiSelect";
 import MyInput from "../atoms/MyInput";
+import Link from "next/link";
 
 // تعریف اسکیما برای اعتبارسنجی فرم
 export const ArticleCreateSchema = z.object({
@@ -55,7 +56,7 @@ export const FormCreateArticle = ({
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<ArticleFormCreateSchemaType>({
     resolver: zodResolver(ArticleCreateSchema),
   });
@@ -126,120 +127,115 @@ export const FormCreateArticle = ({
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-gray-100 p-6 border rounded-lg">
       <h2 className="text-xl font-semibold mb-6">ایجاد مقاله جدید</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium text-gray-700">
-              عکس مقاله
-            </span>
-            <UploadImage
-              inputName="avatar"
-              setUploadedImage={(uploaded: string) => setValue("avatar", uploaded)}
-              type="image"
-              token={token}
-              lesanUrl={lesanUrl}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium text-gray-700">فایل مقاله</span>
-            <UploadImage
-              inputName="doc"
-              setUploadedImage={(uploaded: string) => setValue("doc", uploaded)}
-              lesanUrl={lesanUrl}
-              type="doc"
-              token={token}
-            />
-          </div>
+      <div className="flex flex-wrap w-full">
+        <div className="w-1/2 p-4">
+          <span className="text-sm font-medium text-gray-700">
+            عکس مقاله
+          </span>
+          <UploadImage
+            inputName="avatar"
+            setUploadedImage={(uploaded: string) => setValue("avatar", uploaded)}
+            type="image"
+            token={token}
+            lesanUrl={lesanUrl}
+          />
+        </div>
+        <div className="w-1/2 p-4">
+          <span className="text-sm font-medium text-gray-700">فایل مقاله</span>
+          <UploadImage
+            inputName="doc"
+            setUploadedImage={(uploaded: string) => setValue("doc", uploaded)}
+            lesanUrl={lesanUrl}
+            type="doc"
+            token={token}
+          />
         </div>
 
         <MyInput label="عنوان" register={register} name="title" errMsg={errors.title?.message} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <MyAsyncMultiSelect
+          errMsg={errors.tags?.message}
+          name="tags"
+          label="برچسب"
+          loadOptions={loadTagOptions}
+          setValue={setValue}
+          defaultOptions />
 
+        <MyAsyncMultiSelect
+          errMsg={errors.keywords?.message}
+          name="keywords"
+          label="کلمات کلیدی"
+          loadOptions={loadKeywordOptions}
+          setValue={setValue}
+          defaultOptions />
 
-          <MyAsyncMultiSelect
-            errMsg={errors.tags?.message}
-            name="tags"
-            label="برچسب"
-            loadOptions={loadTagOptions}
-            setValue={setValue}
-            defaultOptions />
+        <MyAsyncMultiSelect
+          errMsg={errors.authors?.message}
+          name="authors"
+          label="نویسندگان"
+          loadOptions={loadAuthorOptions}
+          setValue={setValue}
+          defaultOptions />
 
-          <MyAsyncMultiSelect
-            errMsg={errors.keywords?.message}
-            name="keywords"
-            label="کلمات کلیدی"
-            loadOptions={loadKeywordOptions}
-            setValue={setValue}
-            defaultOptions />
-
-          <MyAsyncMultiSelect
-            errMsg={errors.authors?.message}
-            name="authors"
-            label="نویسندگان"
-            loadOptions={loadAuthorOptions}
-            setValue={setValue}
-            defaultOptions />
-
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="publicationId"
-              className="text-sm font-medium text-gray-700"
-            >
-              انتشار
-            </label>
-            <AsyncSelect
-              cacheOptions
-              loadOptions={loadPublicationOptions}
-              defaultOptions
-              onChange={handlePublicationChange}
-              placeholder="انتشار را انتخاب کنید"
-              classNamePrefix="react-select"
-            />
-            {errors.publication && (
-              <span className="text-red-500 text-xs">
-                {errors.publication.message}
-              </span>
-            )}
-          </div>
-          <SelectBox
-            label="نوع مقاله"
-            name="articleType"
-            setValue={setValue}
-            errMsg={errors.articleType?.message}
-            options={[
-              { value: "journalArticle", label: "مقاله ژورنال" },
-              { value: "book", label: "کتاب" },
-            ]}
+        <div className="w-1/2 p-4">
+          <label
+            htmlFor="publicationId"
+            className="text-sm font-medium text-gray-700"
+          >
+            انتشار
+          </label>
+          <AsyncSelect
+            cacheOptions
+            loadOptions={loadPublicationOptions}
+            defaultOptions
+            onChange={handlePublicationChange}
+            placeholder="انتشار را انتخاب کنید"
+            classNamePrefix="react-select"
           />
-          <MyInput label="کلید" register={register} name="key" errMsg={errors.key?.message} />
+          {errors.publication && (
+            <span className="text-red-500 text-xs">
+              {errors.publication.message}
+            </span>
+          )}
         </div>
+        <SelectBox
+          label="نوع مقاله"
+          name="articleType"
+          setValue={setValue}
+          errMsg={errors.articleType?.message}
+          options={[
+            { value: "journalArticle", label: "مقاله ژورنال" },
+            { value: "book", label: "کتاب" },
+          ]}
+        />
+        <MyInput label="کلید" register={register} name="key" errMsg={errors.key?.message} />
 
         <MyInput label="چکیده" register={register} name="abstract" type="textarea" errMsg={errors.abstract?.message} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <MyInput label="ISBN" register={register} name="ISBN" errMsg={errors.ISBN?.message} />
-          <MyInput label="ISNN" register={register} name="ISNN" errMsg={errors.ISNN?.message} />
-          <MyInput label="DOI" register={register} name="DOI" errMsg={errors.DOI?.message} />
-          <MyInput label="URL" register={register} name="URL" errMsg={errors.URL?.message} />
-          <MyInput label="صفحات" register={register} name="page" errMsg={errors.page?.message} />
-          <MyInput label="سال انتشار" register={register} name="publicationYear" errMsg={errors.publicationYear?.message} />
-          <MyInput label="شماره موضوع" type="number" register={register} name="issue" errMsg={errors.issue?.message} />
-          <MyInput label="جلد" type="number" register={register} name="volume" errMsg={errors.volume?.message} />
-        </div>
+        <MyInput label="ISBN" register={register} name="ISBN" errMsg={errors.ISBN?.message} />
+        <MyInput label="ISNN" register={register} name="ISNN" errMsg={errors.ISNN?.message} />
+        <MyInput label="DOI" register={register} name="DOI" errMsg={errors.DOI?.message} />
+        <MyInput label="URL" register={register} name="URL" errMsg={errors.URL?.message} />
+        <MyInput label="صفحات" register={register} name="page" errMsg={errors.page?.message} />
+        <MyInput label="سال انتشار" register={register} name="publicationYear" errMsg={errors.publicationYear?.message} />
+        <MyInput label="شماره موضوع" type="number" register={register} name="issue" errMsg={errors.issue?.message} />
+        <MyInput label="جلد" type="number" register={register} name="volume" errMsg={errors.volume?.message} />
+      </div>
 
-        <div className="flex justify-end space-x-4">
-          <button
-            type="submit"
-            className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-          >
-            ارسال
-          </button>
-        </div>
-      </form>
-    </div>
+      <div className={`w-full flex gap-4`}>
+        <button
+          type="submit"
+          disabled={isSubmitting || !isValid}
+          className="w-1/2 p-4 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700"
+        >
+          ارسال
+        </button>
+        <Link href="/admin/articles" className="w-1/2 p-4 bg-gray-600 text-white text-center font-semibold rounded-lg hover:bg-gray-700">
+          بازگشت
+        </Link>
+      </div>
+    </form>
   );
 };

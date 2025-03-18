@@ -32,7 +32,7 @@ const MyAsyncMultiSelect = <Option, Group extends GroupBase<Option>, T extends F
 }: InputProps<Option, Group, T>) => {
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="w-1/2 p-4 flex flex-col gap-2">
       <label htmlFor="tags" className="text-sm font-medium text-gray-700">
         {label}
       </label>

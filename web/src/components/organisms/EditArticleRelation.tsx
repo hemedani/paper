@@ -14,6 +14,7 @@ import { EditArticle } from "@/app/actions/article/editRelationArticle";
 import { ToastNotify } from "@/utils/helper";
 import MyAsyncMultiSelect from "../atoms/MyAsyncMultiSelect";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const FormSchema = z.object({
   avatar: z.optional(z.string()),
@@ -156,59 +157,57 @@ export const EditArticleRelationForm = ({
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-gray-100 p-6 border rounded-lg">
       <h2 className="text-xl font-semibold mb-6">فرم ویرایش رابطه‌ها</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium text-gray-700">
-              عکس مقاله
-            </span>
-            <UploadImage
-              inputName="avatar"
-              setUploadedImage={(uploaded: string) => setValue("avatar", uploaded)}
-              type="image"
-              token={token}
-              lesanUrl={lesanUrl}
-              filePath={defaultValues?.avatar ? defaultValues.avatar.name : ""}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium text-gray-700">فایل مقاله</span>
-            <UploadImage
-              inputName="doc"
-              setUploadedImage={(uploaded: string) => setValue("doc", uploaded)}
-              lesanUrl={lesanUrl}
-              type="doc"
-              token={token}
-              filePath={defaultValues?.doc ? defaultValues.doc.name : ""}
-            />
-          </div>
+      <div className="flex flex-wrap w-full">
+
+        <div className="w-1/2 p-4">
+          <span className="text-sm font-medium text-gray-700">
+            عکس مقاله
+          </span>
+          <UploadImage
+            inputName="avatar"
+            setUploadedImage={(uploaded: string) => setValue("avatar", uploaded)}
+            type="image"
+            token={token}
+            lesanUrl={lesanUrl}
+            filePath={defaultValues?.avatar ? defaultValues.avatar.name : ""}
+          />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="publicationId"
-              className="text-sm font-medium text-gray-700"
-            >
-              انتشارات
-            </label>
-            <AsyncSelect
-              cacheOptions
-              loadOptions={loadPublicationOptions}
-              defaultOptions
-              onChange={handlePublicationChange}
-              placeholder="انتشارات را انتخاب کنید"
-              classNamePrefix="react-select"
-              defaultValue={defaultPublicationOption}
-            />
-            {errors.publication && (
-              <span className="text-red-500 text-xs">
-                {errors.publication.message}
-              </span>
-            )}
-          </div>
+        <div className="w-1/2 p-4">
+          <span className="text-sm font-medium text-gray-700">فایل مقاله</span>
+          <UploadImage
+            inputName="doc"
+            setUploadedImage={(uploaded: string) => setValue("doc", uploaded)}
+            lesanUrl={lesanUrl}
+            type="doc"
+            token={token}
+            filePath={defaultValues?.doc ? defaultValues.doc.name : ""}
+          />
+        </div>
+
+        <div className="w-1/2 p-4 flex flex-col gap-2">
+          <label
+            htmlFor="publicationId"
+            className="text-sm font-medium text-gray-700"
+          >
+            انتشارات
+          </label>
+          <AsyncSelect
+            cacheOptions
+            loadOptions={loadPublicationOptions}
+            defaultOptions
+            onChange={handlePublicationChange}
+            placeholder="انتشارات را انتخاب کنید"
+            classNamePrefix="react-select"
+            defaultValue={defaultPublicationOption}
+          />
+          {errors.publication && (
+            <span className="text-red-500 text-xs">
+              {errors.publication.message}
+            </span>
+          )}
         </div>
 
         <MyAsyncMultiSelect
@@ -238,15 +237,16 @@ export const EditArticleRelationForm = ({
           defaultOptions
           defaultValue={defaultAuthorOptions} />
 
-        <div className="flex justify-end space-x-4">
-          <button
-            type="submit"
-            className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-          >
-            ارسال
-          </button>
-        </div>
-      </form>
-    </div>
+      </div>
+
+      <div className={`w-full flex gap-4`}>
+        <button className="w-1/2 p-4 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700">
+          ارسال
+        </button>
+        <Link href="/admin/articles" className="w-1/2 p-4 bg-gray-600 text-white text-center font-semibold rounded-lg hover:bg-gray-700">
+          بازگشت
+        </Link>
+      </div>
+    </form>
   );
 };

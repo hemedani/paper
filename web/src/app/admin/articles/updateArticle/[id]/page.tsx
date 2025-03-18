@@ -23,12 +23,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     },
   });
 
-  return (
-    <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
-      <h1 className="text-2xl text-gray-600 font-bold">ویرایش مقاله</h1>
-      <FormUpdateArticle defaultValues={getArticle} />
-    </div>
-  );
+  return (<FormUpdateArticle defaultValues={getArticle} />);
 };
 
 export default Page;
