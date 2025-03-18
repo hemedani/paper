@@ -23,7 +23,7 @@ export type userSchema = {
   personnel_number: string;
   national_number: string;
   address: string;
-  level: ("Ghost" | "Manager" | "Editor");
+  level: ("Ghost" | "Manager" | "Editor" | "Normal");
   isVerified: boolean;
   createdAt?: Date;
   updatedAt?: Date;
@@ -101,7 +101,7 @@ export type publicationSchema = {
     personnel_number: string;
     national_number: string;
     address: string;
-    level: ("Ghost" | "Manager" | "Editor");
+    level: ("Ghost" | "Manager" | "Editor" | "Normal");
     isVerified: boolean;
     createdAt?: Date;
     updatedAt?: Date;
@@ -134,7 +134,7 @@ export type authorSchema = {
     personnel_number: string;
     national_number: string;
     address: string;
-    level: ("Ghost" | "Manager" | "Editor");
+    level: ("Ghost" | "Manager" | "Editor" | "Normal");
     isVerified: boolean;
     createdAt?: Date;
     updatedAt?: Date;
@@ -166,7 +166,7 @@ export type tagSchema = {
     personnel_number: string;
     national_number: string;
     address: string;
-    level: ("Ghost" | "Manager" | "Editor");
+    level: ("Ghost" | "Manager" | "Editor" | "Normal");
     isVerified: boolean;
     createdAt?: Date;
     updatedAt?: Date;
@@ -198,7 +198,7 @@ export type keywordSchema = {
     personnel_number: string;
     national_number: string;
     address: string;
-    level: ("Ghost" | "Manager" | "Editor");
+    level: ("Ghost" | "Manager" | "Editor" | "Normal");
     isVerified: boolean;
     createdAt?: Date;
     updatedAt?: Date;
@@ -247,7 +247,7 @@ export type articleSchema = {
     personnel_number: string;
     national_number: string;
     address: string;
-    level: ("Ghost" | "Manager" | "Editor");
+    level: ("Ghost" | "Manager" | "Editor" | "Normal");
     isVerified: boolean;
     createdAt?: Date;
     updatedAt?: Date;
@@ -305,7 +305,7 @@ export type articleSchema = {
     personnel_number: string;
     national_number: string;
     address: string;
-    level: ("Ghost" | "Manager" | "Editor");
+    level: ("Ghost" | "Manager" | "Editor" | "Normal");
     isVerified: boolean;
     createdAt?: Date;
     updatedAt?: Date;
@@ -343,7 +343,7 @@ export type blogSchema = {
     personnel_number: string;
     national_number: string;
     address: string;
-    level: ("Ghost" | "Manager" | "Editor");
+    level: ("Ghost" | "Manager" | "Editor" | "Normal");
     isVerified: boolean;
     createdAt?: Date;
     updatedAt?: Date;
@@ -385,7 +385,7 @@ export type fileSchema = {
     personnel_number: string;
     national_number: string;
     address: string;
-    level: ("Ghost" | "Manager" | "Editor");
+    level: ("Ghost" | "Manager" | "Editor" | "Normal");
     isVerified: boolean;
     createdAt?: Date;
     updatedAt?: Date;
@@ -415,7 +415,7 @@ export type ReqType = {
           personnel_number: string;
           national_number: string;
           address: string;
-          level: ("Ghost" | "Manager" | "Editor");
+          level: ("Ghost" | "Manager" | "Editor" | "Normal");
           createdAt?: Date;
           updatedAt?: Date;
           avatar?: string;
@@ -1251,7 +1251,7 @@ export type ReqType = {
 
       getUsers: {
         set: {
-          levels?: ("Ghost" | "Manager" | "Editor");
+          levels?: ("Ghost" | "Manager" | "Editor" | "Normal");
           page: number;
           limit: number;
         };
@@ -1478,7 +1478,7 @@ export type ReqType = {
 
       countUsers: {
         set: {
-          levels?: ("Ghost" | "Manager" | "Editor");
+          levels?: ("Ghost" | "Manager" | "Editor" | "Normal");
         };
         get: {
           qty: (0 | 1);
