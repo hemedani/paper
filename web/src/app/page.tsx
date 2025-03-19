@@ -138,9 +138,9 @@ export default async function Home({
   });
 
   // تبدیل لیست علاقه‌مندی‌ها به Set برای جستجوی سریع‌تر
-  const favoriteIds = new Set(
-    me?.favArticles?.map((fav: { _id: string }) => fav._id)
-  );
+  const favoriteIds: Set<string> = me.success ? new Set(
+    me.body.favArticles?.map((fav: { _id: string }) => fav._id)
+  ) : new Set();
 
   if (setSearch?.tagIds) {
     const response = await getTags({
@@ -203,7 +203,7 @@ export default async function Home({
                 key={item._id}
                 {...item}
                 isFavorite={favoriteIds.has(item._id!)}
-                level={me?.level}
+                level={me.success ? me.body.level : undefined}
               />
             ))}
           </ListCard>
