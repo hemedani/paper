@@ -18,7 +18,7 @@ export const getsFn: ActFn = async (body) => {
 	search && pipeline.push({ $match: { $text: { $search: search } } });
 	isInSwipper && pipeline.push({ $match: { isInSwipper } });
 
-	const sort = sortByLikes ? { likes: 1 } : { _id: -1 };
+	const sort = sortByLikes ? { likes: -1 } : { _id: -1 };
 
 	pipeline.push({ $sort: sort });
 	pipeline.push({ $skip: (page - 1) * limit });
