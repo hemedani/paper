@@ -4,17 +4,24 @@ import Link from "next/link";
 import { format } from "date-fns-jalali";
 import {
   CalendarIcon,
-  HeartIcon,
   ArrowUturnLeftIcon,
   ClockIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
+import { BlogDetailHeartIcon } from "@/components/molecules/BlogDetailHeartIcon";
+import { getMe } from "@/app/actions/user/getMe";
 
 const BlogDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
   const blogId = (await params).id;
-  const blog = await getBlog(blogId);
+  const { body, success } = await getBlog(blogId);
 
-  if (!blog)
+  const me = await getMe({ _id: 1, favBlogs: { _id: 1 } });
+  const favoriteIds: Set<string> = me.success ? new Set(
+    me.body.favBlogs?.map((fav: { _id: string }) => fav._id)
+  ) : new Set();
+
+
+  if (!success)
     return (
       <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-[50vh]">
         <div className="text-red-500 text-3xl font-bold mb-4">
@@ -34,23 +41,23 @@ const BlogDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
     );
 
   // Format dates
-  const persianCreatedDate = blog.createdAt
-    ? format(new Date(blog.createdAt), "dd MMMM yyyy")
+  const persianCreatedDate = body.createdAt
+    ? format(new Date(body.createdAt), "dd MMMM yyyy")
     : "";
-  const persianUpdatedDate = blog.updatedAt
-    ? format(new Date(blog.updatedAt), "dd MMMM yyyy")
+  const persianUpdatedDate = body.updatedAt
+    ? format(new Date(body.updatedAt), "dd MMMM yyyy")
     : "";
 
   // Format author name
-  const authorFullName = `${blog.author.first_name} ${blog.author.last_name}`;
+  const authorFullName = `${body.author.first_name} ${body.author.last_name}`;
 
   return (
     <article className="bg-gray-50 min-h-screen pb-16">
       {/* Hero section with image */}
       <div className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden">
         <Image
-          src={`http://127.0.0.1:1382/uploads/images/${blog.pic.name}`}
-          alt={blog.title}
+          src={`http://127.0.0.1:1382/uploads/images/${body.pic.name}`}
+          alt={body.title}
           fill
           priority
           className="object-cover"
@@ -61,11 +68,11 @@ const BlogDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 md:p-8">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 leading-tight">
-              {blog.title}
+              {body.title}
             </h1>
-            {blog.subtitle && (
+            {body.subtitle && (
               <h2 className="text-lg md:text-xl text-white/90 mb-6 font-medium">
-                {blog.subtitle}
+                {body.subtitle}
               </h2>
             )}
           </div>
@@ -84,11 +91,11 @@ const BlogDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
               <div>
                 <h3 className="font-bold text-gray-900">{authorFullName}</h3>
                 <p className="text-sm text-gray-600">
-                  {blog.author.level === "Editor"
+                  {body.author.level === "Editor"
                     ? "ویراستار"
-                    : blog.author.level === "Manager"
-                    ? "مدیر"
-                    : "نویسنده"}
+                    : body.author.level === "Manager"
+                      ? "مدیر"
+                      : "نویسنده"}
                 </p>
               </div>
             </div>
@@ -98,33 +105,30 @@ const BlogDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
                 <CalendarIcon className="h-4 w-4" />
                 <span>تاریخ انتشار: {persianCreatedDate}</span>
               </div>
-              {blog.updatedAt && blog.updatedAt !== blog.createdAt && (
+              {body.updatedAt && body.updatedAt !== body.createdAt && (
                 <div className="flex items-center gap-1">
                   <ClockIcon className="h-4 w-4" />
                   <span>بروزرسانی: {persianUpdatedDate}</span>
                 </div>
               )}
-              <div className="flex items-center gap-1">
-                <HeartIcon className="h-4 w-4 text-red-500" />
-                <span>{blog.likes || 0} لایک</span>
-              </div>
+              <BlogDetailHeartIcon likes={body.likes} isLogedIn={me.success} isLiked={favoriteIds.has(blogId)} _id={blogId} />
             </div>
           </div>
 
           {/* Content area */}
           <div className="p-4 md:p-8 lg:p-10">
             {/* Abstract */}
-            {blog.abstract && (
+            {body.abstract && (
               <div className="mb-8 bg-amber-50 p-4 md:p-6 rounded-lg border-r-4 border-amber-400">
                 <h3 className="text-lg font-bold mb-2 text-gray-800">چکیده</h3>
-                <p className="text-gray-700 leading-relaxed">{blog.abstract}</p>
+                <p className="text-gray-700 leading-relaxed">{body.abstract}</p>
               </div>
             )}
 
             {/* Main content */}
             <div className="prose prose-lg max-w-none text-right">
               <div className="text-gray-800 leading-relaxed space-y-6 whitespace-pre-line">
-                {blog.content
+                {body.content
                   .split("\n\n")
                   .map((paragraph: string, idx: number) => (
                     <p key={idx}>{paragraph}</p>
@@ -133,13 +137,13 @@ const BlogDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
             </div>
 
             {/* Author bio */}
-            {blog.author.summery && (
+            {body.author.summery && (
               <div className="mt-10 pt-8 border-t border-gray-200">
                 <h3 className="text-xl font-bold mb-4 text-gray-800">
                   درباره نویسنده
                 </h3>
                 <div className="bg-gray-50 p-4 md:p-6 rounded-lg">
-                  <p className="text-gray-700">{blog.author.summery}</p>
+                  <p className="text-gray-700">{body.author.summery}</p>
                 </div>
               </div>
             )}
@@ -147,8 +151,8 @@ const BlogDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
             {/* Actions bar */}
             <div className="mt-10 pt-6 border-t border-gray-200 flex flex-wrap justify-between items-center gap-4">
               <button className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition">
-                <HeartIcon className="h-5 w-5" />
-                <span>پسندیدن این مقاله</span>
+                <BlogDetailHeartIcon dontShowText likes={body.likes} isLogedIn={me.success} isLiked={favoriteIds.has(blogId)} _id={blogId} />
+                <span>{favoriteIds.has(blogId) ? "شما این مقاله را پسندیده اید" : "پسندیدن این مقاله"}</span>
               </button>
 
               <Link
