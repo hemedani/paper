@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 export const getBlog = async (_id: string) => {
   const token = (await cookies()).get("token");
-  const getBlog = await paperApi().send(
+  return await paperApi().send(
     {
       service: "main",
       model: "blog",
@@ -27,6 +27,7 @@ export const getBlog = async (_id: string) => {
             first_name: 1,
             last_name: 1,
           },
+          favByUsers: { _id: 1 },
           createdAt: 1,
           updatedAt: 1,
         },
@@ -34,8 +35,4 @@ export const getBlog = async (_id: string) => {
     },
     { token }
   );
-
-  console.log(getBlog);
-
-  if (getBlog.success) return getBlog.body[0];
 };
