@@ -84,6 +84,25 @@ export const userRelations = {
 			},
 		},
 	},
+	favBlogs: {
+		schemaName: "blog",
+		optional: true,
+		type: "multiple" as RelationDataType,
+		sort: {
+			field: "_id",
+			order: "desc" as RelationSortOrderType,
+		},
+		relatedRelations: {
+			favByUsers: {
+				type: "multiple" as RelationDataType,
+				limit: 50,
+				sort: {
+					field: "_id",
+					order: "desc" as RelationSortOrderType,
+				},
+			},
+		},
+	},
 };
 
 export const users = () =>
