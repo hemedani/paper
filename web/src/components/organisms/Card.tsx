@@ -21,7 +21,7 @@ export const Card = ({
   publication,
 }: Partial<articleSchema & {
   isFavorite: boolean;
-  level: "Editor" | "Manager" | "Ghost";
+  level: "Editor" | "Manager" | "Ghost" | "Normal";
 }>) => {
   const [isFavorite, setIsFavorite] = useState(initialFavorite);
   const router = useRouter();
