@@ -6,6 +6,7 @@
       avatar?: number | fileInp
 nationalCard?: number | fileInp
 favArticles?: number | articleInp
+favBlogs?: number | blogInp
       uploadedAssets?: number | fileInp
 registeredPublications?: number | publicationInp
     }
@@ -57,6 +58,17 @@ URL: string;
 page: string;
 issue: number;
 volume: number;
+createdAt?: Date;
+updatedAt?: Date;
+}[];
+favBlogs?: {
+_id?: string;
+title: string;
+subtitle: string;
+abstract: string;
+content: string;
+likes?: number;
+isInSwipper?: boolean;
 createdAt?: Date;
 updatedAt?: Date;
 }[];
@@ -317,7 +329,7 @@ updatedAt?: Date;
     export type blogInp = {
       author?: number | userInp
 pic?: number | fileInp
-      
+      favByUsers?: number | userInp
     }
 
 
@@ -356,6 +368,23 @@ size: number;
 createdAt?: Date;
 updatedAt?: Date;
 };
+favByUsers: {
+_id?: string;
+first_name: string;
+last_name: string;
+father_name: string;
+mobile: string;
+gender: ("Male" | "Female" );
+birth_date?: Date;
+summery?: string;
+personnel_number: string;
+national_number: string;
+address: string;
+level: ("Ghost" | "Manager" | "Editor" | "Normal" );
+isVerified: boolean;
+createdAt?: Date;
+updatedAt?: Date;
+}[];
 };
 ;
 
@@ -467,6 +496,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -628,6 +668,59 @@ updatedAt?: (0 | 1 );
 keywords?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+author?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+pic?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -863,6 +956,59 @@ createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+author?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+pic?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -971,6 +1117,17 @@ volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1058,6 +1215,17 @@ volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1140,6 +1308,17 @@ volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1209,6 +1388,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1415,6 +1605,59 @@ createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+author?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+pic?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1556,6 +1799,17 @@ volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -1626,6 +1880,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1840,6 +2105,17 @@ volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2044,6 +2320,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -2154,6 +2441,17 @@ volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2358,6 +2656,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -2686,6 +2995,23 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 };
 };
 
@@ -2731,6 +3057,23 @@ _id?: (0 | 1 );
 name?: (0 | 1 );
 type?: (0 | 1 );
 size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -2801,6 +3144,17 @@ volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2837,6 +3191,81 @@ national_number?: (0 | 1 );
 address?: (0 | 1 );
 level?: (0 | 1 );
 isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+nationalCard?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -2912,6 +3341,17 @@ volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -2952,6 +3392,81 @@ createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
 };
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+nationalCard?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
 };
 };
 
@@ -2973,6 +3488,88 @@ search?: string;
 };
 get: {
 qty?: (0 | 1 );
+};
+};
+
+          
+            toggleFav: {
+set: {
+blogId: string;
+};
+get: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+nationalCard?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 };
 };
 
@@ -3043,6 +3640,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -3196,6 +3804,17 @@ volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -3270,6 +3889,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -3349,6 +3979,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -3489,6 +4130,17 @@ volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -3563,6 +4215,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -3643,6 +4306,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -3818,6 +4492,17 @@ volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -3897,6 +4582,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -4036,6 +4732,17 @@ volume?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 uploadedAssets?: {
 _id?: (0 | 1 );
 name?: (0 | 1 );
@@ -4110,6 +4817,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -4190,6 +4908,17 @@ URL?: (0 | 1 );
 page?: (0 | 1 );
 issue?: (0 | 1 );
 volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
