@@ -22,20 +22,6 @@ export const toggleFavArticleFn: ActFn = async (body) => {
 		},
 	});
 
-	/*
-	 * 	@LOG @DEBUG @INFO
-	 * 	This log written by ::==> {{ `` }}
-	 *
-	 * 	Please remove your log after debugging
-	 */
-	console.log(" ============= ");
-	console.group("foundedUser ------ ");
-	console.log();
-	console.info({ foundedUser }, " ------ ");
-	console.log();
-	console.groupEnd();
-	console.log(" ============= ");
-
 	if (foundedUser) {
 		if (foundedUser.favArticles && foundedUser.favArticles.length > 0) {
 			const foundedArticleInUser = foundedUser.favArticles.find((
