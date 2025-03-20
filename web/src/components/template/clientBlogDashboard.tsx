@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface Blog {
   _id: string;
@@ -17,7 +18,10 @@ interface ClientDashboardProps {
   lesanUrl: string;
 }
 
-const ClientBlogDashboard: React.FC<ClientDashboardProps> = ({ blogs, lesanUrl }) => {
+const ClientBlogDashboard: React.FC<ClientDashboardProps> = ({
+  blogs,
+  lesanUrl,
+}) => {
   const router = useRouter();
   // const [hardCascade, setHardCascade] = useState<boolean>(false);
 
@@ -35,10 +39,12 @@ const ClientBlogDashboard: React.FC<ClientDashboardProps> = ({ blogs, lesanUrl }
             key={blog._id}
             className="bg-white rounded-xl shadow-md overflow-hidden w-64"
           >
-            <img
+            <Image
               src={`${lesanUrl}/uploads/images/${blog.pic.name}`}
               alt={blog.title}
               className="w-full h-32 object-cover"
+              width={256}
+              height={128}
             />
             <div className="p-3">
               <h2 className="text-lg font-semibold truncate">{blog.title}</h2>

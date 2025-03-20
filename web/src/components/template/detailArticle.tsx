@@ -112,59 +112,22 @@ export const DetailArticle = ({ article }: { article: articleSchema }) => {
             </div>
           </section>
 
-          {((article.authors && article.authors.length > 0) && (
+          {article.authors && article.authors.length > 0 && (
             <section className="bg-gradient-to-r from-indigo-50/50 to-cyan-50/50 p-6 rounded-2xl animate-slide-up-delay-6">
               <h2 className="text-2xl font-bold text-indigo-900 mb-6 border-r-4 border-indigo-500 pr-4">
                 نویسندگان
               </h2>
-              {article.authors.map(author => (
+              {article.authors.map((author) => (
                 <p
                   key={author._id}
                   className="text-lg text-indigo-700 cursor-pointer hover:text-indigo-900 transition-all duration-300 bg-white px-6 py-3 rounded-full inline-block shadow-sm hover:shadow-md hover:scale-105"
-                  onClick={() =>
-                    handleQuery("authorIds", author._id!)
-                  }
+                  onClick={() => handleQuery("authorIds", author._id!)}
                 >
                   {author.first_name} {author.last_name}
                 </p>
               ))}
             </section>
-          ))}
-
-
-
-          {/* Registrar Section with Card Design */}
-          <section className="bg-white p-6 rounded-2xl shadow-lg animate-slide-up-delay-3">
-            <h2 className="text-2xl font-bold text-indigo-900 mb-6 border-r-4 border-indigo-500 pr-4">
-              ثبت‌کننده
-            </h2>
-            <div className="bg-gradient-to-r from-indigo-50 to-cyan-50 p-6 rounded-xl transform transition-all duration-300 hover:scale-[1.02]">
-              <div className="flex flex-col space-y-4">
-                <div className="flex items-center space-x-4 space-x-reverse">
-                  <span className="text-indigo-900 font-semibold">
-                    نام و نام خانوادگی:
-                  </span>
-                  <span className="bg-white px-4 py-2 rounded-full text-indigo-700 font-medium shadow-sm">
-                    {article.registrar.first_name} {article.registrar.last_name}
-                  </span>
-                </div>
-                <div className="flex items-center space-x-4 space-x-reverse">
-                  <span className="text-indigo-900 font-semibold">
-                    شماره ملی:
-                  </span>
-                  <span className="bg-white px-4 py-2 rounded-full text-gray-700">
-                    {article.registrar.national_number}
-                  </span>
-                </div>
-                <div className="flex items-center space-x-4 space-x-reverse">
-                  <span className="text-indigo-900 font-semibold">جنسیت:</span>
-                  <span className="bg-white px-4 py-2 rounded-full text-gray-700">
-                    {article.registrar.gender === "Male" ? "مرد" : "زن"}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </section>
+          )}
 
           {/* Favorite Users with Enhanced Visual */}
           {article.favByUsers && article.favByUsers.length > 0 && (
@@ -194,52 +157,50 @@ export const DetailArticle = ({ article }: { article: articleSchema }) => {
               </h2>
               <p
                 className="text-lg text-indigo-700 cursor-pointer hover:text-indigo-900 transition-all duration-300 bg-white px-6 py-3 rounded-full inline-block shadow-sm hover:shadow-md hover:scale-105"
-                onClick={() =>
-                  handleQuery("publication", article.publication?.title!)
-                }
+                onClick={() => {
+                  if (article.publication?.title) {
+                    handleQuery("publication", article.publication.title);
+                  }
+                }}
               >
                 {article.publication.title}
               </p>
             </section>
           )}
 
-          {((article.tags && article.tags.length > 0) && (
+          {article.tags && article.tags.length > 0 && (
             <section className="bg-gradient-to-r from-indigo-50/50 to-cyan-50/50 p-6 rounded-2xl animate-slide-up-delay-6">
               <h2 className="text-2xl font-bold text-indigo-900 mb-6 border-r-4 border-indigo-500 pr-4">
                 برچسب ها
               </h2>
-              {article.tags.map(tag => (
+              {article.tags.map((tag) => (
                 <p
                   key={tag._id}
                   className="text-lg text-indigo-700 cursor-pointer hover:text-indigo-900 transition-all duration-300 bg-white px-6 py-3 rounded-full inline-block shadow-sm hover:shadow-md hover:scale-105"
-                  onClick={() =>
-                    handleQuery("tagIds", tag._id!)
-                  }
+                  onClick={() => handleQuery("tagIds", tag._id!)}
                 >
                   {tag.name}
                 </p>
               ))}
             </section>
-          ))}
+          )}
 
-          {((article.keywords && article.keywords.length > 0) && (
+          {article.keywords && article.keywords.length > 0 && (
             <section className="bg-gradient-to-r from-indigo-50/50 to-cyan-50/50 p-6 rounded-2xl animate-slide-up-delay-6">
               <h2 className="text-2xl font-bold text-indigo-900 mb-6 border-r-4 border-indigo-500 pr-4">
                 کلمات کلیدی
               </h2>
-              {article.keywords.map(keyword => (
+              {article.keywords.map((keyword) => (
                 <p
                   key={keyword._id}
                   className="text-lg text-indigo-700 cursor-pointer hover:text-indigo-900 transition-all duration-300 bg-white px-6 py-3 rounded-full inline-block shadow-sm hover:shadow-md hover:scale-105"
-                  onClick={() =>
-                    handleQuery("keywordIds", keyword._id!)
-                  }
+                  onClick={() => handleQuery("keywordIds", keyword._id!)}
                 >
                   {keyword.name}
                 </p>
               ))}
             </section>
-          ))}
+          )}
 
           {/* Dates Section */}
           <section className="bg-white p-6 rounded-2xl shadow-lg animate-slide-up-delay-7">
@@ -301,6 +262,21 @@ export const DetailArticle = ({ article }: { article: articleSchema }) => {
               </div>
             </section>
           )}
+
+          <section className="bg-white p-6 rounded-2xl shadow-lg animate-slide-up-delay-3">
+            <h2 className="text-2xl font-bold text-indigo-900 mb-6 border-r-4 border-indigo-500 pr-4">
+              ثبت‌کننده
+            </h2>
+            <div className="bg-gradient-to-r from-indigo-50 to-cyan-50 p-6 rounded-xl transform transition-all duration-300 hover:scale-[1.02]">
+              <div className="flex flex-col space-y-4">
+                <div className="flex items-center space-x-4 space-x-reverse">
+                  <span className="bg-white px-4 py-2 rounded-full text-indigo-700 font-medium shadow-sm">
+                    {article.registrar.first_name} {article.registrar.last_name}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
 
           {/* Download Button */}
           {article.URL && (
