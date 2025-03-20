@@ -116,8 +116,8 @@ const AdvancedSearch: React.FC<{
         .join("&");
 
       const newRoute = pageAddress
-        ? `${pageAddress}/?search=${queryString}`
-        : `/?search=${queryString}`;
+        ? `${pageAddress}/?${queryString}`
+        : `/?${queryString}`;
       router.push(newRoute);
     };
 
@@ -126,9 +126,10 @@ const AdvancedSearch: React.FC<{
         className={`transition-all duration-500 ease-in-out bg-white border rounded-lg shadow-lg mt-4 min-h-[30rem] ${isOpen ? "max-h-[1000px] opacity-100 p-6" : "max-h-0 opacity-0"
           }`}
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-gray-100 p-6 border rounded-lg">
           <h3 className="text-2xl font-bold text-gray-800">جستجوی پیشرفته</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex flex-wrap w-full">
+
             <MyAsyncMultiSelect
               label="برچسب ها"
               setValue={setValue}
@@ -157,51 +158,15 @@ const AdvancedSearch: React.FC<{
               errMsg={errors.authorIds?.message}
             />
 
-            <MyInput
-              name="title"
-              errMsg={errors.title?.message}
-              label="عنوان"
-              placeholder="عنوان مقاله"
-              register={register}
-              className="w-full text-right"
-            />
-            <MyInput
-              name="abstract"
-              errMsg={errors.abstract?.message}
-              label="چکیده"
-              placeholder="چکیده مقاله"
-              register={register}
-              className="w-full text-right"
-            />
-            <MyInput
-              name="publication"
-              errMsg={errors.publication?.message}
-              label="انتشارات"
-              register={register}
-              className="w-full text-right"
-            />
-            <MyInput
-              name="DOI"
-              errMsg={errors.publication?.message}
-              label="DOI"
-              register={register}
-              className="w-full text-right"
-            />
-            <MyInput
-              name="ISBN"
-              errMsg={errors.publication?.message}
-              label="ISBN"
-              register={register}
-              className="w-full text-right"
-            />
-            <MyInput
-              name="ISNN"
-              errMsg={errors.publication?.message}
-              label="ISNN"
-              register={register}
-              className="w-full text-right"
-            />
+            <MyInput name="title" errMsg={errors.title?.message} label="عنوان" placeholder="عنوان مقاله" register={register} />
+            <MyInput name="abstract" errMsg={errors.abstract?.message} label="چکیده" placeholder="چکیده مقاله" register={register} />
+            <MyInput name="publication" errMsg={errors.publication?.message} label="انتشارات" register={register} />
+            <MyInput name="DOI" errMsg={errors.publication?.message} label="DOI" register={register} />
+            <MyInput name="ISBN" errMsg={errors.publication?.message} label="ISBN" register={register} />
+            <MyInput name="ISNN" errMsg={errors.publication?.message} label="ISNN" register={register} />
+            <MyInput name="publicationYear" type="number" errMsg={errors.publicationYear?.message} label="سال انتشار" register={register} />
           </div>
+
           <div className="flex justify-end items-center">
             <button
               type="submit"

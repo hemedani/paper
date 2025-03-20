@@ -210,8 +210,8 @@ export const FormCreateArticle = ({
             { value: "book", label: "کتاب" },
           ]}
         />
-        <MyInput label="کلید" register={register} name="key" errMsg={errors.key?.message} />
 
+        <MyInput label="کلید" register={register} name="key" errMsg={errors.key?.message} />
         <MyInput label="چکیده" register={register} name="abstract" type="textarea" errMsg={errors.abstract?.message} />
 
         <MyInput label="ISBN" register={register} name="ISBN" errMsg={errors.ISBN?.message} />

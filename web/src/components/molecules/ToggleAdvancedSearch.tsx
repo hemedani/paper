@@ -3,8 +3,9 @@ import { useState } from "react";
 import AdvancedSearch from "../molecules/AdvancedSearch";
 import { DefaultSearchArrayValues } from "@/utils/prepareArtticleSearch";
 
-const ToggleAdvancedSearch = ({ defaultSearchArrayValues }: {
+const ToggleAdvancedSearch = ({ defaultSearchArrayValues, pageAddress }: {
   defaultSearchArrayValues: DefaultSearchArrayValues,
+  pageAddress?: string
 }) => {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
 
@@ -28,7 +29,7 @@ const ToggleAdvancedSearch = ({ defaultSearchArrayValues }: {
         className={`w-full md:w-2/3 mx-auto mt-6 overflow-hidden transition-all duration-500 ${showAdvancedSearch ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
           }`}
       >
-        <AdvancedSearch isOpen={showAdvancedSearch} defaultSearchArrayValues={defaultSearchArrayValues} />
+        <AdvancedSearch isOpen={showAdvancedSearch} defaultSearchArrayValues={defaultSearchArrayValues} pageAddress={pageAddress} />
       </div>
     </div>
   );
