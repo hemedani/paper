@@ -1,5 +1,9 @@
-import { isValidImageExtension, isValidPdfExtension } from "@/utils/checkFileExtension";
+import {
+  isValidImageExtension,
+  isValidPdfExtension,
+} from "@/utils/checkFileExtension";
 import React, { useState } from "react";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
@@ -26,7 +30,7 @@ export const UploadImage = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
       setFile(e.target.files[0]);
-      setIsUploaded(false)
+      setIsUploaded(false);
     }
   };
 
@@ -81,25 +85,43 @@ export const UploadImage = ({
         انتخاب فایل
       </label>
 
-      {(file && file.type === "image/jpeg") ? (
+      {file && file.type === "image/jpeg" ? (
         <div className="w-full h-40 mt-4 rounded-lg overflow-hidden border">
-          <img className="w-full h-full object-cover" src={URL.createObjectURL(file)} />
+          <Image
+            className="w-full h-full object-cover"
+            src={URL.createObjectURL(file)}
+            alt="Uploaded image preview"
+            width={400}
+            height={160}
+          />
         </div>
       ) : file && file.type === "application/pdf" ? (
         <div className="w-full h-40 mt-4 rounded-lg overflow-hidden border">
-          <embed className="w-full h-full object-cover" src={URL.createObjectURL(file)} />
+          <embed
+            className="w-full h-full object-cover"
+            src={URL.createObjectURL(file)}
+          />
         </div>
       ) : filePath && isValidImageExtension(filePath) ? (
         <div className="w-full h-40 mt-4 rounded-lg overflow-hidden border">
-          <img className="w-full h-full object-cover" src={`${lesanUrl}/uploads/images/${filePath}`} />
+          <Image
+            className="w-full h-full object-cover"
+            src={`${lesanUrl}/uploads/images/${filePath}`}
+            alt="Uploaded image preview"
+            width={400}
+            height={160}
+          />
         </div>
-
       ) : filePath && isValidPdfExtension(filePath) ? (
         <div className="w-full h-40 mt-4 rounded-lg overflow-hidden border">
-          <embed className="w-full h-full object-cover" src={`${lesanUrl}/uploads/docs/${filePath}`} />
+          <embed
+            className="w-full h-full object-cover"
+            src={`${lesanUrl}/uploads/docs/${filePath}`}
+          />
         </div>
-      ) : ""}
-
+      ) : (
+        ""
+      )}
 
       {file && (
         <button
@@ -110,8 +132,8 @@ export const UploadImage = ({
           {isUploaded === "uploading"
             ? "در حال بارگذاری..."
             : isUploaded
-              ? "بارگذاری موفق"
-              : "بارگذاری"}
+            ? "بارگذاری موفق"
+            : "بارگذاری"}
         </button>
       )}
     </div>

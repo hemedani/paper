@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const AboutUsPage: React.FC = () => {
@@ -28,28 +29,34 @@ const AboutUsPage: React.FC = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           <div className="text-center bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-            <img
-              src="/team1.jpg"
+            <Image
+              src="/images/team1.jpg"
               alt="عضو تیم ۱"
               className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+              width="200"
+              height="200"
             />
             <h3 className="text-xl font-semibold text-blue-900">احمد رضایی</h3>
             <p className="text-gray-600">طراح و پژوهشگر معماری</p>
           </div>
           <div className="text-center bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-            <img
-              src="/team2.jpg"
+            <Image
+              src="/images/team5.jpg"
               alt="عضو تیم ۲"
               className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+              width="200"
+              height="200"
             />
             <h3 className="text-xl font-semibold text-blue-900">سارا محمدی</h3>
             <p className="text-gray-600">متخصص محتوا</p>
           </div>
           <div className="text-center bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-            <img
-              src="/team3.jpg"
+            <Image
+              src="/images/team2.jpg"
               alt="عضو تیم ۳"
               className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+              width="200"
+              height="200"
             />
             <h3 className="text-xl font-semibold text-blue-900">علی حسینی</h3>
             <p className="text-gray-600">توسعه‌دهنده وب</p>
