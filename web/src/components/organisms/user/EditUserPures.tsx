@@ -21,16 +21,23 @@ export const UpdateUserPureSchema = z.object({
   personnel_number: z.string().optional(),
   address: z.string().optional(),
   summery: z.string().optional(),
-  level: z.enum(["Normal", "Manager", "Editor", "Ghost"], { message: "سطح الزامی است" }),
+  level: z.enum(["Normal", "Manager", "Editor", "Ghost"], {
+    message: "سطح الزامی است",
+  }),
 });
 
 export type UpdateUserPureSchemaType = z.infer<typeof UpdateUserPureSchema>;
-export type UpdateUserPureSet = ReqType["main"]["user"]["updateUser"]["set"]
+export type UpdateUserPureSet = ReqType["main"]["user"]["updateUser"]["set"];
 
-export const EditUserPures = ({ lesanUrl, ...rest }: userSchema & { lesanUrl: string }) => {
-  const { handleSubmit, setValue, register, formState: { errors } } = useForm<UpdateUserPureSet>({
+export const EditUserPures = ({ ...rest }: userSchema) => {
+  const {
+    handleSubmit,
+    setValue,
+    register,
+    formState: { errors },
+  } = useForm<UpdateUserPureSet>({
     resolver: zodResolver(UpdateUserPureSchema),
-    defaultValues: rest
+    defaultValues: rest,
   });
 
   const router = useRouter();
@@ -47,7 +54,6 @@ export const EditUserPures = ({ lesanUrl, ...rest }: userSchema & { lesanUrl: st
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="flex flex-wrap w-full">
-
         <input
           {...register("_id")}
           id="_id"
@@ -57,21 +63,58 @@ export const EditUserPures = ({ lesanUrl, ...rest }: userSchema & { lesanUrl: st
           hidden
         />
 
-        <MyInput label="نام" register={register} name="first_name" errMsg={errors.father_name?.message} />
-        <MyInput label="نام خانوادگی" register={register} name="last_name" errMsg={errors.last_name?.message} />
-        <MyInput label="نام پدر" register={register} name="father_name" errMsg={errors.father_name?.message} />
-        <MyInput label="شماره شماسنامه" register={register} name="personnel_number" type="number" errMsg={errors.personnel_number?.message} />
-        <MyInput label="آدرس" register={register} name="address" errMsg={errors.address?.message} />
-        <MyInput label="توضیحات" register={register} name="summery" errMsg={errors.summery?.message} />
+        <MyInput
+          label="نام"
+          register={register}
+          name="first_name"
+          errMsg={errors.father_name?.message}
+        />
+        <MyInput
+          label="نام خانوادگی"
+          register={register}
+          name="last_name"
+          errMsg={errors.last_name?.message}
+        />
+        <MyInput
+          label="نام پدر"
+          register={register}
+          name="father_name"
+          errMsg={errors.father_name?.message}
+        />
+        <MyInput
+          label="شماره شماسنامه"
+          register={register}
+          name="personnel_number"
+          type="number"
+          errMsg={errors.personnel_number?.message}
+        />
+        <MyInput
+          label="آدرس"
+          register={register}
+          name="address"
+          errMsg={errors.address?.message}
+        />
+        <MyInput
+          label="توضیحات"
+          register={register}
+          name="summery"
+          errMsg={errors.summery?.message}
+        />
 
         <div className={`w-1/2 p-4 flex flex-col gap-1`}>
           <label htmlFor="birth_date">تاریخ تولد</label>
           <DatePicker
-            className={`text-gray-600 border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-700 bg-gray-100 ${errors.birth_date?.message ? "border-red-500" : "border-gray-300"}`
-            }
+            className={`text-gray-600 border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-700 bg-gray-100 ${
+              errors.birth_date?.message ? "border-red-500" : "border-gray-300"
+            }`}
             defaultValue={rest.birth_date}
-            onChange={(e) => setValue("birth_date", e.value)} />
-          {errors.birth_date?.message && (<span className="text-red-500 text-xs">{errors.birth_date?.message}</span>)}
+            onChange={(e) => setValue("birth_date", e.value)}
+          />
+          {errors.birth_date?.message && (
+            <span className="text-red-500 text-xs">
+              {errors.birth_date?.message}
+            </span>
+          )}
         </div>
 
         <SelectBox
@@ -83,7 +126,10 @@ export const EditUserPures = ({ lesanUrl, ...rest }: userSchema & { lesanUrl: st
             { value: "Male", label: "مرد" },
             { value: "Female", label: "زن" },
           ]}
-          defaultValue={{ value: rest.gender, label: translateGender(rest.gender) }}
+          defaultValue={{
+            value: rest.gender,
+            label: translateGender(rest.gender),
+          }}
         />
         <SelectBox
           label="سطح دسترسی"
@@ -96,7 +142,10 @@ export const EditUserPures = ({ lesanUrl, ...rest }: userSchema & { lesanUrl: st
             { value: "Editor", label: "ویرایشگر" },
             { value: "Normal", label: "عادی" },
           ]}
-          defaultValue={{ value: rest.level, label: translateLevel(rest.level) }}
+          defaultValue={{
+            value: rest.level,
+            label: translateLevel(rest.level),
+          }}
         />
       </div>
 
@@ -104,11 +153,13 @@ export const EditUserPures = ({ lesanUrl, ...rest }: userSchema & { lesanUrl: st
         <button className="w-1/2 p-4 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700">
           ارسال
         </button>
-        <Link href="/admin/users" className="w-1/2 p-4 bg-gray-600 text-white text-center font-semibold rounded-lg hover:bg-gray-700">
+        <Link
+          href="/admin/users"
+          className="w-1/2 p-4 bg-gray-600 text-white text-center font-semibold rounded-lg hover:bg-gray-700"
+        >
           بازگشت
         </Link>
       </div>
-
     </form>
   );
 };

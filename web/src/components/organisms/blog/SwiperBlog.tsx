@@ -16,8 +16,6 @@ import "swiper/css/autoplay";
 import { blogSchema } from "@/types/declarations/selectInp";
 import { FeaturedBlogCard } from "./FeatureBlogCard";
 
-
-
 export const SwiperBlog = ({
   swiperBlogPosts,
   isLogedIn,

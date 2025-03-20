@@ -2,7 +2,6 @@ import { blogSchema } from "@/types/declarations/selectInp"
 import Link from "next/link"
 import { BlogCard } from "./BlogCard"
 
-
 export const MainBlog = ({
   blogs,
   lesanUrl,
