@@ -8,7 +8,7 @@ const UserLayout = async ({ children }: { children: ReactNode }) => {
   const menuItems = [
     { label: "اطلاعات کاربری", href: "/user" },
     { label: "علاقه مندی ها", href: "/user/favorite" },
-    me.level === "Ghost" ? { label: "پنل ادمین", href: "/admin" } : null,
+    me.success && me.body.level === "Ghost" ? { label: "پنل ادمین", href: "/admin" } : null,
   ];
 
   const filteredMenuItems = menuItems.filter((item) => item !== null) as {

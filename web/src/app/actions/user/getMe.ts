@@ -18,7 +18,6 @@ export const getMe = async (get?: ReqType["main"]["user"]["getMe"]["get"]) => {
       _id: 1,
       title: 1,
       articleType: 1,
-      // authors: 1,
       abstract: 1,
     },
   };

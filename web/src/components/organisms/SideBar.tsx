@@ -3,6 +3,7 @@
 import React, { FC } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 const menuItems = [
   { label: "داشبورد", href: "/admin" },
@@ -22,10 +23,10 @@ type TProps = {
 
 export const AdminSidebar: FC<TProps> = ({ menuItemsProps }) => {
   const router = useRouter();
+  const { logout } = useAuth();
 
   const logOutHandler = async () => {
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    router.replace("/");
+    logout();
   };
 
   return (
@@ -37,25 +38,25 @@ export const AdminSidebar: FC<TProps> = ({ menuItemsProps }) => {
         <ul className="space-y-2 p-4">
           {!menuItemsProps
             ? menuItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="block px-3 py-2 rounded-md hover:bg-gray-700 transition"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="block px-3 py-2 rounded-md hover:bg-gray-700 transition"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))
             : menuItemsProps.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="block px-3 py-2 rounded-md hover:bg-gray-700 transition"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="block px-3 py-2 rounded-md hover:bg-gray-700 transition"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
         </ul>
       </nav>
       <div

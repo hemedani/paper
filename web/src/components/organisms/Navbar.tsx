@@ -3,9 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { HamburgerMenu, IconLogo, IconUser } from "../atoms/Icons";
+import { useAuth } from "@/context/AuthContext";
 
-export const Navbar = ({ level }: { level: string }) => {
+export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isAuthenticated, userLevel, logout } = useAuth();
 
   return (
     <header className="fixed top-0 left-0 w-full bg-white shadow-md border-b border-gray-200 z-50">
@@ -87,7 +89,7 @@ export const Navbar = ({ level }: { level: string }) => {
         {/* User Links and Hamburger */}
         <div className="flex items-center gap-6">
           <div className="hidden md:flex items-center gap-4">
-            {level === "Ghost" && (
+            {isAuthenticated && (userLevel === "Ghost" || userLevel === "Manager" || userLevel === "Editor") && (
               <Link
                 href="/admin"
                 className="text-gray-800 hover:text-blue-600 transition-colors duration-300"
@@ -95,15 +97,25 @@ export const Navbar = ({ level }: { level: string }) => {
                 پنل ادمین
               </Link>
             )}
-            {(level === "Manager" || level === "Editor") && (
-              <Link
-                href="/user"
-                className="text-gray-800 hover:text-blue-600 transition-colors duration-300"
+            {isAuthenticated &&
+              (userLevel === "Normal") && (
+                <Link
+                  href="/user"
+                  className="text-gray-800 hover:text-blue-600 transition-colors duration-300"
+                >
+                  پنل کاربری
+                </Link>
+              )}
+            {isAuthenticated && (
+              <button
+                onClick={logout}
+                className="flex items-center gap-2 text-gray-800 hover:text-blue-600 transition-colors duration-300"
               >
-                پنل کاربری
-              </Link>
+                <span>خروج</span>
+                <IconUser />
+              </button>
             )}
-            {!level && (
+            {!isAuthenticated && (
               <Link
                 href="/login"
                 className="flex items-center gap-2 text-gray-800 hover:text-blue-600 transition-colors duration-300"
@@ -189,7 +201,7 @@ export const Navbar = ({ level }: { level: string }) => {
             >
               حریم خصوصی
             </Link>
-            {level === "Ghost" && (
+            {isAuthenticated && (userLevel === "Ghost" || userLevel === "Manager" || userLevel === "Editor") && (
               <Link
                 href="/admin"
                 className="text-gray-800 hover:text-blue-600 py-2"
@@ -198,16 +210,27 @@ export const Navbar = ({ level }: { level: string }) => {
                 پنل ادمین
               </Link>
             )}
-            {(level === "Manager" || level === "Editor") && (
-              <Link
-                href="/user"
+            {isAuthenticated &&
+              (userLevel === "Normal") && (
+                <Link
+                  href="/user"
+                  className="text-gray-800 hover:text-blue-600 py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  پنل کاربری
+                </Link>
+              )}
+            {isAuthenticated ? (
+              <button
                 className="text-gray-800 hover:text-blue-600 py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  logout();
+                }}
               >
-                پنل کاربری
-              </Link>
-            )}
-            {!level && (
+                خروج
+              </button>
+            ) : (
               <Link
                 href="/login"
                 className="text-gray-800 hover:text-blue-600 py-2"

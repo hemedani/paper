@@ -1,8 +1,6 @@
 "use server";
 
 import { paperApi } from "@/services/api";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export const loginAction = async ({
   national_number,
@@ -33,13 +31,6 @@ export const loginAction = async ({
       },
     },
   });
-  
-  if (logReq.success) {
-    (await cookies()).set("national_number",national_number);
-    (await cookies()).set("token",logReq.body.token);
-    (await cookies()).set("user",logReq.body.user)
-    redirect("/");
-  } else {
-    return logReq.body;
-  }
+
+  return logReq;
 };

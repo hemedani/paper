@@ -4,6 +4,8 @@ import { Toaster } from "react-hot-toast";
 import { Navbar } from "@/components/organisms/Navbar";
 import { getMe } from "./actions/user/getMe";
 import { Footer } from "@/components/organisms/NewFooter";
+import { AuthProvider } from "@/context/AuthContext";
+import { AuthInitializer } from "@/components/AuthInitializer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,16 +17,27 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // We still need to get the user on the server for initial state
   const me = await getMe();
+  const isAuthenticated = me.success;
+  const userLevel = me.success ? me.body.level : null;
+
   return (
     <html lang="fa" dir="rtl">
       <body className={``}>
-        <div className="h-screen">
-          <Navbar level={me?.level} />
-          <div className="flex-1 p-6 bg-gray-300 mt-16">{children}</div>
-          <Footer />
-        </div>
-        <Toaster position="top-center" reverseOrder={false} />
+        <AuthProvider>
+          {/* Initialize auth state with server data */}
+          <AuthInitializer
+            isAuthenticated={isAuthenticated}
+            userLevel={userLevel}
+          />
+          <div className="h-screen">
+            <Navbar />
+            <div className="flex-1 p-6 bg-gray-300 mt-16">{children}</div>
+            <Footer />
+          </div>
+          <Toaster position="top-center" reverseOrder={false} />
+        </AuthProvider>
       </body>
     </html>
   );
