@@ -11,7 +11,7 @@ const validLevels = ["Ghost", "Manager", "Editor", "Normal"];
 
 interface AuthInitializerProps {
   isAuthenticated: boolean;
-  userLevel: any; // Allow any type for server data
+  userLevel: UserLevel; // Allow any type for server data
 }
 
 export function AuthInitializer({

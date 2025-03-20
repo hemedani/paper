@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import AdvancedSearch from "../molecules/AdvancedSearch";
-import { DefaultSearchArrayValues } from "@/app/page";
+import { DefaultSearchArrayValues } from "@/utils/prepareArtticleSearch";
 
 const ToggleAdvancedSearch = ({ defaultSearchArrayValues }: {
   defaultSearchArrayValues: DefaultSearchArrayValues,
@@ -18,8 +18,8 @@ const ToggleAdvancedSearch = ({ defaultSearchArrayValues }: {
         type="button"
         onClick={toggleAdvancedSearch}
         className={`px-4 py-2 rounded-3xl text-white w-full md:w-auto transition-all ${showAdvancedSearch
-            ? "bg-blue-500 hover:bg-blue-600"
-            : "bg-gray-600 hover:bg-gray-500"
+          ? "bg-blue-500 hover:bg-blue-600"
+          : "bg-gray-600 hover:bg-gray-500"
           }`}
       >
         {showAdvancedSearch ? "بستن جستجوی پیشرفته" : "باز کردن جستجوی پیشرفته"}

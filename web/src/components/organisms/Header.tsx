@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import AdvancedSearch from "../molecules/AdvancedSearch";
 import Input from "../atoms/Input";
-import { DefaultSearchArrayValues } from "@/app/page";
+import { DefaultSearchArrayValues } from "@/utils/prepareArtticleSearch";
 
 type SearchFormValues = {
   query: string;

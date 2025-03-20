@@ -65,7 +65,7 @@ const GraphVisualization = ({ articles }: GraphPageProps) => {
     count: number;
   } | null>(null);
   const [loading, setLoading] = useState(true);
-  const [networkReady, setNetworkReady] = useState(false);
+  // const [networkReady, setNetworkReady] = useState(false);
 
   // Track related articles for selected node
   const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
@@ -298,14 +298,14 @@ const GraphVisualization = ({ articles }: GraphPageProps) => {
     );
 
     // Set up event listeners
-    networkRef.current.on("stabilizationProgress", function(params) {
-      const progress = Math.round((params.iterations / params.total) * 100);
-      // You could update a progress bar here
-    });
+    // networkRef.current.on("stabilizationProgress", function(params) {
+    //   const progress = Math.round((params.iterations / params.total) * 100);
+    //   // You could update a progress bar here
+    // });
 
     networkRef.current.on("stabilizationIterationsDone", function() {
       setLoading(false);
-      setNetworkReady(true);
+      // setNetworkReady(true);
     });
 
     networkRef.current.on("selectNode", function(params) {

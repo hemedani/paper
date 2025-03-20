@@ -52,9 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         } catch (parseError) {
           // If it's not valid JSON, the server might have set it in a different format
           // Just use the default level
-          console.warn(
-            "Could not parse user cookie as JSON, using default level"
-          );
+          console.warn("Could not parse user cookie as JSON, using default level " + parseError);
         }
 
         setIsAuthenticated(true);
