@@ -417,7 +417,7 @@ const GraphVisualization = ({ articles }: GraphPageProps) => {
 
           {/* Info Panel */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-8">
+            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-[5.5rem]">
               {selectedNode ? (
                 <>
                   <div className="border-b border-gray-200 pb-4 mb-6">
