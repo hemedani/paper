@@ -9,7 +9,7 @@ export const loginAction = async ({
   national_number: string;
   code: string;
 }) => {
-  const logReq = await paperApi().send({
+  return await paperApi().send({
     service: "main",
     model: "user",
     act: "login",
@@ -27,10 +27,9 @@ export const loginAction = async ({
           mobile: 1,
           national_number: 1,
           personnel_number: 1,
+          level: 1
         },
       },
     },
   });
-
-  return logReq;
 };
