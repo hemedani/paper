@@ -326,9 +326,42 @@ updatedAt?: Date;
 ;
 
 
+    export type categoryInp = {
+      registrar?: number | userInp
+      
+    }
+
+
+    export type categorySchema = {
+_id?: string;
+name: string;
+createdAt?: Date;
+updatedAt?: Date;
+registrar: {
+_id?: string;
+first_name: string;
+last_name: string;
+father_name: string;
+mobile: string;
+gender: ("Male" | "Female" );
+birth_date?: Date;
+summery?: string;
+personnel_number: string;
+national_number: string;
+address: string;
+level: ("Ghost" | "Manager" | "Editor" | "Normal" );
+isVerified: boolean;
+createdAt?: Date;
+updatedAt?: Date;
+};
+};
+;
+
+
     export type blogInp = {
       author?: number | userInp
 pic?: number | fileInp
+categories?: number | categoryInp
       favByUsers?: number | userInp
     }
 
@@ -368,6 +401,12 @@ size: number;
 createdAt?: Date;
 updatedAt?: Date;
 };
+categories?: {
+_id?: string;
+name: string;
+createdAt?: Date;
+updatedAt?: Date;
+}[];
 favByUsers: {
 _id?: string;
 first_name: string;
@@ -724,6 +763,12 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+categories?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 favByUsers?: {
 _id?: (0 | 1 );
 first_name?: (0 | 1 );
@@ -988,6 +1033,12 @@ _id?: (0 | 1 );
 name?: (0 | 1 );
 type?: (0 | 1 );
 size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+categories?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -1640,6 +1691,12 @@ size?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
+categories?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
 favByUsers?: {
 _id?: (0 | 1 );
 first_name?: (0 | 1 );
@@ -1742,6 +1799,7 @@ articles?: (0 | 1 );
 blogs?: (0 | 1 );
 authors?: (0 | 1 );
 keywords?: (0 | 1 );
+categories?: (0 | 1 );
 };
 };
 
@@ -2959,6 +3017,7 @@ isInSwipper?: boolean;
 createdAt?: Date;
 updatedAt?: Date;
 pic: string;
+categories: string[];
 };
 get: {
 _id?: (0 | 1 );
@@ -2992,6 +3051,12 @@ _id?: (0 | 1 );
 name?: (0 | 1 );
 type?: (0 | 1 );
 size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+categories?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -3057,6 +3122,12 @@ _id?: (0 | 1 );
 name?: (0 | 1 );
 type?: (0 | 1 );
 size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+categories?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -3195,6 +3266,29 @@ createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
 };
+categories?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
 favByUsers?: {
 _id?: (0 | 1 );
 first_name?: (0 | 1 );
@@ -3281,6 +3375,7 @@ limit: number;
 search?: string;
 isInSwipper?: boolean;
 sortByLikes?: boolean;
+categoryIds?: string[];
 };
 get: {
 _id?: (0 | 1 );
@@ -3392,6 +3487,29 @@ createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
 };
+categories?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
 favByUsers?: {
 _id?: (0 | 1 );
 first_name?: (0 | 1 );
@@ -3485,6 +3603,8 @@ success?: (0 | 1 );
             count: {
 set: {
 search?: string;
+isInSwipper?: boolean;
+categoryIds?: string[];
 };
 get: {
 qty?: (0 | 1 );
@@ -3567,6 +3687,74 @@ updatedAt?: (0 | 1 );
 registeredPublications?: {
 _id?: (0 | 1 );
 title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+};
+
+          
+            updateRelation: {
+set: {
+_id: string;
+pic?: string;
+categories?: string[];
+};
+get: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+author?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+pic?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+categories?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favByUsers?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
 createdAt?: (0 | 1 );
 updatedAt?: (0 | 1 );
 };
@@ -4953,6 +5141,275 @@ success?: (0 | 1 );
 
           
             countKeywords: {
+set: {
+name?: string;
+};
+get: {
+qty?: (0 | 1 );
+};
+};
+
+          
+          }
+
+        
+        category: {
+
+      
+            add: {
+set: {
+name: string;
+createdAt?: Date;
+updatedAt?: Date;
+};
+get: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+};
+
+          
+            update: {
+set: {
+_id: string;
+name: string;
+};
+get: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+};
+
+          
+            get: {
+set: {
+_id: string;
+};
+get: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+nationalCard?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+};
+};
+
+          
+            gets: {
+set: {
+page: number;
+limit: number;
+name?: string;
+categoryIds?: string[];
+};
+get: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+registrar?: {
+_id?: (0 | 1 );
+first_name?: (0 | 1 );
+last_name?: (0 | 1 );
+father_name?: (0 | 1 );
+mobile?: (0 | 1 );
+gender?: (0 | 1 );
+birth_date?: (0 | 1 );
+summery?: (0 | 1 );
+personnel_number?: (0 | 1 );
+national_number?: (0 | 1 );
+address?: (0 | 1 );
+level?: (0 | 1 );
+isVerified?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+avatar?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+nationalCard?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favArticles?: {
+_id?: (0 | 1 );
+key?: (0 | 1 );
+articleType?: (0 | 1 );
+publicationYear?: (0 | 1 );
+title?: (0 | 1 );
+abstract?: (0 | 1 );
+ISBN?: (0 | 1 );
+ISNN?: (0 | 1 );
+DOI?: (0 | 1 );
+URL?: (0 | 1 );
+page?: (0 | 1 );
+issue?: (0 | 1 );
+volume?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+favBlogs?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+subtitle?: (0 | 1 );
+abstract?: (0 | 1 );
+content?: (0 | 1 );
+likes?: (0 | 1 );
+isInSwipper?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+uploadedAssets?: {
+_id?: (0 | 1 );
+name?: (0 | 1 );
+type?: (0 | 1 );
+size?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+registeredPublications?: {
+_id?: (0 | 1 );
+title?: (0 | 1 );
+createdAt?: (0 | 1 );
+updatedAt?: (0 | 1 );
+};
+};
+};
+};
+
+          
+            remove: {
+set: {
+_id: string;
+hardCascade?: boolean;
+};
+get: {
+success?: (0 | 1 );
+};
+};
+
+          
+            count: {
 set: {
 name?: string;
 };
