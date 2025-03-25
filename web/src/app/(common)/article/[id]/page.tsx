@@ -1,4 +1,5 @@
 import { getArticleAction } from "@/app/actions/article/getArticle";
+import { getArticles } from "@/app/actions/article/getArticles";
 import { DetailArticle } from "@/components/template/detailArticle";
 import { ReqType } from "@/types/declarations/selectInp";
 
@@ -38,8 +39,43 @@ export default async function ArticlePage({
     favByUsers: { _id: 1, first_name: 1, last_name: 1 },
   };
   const article = await getArticleAction({ set, get });
+  const publisherArticles = []
+  const tagArticles = []
+  const authorArticles = []
+  const keywordArticles = []
+  if (article.success) {
+    const foundedPublisherArticles = await getArticles({ set: { page: 1, limit: 5, publication: article.body.publication.name }, get });
+    if (foundedPublisherArticles.success) publisherArticles.push(...foundedPublisherArticles.body)
+
+    if (article.body.tags && article.body.tags.length > 0) {
+      const foundedTagsArticles = await getArticles({ set: { page: 1, limit: 5, tagIds: article.body.tags.map((tag: any) => tag._id) }, get });
+      if (foundedTagsArticles.success) tagArticles.push(...foundedTagsArticles.body)
+    }
+
+    if (article.body.authors && article.body.authors.length > 0) {
+      const foundedAuthorsArticles = await getArticles({ set: { page: 1, limit: 5, authorIds: article.body.authors.map((tag: any) => tag._id) }, get });
+      if (foundedAuthorsArticles.success) authorArticles.push(...foundedAuthorsArticles.body)
+    }
+
+    if (article.body.keywords && article.body.keywords.length > 0) {
+      const foundedKeywordArticles = await getArticles({ set: { page: 1, limit: 5, keywordIds: article.body.keywords.map((tag: any) => tag._id) }, get });
+      if (foundedKeywordArticles.success) keywordArticles.push(...foundedKeywordArticles.body)
+    }
+  }
 
   return (
-    <DetailArticle article={article} />
+    <>
+      {article.success ? (
+        <DetailArticle
+          article={article.body}
+          publisherArticles={publisherArticles}
+          tagArticles={tagArticles}
+          keywordArticles={keywordArticles}
+          authorArticles={authorArticles}
+        />
+      ) : (
+        <div>این مقاله پیدا نشد</div>
+      )}
+    </>
   );
 }

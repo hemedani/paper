@@ -80,7 +80,7 @@ export default async function Home({
   return (
     <div dir="rtl">
       <Header defaultSearchArrayValues={defaultSearchArrayValues} />
-      {articles?.length > 0 && (
+      {articles.success && articles.body.length > 0 && (
         <div className="bg-gradient-to-b from-gray-50 to-gray-100 py-8">
           <div className="container mx-auto px-2 sm:px-3">
             <div className="flex flex-col md:flex-row justify-between items-center mb-6">
@@ -114,14 +114,16 @@ export default async function Home({
             <FilterDescription activeFilters={activeFilters} />
 
             <ListCard>
-              {articles.map((item: Partial<articleSchema>) => (
+              {articles.success ? articles.body.map((item: Partial<articleSchema>) => (
                 <Card
                   key={item._id}
                   {...item}
                   isFavorite={favoriteIds.has(item._id!)}
                   level={me.success ? me.body.level : undefined}
                 />
-              ))}
+              )) : (
+                <div>هیچ سندی پیدا نشد</div>
+              )}
             </ListCard>
             <div className="flex justify-center items-center gap-2 pt-10">
               <Pagination

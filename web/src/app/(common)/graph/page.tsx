@@ -17,7 +17,7 @@ export default async function GraphPage({
         defaultSearchArrayValues={defaultSearchArrayValues}
         pageAddress="graph"
       />
-      <GraphVisualization articles={articles} />
+      <GraphVisualization articles={articles.success ? articles.body : []} />
     </>
   );
 }
