@@ -1,68 +1,95 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import BlogCard from "../organisms/BlogCard";
+import { ToastNotify } from "@/utils/helper";
+import { deleteBlog } from "@/app/actions/blog/deleteBlog";
+import { DeleteModal } from "./DeleteModal";
+import { blogSchema } from "@/types/declarations/selectInp";
 
-interface Blog {
-  _id: string;
-  abstract: string;
-  pic: { _id: string; name: string; type: string };
-  isInSwipper: string;
-  title: string;
-  subtitle: string;
-}
-
-interface ClientDashboardProps {
-  blogs: Blog[];
+type Props = {
+  blogs: any[];
   lesanUrl: string;
-}
+};
 
-const ClientBlogDashboard: React.FC<ClientDashboardProps> = ({
-  blogs,
-  lesanUrl,
-}) => {
+const ClientDashboard = ({ blogs, lesanUrl }: Props) => {
   const router = useRouter();
-  // const [hardCascade, setHardCascade] = useState<boolean>(false);
+  const [blogToDelete, setBlogToDelete] = useState<blogSchema | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHardCascade, setIsHardCascade] = useState(false);
+
+  const confirmDelete = (blog: blogSchema) => {
+    setBlogToDelete(blog);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (!blogToDelete) return;
+
+    const result = await deleteBlog(blogToDelete._id!, isHardCascade);
+
+    if (result.success) {
+      ToastNotify("success", "بلاگ با موفقیت حذف شد");
+      router.refresh();
+    } else {
+      ToastNotify("error", `خطا در حذف بلاگ - ${result.body.message.slice(0, 100)}`);
+    }
+
+    setIsModalOpen(false);
+    setBlogToDelete(null);
+    setIsHardCascade(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setBlogToDelete(null);
+    setIsHardCascade(false);
+  };
 
   return (
-    <div>
-      <button
-        onClick={() => router.push("/admin/blog/create-blog")}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-      >
-        ایجاد وبلاگ جدید
-      </button>
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {blogs?.map((blog) => (
-          <div
-            key={blog._id}
-            className="bg-white rounded-xl shadow-md overflow-hidden w-64"
-          >
-            <Image
-              src={`${lesanUrl}/uploads/images/${blog.pic.name}`}
-              alt={blog.title}
-              className="w-full h-32 object-cover"
-              width={256}
-              height={128}
-            />
-            <div className="p-3">
-              <h2 className="text-lg font-semibold truncate">{blog.title}</h2>
-              <p className="text-gray-600 text-sm line-clamp-2">
-                {blog.abstract}
-              </p>
-              <a
-                href={`/blog/${blog._id}`}
-                className="text-blue-500 text-sm mt-2 inline-block"
-              >
-                ادامه مطلب ←
-              </a>
-            </div>
-          </div>
-        ))}
+    <div className="mt-6">
+      <div className="absolute top-4 left-4 mb-4 flex justify-end">
+        <button
+          onClick={() => router.push("/admin/blog/new-blog")}
+          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors"
+        >
+          افزودن بلاگ جدید
+        </button>
       </div>
+
+      <div className="space-y-4">
+        {blogs && blogs.length > 0 ? (
+          blogs.map((blog) => (
+            <BlogCard
+              key={blog._id}
+              _id={blog._id}
+              title={blog.title}
+              subtitle={blog.subtitle || ""}
+              abstract={blog.abstract}
+              pic={blog.pic}
+              isInSwipper={blog.isInSwipper}
+              onDelete={() => confirmDelete(blog)}
+              lesanUrl={lesanUrl}
+            />
+          ))
+        ) : (
+          <div className="bg-white p-8 rounded-lg shadow-md text-center">
+            <p className="text-gray-600">هیچ بلاگی یافت نشد</p>
+          </div>
+        )}
+      </div>
+
+      <DeleteModal
+        isVisible={isModalOpen}
+        onConfirm={handleDelete}
+        onCancel={handleCancel}
+        message={`آیا از حذف این بلاگ پست: "${blogToDelete?.title}" مطمئن هستید؟ این عملیات غیرقابل بازگشت است.`}
+        isHardCascade={isHardCascade}
+        onHardCascadeChange={setIsHardCascade}
+      />
     </div>
   );
 };
 
-export default ClientBlogDashboard;
+export default ClientDashboard;
