@@ -190,27 +190,20 @@ export const Card = ({
       <div className="p-6 space-y-4 flex flex-col h-full">
         {/* Header Section: Article Type and Title */}
         <div className="flex flex-col gap-2">
-          {articleType && (
-            <div
-              dir="rtl"
-              className={`flex items-center gap-2 w-fit rounded-full px-3 py-1.5 text-xs font-medium bg-gradient-to-r ${getArticleTypeGradient(
-                articleType
-              )}`}
-            >
-              <span className="transition-all duration-300 transform group-hover:scale-110">
-                {getArticleTypeIcon(articleType)}
-              </span>
-              <span>{translateArticleType(articleType)}</span>
-            </div>
-          )}
-
-          <div className="flex items-start justify-between gap-4">
-            <h3
-              dir="rtl"
-              className="text-xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-indigo-600"
-            >
-              {title}
-            </h3>
+          <div className="flex justify-between">
+            {articleType && (
+              <div
+                dir="rtl"
+                className={`flex items-center gap-2 w-fit rounded-full px-3 py-1.5 text-xs font-medium bg-gradient-to-r ${getArticleTypeGradient(
+                  articleType
+                )}`}
+              >
+                <span className="transition-all duration-300 transform group-hover:scale-110">
+                  {getArticleTypeIcon(articleType)}
+                </span>
+                <span>{translateArticleType(articleType)}</span>
+              </div>
+            )}
             <button
               onClick={handleFavoriteClick}
               className="flex-shrink-0 focus:outline-none transform transition-all duration-300 hover:scale-110 active:scale-95"
@@ -219,13 +212,21 @@ export const Card = ({
               }
             >
               <div
-                className={`transition-transform duration-300 ${
-                  isHovered ? "scale-110" : "scale-100"
-                }`}
+                className={`transition-transform duration-300 ${isHovered ? "scale-110" : "scale-100"
+                  }`}
               >
                 {isFavorite ? <FavoriteIconFilled /> : <FavoriteIconOutline />}
               </div>
             </button>
+          </div>
+
+          <div className="flex items-start justify-between gap-4">
+            <h3
+              dir="rtl"
+              className="text-xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-indigo-600"
+            >
+              {title}
+            </h3>
           </div>
 
           {/* Publication and Year */}
@@ -343,11 +344,10 @@ export const Card = ({
         {/* Abstract Section with elegant reveal animation */}
         <div dir="rtl" className="relative prose prose-sm max-w-none">
           <div
-            className={`transition-all duration-500 ease-in-out ${
-              isExpanded
-                ? "max-h-[500px] opacity-100"
-                : "max-h-[4.5em] opacity-90"
-            } overflow-hidden`}
+            className={`transition-all duration-500 ease-in-out ${isExpanded
+              ? "max-h-[500px] opacity-100"
+              : "max-h-[4.5em] opacity-90"
+              } overflow-hidden`}
           >
             <p className="text-gray-700 leading-relaxed text-justify">
               {abstract}
@@ -369,9 +369,8 @@ export const Card = ({
               }}
             >
               <svg
-                className={`w-5 h-5 text-indigo-500 transition-transform duration-300 ${
-                  isExpanded ? "rotate-180" : ""
-                }`}
+                className={`w-5 h-5 text-indigo-500 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""
+                  }`}
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

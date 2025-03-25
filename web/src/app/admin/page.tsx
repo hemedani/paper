@@ -24,19 +24,25 @@ const AdminDashboard = async () => {
           description="مجموع مقالات ایجاد شده"
           title="مقالات"
           value={data?.articles}
-          bgColor="bg-green-500"
+          bgColor="bg-rose-500"
         />
         <StatCard
           description="مجموع انتشارات ایجاد شده"
           title="انتشارات"
           value={data?.publications}
-          bgColor="bg-yellow-500"
+          bgColor="bg-fuchsia-500"
         />
         <StatCard
           description="تعداد وبلاگ های سایت"
           title="وبلاگ"
           value={data?.blogs}
-          bgColor="bg-blue-500"
+          bgColor="bg-stone-500"
+        />
+        <StatCard
+          description="تعداد دسته بندی های وبلاگ"
+          title="دسته بندی"
+          value={data?.categories}
+          bgColor="bg-violet-500"
         />
         <StatCard
           description="مجموع واژه های کلیدی ایجاد شده"

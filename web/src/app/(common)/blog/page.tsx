@@ -1,4 +1,5 @@
 import { getBlogs } from "@/app/actions/blog/getBlogs";
+import { gets } from "@/app/actions/category/gets";
 import { getMe } from "@/app/actions/user/getMe";
 import { MainBlog } from "@/components/organisms/blog/MainBlog";
 import { MostLikeBlog } from "@/components/organisms/blog/MostLikeBlog";
@@ -39,6 +40,8 @@ const BlogPage = async () => {
     set: { ...set, isInSwipper: true },
     get,
   });
+
+  const categories = await gets({ set: { page: 1, limit: 20 }, get: { _id: 1, name: 1 } })
   const lesanUrl = process.env.LESAN_URL
     ? process.env.LESAN_URL
     : "http://localhost:1382";
@@ -63,7 +66,7 @@ const BlogPage = async () => {
           <div className="flex flex-col lg:flex-row gap-12">
 
             <MainBlog blogs={blogs} isLogedIn={me.success} likedPosts={favoriteIds} lesanUrl={lesanUrl} />
-            <MostLikeBlog mostLikedPosts={mostLikedPosts} isLogedIn={me.success} likedPosts={favoriteIds} lesanUrl={lesanUrl} />
+            <MostLikeBlog mostLikedPosts={mostLikedPosts} isLogedIn={me.success} likedPosts={favoriteIds} lesanUrl={lesanUrl} categories={categories.success ? categories.body : []} />
 
           </div>
         </div>

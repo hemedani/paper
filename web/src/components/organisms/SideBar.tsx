@@ -10,10 +10,11 @@ const menuItems = [
   { label: "مقالات", href: "/admin/articles" },
   { label: "کاربران", href: "/admin/users" },
   { label: "نویسندگان", href: "/admin/authors" },
-  { label: "دسته بندی ها", href: "/admin/tag" },
+  { label: "برچسب", href: "/admin/tag" },
   { label: "کلمات کلیدی", href: "/admin/keyword" },
   { label: "منتشر کننده ها", href: "/admin/publication" },
   { label: "بلاگ", href: "/admin/blog" },
+  { label: "دسته بندی (بلاگ)", href: "/admin/category" },
   { label: "پنل کاربری", href: "/user" },
 ];
 
