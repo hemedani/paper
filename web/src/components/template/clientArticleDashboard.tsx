@@ -22,8 +22,6 @@ const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles }) => {
   const router = useRouter();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
-
-  // State for hard cascade
   const [isHardCascade, setIsHardCascade] = useState(false);
 
   const handleDeleteClick = (article: Article) => {
@@ -34,50 +32,91 @@ const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles }) => {
   const handleConfirmDelete = async () => {
     if (!selectedArticle) return;
 
-    try {
-      const isSuccess = await deleteArticle(selectedArticle._id, isHardCascade);
-      if (isSuccess) {
-        ToastNotify(
-          "success",
-          `مقاله "${selectedArticle.title}" با موفقیت حذف شد.`
-        );
-        router.refresh();
-      }
-    } catch (error) {
-      console.error("خطا در حذف مقاله:", error);
-      alert("مشکلی در حذف مقاله به وجود آمده است.");
-    } finally {
-      setIsModalVisible(false);
-      setSelectedArticle(null);
-      setIsHardCascade(false); // Reset hard cascade
+    const deletedBlog = await deleteArticle(selectedArticle._id, isHardCascade);
+
+    if (deletedBlog.success) {
+      ToastNotify(
+        "success",
+        `مقاله "${selectedArticle.title}" با موفقیت حذف شد.`
+      );
+      router.refresh();
+    } else {
+      ToastNotify(
+        "error",
+        `ناموفق بود - ${deletedBlog.body.message.slice(0, 100)}`
+      );
     }
+    setIsModalVisible(false);
+    setSelectedArticle(null);
+    setIsHardCascade(false);
   };
 
   const handleCancelDelete = () => {
     setIsModalVisible(false);
     setSelectedArticle(null);
-    setIsHardCascade(false); // Reset hard cascade
+    setIsHardCascade(false);
   };
 
   return (
-    <div>
-      <Link
-        href="/admin/articles/createArticle"
-        className="absolute top-1 left-5 mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" >
-        ایجاد مقاله جدید
-      </Link>
+    <div className="mt-2 relative">
+      <div className="mb-6 flex justify-end">
+        <Link
+          href="/admin/articles/createArticle"
+          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors shadow-sm flex items-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 ml-1.5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clipRule="evenodd"
+            />
+          </svg>
+          افزودن مقاله جدید
+        </Link>
+      </div>
 
-
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {articles?.map((article) => (
-          <ArticleCard
-            key={article._id}
-            title={article.title}
-            articleType={article.articleType}
-            _id={article._id}
-            onDelete={() => handleDeleteClick(article)}
-          />
-        ))}
+      <div className="space-y-4">
+        {articles && articles.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {articles.map((article) => (
+              <ArticleCard
+                key={article._id}
+                title={article.title}
+                articleType={article.articleType}
+                _id={article._id}
+                onDelete={() => handleDeleteClick(article)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="bg-white p-8 rounded-lg shadow-md text-center border border-gray-100">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-16 w-16 mx-auto text-gray-300 mb-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+            <p className="text-gray-600 font-medium text-lg">
+              هیچ مقاله‌ای یافت نشد
+            </p>
+            <p className="text-gray-500 mt-1">
+              برای افزودن مقاله جدید از دکمه بالا استفاده کنید
+            </p>
+          </div>
+        )}
       </div>
 
       <DeleteModal
