@@ -32,14 +32,25 @@ export default async function BlogDashboard({
     set: { search },
     get: { qty: 1 },
   });
-  const lesanUrl = process.env.LESAN_URL ? process.env.LESAN_URL : "http://localhost:1382"
+  const lesanUrl = process.env.LESAN_URL
+    ? process.env.LESAN_URL
+    : "http://localhost:1382";
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
-      <h1 className="text-2xl text-gray-600 font-bold">وبلاگ</h1>
-      <SearchBox title="title" defaultValue={search} />
+    <div className="relative bg-gray-50 p-6 rounded-lg shadow-sm min-h-full">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl text-gray-700 font-bold">مدیریت وبلاگ</h1>
+      </div>
+
+      <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
+        <SearchBox title="جستجو در عنوان" defaultValue={search} />
+      </div>
+
       <ClientDashboard blogs={data} lesanUrl={lesanUrl} />
-      <Pagination countPage={countPageData?.qty} initialPage={+page} />
+
+      <div className="mt-6">
+        <Pagination countPage={countPageData?.qty} initialPage={+page} />
+      </div>
     </div>
   );
 }
