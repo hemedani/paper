@@ -3,6 +3,7 @@ import {
 	articles,
 	authors,
 	blogs,
+	categories,
 	files,
 	keywords,
 	publications,
@@ -29,6 +30,7 @@ export const publication = publications();
 export const tag = tags();
 export const author = authors();
 export const keyword = keywords();
+export const category = categories();
 
 export const { setAct, setService, getAtcsWithServices } = coreApp.acts;
 
