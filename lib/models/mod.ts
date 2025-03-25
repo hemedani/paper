@@ -6,3 +6,4 @@ export * from "./tag.ts";
 export * from "./author.ts";
 export * from "./keyword.ts";
 export * from "./publicattion.ts";
+export * from "./category.ts";

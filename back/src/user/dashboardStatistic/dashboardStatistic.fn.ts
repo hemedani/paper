@@ -3,6 +3,7 @@ import {
 	article,
 	author,
 	blog,
+	category,
 	keyword,
 	publication,
 	tag,
@@ -17,6 +18,16 @@ export const dashboardStatisticFn: ActFn = async () => {
 	const blogs = await blog.countDocument({});
 	const keywords = await keyword.countDocument({});
 	const authors = await author.countDocument({});
+	const categories = await category.countDocument({});
 
-	return { users, tags, publications, articles, keywords, blogs, authors };
+	return {
+		users,
+		tags,
+		publications,
+		articles,
+		keywords,
+		blogs,
+		authors,
+		categories,
+	};
 };

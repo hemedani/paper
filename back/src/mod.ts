@@ -6,6 +6,7 @@ import { keywordSetup } from "./keyword/mod.ts";
 import { userSetup } from "./user/mod.ts";
 import { blogSetup } from "./blog/mod.ts";
 import { authorSetup } from "./author/mod.ts";
+import { categorySetup } from "./category/mod.ts";
 
 export const functionsSetup = () => {
 	userSetup();
@@ -16,4 +17,5 @@ export const functionsSetup = () => {
 	tagSetup();
 	authorSetup();
 	keywordSetup();
+	categorySetup();
 };

@@ -7,7 +7,7 @@ export const deleteArticle = async (
   hardCascade: boolean = false
 ) => {
   const token = (await cookies()).get("token");
-  const removeArticle = await paperApi().send(
+  return await paperApi().send(
     {
       service: "main",
       model: "article",
@@ -19,8 +19,4 @@ export const deleteArticle = async (
     },
     { token: token?.value }
   );
-
-  if (removeArticle.body) {
-    return removeArticle.body;
-  }
 };

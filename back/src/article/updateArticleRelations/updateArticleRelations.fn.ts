@@ -52,13 +52,15 @@ export const updateArticleRelationsFn: ActFn = async (body) => {
 		objectIds: ObjectId[],
 		relatedRel?: string,
 	) => {
-		const removedIDs = foundedArticle![editRelations].filter((
-			foundedArRel: any,
-		) => objectIds.some((id2) => id2.equals(foundedArRel._id)));
-		const addedIDs = objectIds.filter((id2) =>
-			foundedArticle![editRelations].some((foundedRel: any) =>
-				foundedRel._id.equals(id2)
-			)
+		const removedIDs = foundedArticle![editRelations].filter(
+			(rel: any) => !objectIds.some((id2) => id2.equals(rel._id)),
+		);
+
+		const addedIDs = objectIds.filter(
+			(id2) =>
+				!foundedArticle![editRelations].some((foundedRel: any) =>
+					foundedRel._id.equals(id2)
+				),
 		);
 
 		const removeRelations: any = {
@@ -146,6 +148,6 @@ export const updateArticleRelationsFn: ActFn = async (body) => {
 			replace: true,
 		});
 	} else {
-		throwError("can not find this exam");
+		throwError("can not find this article");
 	}
 };

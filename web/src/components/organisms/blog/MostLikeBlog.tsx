@@ -1,4 +1,4 @@
-import { blogSchema } from "@/types/declarations/selectInp";
+import { blogSchema, categorySchema } from "@/types/declarations/selectInp";
 import { PopularBlogCard } from "./PopularBlogCard";
 import { Badge } from "@/components/molecules/Badge";
 
@@ -6,12 +6,14 @@ export const MostLikeBlog = ({
   mostLikedPosts,
   lesanUrl,
   likedPosts,
-  isLogedIn
+  isLogedIn,
+  categories
 }: {
   lesanUrl: string;
   mostLikedPosts: blogSchema[];
   likedPosts: Set<string>;
   isLogedIn: boolean;
+  categories: categorySchema[]
 }) => {
   return (
     <div className="lg:w-1/3 lg:border-r border-gray-200 lg:pr-10">
@@ -72,17 +74,8 @@ export const MostLikeBlog = ({
           دسته‌بندی‌ها
         </h3>
         <div className="flex flex-wrap gap-2">
-          {[
-            "تکنولوژی",
-            "سلامت",
-            "اقتصاد",
-            "فرهنگ",
-            "ورزش",
-            "سیاست",
-            "هنر",
-            "آموزش",
-          ].map((category, index) => (
-            <Badge key={index}>{category}</Badge>
+          {categories.map((category) => (
+            <Badge key={category._id}>{category.name}</Badge>
           ))}
         </div>
       </div>

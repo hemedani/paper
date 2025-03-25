@@ -11,6 +11,7 @@ export const dashboardStatisticValidator = () => {
 			blogs: optional(enums([0, 1])),
 			authors: optional(enums([0, 1])),
 			keywords: optional(enums([0, 1])),
+			categories: optional(enums([0, 1])),
 		}),
 	});
 };

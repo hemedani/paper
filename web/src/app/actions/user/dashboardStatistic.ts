@@ -19,6 +19,7 @@ export const getCounts = async () => {
           authors: 1,
           blogs: 1,
           keywords: 1,
+          categories: 1,
         },
       },
     },
