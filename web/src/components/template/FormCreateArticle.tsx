@@ -13,7 +13,7 @@ import { createArticle } from "@/app/actions/article/createArticle";
 import { getAuthors } from "@/app/actions/author/getAuthors";
 import { ToastNotify } from "@/utils/helper";
 import { getKeywords } from "@/app/actions/keyword/getKeywords";
-import MyAsyncMultiSelect from "../atoms/MyAsyncMultiSelect";
+import MyAsyncMultiSelect from "@/components/atoms/MyAsyncMultiSelect";
 import MyInput from "../atoms/MyInput";
 import Link from "next/link";
 
@@ -43,13 +43,7 @@ export const ArticleCreateSchema = z.object({
 
 export type ArticleFormCreateSchemaType = z.infer<typeof ArticleCreateSchema>;
 
-export const FormCreateArticle = ({
-  token,
-  lesanUrl
-}: {
-  token?: string;
-  lesanUrl: string;
-}) => {
+export const FormCreateArticle = ({ token, lesanUrl }: { token?: string; lesanUrl: string; }) => {
   const router = useRouter();
 
   const {
@@ -127,7 +121,9 @@ export const FormCreateArticle = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-gray-100 p-6 border rounded-lg">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-6 bg-gray-100 p-6 border rounded-lg">
       <h2 className="text-xl font-semibold mb-6">ایجاد مقاله جدید</h2>
       <div className="flex flex-wrap w-full">
         <div className="w-1/2 p-4">
