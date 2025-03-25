@@ -4,44 +4,54 @@ import { useState } from "react";
 import EntityCard from "../organisms/EntityCard";
 import { DeleteModal } from "./DeleteModal";
 import { deleteTag } from "@/app/actions/tag/removeTag";
-import ModalTag from "./ModalTag";
 import { useRouter } from "next/navigation";
 import { ToastNotify } from "@/utils/helper";
+import { remove } from "@/app/actions/category/remove";
+import CreateUpdateModal from "./CreateUpdateModal";
 
-interface Tag {
+interface TData {
   _id: string;
   name: string;
 }
 
 interface ClientDashboardProps {
-  tags: Tag[];
+  data: TData[];
+  model: "tag" | "category"
 }
 
-const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
+const ClientDashboard: React.FC<ClientDashboardProps> = ({ data, model }) => {
   const router = useRouter();
 
   const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(
     null
   );
-  const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
+  const [selectedItem, setSelectedItem] = useState<TData | null>(null);
 
   const [hardCascade, setHardCascade] = useState<boolean>(false);
 
-  const openModal = (type: "edit" | "delete", tag: Tag | null = null) => {
-    setSelectedTag(tag);
+  const openModal = (type: "edit" | "delete", item: TData | null = null) => {
+    setSelectedItem(item);
     setActiveModal(type);
   };
 
   const closeModal = () => {
     setActiveModal(null);
-    setSelectedTag(null);
+    setSelectedItem(null);
     setHardCascade(false);
   };
 
+  const persianModel = model === "tag" ? "برچسب" : "دسته بندی (وبلاگ)"
+
   const confirmDelete = async () => {
-    if (selectedTag?._id) {
-      await deleteTag(selectedTag._id, hardCascade);
-      ToastNotify("success", "برچسب با موفقیت حذف شد");
+    if (selectedItem?._id) {
+      const removedItem = model === "tag" ? await deleteTag(selectedItem._id, hardCascade) : await remove(selectedItem._id, hardCascade);
+
+      if (removedItem.succes) {
+        ToastNotify("success", `${persianModel} با موفقیت حذف شد`);
+      } else {
+        ToastNotify("error", `مشکلی در حذف ${persianModel} وجود دارد - ${removedItem.body.message}}`);
+      }
+
       router.refresh();
     }
     closeModal();
@@ -53,10 +63,10 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
         className="absolute top-1 left-5 mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
         onClick={() => openModal("edit")}
       >
-        ایجاد برچسب جدید
+        ایجاد {persianModel} جدید
       </button>
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {tags?.map((tag) => (
+        {data?.map((tag) => (
           <EntityCard
             key={tag._id}
             title={tag.name}
@@ -67,7 +77,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ tags }) => {
       </div>
 
       {activeModal === "edit" && (
-        <ModalTag isOpen onClose={closeModal} tagToEdit={selectedTag} />
+        <CreateUpdateModal isOpen onClose={closeModal} itemToEdit={selectedItem} model={model} />
       )}
 
       {activeModal === "delete" && (
