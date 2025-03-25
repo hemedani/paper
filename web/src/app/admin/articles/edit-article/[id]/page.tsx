@@ -20,11 +20,19 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const lesanUrl = process.env.LESAN_URL ? process.env.LESAN_URL : "http://localhost:1382"
 
   return (
-    <EditArticleRelationForm
-      defaultValues={getArticle}
-      token={token?.value as string}
-      lesanUrl={lesanUrl}
-    />
+    <>
+      {getArticle.success ? (
+        <EditArticleRelationForm
+          defaultValues={getArticle.body}
+          token={token?.value as string}
+          lesanUrl={lesanUrl}
+        />
+      ) : (
+        <div>
+          متاسفانه این مقاله پیدا نشد
+        </div>
+      )}
+    </>
   );
 };
 

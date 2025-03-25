@@ -3,10 +3,11 @@ import { FormUpdateBlog } from "@/components/template/FormUpdateBlog";
 import { getBlogById } from "@/app/actions/blog/getBlogById";
 import Link from "next/link";
 
-export default async function EditBlogPage({ params, }: { params: { id: string }; }) {
+export default async function EditBlogPage({ params, }: { params: Promise<{ id: string }> }) {
+  const _id = (await params).id;
 
   const blog = await getBlogById({
-    set: { _id: params.id },
+    set: { _id },
     get: {
       _id: 1,
       title: 1,

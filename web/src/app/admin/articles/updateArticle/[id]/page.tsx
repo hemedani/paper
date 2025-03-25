@@ -23,7 +23,15 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     },
   });
 
-  return (<FormUpdateArticle defaultValues={getArticle} />);
+  return (
+    <>
+      {getArticle.success ? (
+        <FormUpdateArticle defaultValues={getArticle.body} />
+      ) : (
+        <div>متاسفانه این مقاله پیدا نشد</div>
+      )}
+    </>
+  );
 };
 
 export default Page;

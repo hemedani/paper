@@ -90,7 +90,7 @@ const ArticleDashboard = async ({
           </svg>
           <h2 className="text-lg font-semibold text-gray-700">لیست مقالات</h2>
         </div>
-        <ClientArticleDashboard articles={articles} />
+        <ClientArticleDashboard articles={articles.success ? articles.body : []} />
       </div>
 
       <div className="mt-8 flex justify-center">
