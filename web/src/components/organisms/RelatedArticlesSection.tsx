@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import { articleSchema } from "@/types/declarations/selectInp";
 import Link from "next/link";
+import Image from "next/image";
 
 interface RelatedArticlesSectionProps {
   title: string;
@@ -225,10 +226,12 @@ const ElegantArticleCard = ({
         <div className="relative h-40 w-full overflow-hidden">
           {article.avatar ? (
             <div className="relative h-full w-full">
-              <img
+              <Image
                 src="/images/default-article.jpg"
                 alt={article.title}
                 className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+                width={400}
+                height={160}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-70"></div>
             </div>

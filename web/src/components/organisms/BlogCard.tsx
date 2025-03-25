@@ -2,18 +2,9 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { EditIcon, HideIcon, TrashIcon, LinkIcon } from "../atoms/Icons";
 import Image from "next/image";
+import { blogSchema } from "@/types/declarations/selectInp";
 
 type TBlog = {
-  _id: string;
-  title: string;
-  subtitle: string;
-  abstract: string;
-  pic?: {
-    _id: string;
-    name: string;
-    type: string;
-  };
-  isInSwipper?: boolean;
   onDelete: () => void;
   lesanUrl: string;
 };
@@ -27,7 +18,7 @@ export const BlogCard = ({
   isInSwipper,
   onDelete,
   lesanUrl,
-}: TBlog) => {
+}: blogSchema & TBlog) => {
   const router = useRouter();
   const imageSrc = pic?.name
     ? `${lesanUrl}/uploads/images/${pic.name}`
