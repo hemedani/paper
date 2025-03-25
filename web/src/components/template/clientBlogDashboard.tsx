@@ -9,7 +9,7 @@ import { DeleteModal } from "./DeleteModal";
 import { blogSchema } from "@/types/declarations/selectInp";
 
 type Props = {
-  blogs: any[];
+  blogs: blogSchema[];
   lesanUrl: string;
 };
 
@@ -33,7 +33,10 @@ const ClientDashboard = ({ blogs, lesanUrl }: Props) => {
       ToastNotify("success", "بلاگ با موفقیت حذف شد");
       router.refresh();
     } else {
-      ToastNotify("error", `خطا در حذف بلاگ - ${result.body.message.slice(0, 100)}`);
+      ToastNotify(
+        "error",
+        `خطا در حذف بلاگ - ${result.body.message.slice(0, 100)}`
+      );
     }
 
     setIsModalOpen(false);
@@ -63,12 +66,7 @@ const ClientDashboard = ({ blogs, lesanUrl }: Props) => {
           blogs.map((blog) => (
             <BlogCard
               key={blog._id}
-              _id={blog._id}
-              title={blog.title}
-              subtitle={blog.subtitle || ""}
-              abstract={blog.abstract}
-              pic={blog.pic}
-              isInSwipper={blog.isInSwipper}
+              {...blog}
               onDelete={() => confirmDelete(blog)}
               lesanUrl={lesanUrl}
             />

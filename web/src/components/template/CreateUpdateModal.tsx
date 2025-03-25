@@ -16,7 +16,7 @@ interface CreateUpdateModalProps {
   isOpen: boolean;
   onClose: () => void;
   itemToEdit?: { _id: string; name: string } | null;
-  model: "tag" | "category"
+  model: "tag" | "category";
 }
 
 const itemSchema = z.object({
@@ -28,10 +28,15 @@ const itemSchema = z.object({
 
 type ItemFormValues = z.infer<typeof itemSchema>;
 
-const CreateUpdateModal: React.FC<CreateUpdateModalProps> = ({ isOpen, onClose, itemToEdit, model }) => {
+const CreateUpdateModal = ({
+  isOpen,
+  onClose,
+  itemToEdit,
+  model,
+}: CreateUpdateModalProps): React.ReactElement => {
   const router = useRouter();
 
-  const persianModel = model === "tag" ? "برچسب" : "دسته بندی (وبلاگ)"
+  const persianModel = model === "tag" ? "برچسب" : "دسته بندی (وبلاگ)";
 
   const {
     register,
@@ -54,10 +59,18 @@ const CreateUpdateModal: React.FC<CreateUpdateModalProps> = ({ isOpen, onClose, 
   const onSubmit = async (data: ItemFormValues) => {
     try {
       if (itemToEdit) {
-        model === "tag" ? await EditTag(itemToEdit._id, data.name) : await update(itemToEdit._id, data.name);
+        if (model === "tag") {
+          await EditTag(itemToEdit._id, data.name);
+        } else {
+          await update(itemToEdit._id, data.name);
+        }
         ToastNotify("success", `${persianModel} با موفقیت ویرایش شد`);
       } else {
-        model === "tag" ? await createTag(data.name) : create(data.name)
+        if (model === "tag") {
+          await createTag(data.name);
+        } else {
+          await create(data.name);
+        }
         ToastNotify("success", `${persianModel} با موفقیت ایجاد شد`);
       }
       router.refresh();
@@ -71,21 +84,28 @@ const CreateUpdateModal: React.FC<CreateUpdateModalProps> = ({ isOpen, onClose, 
 
   return (
     <div
-      className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-500 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
+      className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-500 ${
+        isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+      }`}
     >
       <div
-        className={`bg-white p-6 rounded-lg shadow-lg w-1/3 transform transition-all duration-500 ${isOpen
-          ? "scale-100 opacity-100 translate-y-0"
-          : "scale-90 opacity-0 translate-y-10"
-          }`}
+        className={`bg-white p-6 rounded-lg shadow-lg w-1/3 transform transition-all duration-500 ${
+          isOpen
+            ? "scale-100 opacity-100 translate-y-0"
+            : "scale-90 opacity-0 translate-y-10"
+        }`}
       >
         <h2 className="text-lg font-bold mb-4">
           {itemToEdit ? `ویرایش ${persianModel}` : `ایجاد ${persianModel} جدید`}
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-
-          <MyInput className="w-full" errMsg={errors.name?.message} name="name" label={persianModel} register={register} />
+          <MyInput
+            className="w-full"
+            errMsg={errors.name?.message}
+            name="name"
+            label={persianModel}
+            register={register}
+          />
 
           <div className="flex justify-end mt-4 gap-2">
             <button
