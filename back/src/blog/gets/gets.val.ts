@@ -1,4 +1,12 @@
-import { boolean, number, object, optional, string } from "deps";
+import {
+	array,
+	boolean,
+	number,
+	object,
+	objectIdValidation,
+	optional,
+	string,
+} from "deps";
 import { selectStruct } from "../../../mod.ts";
 
 export const getsValidator = () => {
@@ -9,6 +17,7 @@ export const getsValidator = () => {
 			search: optional(string()),
 			isInSwipper: optional(boolean()),
 			sortByLikes: optional(boolean()),
+			categoryIds: optional(array(objectIdValidation)),
 		}),
 		get: selectStruct("blog", 2),
 	});

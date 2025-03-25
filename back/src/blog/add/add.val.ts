@@ -1,4 +1,4 @@
-import { object, objectIdValidation } from "deps";
+import { array, object, objectIdValidation } from "deps";
 import { selectStruct } from "../../../mod.ts";
 import { blogPureFields } from "@paper/lib";
 
@@ -8,6 +8,7 @@ export const addValidator = () => {
 		set: object({
 			...rest,
 			pic: objectIdValidation,
+			categories: array(objectIdValidation),
 		}),
 		get: selectStruct("blog", 1),
 	});

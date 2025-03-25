@@ -5,6 +5,7 @@ import { updateSetup } from "./update/mod.ts";
 import { removeSetup } from "./remove/mod.ts";
 import { countSetup } from "./count/mod.ts";
 import { toggleFavSetup } from "./toggleFav/mod.ts";
+import { updateRelationSetup } from "./updateRelation/mod.ts";
 
 export const blogSetup = () => {
 	addSetup();
@@ -14,4 +15,5 @@ export const blogSetup = () => {
 	removeSetup();
 	countSetup();
 	toggleFavSetup();
+	updateRelationSetup();
 };

@@ -1,4 +1,4 @@
-import type { ActFn } from "deps";
+import { type ActFn, ObjectId } from "deps";
 import { blog } from "../../../mod.ts";
 
 export const getsFn: ActFn = async (body) => {
@@ -9,6 +9,7 @@ export const getsFn: ActFn = async (body) => {
 			search,
 			isInSwipper,
 			sortByLikes,
+			categoryIds,
 		},
 		get,
 	} = body.details;
@@ -17,6 +18,15 @@ export const getsFn: ActFn = async (body) => {
 
 	search && pipeline.push({ $match: { $text: { $search: search } } });
 	isInSwipper && pipeline.push({ $match: { isInSwipper } });
+
+	categoryIds && categoryIds.length > 0 &&
+		pipeline.push({
+			$match: {
+				"categories._id": {
+					$in: categoryIds.map((_id: string) => new ObjectId(_id)),
+				},
+			},
+		});
 
 	const sort = sortByLikes ? { likes: -1 } : { _id: -1 };
 

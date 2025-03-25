@@ -41,6 +41,25 @@ export const blogRelations = {
 		optional: false,
 		relatedRelations: {},
 	},
+	categories: {
+		schemaName: "category",
+		optional: true,
+		type: "multiple" as RelationDataType,
+		sort: {
+			field: "_id",
+			order: "desc" as RelationSortOrderType,
+		},
+		relatedRelations: {
+			blogs: {
+				type: "multiple" as RelationDataType,
+				limit: 50,
+				sort: {
+					field: "_id",
+					order: "desc" as RelationSortOrderType,
+				},
+			},
+		},
+	},
 };
 
 export const blogs = () =>

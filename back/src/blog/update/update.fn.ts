@@ -22,7 +22,8 @@ export const updateFn: ActFn = async (body) => {
 	subtitle && (updateObj.subtitle = subtitle);
 	abstract && (updateObj.abstract = abstract);
 	content && (updateObj.content = content);
-	isInSwipper && (updateObj.isInSwipper = JSON.parse(isInSwipper));
+	isInSwipper !== undefined &&
+		(updateObj.isInSwipper = JSON.parse(isInSwipper));
 
 	return await blog.findOneAndUpdate({
 		filter: { _id: new ObjectId(_id) },
