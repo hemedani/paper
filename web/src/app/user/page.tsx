@@ -1,11 +1,20 @@
-const page = () => {
+import { getMe } from "@/app/actions/user/getMe";
+import UserProfileCard from "@/components/organisms/user/UserProfileCard";
+
+const Page = async () => {
+  const { body, success } = await getMe();
+
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
-      <h1 className="text-2xl text-gray-600 font-bold">پنل کاربری</h1>
-      <p className="text-gray-600">خوش آمدید!</p>
-      <div className="flex justify-evenly items-center mt-10 gap-2"></div>
+    <div className="p-6">
+      {success ? (
+        <UserProfileCard user={body} />
+      ) : (
+        <div className="bg-red-50 text-red-600 p-4 rounded-lg">
+          مشکلی در دریافت اطلاعات کاربر وجود دارد - {body.message}
+        </div>
+      )}
     </div>
   );
 };
 
-export default page;
+export default Page;
