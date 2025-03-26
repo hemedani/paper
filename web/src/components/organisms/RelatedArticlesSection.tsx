@@ -103,7 +103,7 @@ export const RelatedArticlesSection = ({
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={1.5}
-                  d="M15 19l-7-7 7-7"
+                  d="M9 5l7 7-7 7"
                 />
               </svg>
             </button>
@@ -123,7 +123,7 @@ export const RelatedArticlesSection = ({
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={1.5}
-                  d="M9 5l7 7-7 7"
+                  d="M15 19l-7-7 7-7"
                 />
               </svg>
             </button>
@@ -150,15 +150,14 @@ export const RelatedArticlesSection = ({
           {/* View All Button - elegant addition at the end of the row */}
           <div className="flex-none w-[200px] flex items-center justify-center snap-start pl-4">
             <Link
-              href={`/search?${
-                title === "از همین انتشارات"
+              href={`/search?${title === "از همین انتشارات"
                   ? "publication"
                   : title === "از همین نویسندگان"
-                  ? "authorIds"
-                  : title === "با همین برچسب‌ها"
-                  ? "tagIds"
-                  : "keywordIds"
-              }=${articles[0]?._id || ""}`}
+                    ? "authorIds"
+                    : title === "با همین برچسب‌ها"
+                      ? "tagIds"
+                      : "keywordIds"
+                }=${articles[0]?._id || ""}`}
               className={`group flex flex-col items-center justify-center h-48 w-full rounded-xl ${iconColor} bg-opacity-5 hover:bg-opacity-10 border border-current border-opacity-10 hover:border-opacity-20 transition-all duration-300`}
             >
               <span className={`${iconColor} opacity-80 mb-3`}>
