@@ -4,13 +4,35 @@ import { getMe } from "@/app/actions/user/getMe";
 import { MainBlog } from "@/components/organisms/blog/MainBlog";
 import { MostLikeBlog } from "@/components/organisms/blog/MostLikeBlog";
 import { SwiperBlog } from "@/components/organisms/blog/SwiperBlog";
+import { BlogSearchFilter } from "@/components/organisms/blog/BlogSearchFilter";
 import { ReqType } from "@/types/declarations/selectInp";
 
-const BlogPage = async () => {
+interface BlogPageSearchFilterProps {
+  categories: string;
+  search: string;
+}
+
+// TODO - should be pass avalible search to BlogSearchFilter components and parse and set it to react-hook-form defaultValue
+const BlogPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<BlogPageSearchFilterProps>;
+}) => {
+
+  const getSearchParams = await searchParams
+
   const set: ReqType["main"]["blog"]["gets"]["set"] = {
     limit: 20,
     page: 1,
   };
+
+  if (getSearchParams.search) {
+    set.search = getSearchParams.search
+  }
+
+  if (getSearchParams.categories) {
+    set.categoryIds = getSearchParams.categories.split(",")
+  }
 
   const get: ReqType["main"]["blog"]["gets"]["get"] = {
     _id: 1,
@@ -33,23 +55,38 @@ const BlogPage = async () => {
   const blogs = await getBlogs({ set, get });
 
   const mostLikedPosts = await getBlogs({
-    set: { ...set, sortByLikes: true },
+    set: { limit: 20, page: 1, sortByLikes: true },
     get,
   });
   const swiperBlogPosts = await getBlogs({
-    set: { ...set, isInSwipper: true },
+    set: { limit: 20, page: 1, isInSwipper: true },
     get,
   });
 
-  const categories = await gets({ set: { page: 1, limit: 20 }, get: { _id: 1, name: 1 } })
+  const categories = await gets({ set: { page: 1, limit: 30 }, get: { _id: 1, name: 1 } })
+
+
   const lesanUrl = process.env.LESAN_URL
     ? process.env.LESAN_URL
     : "http://localhost:1382";
 
+  // if (isLoading) {
+  //   return (
+  //     <div className="min-h-screen flex items-center justify-center">
+  //       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+  //     </div>
+  //   );
+  // }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pb-16 dir-rtl rounded-t-[2.5rem]">
-        <SwiperBlog swiperBlogPosts={swiperBlogPosts} isLogedIn={me.success} likedPosts={favoriteIds} lesanUrl={lesanUrl} />
+        <SwiperBlog
+          swiperBlogPosts={swiperBlogPosts.success ? swiperBlogPosts.body : []}
+          isLogedIn={me.success}
+          likedPosts={favoriteIds}
+          lesanUrl={lesanUrl}
+        />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           {/* Section Title */}
@@ -59,15 +96,31 @@ const BlogPage = async () => {
               <span className="absolute bottom-1 left-0 w-full h-3 bg-indigo-100 -z-10 transform -rotate-1"></span>
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              آخرین مقالات، دیدگاه‌ها و اخبار ما را در این بخش مطالعه کنید. به روز
-              باشید و از جدیدترین تحولات آگاه شوید.
+              آخرین مقالات، دیدگاه‌ها و اخبار ما را در این بخش مطالعه کنید. به
+              روز باشید و از جدیدترین تحولات آگاه شوید.
             </p>
           </div>
+
+          {/* Search and Filter Section */}
+          <BlogSearchFilter
+            categories={categories.success ? categories.body : []}
+            pageAddress="blog"
+          />
+
           <div className="flex flex-col lg:flex-row gap-12">
-
-            <MainBlog blogs={blogs} isLogedIn={me.success} likedPosts={favoriteIds} lesanUrl={lesanUrl} />
-            <MostLikeBlog mostLikedPosts={mostLikedPosts} isLogedIn={me.success} likedPosts={favoriteIds} lesanUrl={lesanUrl} categories={categories.success ? categories.body : []} />
-
+            <MainBlog
+              blogs={blogs.success ? blogs.body : []}
+              isLogedIn={true}
+              likedPosts={favoriteIds}
+              lesanUrl={lesanUrl}
+            />
+            <MostLikeBlog
+              mostLikedPosts={mostLikedPosts.success ? mostLikedPosts.body : []}
+              isLogedIn={true}
+              likedPosts={favoriteIds}
+              lesanUrl={lesanUrl}
+              categories={categories.success ? categories.body : []}
+            />
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ export const getBlogs = async ({
 }: ReqType["main"]["blog"]["gets"]) => {
   const token = (await cookies()).get("token");
 
-  const getBlogs = await paperApi().send(
+  return await paperApi().send(
     {
       service: "main",
       model: "blog",
@@ -21,6 +21,4 @@ export const getBlogs = async ({
     },
     { token: token?.value }
   );
-
-  if (getBlogs.success) return getBlogs.body;
 };

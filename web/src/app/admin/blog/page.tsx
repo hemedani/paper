@@ -46,7 +46,7 @@ export default async function BlogDashboard({
         <SearchBox title="جستجو در عنوان" defaultValue={search} />
       </div>
 
-      <ClientDashboard blogs={data} lesanUrl={lesanUrl} />
+      <ClientDashboard blogs={data.success ? data.body : []} lesanUrl={lesanUrl} />
 
       <div className="mt-6">
         <Pagination countPage={countPageData?.qty} initialPage={+page} />
