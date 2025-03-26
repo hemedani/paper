@@ -16,9 +16,10 @@ interface Article {
 
 interface ClientArticleProps {
   articles: Article[];
+  isOwn?: boolean;
 }
 
-const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles }) => {
+const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles, isOwn }) => {
   const router = useRouter();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
@@ -59,26 +60,28 @@ const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles }) => {
 
   return (
     <div className="mt-2 relative">
-      <div className="mb-6 flex justify-end">
-        <Link
-          href="/admin/articles/createArticle"
-          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors shadow-sm flex items-center"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 ml-1.5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+      {isOwn === false || isOwn === undefined && (
+        <div className="mb-6 flex justify-end">
+          <Link
+            href="/admin/articles/createArticle"
+            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors shadow-sm flex items-center"
           >
-            <path
-              fillRule="evenodd"
-              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-              clipRule="evenodd"
-            />
-          </svg>
-          افزودن مقاله جدید
-        </Link>
-      </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 ml-1.5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                clipRule="evenodd"
+              />
+            </svg>
+            افزودن مقاله جدید
+          </Link>
+        </div>
+      )}
 
       <div className="space-y-4">
         {articles && articles.length > 0 ? (
@@ -89,6 +92,7 @@ const ClientArticleDashboard: React.FC<ClientArticleProps> = ({ articles }) => {
                 title={article.title}
                 articleType={article.articleType}
                 _id={article._id}
+                isOwn={isOwn}
                 onDelete={() => handleDeleteClick(article)}
               />
             ))}

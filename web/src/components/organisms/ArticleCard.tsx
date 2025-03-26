@@ -8,6 +8,7 @@ type TArticle = {
   title: string;
   articleType: string;
   onDelete: () => void; // افزودن پراپ حذف
+  isOwn?: boolean;
 };
 
 export const ArticleCard = ({
@@ -15,6 +16,7 @@ export const ArticleCard = ({
   articleType,
   title,
   onDelete,
+  isOwn
 }: TArticle) => {
   const router = useRouter();
 
@@ -28,32 +30,34 @@ export const ArticleCard = ({
       </div>
 
       <div className="flex items-center justify-between mt-4 gap-2">
-        <div className="flex gap-2">
-          <button
-            onClick={() => router.push(`/admin/articles/updateArticle/${_id}`)}
-            className="flex items-center gap-1 text-purple-500 hover:text-purple-700 bg-purple-50 px-3 py-1 rounded-md"
-            title="بروزرسانی"
-          >
-            <UpdateIcon />
-            <span className="text-sm">بروزرسانی</span>
-          </button>
-          <button
-            onClick={() => router.push(`/admin/articles/edit-article/${_id}`)}
-            className="flex items-center gap-1 text-blue-500 hover:text-blue-700 bg-blue-50 px-3 py-1 rounded-md"
-            title="ویرایش رابطه‌ها"
-          >
-            <EditIcon />
-            <span className="text-sm">رابطه‌ها</span>
-          </button>
-          <button
-            onClick={onDelete}
-            className="flex items-center gap-1 text-red-500 hover:text-red-700 bg-red-50 px-3 py-1 rounded-md"
-            title="حذف"
-          >
-            <TrashIcon />
-            <span className="text-sm">حذف</span>
-          </button>
-        </div>
+        {isOwn === false || isOwn === undefined && (
+          <div className="flex gap-2">
+            <button
+              onClick={() => router.push(`/admin/articles/updateArticle/${_id}`)}
+              className="flex items-center gap-1 text-purple-500 hover:text-purple-700 bg-purple-50 px-3 py-1 rounded-md"
+              title="بروزرسانی"
+            >
+              <UpdateIcon />
+              <span className="text-sm">بروزرسانی</span>
+            </button>
+            <button
+              onClick={() => router.push(`/admin/articles/edit-article/${_id}`)}
+              className="flex items-center gap-1 text-blue-500 hover:text-blue-700 bg-blue-50 px-3 py-1 rounded-md"
+              title="ویرایش رابطه‌ها"
+            >
+              <EditIcon />
+              <span className="text-sm">رابطه‌ها</span>
+            </button>
+            <button
+              onClick={onDelete}
+              className="flex items-center gap-1 text-red-500 hover:text-red-700 bg-red-50 px-3 py-1 rounded-md"
+              title="حذف"
+            >
+              <TrashIcon />
+              <span className="text-sm">حذف</span>
+            </button>
+          </div>
+        )}
 
         <button
           onClick={() => router.push(`/article/${_id}`)}
