@@ -23,13 +23,13 @@ export const UpdateUserPureSchema = z.object({
   summery: z.string().optional(),
   level: z.enum(["Normal", "Manager", "Editor", "Ghost"], {
     message: "سطح الزامی است",
-  }),
+  }).optional(),
 });
 
 export type UpdateUserPureSchemaType = z.infer<typeof UpdateUserPureSchema>;
 export type UpdateUserPureSet = ReqType["main"]["user"]["updateUser"]["set"];
 
-export const EditUserPures = ({ ...rest }: userSchema) => {
+export const EditUserPures = ({ isOwn, ...rest }: userSchema & { isOwn?: boolean }) => {
   const {
     handleSubmit,
     setValue,
@@ -46,7 +46,7 @@ export const EditUserPures = ({ ...rest }: userSchema) => {
     const updatedUserPures = await updateUserPure(formData);
     if (updatedUserPures.success) {
       ToastNotify("success", "با موقیت ویرایش شد");
-      router.replace("/admin/users");
+      router.replace(isOwn ? "/user" : "/admin/users");
     } else {
       ToastNotify("error", updatedUserPures.body.message);
     }
@@ -104,9 +104,8 @@ export const EditUserPures = ({ ...rest }: userSchema) => {
         <div className={`w-1/2 p-4 flex flex-col gap-1`}>
           <label htmlFor="birth_date">تاریخ تولد</label>
           <DatePicker
-            className={`text-gray-600 border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-700 bg-gray-100 ${
-              errors.birth_date?.message ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`text-gray-600 border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-700 bg-gray-100 ${errors.birth_date?.message ? "border-red-500" : "border-gray-300"
+              }`}
             defaultValue={rest.birth_date}
             onChange={(e) => setValue("birth_date", e.value)}
           />
@@ -131,22 +130,24 @@ export const EditUserPures = ({ ...rest }: userSchema) => {
             label: translateGender(rest.gender),
           }}
         />
-        <SelectBox
-          label="سطح دسترسی"
-          name="level"
-          setValue={setValue}
-          errMsg={errors.level?.message}
-          options={[
-            { value: "Ghost", label: "ادمین" },
-            { value: "Manager", label: "مدیر" },
-            { value: "Editor", label: "ویرایشگر" },
-            { value: "Normal", label: "عادی" },
-          ]}
-          defaultValue={{
-            value: rest.level,
-            label: translateLevel(rest.level),
-          }}
-        />
+        {isOwn === false || isOwn === undefined && (
+          <SelectBox
+            label="سطح دسترسی"
+            name="level"
+            setValue={setValue}
+            errMsg={errors.level?.message}
+            options={[
+              { value: "Ghost", label: "ادمین" },
+              { value: "Manager", label: "مدیر" },
+              { value: "Editor", label: "ویرایشگر" },
+              { value: "Normal", label: "عادی" },
+            ]}
+            defaultValue={{
+              value: rest.level,
+              label: translateLevel(rest.level),
+            }}
+          />
+        )}
       </div>
 
       <div className={`w-full flex gap-4`}>

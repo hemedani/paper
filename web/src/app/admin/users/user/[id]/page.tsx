@@ -1,20 +1,19 @@
 import { getUser } from "@/app/actions/user/getUser";
 import UserProfileCard from "@/components/organisms/user/UserProfileCard";
 
-const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const userId = (await params).id;
-  const { body, success } = await getUser(userId);
+const Page = async ({ params }: { params: { id: string } }) => {
+  const { body, success } = await getUser(params.id);
 
   return (
-    <div className="p-6">
+    <>
       {success ? (
-        <UserProfileCard user={body} />
+        <UserProfileCard user={body} isAdminContext={true} />
       ) : (
         <div className="bg-red-50 text-red-600 p-4 rounded-lg">
-          مشکلی در دریافت کاربر وجود دارد - {body.message}
+          مشکلی در دریافت اطلاعات کاربر وجود دارد - {body.message}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

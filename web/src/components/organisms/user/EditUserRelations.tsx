@@ -18,7 +18,7 @@ export const UpdateUserRelationSchema = z.object({
 export type UpdateUserRelationSchemaType = z.infer<typeof UpdateUserRelationSchema>;
 export type UpdateUserRelationSet = ReqType["main"]["user"]["updateUserRelations"]["set"]
 
-export const EditUserRelations = ({ _id, lesanUrl, avatar, nationalCard }: userSchema & { lesanUrl: string }) => {
+export const EditUserRelations = ({ _id, lesanUrl, avatar, nationalCard, isOwn }: userSchema & { lesanUrl: string, isOwn?: boolean }) => {
   const { handleSubmit, setValue } = useForm<UpdateUserRelationSet>({
     resolver: zodResolver(UpdateUserRelationSchema),
   });
@@ -33,7 +33,7 @@ export const EditUserRelations = ({ _id, lesanUrl, avatar, nationalCard }: userS
     });
     if (updatedUserRelations.success) {
       ToastNotify("success", "با موقیت ویرایش شد");
-      router.replace("/admin/users");
+      router.replace(isOwn ? "/user" : "/admin/users");
     } else {
       ToastNotify("error", "با خطا مواجه شد");
     }
