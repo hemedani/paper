@@ -29,8 +29,18 @@ export default async function TagDashboard({
   });
 
   return (
-    <div className="relative bg-white p-6 rounded-lg shadow-md min-h-full">
-      <h1 className="text-2xl text-gray-600 font-bold">دسته بندی ها (وبلاگ)</h1>
+    <div className="relative min-h-full">
+      <div className="flex items-start">
+        <div className="bg-blue-500 w-1 h-8 ml-3 rounded-full"></div>
+        <div>
+          <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
+            دسته بندی ها (وبلاگ)
+          </h1>
+          <p className="text-gray-500 mt-2 text-sm">
+            مدیریت تمامی دسته بندی ها (وبلاگ) وب‌سایت
+          </p>
+        </div>
+      </div>
       <SearchBox title="name" defaultValue={name} />
       <ClientTagDashboard data={data.success ? data.body : []} model="category" />
       <Pagination countPage={counted?.qty} initialPage={+page} />

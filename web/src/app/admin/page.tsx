@@ -4,9 +4,18 @@ import { getCounts } from "../actions/user/dashboardStatistic";
 const AdminDashboard = async () => {
   const data = await getCounts();
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md min-h-full">
-      <h1 className="text-2xl text-gray-600 font-bold">پنل ادمین</h1>
-      <p className="text-gray-600">خوش آمدید!</p>
+    <>
+      <div className="flex items-start">
+        <div className="bg-blue-500 w-1 h-8 ml-3 rounded-full"></div>
+        <div>
+          <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
+            پنل ادمین
+          </h1>
+          <p className="text-gray-500 mt-2 text-sm">
+            خوش آمدید
+          </p>
+        </div>
+      </div>
       <div className="grid grid-cols-4 mt-10 gap-2">
         <StatCard
           description="دسته بندی های مربوطه"
@@ -57,7 +66,7 @@ const AdminDashboard = async () => {
           bgColor="bg-yellow-500"
         />
       </div>
-    </div>
+    </>
   );
 };
 

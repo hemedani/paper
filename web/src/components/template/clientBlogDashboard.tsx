@@ -11,9 +11,10 @@ import { blogSchema } from "@/types/declarations/selectInp";
 type Props = {
   blogs: blogSchema[];
   lesanUrl: string;
+  isOwn?: boolean;
 };
 
-const ClientDashboard = ({ blogs, lesanUrl }: Props) => {
+const ClientDashboard = ({ blogs, lesanUrl, isOwn }: Props) => {
   const router = useRouter();
   const [blogToDelete, setBlogToDelete] = useState<blogSchema | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,14 +53,16 @@ const ClientDashboard = ({ blogs, lesanUrl }: Props) => {
 
   return (
     <div className="mt-6">
-      <div className="absolute top-4 left-4 mb-4 flex justify-end">
-        <button
-          onClick={() => router.push("/admin/blog/new-blog")}
-          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors"
-        >
-          افزودن بلاگ جدید
-        </button>
-      </div>
+      {isOwn === false || isOwn === undefined && (
+        <div className="absolute top-4 left-4 mb-4 flex justify-end">
+          <button
+            onClick={() => router.push("/admin/blog/new-blog")}
+            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors"
+          >
+            افزودن بلاگ جدید
+          </button>
+        </div>
+      )}
 
       <div className="space-y-4">
         {blogs && blogs.length > 0 ? (
@@ -69,6 +72,7 @@ const ClientDashboard = ({ blogs, lesanUrl }: Props) => {
               {...blog}
               onDelete={() => confirmDelete(blog)}
               lesanUrl={lesanUrl}
+              isOwn={isOwn}
             />
           ))
         ) : (

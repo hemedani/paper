@@ -7,6 +7,7 @@ import { blogSchema } from "@/types/declarations/selectInp";
 type TBlog = {
   onDelete: () => void;
   lesanUrl: string;
+  isOwn?: boolean;
 };
 
 export const BlogCard = ({
@@ -18,6 +19,7 @@ export const BlogCard = ({
   isInSwipper,
   onDelete,
   lesanUrl,
+  isOwn
 }: blogSchema & TBlog) => {
   const router = useRouter();
   const imageSrc = pic?.name
@@ -43,32 +45,34 @@ export const BlogCard = ({
       </div>
 
       <div className="flex items-center justify-between mt-4 gap-2">
-        <div className="flex gap-3">
-          <button
-            onClick={() => router.push(`/admin/blog/edit-blog/${_id}`)}
-            className="flex items-center gap-1 text-blue-500 hover:text-blue-700 bg-blue-50 px-3 py-1 rounded-md"
-            title="ویرایش اطلاعات"
-          >
-            <EditIcon />
-            <span className="text-sm">ویرایش</span>
-          </button>
-          <button
-            onClick={() => router.push(`/admin/blog/edit-relation/${_id}`)}
-            className="flex items-center gap-1 text-purple-500 hover:text-purple-700 bg-purple-50 px-3 py-1 rounded-md"
-            title="ویرایش روابط"
-          >
-            <LinkIcon />
-            <span className="text-sm">روابط</span>
-          </button>
-          <button
-            onClick={onDelete}
-            className="flex items-center gap-1 text-red-500 hover:text-red-700 bg-red-50 px-3 py-1 rounded-md"
-            title="حذف"
-          >
-            <TrashIcon />
-            <span className="text-sm">حذف</span>
-          </button>
-        </div>
+        {isOwn === false || isOwn === undefined && (
+          <div className="flex gap-3">
+            <button
+              onClick={() => router.push(`/admin/blog/edit-blog/${_id}`)}
+              className="flex items-center gap-1 text-blue-500 hover:text-blue-700 bg-blue-50 px-3 py-1 rounded-md"
+              title="ویرایش اطلاعات"
+            >
+              <EditIcon />
+              <span className="text-sm">ویرایش</span>
+            </button>
+            <button
+              onClick={() => router.push(`/admin/blog/edit-relation/${_id}`)}
+              className="flex items-center gap-1 text-purple-500 hover:text-purple-700 bg-purple-50 px-3 py-1 rounded-md"
+              title="ویرایش روابط"
+            >
+              <LinkIcon />
+              <span className="text-sm">روابط</span>
+            </button>
+            <button
+              onClick={onDelete}
+              className="flex items-center gap-1 text-red-500 hover:text-red-700 bg-red-50 px-3 py-1 rounded-md"
+              title="حذف"
+            >
+              <TrashIcon />
+              <span className="text-sm">حذف</span>
+            </button>
+          </div>
+        )}
 
         <button
           onClick={() => router.push(`/blog/${_id}`)}

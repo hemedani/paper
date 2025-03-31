@@ -37,8 +37,18 @@ export default async function TagDashboard({
   });
 
   return (
-    <div className="relative bg-white p-6 rounded-lg shadow-md min-h-full">
-      <h1 className="text-2xl text-gray-600 font-bold">نویسندگان</h1>
+    <div className="relative min-h-full">
+      <div className="flex items-start">
+        <div className="bg-blue-500 w-1 h-8 ml-3 rounded-full"></div>
+        <div>
+          <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
+            نویسندگان مقالات
+          </h1>
+          <p className="text-gray-500 mt-2 text-sm">
+            مدیریت تمامی نویسندگان مقالات وب‌سایت
+          </p>
+        </div>
+      </div>
       <SearchBox title="first_name" defaultValue={first_name} />
       <ClientDashboard authors={data} />
       <Pagination countPage={countPageData?.qty} initialPage={+page} />

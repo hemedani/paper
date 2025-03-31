@@ -20,10 +20,10 @@ const ArticleDashboard = async ({
   });
 
   return (
-    <div className="relative bg-gradient-to-b from-gray-50 to-white p-6 md:p-8 rounded-xl shadow-md min-h-full border border-gray-100">
+    <div className="relative">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 pb-5 border-b border-gray-200">
         <div className="flex items-start">
-          <div className="bg-blue-500 w-1 h-8 mr-3 rounded-full"></div>
+          <div className="bg-blue-500 w-1 h-8 ml-3 rounded-full"></div>
           <div>
             <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
               بخش مقالات

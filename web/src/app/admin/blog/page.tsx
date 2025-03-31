@@ -37,18 +37,26 @@ export default async function BlogDashboard({
     : "http://localhost:1382";
 
   return (
-    <div className="relative bg-gray-50 p-6 rounded-lg shadow-sm min-h-full">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl text-gray-700 font-bold">مدیریت وبلاگ</h1>
+    <div className="relative min-h-full">
+      <div className="flex items-start">
+        <div className="bg-blue-500 w-1 h-8 ml-3 rounded-full"></div>
+        <div>
+          <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
+            مدیریت وبلاگ
+          </h1>
+          <p className="text-gray-500 mt-2 text-sm">
+            مدیریت تمامی پست‌های وبلاگ وب‌سایت
+          </p>
+        </div>
       </div>
 
-      <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
+      <div className="bg-white p-4 rounded-lg shadow-sm my-4">
         <SearchBox title="جستجو در عنوان" defaultValue={search} />
       </div>
 
       <ClientDashboard blogs={data.success ? data.body : []} lesanUrl={lesanUrl} />
 
-      <div className="mt-6">
+      <div className="mt-4">
         <Pagination countPage={countPageData?.qty} initialPage={+page} />
       </div>
     </div>

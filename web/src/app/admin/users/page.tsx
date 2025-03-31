@@ -29,8 +29,18 @@ const UserDashboard = async ({
     get: { qty: 1 },
   });
   return (
-    <div className="relative bg-white p-6 rounded-lg shadow-md min-h-full">
-      <h1 className="text-2xl text-gray-600 font-bold">بخش کاربران</h1>
+    <div className="relative min-h-full">
+      <div className="flex items-start">
+        <div className="bg-blue-500 w-1 h-8 ml-3 rounded-full"></div>
+        <div>
+          <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
+            کاربران
+          </h1>
+          <p className="text-gray-500 mt-2 text-sm">
+            مدیریت تمامی کاربران وب‌سایت
+          </p>
+        </div>
+      </div>
       <SearchBox title="levels" defaultValue="" />
       <ClientUserDashboard searchQuery="" users={users} />
       <Pagination countPage={countDataUsers.qty} initialPage={+page} />
