@@ -1,16 +1,4 @@
-import { format } from "date-fns-jalali";
-import { translateGender, translateLevel } from "@/utils/helper";
 import { userSchema } from "@/types/declarations/selectInp";
-import {
-  UserIcon,
-  PhoneIcon,
-  IdCardIcon,
-  CalendarIcon,
-  MapPinIcon,
-  EditIcon,
-  UpdateIcon,
-} from "@/components/atoms/Icons";
-import Link from "next/link";
 import ProfileHeader from "./profile/ProfileHeader";
 import PersonalInfo from "./profile/PersonalInfo";
 import ContactInfo from "./profile/ContactInfo";

@@ -29,7 +29,7 @@ export const BlogSearchFilter = ({
     handleSubmit,
     setValue,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<SearchFilterFormValues>({
     resolver: zodResolver(searchFilterSchema),
   });
@@ -93,11 +93,10 @@ export const BlogSearchFilter = ({
               key={category._id}
               type="button"
               onClick={() => toggleCategory(category._id!)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                selectedCategories.includes(category._id!)
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategories.includes(category._id!)
                   ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-md"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
+                }`}
             >
               {category.name}
             </button>

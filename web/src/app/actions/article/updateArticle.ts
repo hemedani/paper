@@ -1,31 +1,17 @@
 "use server";
 import { paperApi } from "@/services/api";
 import { cookies } from "next/headers";
-import { ArticleFormUpdateSchemaType } from "@/components/template/FormUpdateArticle";
+import { ReqType } from "@/types/declarations/selectInp";
 
-export const EditArticle = async (data: ArticleFormUpdateSchemaType) => {
+export const EditArticle = async (set: ReqType["main"]["article"]["updateArticle"]["set"]) => {
   const token = (await cookies()).get("token");
-  const updateArticle = await paperApi().send(
+  return await paperApi().send(
     {
       service: "main",
       model: "article",
       act: "updateArticle",
       details: {
-        set: {
-          articleId: data.articleId,
-          abstract: data.abstract,
-          articleType: data.articleType,
-          DOI: data.DOI,
-          ISBN: data.ISBN,
-          ISNN: data.ISNN,
-          issue: data.issue,
-          publicationYear: data.publicationYear,
-          key: data.key,
-          title: data.title,
-          URL: data.URL,
-          page: data.page,
-          volume: data.volume,
-        },
+        set,
         get: {
           _id: 1,
           title: 1,
@@ -35,6 +21,4 @@ export const EditArticle = async (data: ArticleFormUpdateSchemaType) => {
     },
     { token: token?.value }
   );
-
-  if (updateArticle.success) return updateArticle.body;
 };

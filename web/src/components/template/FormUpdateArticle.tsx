@@ -11,7 +11,7 @@ import MyInput from "../atoms/MyInput";
 
 // Schema تعریف اعتبارسنجی
 const ArticleUpdateSchema = z.object({
-  _id: z.optional(z.string()),
+  _id: z.string(),
   key: z.string().nonempty("کلید الزامی است"),
   articleType: z.enum(["journalArticle", "book"]),
   publicationYear: z.coerce.number().int("سال انتشار باید عدد صحیح باشد"),
@@ -49,9 +49,11 @@ export const FormUpdateArticle = ({
   const onSubmit: SubmitHandler<ArticleFormUpdateSchemaType> = async (data) => {
 
     const editDataArticle = await EditArticle(data);
-    if (editDataArticle._id) {
+    if (editDataArticle.success) {
       router.replace("/admin/articles");
       ToastNotify("success", "ویرایش انجام شد");
+    } else {
+      ToastNotify("error", `خطا  - ${editDataArticle.body.message}`);
     }
   };
 

@@ -38,7 +38,7 @@ export const ArticleInfo = ({ article, onItemClick }: ArticleInfoProps) => {
           <InfoItem
             label="ISBN"
             value={article.ISBN}
-            onClick={() => onItemClick("ISBN", article.ISBN)}
+            onClick={() => onItemClick("ISBN", article.ISBN!)}
           />
         )}
 
@@ -46,7 +46,7 @@ export const ArticleInfo = ({ article, onItemClick }: ArticleInfoProps) => {
           <InfoItem
             label="ISNN"
             value={article.ISNN}
-            onClick={() => onItemClick("ISNN", article.ISNN)}
+            onClick={() => onItemClick("ISNN", article.ISNN!)}
           />
         )}
 
@@ -54,7 +54,7 @@ export const ArticleInfo = ({ article, onItemClick }: ArticleInfoProps) => {
           <InfoItem
             label="DOI"
             value={article.DOI}
-            onClick={() => onItemClick("DOI", article.DOI)}
+            onClick={() => onItemClick("DOI", article.DOI!)}
           />
         )}
 
@@ -62,7 +62,7 @@ export const ArticleInfo = ({ article, onItemClick }: ArticleInfoProps) => {
           <InfoItem
             label="صفحات"
             value={article.page}
-            onClick={() => onItemClick("pageCount", article.page)}
+            onClick={() => onItemClick("pageCount", article.page!)}
           />
         )}
 
@@ -70,7 +70,7 @@ export const ArticleInfo = ({ article, onItemClick }: ArticleInfoProps) => {
           <InfoItem
             label="شماره"
             value={article.issue.toString()}
-            onClick={() => onItemClick("issue", article.issue.toString())}
+            onClick={() => onItemClick("issue", article.issue!.toString())}
           />
         )}
 
@@ -78,7 +78,7 @@ export const ArticleInfo = ({ article, onItemClick }: ArticleInfoProps) => {
           <InfoItem
             label="جلد"
             value={article.volume.toString()}
-            onClick={() => onItemClick("volume", article.volume.toString())}
+            onClick={() => onItemClick("volume", article.volume!.toString())}
           />
         )}
       </div>

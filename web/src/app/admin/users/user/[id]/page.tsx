@@ -1,8 +1,9 @@
 import { getUser } from "@/app/actions/user/getUser";
 import UserProfileCard from "@/components/organisms/user/UserProfileCard";
 
-const Page = async ({ params }: { params: { id: string } }) => {
-  const { body, success } = await getUser(params.id);
+const Page = async ({ params, }: { params: Promise<{ id: string }> }) => {
+  const _id = (await params).id;
+  const { body, success } = await getUser(_id);
 
   return (
     <>

@@ -51,13 +51,13 @@ export type userSchema = {
     publicationYear: number;
     title: string;
     abstract: string;
-    ISBN: string;
-    ISNN: string;
-    DOI: string;
+    ISBN?: string;
+    ISNN?: string;
+    DOI?: string;
     URL: string;
-    page: string;
-    issue: number;
-    volume: number;
+    page?: string;
+    issue?: number;
+    volume?: number;
     createdAt?: Date;
     updatedAt?: Date;
   }[];
@@ -238,13 +238,13 @@ export type articleSchema = {
   publicationYear: number;
   title: string;
   abstract: string;
-  ISBN: string;
-  ISNN: string;
-  DOI: string;
+  ISBN?: string;
+  ISNN?: string;
+  DOI?: string;
   URL: string;
-  page: string;
-  issue: number;
-  volume: number;
+  page?: string;
+  issue?: number;
+  volume?: number;
   createdAt?: Date;
   updatedAt?: Date;
   registrar: {
@@ -1983,13 +1983,13 @@ export type ReqType = {
           publicationYear: number;
           title: string;
           abstract: string;
-          ISBN: string;
-          ISNN: string;
-          DOI: string;
+          ISBN?: string;
+          ISNN?: string;
+          DOI?: string;
           URL: string;
-          page: string;
-          issue: number;
-          volume: number;
+          page?: string;
+          issue?: number;
+          volume?: number;
           createdAt?: Date;
           updatedAt?: Date;
           publication: string;
@@ -2749,19 +2749,19 @@ export type ReqType = {
 
       updateArticle: {
         set: {
-          articleId: string;
+          _id: string;
           key: string;
           articleType: ("journalArticle" | "book");
           publicationYear: number;
           title: string;
           abstract: string;
-          ISBN: string;
-          ISNN: string;
-          DOI: string;
+          ISBN?: string;
+          ISNN?: string;
+          DOI?: string;
           URL: string;
-          page: string;
-          issue: number;
-          volume: number;
+          page?: string;
+          issue?: number;
+          volume?: number;
         };
         get: {
           _id?: (0 | 1);
