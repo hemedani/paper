@@ -24,13 +24,15 @@ export const DetailArticle = ({
   publisherArticles,
   tagArticles,
   authorArticles,
-  keywordArticles
+  keywordArticles,
+  lesanUrl
 }: {
   article: articleSchema,
   publisherArticles: articleSchema[]
   tagArticles: articleSchema[]
   authorArticles: articleSchema[]
   keywordArticles: articleSchema[]
+  lesanUrl: string
 }) => {
   const router = useRouter();
   const handleQuery = (queryType: string, value: string) => {
@@ -86,6 +88,7 @@ export const DetailArticle = ({
         tagArticles={tagArticles}
         keywordArticles={keywordArticles}
         authorArticles={authorArticles}
+        lesanUrl={lesanUrl}
       />
     </div>
   );

@@ -95,6 +95,10 @@ export default async function ArticlePage({
     }
   }
 
+  const lesanUrl = process.env.LESAN_URL
+    ? process.env.LESAN_URL
+    : "http://localhost:1382";
+
   return (
     <>
       {article.success ? (
@@ -104,6 +108,7 @@ export default async function ArticlePage({
           tagArticles={tagArticles}
           keywordArticles={keywordArticles}
           authorArticles={authorArticles}
+          lesanUrl={lesanUrl}
         />
       ) : (
         <div>این مقاله پیدا نشد</div>

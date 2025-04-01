@@ -10,6 +10,7 @@ interface ArticleRelatedProps {
   authorArticles: articleSchema[];
   tagArticles: articleSchema[];
   keywordArticles: articleSchema[];
+  lesanUrl: string;
 }
 
 /**
@@ -22,6 +23,7 @@ const ArticleRelated = ({
   authorArticles,
   tagArticles,
   keywordArticles,
+  lesanUrl
 }: ArticleRelatedProps) => {
   // Helper to get formatted author names for display
   const getAuthorsLabel = () => {
@@ -35,9 +37,8 @@ const ArticleRelated = ({
       return `${article.authors[0].first_name} ${article.authors[0].last_name} و ${article.authors[1].first_name} ${article.authors[1].last_name}`;
     }
 
-    return `${article.authors[0].first_name} ${
-      article.authors[0].last_name
-    } و ${article.authors.length - 1} نویسنده دیگر`;
+    return `${article.authors[0].first_name} ${article.authors[0].last_name
+      } و ${article.authors.length - 1} نویسنده دیگر`;
   };
 
   // Helper to get formatted tags for display
@@ -67,9 +68,8 @@ const ArticleRelated = ({
       return `${article.keywords[0].name} و ${article.keywords[1].name}`;
     }
 
-    return `${article.keywords[0].name} و ${
-      article.keywords.length - 1
-    } کلیدواژه دیگر`;
+    return `${article.keywords[0].name} و ${article.keywords.length - 1
+      } کلیدواژه دیگر`;
   };
 
   return (
@@ -94,6 +94,7 @@ const ArticleRelated = ({
               bgColor="from-blue-500 to-indigo-600"
               iconColor="text-blue-600"
               valueLabel={article.publication?.title}
+              lesanUrl={lesanUrl}
             />
           </div>
           <div className="absolute inset-0 -z-10 opacity-5 bg-gradient-to-r from-blue-100 to-indigo-50"></div>
@@ -111,6 +112,7 @@ const ArticleRelated = ({
               bgColor="from-violet-500 to-purple-600"
               iconColor="text-violet-600"
               valueLabel={getAuthorsLabel()}
+              lesanUrl={lesanUrl}
             />
           </div>
           <div className="absolute inset-0 -z-10 opacity-5 bg-[url('/patterns/circuit-board.svg')]"></div>
@@ -128,6 +130,7 @@ const ArticleRelated = ({
               bgColor="from-teal-500 to-emerald-600"
               iconColor="text-teal-600"
               valueLabel={getTagsLabel()}
+              lesanUrl={lesanUrl}
             />
           </div>
         </div>
@@ -144,6 +147,7 @@ const ArticleRelated = ({
               bgColor="from-amber-500 to-orange-600"
               iconColor="text-amber-600"
               valueLabel={getKeywordsLabel()}
+              lesanUrl={lesanUrl}
             />
           </div>
           <div className="absolute inset-0 -z-10 opacity-5 bg-gradient-to-r from-amber-50 to-orange-50"></div>

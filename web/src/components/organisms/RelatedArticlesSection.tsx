@@ -12,6 +12,7 @@ interface RelatedArticlesSectionProps {
   bgColor: string;
   iconColor: string;
   valueLabel?: string; // The specific value to display alongside the title (e.g., "انتشارات بهمن")
+  lesanUrl: string;
 }
 
 /**
@@ -25,6 +26,7 @@ export const RelatedArticlesSection = ({
   bgColor,
   iconColor,
   valueLabel,
+  lesanUrl
 }: RelatedArticlesSectionProps) => {
   // Reference for scroll container to implement custom scroll behaviors
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -143,7 +145,7 @@ export const RelatedArticlesSection = ({
               key={article._id}
               className="flex-none w-[280px] md:w-[320px] snap-start"
             >
-              <ElegantArticleCard article={article} accentColor={iconColor} />
+              <ElegantArticleCard article={article} accentColor={iconColor} lesanUrl={lesanUrl} />
             </div>
           ))}
 
@@ -151,12 +153,12 @@ export const RelatedArticlesSection = ({
           <div className="flex-none w-[200px] flex items-center justify-center snap-start pl-4">
             <Link
               href={`/search?${title === "از همین انتشارات"
-                  ? "publication"
-                  : title === "از همین نویسندگان"
-                    ? "authorIds"
-                    : title === "با همین برچسب‌ها"
-                      ? "tagIds"
-                      : "keywordIds"
+                ? "publication"
+                : title === "از همین نویسندگان"
+                  ? "authorIds"
+                  : title === "با همین برچسب‌ها"
+                    ? "tagIds"
+                    : "keywordIds"
                 }=${articles[0]?._id || ""}`}
               className={`group flex flex-col items-center justify-center h-48 w-full rounded-xl ${iconColor} bg-opacity-5 hover:bg-opacity-10 border border-current border-opacity-10 hover:border-opacity-20 transition-all duration-300`}
             >
@@ -214,9 +216,11 @@ export const RelatedArticlesSection = ({
 const ElegantArticleCard = ({
   article,
   accentColor,
+  lesanUrl
 }: {
   article: articleSchema;
   accentColor: string;
+  lesanUrl: string
 }) => {
   return (
     <Link href={`/article/${article._id}`} className="group block h-full">
@@ -226,7 +230,7 @@ const ElegantArticleCard = ({
           {article.avatar ? (
             <div className="relative h-full w-full">
               <Image
-                src="/images/default-article.jpg"
+                src={`${lesanUrl}/uploads/images/${article.avatar.name}`}
                 alt={article.title}
                 className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
                 width={400}
