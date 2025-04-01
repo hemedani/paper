@@ -24,14 +24,14 @@ const Pagination: FC<PaginationProps> = ({ initialPage, countPage, limit = 20 })
   const getPageNumbers = () => {
     const pageNumbers = [];
     const siblingsCount = 1; // Number of siblings on each side of current page
-    
+
     // Always include first page
     pageNumbers.push(1);
-    
+
     if (initialPage > 2 + siblingsCount) {
       pageNumbers.push("ellipsis-start");
     }
-    
+
     // Add pages around current page
     for (
       let i = Math.max(2, initialPage - siblingsCount);
@@ -40,16 +40,16 @@ const Pagination: FC<PaginationProps> = ({ initialPage, countPage, limit = 20 })
     ) {
       pageNumbers.push(i);
     }
-    
+
     if (initialPage < totalPages - 1 - siblingsCount) {
       pageNumbers.push("ellipsis-end");
     }
-    
+
     // Always include last page if there's more than one page
     if (totalPages > 1) {
       pageNumbers.push(totalPages);
     }
-    
+
     return pageNumbers;
   };
 
@@ -65,13 +65,11 @@ const Pagination: FC<PaginationProps> = ({ initialPage, countPage, limit = 20 })
           onClick={() => handlePageChange(initialPage - 1)}
           disabled={initialPage === 1}
           aria-label="صفحه قبلی"
-          className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors duration-200 ${
-            initialPage === 1
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-          }`}
+          className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors duration-200 ${initialPage === 1
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
         >
-          <span>قبلی</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-4 w-4"
@@ -83,9 +81,10 @@ const Pagination: FC<PaginationProps> = ({ initialPage, countPage, limit = 20 })
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth={2}
-              d="M15 19l-7-7 7-7"
+              d="M9 5l7 7-7 7"
             />
           </svg>
+          <span>قبلی</span>
         </button>
 
         {/* Page numbers */}
@@ -109,11 +108,10 @@ const Pagination: FC<PaginationProps> = ({ initialPage, countPage, limit = 20 })
                 onClick={() => handlePageChange(pageNumber as number)}
                 aria-label={`صفحه ${pageNumber}`}
                 aria-current={pageNumber === initialPage ? "page" : undefined}
-                className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors duration-200 ${
-                  pageNumber === initialPage
-                    ? "bg-blue-600 text-white font-bold"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors duration-200 ${pageNumber === initialPage
+                  ? "bg-blue-600 text-white font-bold"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
               >
                 {pageNumber}
               </button>
@@ -126,12 +124,12 @@ const Pagination: FC<PaginationProps> = ({ initialPage, countPage, limit = 20 })
           onClick={() => handlePageChange(initialPage + 1)}
           disabled={initialPage === totalPages}
           aria-label="صفحه بعدی"
-          className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors duration-200 ${
-            initialPage === totalPages
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-          }`}
+          className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors duration-200 ${initialPage === totalPages
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
         >
+          <span>بعدی</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-4 w-4"
@@ -143,10 +141,9 @@ const Pagination: FC<PaginationProps> = ({ initialPage, countPage, limit = 20 })
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth={2}
-              d="M9 5l7 7-7 7"
+              d="M15 19l-7-7 7-7"
             />
           </svg>
-          <span>بعدی</span>
         </button>
       </div>
     </nav>
