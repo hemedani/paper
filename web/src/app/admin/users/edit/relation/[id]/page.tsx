@@ -13,9 +13,20 @@ const FormComponent = async ({
   const lesanUrl = process.env.LESAN_URL ? process.env.LESAN_URL : "http://localhost:1382"
 
   return (
-    <div className="w-full min-h-screen  mx-auto p-6 bg-white shadow-md rounded-lg">
+    <>
       {foundedUser.success ? (
-        <EditUserRelations {...foundedUser.body} lesanUrl={lesanUrl} />
+        <div className="p-6 min-h-full">
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold text-gray-700">ویرایش رابطه‌های «{foundedUser.body.first_name} {foundedUser.body.last_name}»</h1>
+            <Link
+              href="/admin/users"
+              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              بازگشت به لیست
+            </Link>
+          </div>
+          <EditUserRelations {...foundedUser.body} lesanUrl={lesanUrl} />
+        </div>
       ) : (
         <div>
           مشکلی در یافتن کاربر وجود دارد - {foundedUser.body.message}
@@ -29,7 +40,7 @@ const FormComponent = async ({
 
         </div>
       )}
-    </div>
+    </>
   );
 };
 

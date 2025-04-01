@@ -15,7 +15,6 @@ import { ToastNotify } from "@/utils/helper";
 import { getKeywords } from "@/app/actions/keyword/getKeywords";
 import MyAsyncMultiSelect from "@/components/atoms/MyAsyncMultiSelect";
 import MyInput from "../atoms/MyInput";
-import Link from "next/link";
 
 // تعریف اسکیما برای اعتبارسنجی فرم
 export const ArticleCreateSchema = z.object({
@@ -29,14 +28,14 @@ export const ArticleCreateSchema = z.object({
   }),
   title: z.string().nonempty("عنوان الزامی است"),
   abstract: z.string().nonempty("چکیده الزامی است"),
-  ISBN: z.string().nonempty("ISBN الزامی است"),
-  ISNN: z.string().nonempty("ISNN الزامی است"),
-  DOI: z.string().nonempty("DOI الزامی است"),
+  ISBN: z.string().optional(),
+  ISNN: z.string().optional(),
+  DOI: z.string().optional(),
   URL: z.string().url("فرمت URL نامعتبر است").nonempty("URL الزامی است"),
   page: z.string().nonempty("تعداد صفحات الزامی است"),
   publicationYear: z.coerce.number().int("سال انتشار باید عدد صحیح باشد"),
-  issue: z.coerce.number().int("شماره موضوع باید عدد صحیح باشد"),
-  volume: z.coerce.number().int("جلد باید عدد صحیح باشد"),
+  issue: z.coerce.number().int().optional(),
+  volume: z.coerce.number().int().optional(),
   avatar: z.optional(z.string()),
   doc: z.optional(z.string()),
 });
@@ -124,7 +123,6 @@ export const FormCreateArticle = ({ token, lesanUrl }: { token?: string; lesanUr
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-6 bg-gray-100 p-6 border rounded-lg">
-      <h2 className="text-xl font-semibold mb-6">ایجاد مقاله جدید</h2>
       <div className="flex flex-wrap w-full">
         <div className="w-1/2 p-4">
           <span className="text-sm font-medium text-gray-700">
@@ -220,17 +218,14 @@ export const FormCreateArticle = ({ token, lesanUrl }: { token?: string; lesanUr
         <MyInput label="جلد" type="number" register={register} name="volume" errMsg={errors.volume?.message} />
       </div>
 
-      <div className={`w-full flex gap-4`}>
+      <div className="w-full flex gap-4 justify-end">
         <button
           type="submit"
           disabled={isSubmitting || !isValid}
-          className="w-1/2 p-4 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700"
+          className="p-4 px-8 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
         >
           ارسال
         </button>
-        <Link href="/admin/articles" className="w-1/2 p-4 bg-gray-600 text-white text-center font-semibold rounded-lg hover:bg-gray-700">
-          بازگشت
-        </Link>
       </div>
     </form>
   );

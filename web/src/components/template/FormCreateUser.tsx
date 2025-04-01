@@ -10,7 +10,6 @@ import MyInput from "../atoms/MyInput";
 import { createUser } from "@/app/actions/user/createUser";
 import { DatePicker } from "zaman";
 import { ReqType } from "@/types/declarations/selectInp";
-import Link from "next/link";
 
 export const UserCreateSchema = z.object({
   first_name: z.string().min(1, "نام الزامی است"),
@@ -44,7 +43,7 @@ export const FormCreateUser = ({
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<UserSetObj>({
     resolver: zodResolver(UserCreateSchema),
   });
@@ -62,7 +61,8 @@ export const FormCreateUser = ({
 
   return (
     <div className="p-8">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 bg-gray-100 p-6 border rounded-lg">
 
         <div className="w-full flex flex-wrap">
 
@@ -130,16 +130,15 @@ export const FormCreateUser = ({
           />
         </div>
 
-        <div className={`w-full flex gap-4`}>
-          <button className="w-1/2 p-4 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700">
+        <div className="w-full flex gap-4 justify-end">
+          <button
+            type="submit"
+            disabled={isSubmitting || !isValid}
+            className="p-4 px-8 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
+          >
             ارسال
           </button>
-          <Link href="/admin/users" className="w-1/2 p-4 bg-gray-600 text-white text-center font-semibold rounded-lg hover:bg-gray-700">
-            بازگشت
-          </Link>
         </div>
-
-
       </form>
     </div>
   );

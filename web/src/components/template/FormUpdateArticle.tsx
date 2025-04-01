@@ -3,28 +3,27 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import SelectBox from "../atoms/Select";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { EditArticle } from "@/app/actions/article/updateArticle";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastNotify } from "@/utils/helper";
 import MyInput from "../atoms/MyInput";
-import Link from "next/link";
 
 // Schema تعریف اعتبارسنجی
 const ArticleUpdateSchema = z.object({
-  articleId: z.optional(z.string()),
+  _id: z.optional(z.string()),
   key: z.string().nonempty("کلید الزامی است"),
   articleType: z.enum(["journalArticle", "book"]),
   publicationYear: z.coerce.number().int("سال انتشار باید عدد صحیح باشد"),
   title: z.string().nonempty("عنوان مقاله الزامی است"),
   abstract: z.string().nonempty("چکیده الزامی است"),
-  ISBN: z.string().nonempty("ISBN الزامی است"),
-  ISNN: z.string().nonempty("ISNN الزامی است"),
-  DOI: z.string().nonempty("DOI الزامی است"),
+  ISBN: z.string().optional(),
+  ISNN: z.string().optional(),
+  DOI: z.string().optional(),
   URL: z.string().url("فرمت URL نامعتبر است").nonempty("URL الزامی است"),
   page: z.string().nonempty("صفحات الزامی است"),
-  issue: z.coerce.number().int("شماره موضوع باید عدد صحیح باشد"),
-  volume: z.coerce.number().int("جلد باید عدد صحیح باشد"),
+  issue: z.coerce.number().int().optional(),
+  volume: z.coerce.number().int().optional(),
 });
 
 export type ArticleFormUpdateSchemaType = z.infer<typeof ArticleUpdateSchema>;
@@ -36,7 +35,6 @@ export const FormUpdateArticle = ({
 }) => {
   const router = useRouter();
 
-  const params = useParams();
   const {
     handleSubmit,
     setValue,
@@ -49,7 +47,6 @@ export const FormUpdateArticle = ({
   });
 
   const onSubmit: SubmitHandler<ArticleFormUpdateSchemaType> = async (data) => {
-    data.articleId = params.id as string;
 
     const editDataArticle = await EditArticle(data);
     if (editDataArticle._id) {
@@ -60,11 +57,10 @@ export const FormUpdateArticle = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-gray-100 p-6 border rounded-lg">
-      <h2 className="text-xl font-semibold mb-6">ویرایش مقاله</h2>
 
       <div className="flex flex-wrap w-full">
         <input
-          {...register("articleId")}
+          {...register("_id")}
           id="_id"
           name="_id"
           type="text"
@@ -97,17 +93,14 @@ export const FormUpdateArticle = ({
         <MyInput label="جلد" type="number" register={register} name="volume" errMsg={errors.volume?.message} />
       </div>
 
-      <div className={`w-full flex gap-4`}>
+      <div className="w-full flex gap-4 justify-end">
         <button
           type="submit"
           disabled={isSubmitting || !isValid}
-          className="w-1/2 p-4 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700"
+          className="p-4 px-8 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
         >
           ارسال
         </button>
-        <Link href="/admin/articles" className="w-1/2 p-4 bg-gray-600 text-white text-center font-semibold rounded-lg hover:bg-gray-700">
-          بازگشت
-        </Link>
       </div>
 
     </form>

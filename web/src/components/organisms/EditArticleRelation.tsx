@@ -10,13 +10,14 @@ import { getTags } from "@/app/actions/tag/getTags";
 import { getPublications } from "@/app/actions/publication/getPublications";
 import { getAuthors } from "@/app/actions/author/getAuthors";
 import { getKeywords } from "@/app/actions/keyword/getKeywords";
-import { EditArticle } from "@/app/actions/article/editRelationArticle";
+import { editArticleRelations } from "@/app/actions/article/editRelationArticle";
 import { ToastNotify } from "@/utils/helper";
 import MyAsyncMultiSelect from "../atoms/MyAsyncMultiSelect";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { articleSchema } from "@/types/declarations/selectInp";
 
-export const FormSchema = z.object({
+export const FormUpdateArticleRelationsSchema = z.object({
+  _id: z.string(),
   avatar: z.optional(z.string()),
   doc: z.optional(z.string()),
   publication: z.optional(z.string().nonempty("انتشار الزامی است")),
@@ -25,24 +26,14 @@ export const FormSchema = z.object({
   authors: z.optional(z.array(z.string()).nonempty("حداقل یک نویسنده انتخاب کنید")),
 });
 
-export type FormSchemaType = z.infer<typeof FormSchema>;
-
-type BackendData = {
-  _id: string;
-  authors: { _id: string; first_name: string; last_name: string }[];
-  avatar: { _id: string; name: string; type: string };
-  doc: { _id: string; name: string; type: string };
-  keywords: { _id: string; name: string }[];
-  publication: { _id: string; title: string };
-  tags: { _id: string; name: string }[];
-};
+export type FormUpdatetArticleRelationsSchemaType = z.infer<typeof FormUpdateArticleRelationsSchema>;
 
 export const EditArticleRelationForm = ({
   defaultValues,
   token,
   lesanUrl
 }: {
-  defaultValues?: BackendData;
+  defaultValues?: articleSchema;
   token: string;
   lesanUrl?: string
 }) => {
@@ -50,23 +41,25 @@ export const EditArticleRelationForm = ({
   const {
     handleSubmit,
     setValue,
+    register,
     formState: { errors },
-  } = useForm<FormSchemaType>({
+  } = useForm<FormUpdatetArticleRelationsSchemaType>({
     defaultValues: {
+      _id: defaultValues?._id,
       authors: defaultValues?.authors?.map((author) => author._id) || [],
       keywords: defaultValues?.keywords?.map((keyword) => keyword._id) || [],
       tags: defaultValues?.tags?.map((tag) => tag._id) || [],
       publication: defaultValues?.publication?._id || "",
     },
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(FormUpdateArticleRelationsSchema),
   });
 
   const router = useRouter();
 
 
-  const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+  const onSubmit: SubmitHandler<FormUpdatetArticleRelationsSchemaType> = async (data) => {
 
-    const dataArticle = await EditArticle(data, defaultValues?._id as string);
+    const dataArticle = await editArticleRelations(data);
     if (dataArticle) {
       ToastNotify("success", "با موفقیت انجام شد");
       router.replace(`/admin/articles`);
@@ -113,7 +106,7 @@ export const EditArticleRelationForm = ({
   };
 
   const handlePublicationChange = (
-    selectedOption: SingleValue<{ value: string; label: string }>
+    selectedOption: SingleValue<{ value: string | undefined; label: string }>
   ) => {
     setValue("publication", selectedOption?.value || "");
   };
@@ -158,9 +151,16 @@ export const EditArticleRelationForm = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-gray-100 p-6 border rounded-lg">
-      <h2 className="text-xl font-semibold mb-6">فرم ویرایش رابطه‌ها</h2>
       <div className="flex flex-wrap w-full">
 
+        <input
+          {...register("_id")}
+          id="_id"
+          name="_id"
+          type="text"
+          disabled
+          hidden
+        />
         <div className="w-1/2 p-4">
           <span className="text-sm font-medium text-gray-700">
             عکس مقاله
@@ -239,13 +239,13 @@ export const EditArticleRelationForm = ({
 
       </div>
 
-      <div className={`w-full flex gap-4`}>
-        <button className="w-1/2 p-4 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700">
+      <div className="w-full flex gap-4 justify-end">
+        <button
+          type="submit"
+          className="p-4 px-8 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
+        >
           ارسال
         </button>
-        <Link href="/admin/articles" className="w-1/2 p-4 bg-gray-600 text-white text-center font-semibold rounded-lg hover:bg-gray-700">
-          بازگشت
-        </Link>
       </div>
     </form>
   );

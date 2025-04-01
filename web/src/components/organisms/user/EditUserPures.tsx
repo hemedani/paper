@@ -9,7 +9,6 @@ import MyInput from "@/components/atoms/MyInput";
 import { DatePicker } from "zaman";
 import SelectBox from "@/components/atoms/Select";
 import { updateUserPure } from "@/app/actions/user/updateUser";
-import Link from "next/link";
 
 export const UpdateUserPureSchema = z.object({
   _id: z.string(),
@@ -22,7 +21,7 @@ export const UpdateUserPureSchema = z.object({
   address: z.string().optional(),
   summery: z.string().optional(),
   level: z.enum(["Normal", "Manager", "Editor", "Ghost"], {
-    message: "سطح الزامی است",
+    message: "باید یکی از این سطوح را انتخاب کنید",
   }).optional(),
 });
 
@@ -34,7 +33,7 @@ export const EditUserPures = ({ isOwn, ...rest }: userSchema & { isOwn?: boolean
     handleSubmit,
     setValue,
     register,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<UpdateUserPureSet>({
     resolver: zodResolver(UpdateUserPureSchema),
     defaultValues: rest,
@@ -150,16 +149,14 @@ export const EditUserPures = ({ isOwn, ...rest }: userSchema & { isOwn?: boolean
         )}
       </div>
 
-      <div className={`w-full flex gap-4`}>
-        <button className="w-1/2 p-4 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700">
+      <div className="w-full flex gap-4 justify-end">
+        <button
+          type="submit"
+          disabled={isSubmitting || !isValid}
+          className="p-4 px-8 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
+        >
           ارسال
         </button>
-        <Link
-          href="/admin/users"
-          className="w-1/2 p-4 bg-gray-600 text-white text-center font-semibold rounded-lg hover:bg-gray-700"
-        >
-          بازگشت
-        </Link>
       </div>
     </form>
   );
