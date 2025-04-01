@@ -4,59 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { Network } from "vis-network/standalone";
 import { DataSet } from "vis-data";
 import Link from "next/link";
-
-interface Tag {
-  _id: string;
-  name: string;
-}
-
-interface Keyword {
-  _id: string;
-  name: string;
-}
-
-interface Article {
-  _id: string;
-  articleType: "journalArticle" | "book";
-  title: string;
-  abstract: string;
-  publication: { _id: string; title: string };
-  authors: { _id: string; first_name: string; last_name: string }[];
-  tags?: Tag[];
-  keywords?: Keyword[];
-}
+import { EdgeData, NodeData } from "@/app/(common)/graph/page";
+import { articleSchema } from "@/types/declarations/selectInp";
 
 interface GraphPageProps {
-  articles: Article[];
+  articles: articleSchema[];
+  nodes: NodeData[];
+  edges: EdgeData[];
 }
 
-// Define proper interface for nodes and edges
-interface NodeData {
-  id: string;
-  label: string;
-  size: number;
-  value: number;
-  title?: string;
-  color: {
-    background: string;
-    border: string;
-    highlight: { background: string; border: string };
-  };
-  font: { face: string; size: number; color: string };
-  group?: string;
-}
-
-interface EdgeData {
-  id: string;
-  from: string;
-  to: string;
-  color: { color: string; highlight: string };
-  width: number;
-  value?: number;
-  title?: string;
-}
-
-const GraphVisualization = ({ articles }: GraphPageProps) => {
+const GraphVisualization = ({ articles, nodes, edges }: GraphPageProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const networkRef = useRef<Network | null>(null);
   const [selectedNode, setSelectedNode] = useState<{
@@ -65,150 +22,17 @@ const GraphVisualization = ({ articles }: GraphPageProps) => {
     count: number;
   } | null>(null);
   const [loading, setLoading] = useState(true);
-  // const [networkReady, setNetworkReady] = useState(false);
-
-  // Track related articles for selected node
-  const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
+  const [stabilizationProgress, setStabilizationProgress] = useState(0);
+  const [relatedArticles, setRelatedArticles] = useState<articleSchema[]>([]);
 
   useEffect(() => {
     if (!containerRef.current) return;
     setLoading(true);
 
-    // Step 1: Collect all unique tags and keywords
-    const nodeMap = new Map<
-      string,
-      { id: string; label: string; count: number; type: "tag" | "keyword" }
-    >();
-    const edgesMap = new Map<
-      string,
-      { id: string; from: string; to: string; weight: number }
-    >();
+    const nodesDataSet = new DataSet<NodeData>(nodes);
+    const edgesDataSet = new DataSet<EdgeData>(edges);
 
-    articles.forEach((article) => {
-      // Process tags
-      (article.tags || []).forEach((tag) => {
-        if (nodeMap.has(tag._id)) {
-          const existing = nodeMap.get(tag._id)!;
-          nodeMap.set(tag._id, { ...existing, count: existing.count + 1 });
-        } else {
-          nodeMap.set(tag._id, {
-            id: tag._id,
-            label: tag.name,
-            count: 1,
-            type: "tag",
-          });
-        }
-      });
-
-      // Process keywords
-      (article.keywords || []).forEach((keyword) => {
-        if (nodeMap.has(keyword._id)) {
-          const existing = nodeMap.get(keyword._id)!;
-          nodeMap.set(keyword._id, { ...existing, count: existing.count + 1 });
-        } else {
-          nodeMap.set(keyword._id, {
-            id: keyword._id,
-            label: keyword.name,
-            count: 1,
-            type: "keyword",
-          });
-        }
-      });
-
-      // Create edges between all pairs of tags/keywords in the same article
-      const items = [...(article.tags || []), ...(article.keywords || [])];
-      const itemIds = items.map((item) => item._id);
-
-      for (let i = 0; i < itemIds.length; i++) {
-        for (let j = i + 1; j < itemIds.length; j++) {
-          const edgeId =
-            itemIds[i] < itemIds[j]
-              ? `${itemIds[i]}-${itemIds[j]}`
-              : `${itemIds[j]}-${itemIds[i]}`;
-
-          if (edgesMap.has(edgeId)) {
-            const existing = edgesMap.get(edgeId)!;
-            edgesMap.set(edgeId, { ...existing, weight: existing.weight + 1 });
-          } else {
-            edgesMap.set(edgeId, {
-              id: edgeId,
-              from: itemIds[i],
-              to: itemIds[j],
-              weight: 1,
-            });
-          }
-        }
-      }
-    });
-
-    // Step 2: Prepare nodes and edges for vis-network
-    const nodes = new DataSet<NodeData>(
-      Array.from(nodeMap.values()).map((node) => {
-        // Scale node size based on count (frequency)
-        const size = Math.max(20, Math.min(80, node.count * 12));
-        const value = node.count;
-
-        // Color scheme based on type and frequency
-        let color;
-        if (node.type === "tag") {
-          color =
-            node.count > 5
-              ? "#4338CA" // Indigo-700
-              : node.count > 3
-                ? "#6366F1" // Indigo-500
-                : "#A5B4FC"; // Indigo-300
-        } else {
-          color =
-            node.count > 5
-              ? "#9D174D" // Pink-800
-              : node.count > 3
-                ? "#DB2777" // Pink-600
-                : "#F9A8D4"; // Pink-300
-        }
-
-        return {
-          id: node.id,
-          label: node.label,
-          size,
-          value,
-          title: `${node.label} (${node.count} مقاله)`,
-          color: {
-            background: color,
-            border: node.type === "tag" ? "#312E81" : "#831843",
-            highlight: {
-              background: node.type === "tag" ? "#6366F1" : "#EC4899",
-              border: node.type === "tag" ? "#312E81" : "#831843",
-            },
-          },
-          font: {
-            face: "Vazirmatn, system-ui",
-            size: Math.max(16, Math.min(22, 14 + node.count)),
-            color: "#FFFFFF",
-          },
-          group: node.type,
-        };
-      })
-    );
-
-    const edges = new DataSet<EdgeData>(
-      Array.from(edgesMap.values()).map((edge) => {
-        const width = Math.max(1, Math.min(10, edge.weight * 2));
-        return {
-          id: edge.id,
-          from: edge.from,
-          to: edge.to,
-          value: edge.weight,
-          width,
-          title: `${edge.weight} ارتباط مشترک`,
-          color: {
-            color: "#CBD5E1",
-            highlight: "#F472B6",
-          },
-        };
-      })
-    );
-
-    // Step 3: Configure the network
+    // Configure the network
     const options = {
       nodes: {
         shape: "circle",
@@ -246,19 +70,20 @@ const GraphVisualization = ({ articles }: GraphPageProps) => {
         },
       },
       physics: {
-        forceAtlas2Based: {
-          gravitationalConstant: -70,
-          centralGravity: 0.01,
-          springLength: 150,
-          springConstant: 0.05,
-          avoidOverlap: 0.5,
+        solver: "barnesHut",
+        barnesHut: {
+          gravitationalConstant: -2000,
+          centralGravity: 0.3,
+          springLength: 95,
+          springConstant: 0.04,
+          damping: 0.09,
+          avoidOverlap: 0.1,
         },
         maxVelocity: 30,
-        solver: "forceAtlas2Based",
         timestep: 0.35,
         stabilization: {
           enabled: true,
-          iterations: 1000,
+          iterations: 500,
           updateInterval: 25,
           onlyDynamicEdges: false,
           fit: true,
@@ -290,56 +115,64 @@ const GraphVisualization = ({ articles }: GraphPageProps) => {
       },
     };
 
-    // Step 4: Initialize the network
-    networkRef.current = new Network(
-      containerRef.current,
-      { nodes, edges },
-      options
-    );
+    // Initialize the network
+    if (containerRef.current) {
+      networkRef.current = new Network(
+        containerRef.current,
+        { nodes: nodesDataSet, edges: edgesDataSet },
+        options
+      );
 
-    // Set up event listeners
-    // networkRef.current.on("stabilizationProgress", function(params) {
-    //   const progress = Math.round((params.iterations / params.total) * 100);
-    //   // You could update a progress bar here
-    // });
+      // Set up event listeners
+      networkRef.current.on("stabilizationProgress", function(params) {
+        const progress = Math.round((params.iterations / params.total) * 100);
+        setStabilizationProgress(progress);
+      });
 
-    networkRef.current.on("stabilizationIterationsDone", function() {
-      setLoading(false);
-      // setNetworkReady(true);
-    });
+      networkRef.current.on("stabilizationIterationsDone", function() {
+        setLoading(false);
+        setStabilizationProgress(0);
+        // Disable physics after stabilization for better performance
+        networkRef.current?.setOptions({ physics: { enabled: false } });
+      });
 
-    networkRef.current.on("selectNode", function(params) {
-      if (params.nodes.length > 0) {
-        const nodeId = params.nodes[0];
-        const node = nodeMap.get(nodeId);
-        if (node) {
-          setSelectedNode(node);
+      networkRef.current.on("selectNode", function(params) {
+        if (params.nodes.length > 0) {
+          const nodeId = params.nodes[0];
+          const node = nodes.find((n) => n.id === nodeId);
+          if (node) {
+            setSelectedNode({
+              id: nodeId,
+              label: node.label,
+              count: node.value,
+            });
 
-          // Find related articles
-          const relatedArticles = articles.filter((article) => {
-            const tagIds = (article.tags || []).map((tag) => tag._id);
-            const keywordIds = (article.keywords || []).map(
-              (keyword) => keyword._id
-            );
-            return tagIds.includes(nodeId) || keywordIds.includes(nodeId);
-          });
+            // Find related articles
+            const relatedArticles = articles.filter((article) => {
+              const tagIds = (article.tags || []).map((tag) => tag._id);
+              const keywordIds = (article.keywords || []).map(
+                (keyword) => keyword._id
+              );
+              return tagIds.includes(nodeId) || keywordIds.includes(nodeId);
+            });
 
-          setRelatedArticles(relatedArticles);
+            setRelatedArticles(relatedArticles);
+          }
         }
-      }
-    });
+      });
 
-    networkRef.current.on("deselectNode", function() {
-      setSelectedNode(null);
-      setRelatedArticles([]);
-    });
+      networkRef.current.on("deselectNode", function() {
+        setSelectedNode(null);
+        setRelatedArticles([]);
+      });
+    }
 
     // Cleanup on unmount
     return () => {
       networkRef.current?.destroy();
       networkRef.current = null;
     };
-  }, [articles]);
+  }, [articles, nodes, edges]);
 
   const getNodeTruncatedLabel = (label: string): string => {
     return label.length > 30 ? label.substring(0, 27) + "..." : label;
@@ -408,6 +241,19 @@ const GraphVisualization = ({ articles }: GraphPageProps) => {
                     <p className="mt-4 text-indigo-800 font-medium">
                       در حال بارگذاری گراف...
                     </p>
+                    {stabilizationProgress > 0 && (
+                      <div className="mt-4 w-48">
+                        <div className="h-2 bg-indigo-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-indigo-500 transition-all duration-300"
+                            style={{ width: `${stabilizationProgress}%` }}
+                          ></div>
+                        </div>
+                        <p className="text-sm text-indigo-600 mt-2 text-center">
+                          {stabilizationProgress}% تکمیل شد
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
                 <div ref={containerRef} className="w-full h-full" />
@@ -446,11 +292,10 @@ const GraphVisualization = ({ articles }: GraphPageProps) => {
                           </h4>
                         </Link>
                         <p className="text-sm text-gray-500 mt-1">
-                          {article.authors
-                            .map(
-                              (author) =>
-                                `${author.first_name} ${author.last_name}`
-                            )
+                          {article.authors?.map(
+                            (author) =>
+                              `${author.first_name} ${author.last_name}`
+                          )
                             .join("، ")}
                         </p>
                         <div className="flex flex-wrap gap-2 mt-2">
