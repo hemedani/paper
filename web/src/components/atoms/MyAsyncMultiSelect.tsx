@@ -17,6 +17,7 @@ interface InputProps<Option, Group extends GroupBase<Option>, T extends FieldVal
   loadOptions?: (inputValue: string, callback: (options: OptionsOrGroups<Option, Group>) => void) => Promise<OptionsOrGroups<Option, Group>> | void;
   defaultOptions?: OptionsOrGroups<Option, Group> | boolean;
   defaultValue?: PropsValue<Option>;
+  className?: string
 
 }
 
@@ -28,11 +29,12 @@ const MyAsyncMultiSelect = <Option, Group extends GroupBase<Option>, T extends F
   setValue,
   labelAsValue,
   defaultOptions,
-  defaultValue
+  defaultValue,
+  className
 }: InputProps<Option, Group, T>) => {
 
   return (
-    <div className="w-1/2 p-4 flex flex-col gap-2">
+    <div className={`w-1/2 p-4 flex flex-col gap-2 ${className ? className : ""}`}>
       <label htmlFor="tags" className="text-sm font-medium text-gray-700">
         {label}
       </label>

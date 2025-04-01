@@ -26,7 +26,7 @@ const ToggleAdvancedSearch = ({ defaultSearchArrayValues, pageAddress }: {
         {showAdvancedSearch ? "بستن جستجوی پیشرفته" : "باز کردن جستجوی پیشرفته"}
       </button>
       <div
-        className={`w-full md:w-2/3 mx-auto mt-6 overflow-hidden transition-all duration-500 ${showAdvancedSearch ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+        className={`w-full mx-auto mt-6 overflow-hidden transition-all duration-500 ${showAdvancedSearch ? "max-h-auto opacity-100" : "max-h-0 opacity-0"
           }`}
       >
         <AdvancedSearch isOpen={showAdvancedSearch} defaultSearchArrayValues={defaultSearchArrayValues} pageAddress={pageAddress} />

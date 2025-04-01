@@ -123,54 +123,136 @@ const AdvancedSearch: React.FC<{
 
     return (
       <div
-        className={`transition-all duration-500 ease-in-out bg-white border rounded-lg shadow-lg mt-4 min-h-[30rem] ${isOpen ? "max-h-[1000px] opacity-100 p-6" : "max-h-0 opacity-0"
+        className={`transition-all duration-500 ease-in-out bg-white border rounded-lg shadow-lg max-h-auto mt-4 ${isOpen ? "max-h-auto opacity-100" : "max-h-0 opacity-0"
           }`}
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-gray-100 p-6 border rounded-lg">
-          <h3 className="text-2xl font-bold text-gray-800">جستجوی پیشرفته</h3>
-          <div className="flex flex-wrap w-full">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-6 bg-gray-50 p-6 rounded-lg shadow-lg"
+        >
+          <h3 className="text-2xl font-bold text-gray-800 text-right mb-6">
+            جستجوی پیشرفته
+          </h3>
 
-            <MyAsyncMultiSelect
-              label="برچسب ها"
-              setValue={setValue}
-              defaultValue={tags}
-              name="tagIds"
-              defaultOptions
-              loadOptions={loadTagOptions}
-              errMsg={errors.tagIds?.message}
-            />
-            <MyAsyncMultiSelect
-              label="کلمات کلیدی"
-              setValue={setValue}
-              defaultValue={keywords}
-              name="keywordIds"
-              defaultOptions
-              loadOptions={loadKeywordsOptions}
-              errMsg={errors.keywordIds?.message}
-            />
-            <MyAsyncMultiSelect
-              label="نویسندگان"
-              setValue={setValue}
-              defaultValue={authors}
-              name="authorIds"
-              defaultOptions
-              loadOptions={loadAuthorsOptions}
-              errMsg={errors.authorIds?.message}
-            />
-
-            <MyInput name="title" errMsg={errors.title?.message} label="عنوان" placeholder="عنوان مقاله" register={register} />
-            <MyInput name="abstract" errMsg={errors.abstract?.message} label="چکیده" placeholder="چکیده مقاله" register={register} />
-            <MyInput name="publication" errMsg={errors.publication?.message} label="انتشارات" register={register} />
-            <MyInput name="DOI" errMsg={errors.publication?.message} label="DOI" register={register} />
-            <MyInput name="ISBN" errMsg={errors.publication?.message} label="ISBN" register={register} />
-            <MyInput name="ISNN" errMsg={errors.publication?.message} label="ISNN" register={register} />
-            <MyInput name="publicationYear" type="number" errMsg={errors.publicationYear?.message} label="سال انتشار" register={register} />
+          {/* Filter by Section */}
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <h4 className="text-lg font-semibold text-gray-700 mb-4 text-right">
+              فیلتر بر اساس
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <MyAsyncMultiSelect
+                className="w-full"
+                label="برچسب ها"
+                setValue={setValue}
+                defaultValue={tags}
+                name="tagIds"
+                defaultOptions
+                loadOptions={loadTagOptions}
+                errMsg={errors.tagIds?.message}
+              />
+              <MyAsyncMultiSelect
+                className="w-full"
+                label="کلمات کلیدی"
+                setValue={setValue}
+                defaultValue={keywords}
+                name="keywordIds"
+                defaultOptions
+                loadOptions={loadKeywordsOptions}
+                errMsg={errors.keywordIds?.message}
+              />
+              <MyAsyncMultiSelect
+                className="w-full"
+                label="نویسندگان"
+                setValue={setValue}
+                defaultValue={authors}
+                name="authorIds"
+                defaultOptions
+                loadOptions={loadAuthorsOptions}
+                errMsg={errors.authorIds?.message}
+              />
+            </div>
           </div>
 
-          <div className="flex justify-end items-center">
+          {/* Text Search Section */}
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <h4 className="text-lg font-semibold text-gray-700 mb-4 text-right">
+              جستجوی متن
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <MyInput
+                className="w-full"
+                name="title"
+                errMsg={errors.title?.message}
+                label="عنوان"
+                placeholder="عنوان مقاله را وارد کنید"
+                register={register}
+              />
+              <MyInput
+                className="w-full"
+                name="abstract"
+                errMsg={errors.abstract?.message}
+                label="چکیده"
+                placeholder="چکیده مقاله را وارد کنید"
+                register={register}
+              />
+            </div>
+          </div>
+
+          {/* Publication Details Section */}
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <h4 className="text-lg font-semibold text-gray-700 mb-4 text-right">
+              جزئیات انتشار
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <MyInput
+                className="w-full"
+                name="publication"
+                errMsg={errors.publication?.message}
+                label="انتشارات"
+                placeholder="نام انتشارات را وارد کنید"
+                register={register}
+              />
+              <MyInput
+                className="w-full"
+                name="DOI"
+                errMsg={errors.DOI?.message}
+                label="DOI"
+                placeholder="شماره DOI را وارد کنید"
+                register={register}
+              />
+              <MyInput
+                className="w-full"
+                name="ISBN"
+                errMsg={errors.ISBN?.message}
+                label="ISBN"
+                placeholder="شماره ISBN را وارد کنید"
+                register={register}
+              />
+              <MyInput
+                className="w-full"
+                name="ISNN"
+                errMsg={errors.ISNN?.message}
+                label="ISNN"
+                placeholder="شماره ISNN را وارد کنید"
+                register={register}
+              />
+              <MyInput
+                className="w-full"
+                name="publicationYear"
+                type="number"
+                errMsg={errors.publicationYear?.message}
+                label="سال انتشار"
+                placeholder="سال انتشار را وارد کنید"
+                register={register}
+              />
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex justify-end items-center mt-8">
             <button
               type="submit"
-              className="px-6 h-10 bg-gradient-to-r from-blue-500 to-blue-700 text-white text-sm font-semibold rounded-md shadow hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
+              className="w-full md:w-auto px-8 h-12 bg-gradient-to-r from-blue-500 to-blue-700 text-white text-base font-semibold rounded-lg shadow-md hover:from-blue-600 hover:to-blue-800 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               جستجو
             </button>

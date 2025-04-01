@@ -77,8 +77,8 @@ export const Header: React.FC<{ defaultSearchArrayValues: DefaultSearchArrayValu
         </form>
 
         <div
-          className={`w-full md:w-2/3 mx-auto mt-6 overflow-hidden transition-all duration-500 ${showAdvancedSearch
-            ? "max-h-screen opacity-100"
+          className={`w-full md:w-4/5 mx-auto mt-6 overflow-hidden transition-all duration-500 ${showAdvancedSearch
+            ? "max-h-auto opacity-100"
             : "max-h-0 opacity-0"
             }`}
         >
