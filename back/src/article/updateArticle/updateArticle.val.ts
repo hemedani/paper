@@ -6,7 +6,7 @@ export const updateArticleValidator = () => {
 	const { createdAt, updatedAt, ...otherFields } = articlePureFields;
 	return object({
 		set: object({
-			articleId: objectIdValidation,
+			_id: objectIdValidation,
 			...otherFields,
 		}),
 		get: selectStruct("article", 1),

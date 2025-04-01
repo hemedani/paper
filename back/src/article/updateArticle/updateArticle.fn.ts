@@ -4,14 +4,14 @@ import { article } from "../../../mod.ts";
 export const updateArticleFn: ActFn = async (body) => {
 	const {
 		set: {
-			articleId,
+			_id,
 			...rest
 		},
 		get,
 	} = body.details;
 
 	return await article.findOneAndUpdate({
-		filter: { _id: new ObjectId(articleId) },
+		filter: { _id: new ObjectId(_id as string) },
 		update: {
 			$set: {
 				...rest,

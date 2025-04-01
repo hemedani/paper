@@ -1,6 +1,7 @@
 import {
 	enums,
 	number,
+	optional,
 	type RelationDataType,
 	type RelationSortOrderType,
 	size,
@@ -24,16 +25,16 @@ export const articlePureFields = {
 	title: string(),
 	abstract: string(),
 
-	ISBN: string(),
-	ISNN: string(),
-	DOI: string(),
+	ISBN: optional(string()),
+	ISNN: optional(string()),
+	DOI: optional(string()),
 	URL: string(),
 
 	// ISSUE page ro be sorate yek baze adadi string gozasshtan bayad number bashe ehtemalan
-	page: string(),
+	page: optional(string()),
 
-	issue: number(),
-	volume: number(),
+	issue: optional(number()),
+	volume: optional(number()),
 
 	...createUpdateAt,
 };
