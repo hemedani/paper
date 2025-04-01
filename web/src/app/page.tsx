@@ -129,6 +129,7 @@ export default async function Home({
               <Pagination
                 countPage={countDataArticle ? countDataArticle.qty : 0}
                 initialPage={+actualSearchParams.page || 1}
+                limit={+actualSearchParams.limit || 20}
               />
             </div>
           </div>
