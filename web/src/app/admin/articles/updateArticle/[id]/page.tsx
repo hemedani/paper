@@ -8,7 +8,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const getArticle = await getArticleAction({
     set: { _id: articleId as string },
     get: {
-      _id: 0,
+      _id: 1,
       title: 1,
       articleType: 1,
       publicationYear: 1,
