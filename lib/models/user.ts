@@ -69,7 +69,6 @@ export const userRelations = {
 		schemaName: "article",
 		optional: true,
 		type: "multiple" as RelationDataType,
-		excludes: ["ISBN", "ISNN", "DOI", "URL"],
 		sort: {
 			field: "_id",
 			order: "desc" as RelationSortOrderType,
@@ -78,7 +77,6 @@ export const userRelations = {
 			favByUsers: {
 				type: "multiple" as RelationDataType,
 				limit: 2,
-				excludes: ["summery", "gender"],
 				sort: {
 					field: "_id",
 					order: "desc" as RelationSortOrderType,
