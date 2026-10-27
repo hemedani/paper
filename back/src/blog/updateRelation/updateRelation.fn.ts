@@ -1,6 +1,6 @@
 import { type ActFn, ObjectId, type TInsertRelations } from "deps";
 import { blog } from "../../../mod.ts";
-import { type blogRelations, throwError } from "../../../../lib/mod.ts";
+import { type blogRelations, throwError } from "@paper/lib";
 
 export const updateRelationFn: ActFn = async (body) => {
 	const {

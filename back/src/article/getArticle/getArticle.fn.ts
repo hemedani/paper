@@ -1,6 +1,6 @@
 import { type ActFn, ObjectId } from "deps";
 import { article } from "../../../mod.ts";
-import { throwError } from "../../../../lib/mod.ts";
+import { throwError } from "@paper/lib";
 
 export const getArticleFn: ActFn = async (body) => {
 	const {
