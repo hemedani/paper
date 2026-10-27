@@ -26,10 +26,7 @@ const UserProfileCard = ({
     : "/user/edit/relation";
 
   return (
-    <div
-      className={`bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-md ${className}`}
-    >
-      {/* Header Section */}
+    <div className={`space-y-4 ${className}`}>
       <ProfileHeader
         user={user}
         showAvatar={showAvatar}
@@ -37,16 +34,10 @@ const UserProfileCard = ({
         relationEditLink={relationEditLink}
       />
 
-      {/* Content Section */}
-      <div className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Personal Information */}
+      <div className="rounded-[24px] border border-[#F0F0F2] bg-white p-5">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <PersonalInfo user={user} />
-
-          {/* Contact Information */}
           <ContactInfo user={user} />
-
-          {/* Summary Section */}
           <SummarySection user={user} />
         </div>
       </div>

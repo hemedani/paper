@@ -2,34 +2,57 @@
 import { useState } from "react";
 import AdvancedSearch from "../molecules/AdvancedSearch";
 import { DefaultSearchArrayValues } from "@/utils/prepareArtticleSearch";
+import { AdminIcon } from "../organisms/admin/AdminUI";
 
-const ToggleAdvancedSearch = ({ defaultSearchArrayValues, pageAddress }: {
-  defaultSearchArrayValues: DefaultSearchArrayValues,
-  pageAddress?: string
+const ToggleAdvancedSearch = ({
+  defaultSearchArrayValues,
+  pageAddress,
+}: {
+  defaultSearchArrayValues: DefaultSearchArrayValues;
+  pageAddress?: string;
 }) => {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
 
-  const toggleAdvancedSearch = () => {
-    setShowAdvancedSearch(!showAdvancedSearch);
-  };
-
   return (
-    <div className="text-center">
+    <div>
       <button
         type="button"
-        onClick={toggleAdvancedSearch}
-        className={`px-4 py-2 rounded-3xl text-white w-full md:w-auto transition-all ${showAdvancedSearch
-          ? "bg-blue-500 hover:bg-blue-600"
-          : "bg-gray-600 hover:bg-gray-500"
-          }`}
+        onClick={() => setShowAdvancedSearch((v) => !v)}
+        aria-expanded={showAdvancedSearch}
+        className="flex w-full items-center justify-between gap-3 rounded-[14px] bg-[#F8F8F9] px-4 py-3 text-start transition-colors hover:bg-[#F0F0F2]"
       >
-        {showAdvancedSearch ? "بستن جستجوی پیشرفته" : "باز کردن جستجوی پیشرفته"}
+        <span className="flex items-center gap-2 text-[13px] font-bold text-[#3C3C42]">
+          <span className="text-[#08A6AE]">{AdminIcon.search}</span>
+          جستجوی پیشرفته
+        </span>
+
+        <span className="flex items-center gap-1.5 text-[12px] font-bold text-[#08A6AE]">
+          {showAdvancedSearch ? "بستن" : "باز کردن"}
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden
+            className={`transition-transform duration-300 ${showAdvancedSearch ? "rotate-180" : ""}`}
+          >
+            <path
+              d="M6 9.5l6 6 6-6"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </button>
-      <div
-        className={`w-full mx-auto mt-6 overflow-hidden transition-all duration-500 ${showAdvancedSearch ? "max-h-auto opacity-100" : "max-h-0 opacity-0"
-          }`}
-      >
-        <AdvancedSearch isOpen={showAdvancedSearch} defaultSearchArrayValues={defaultSearchArrayValues} pageAddress={pageAddress} />
+
+      <div className="mt-4">
+        <AdvancedSearch
+          isOpen={showAdvancedSearch}
+          defaultSearchArrayValues={defaultSearchArrayValues}
+          pageAddress={pageAddress}
+        />
       </div>
     </div>
   );

@@ -1,8 +1,16 @@
+import Link from "next/link";
 import { CountUsers } from "@/app/actions/user/countUsers";
 import { getUsers } from "@/app/actions/user/getUsers";
 import Pagination from "@/components/molecules/Pagination";
-import SearchBox from "@/components/molecules/SearchBox";
 import ClientUserDashboard from "@/components/template/clientUserDashboard";
+import { LevelFilter } from "@/components/molecules/LevelFilter";
+import {
+  AdminCountChip,
+  AdminIcon,
+  AdminPageHeader,
+  AdminPanel,
+  btn,
+} from "@/components/organisms/admin/AdminUI";
 import { ReqType } from "@/types/declarations/selectInp";
 
 const UserDashboard = async ({
@@ -11,10 +19,13 @@ const UserDashboard = async ({
   searchParams: Promise<ReqType["main"]["user"]["getUsers"]["set"]>;
 }) => {
   const { limit = "20", page = "1", levels } = await searchParams;
+  // An empty string fails the API validator, so normalise it away.
+  const levelFilter = levels ? levels : undefined;
+
   const set: ReqType["main"]["user"]["getUsers"]["set"] = {
     limit: +limit || 20,
     page: +page,
-    levels,
+    levels: levelFilter,
   };
 
   const get: ReqType["main"]["user"]["getUsers"]["get"] = {
@@ -22,28 +33,47 @@ const UserDashboard = async ({
     first_name: 1,
     last_name: 1,
     level: 1,
+    national_number: 1,
   };
-  const users = await getUsers({ set, get });
-  const countDataUsers = await CountUsers({
-    set: { levels: levels },
-    get: { qty: 1 },
-  });
+
+  const [users, countDataUsers] = await Promise.all([
+    getUsers({ set, get }),
+    CountUsers({ set: { levels: levelFilter }, get: { qty: 1 } }),
+  ]);
+
+  const list = Array.isArray(users) ? users : [];
+  const total = countDataUsers?.qty ?? 0;
+
   return (
-    <div className="relative min-h-full">
-      <div className="flex items-start">
-        <div className="bg-blue-500 w-1 h-8 ml-3 rounded-full"></div>
-        <div>
-          <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-            کاربران
-          </h1>
-          <p className="text-gray-500 mt-2 text-sm">
-            مدیریت تمامی کاربران وب‌سایت
-          </p>
+    <div className="flex flex-col gap-6">
+      <AdminPageHeader
+        title="کاربران سایت"
+        subtitle="مدیریت حساب‌های کاربری، سطح دسترسی و اطلاعات هویتی"
+        badge={<AdminCountChip value={total} label="کاربر" />}
+      />
+
+      <AdminPanel
+        title="فهرست کاربران"
+        description="برای باریک کردن فهرست، سطح دسترسی را انتخاب کنید"
+        icon={AdminIcon.search}
+        actions={
+          <Link href="/admin/users/createUser" className={btn.primary}>
+            {AdminIcon.plus}
+            کاربر جدید
+          </Link>
+        }
+        bodyClassName="p-4 sm:p-5"
+      >
+        <div className="mb-4">
+          <LevelFilter value={levelFilter ?? ""} />
         </div>
+
+        <ClientUserDashboard searchQuery="" users={list} />
+      </AdminPanel>
+
+      <div className="flex justify-center">
+        <Pagination countPage={total} initialPage={+page} />
       </div>
-      <SearchBox title="levels" defaultValue="" />
-      <ClientUserDashboard searchQuery="" users={users} />
-      <Pagination countPage={countDataUsers.qty} initialPage={+page} />
     </div>
   );
 };

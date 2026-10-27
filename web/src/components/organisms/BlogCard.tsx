@@ -1,8 +1,10 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 import React from "react";
-import { EditIcon, HideIcon, TrashIcon, LinkIcon } from "../atoms/Icons";
-import Image from "next/image";
 import { blogSchema } from "@/types/declarations/selectInp";
+import { AdminIcon, AdminIconButton } from "./admin/AdminUI";
+import { AdminThumb } from "./admin/AdminThumb";
 
 type TBlog = {
   onDelete: () => void;
@@ -19,71 +21,76 @@ export const BlogCard = ({
   isInSwipper,
   onDelete,
   lesanUrl,
-  isOwn
+  isOwn,
 }: blogSchema & TBlog) => {
   const router = useRouter();
-  const imageSrc = pic?.name
-    ? `${lesanUrl}/uploads/images/${pic.name}`
-    : "/images/placeholder.jpg";
+  const canManage = isOwn === false || isOwn === undefined;
+  const imageSrc = pic?.name ? `${lesanUrl}/uploads/images/${pic.name}` : undefined;
 
   return (
-    <div className="bg-white border rounded-lg shadow-md p-4 w-full flex flex-col gap-4 min-h-[200px] justify-between">
-      <div className="flex gap-4">
-        <div className="w-24 h-24 relative rounded-md overflow-hidden flex-shrink-0">
-          <Image src={imageSrc} alt={title} fill className="object-cover" />
-        </div>
-        <div className="flex flex-col">
-          <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
-          <p className="text-sm text-gray-600">{subtitle}</p>
-          {isInSwipper && (
-            <span className="mt-1 text-xs inline-block bg-green-100 text-green-800 px-2 py-1 rounded-full">
-              نمایش در اسلایدر
-            </span>
+    <article className="flex h-full flex-col justify-between gap-4 rounded-[20px] border border-[#F0F0F2] bg-white p-4 transition-all duration-200 hover:border-[#08A6AE]/30 hover:shadow-[0_18px_36px_-30px_rgba(8,166,174,0.8)]">
+      <div className="flex gap-3.5">
+        <AdminThumb src={imageSrc} alt={title ?? "تصویر پست"} size={84} />
+
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="line-clamp-1 text-[14px] font-bold leading-[1.85] text-black">
+              {title}
+            </h3>
+            {isInSwipper && (
+              <span className="shrink-0 rounded-full bg-[#EDFEFF] px-2 py-0.5 text-[10px] font-bold text-[#08A6AE]">
+                اسلایدر
+              </span>
+            )}
+          </div>
+
+          {subtitle && (
+            <p className="mt-0.5 line-clamp-1 text-[11.5px] font-medium text-[#9A9AA1]">
+              {subtitle}
+            </p>
           )}
-          <p className="text-sm text-gray-500 mt-2 line-clamp-2">{abstract}</p>
+
+          {abstract && (
+            <p className="mt-1.5 line-clamp-2 text-[11.5px] font-medium leading-[1.85] text-[#5C5C63]">
+              {abstract}
+            </p>
+          )}
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-4 gap-2">
-        {isOwn === false || isOwn === undefined && (
-          <div className="flex gap-3">
-            <button
+      <div className="flex items-center gap-1.5 border-t border-[#F0F0F2] pt-3">
+        {canManage && (
+          <>
+            <AdminIconButton
+              label="ویرایش اطلاعات"
+              tone="teal"
+              icon={AdminIcon.edit}
               onClick={() => router.push(`/admin/blog/edit-blog/${_id}`)}
-              className="flex items-center gap-1 text-blue-500 hover:text-blue-700 bg-blue-50 px-3 py-1 rounded-md"
-              title="ویرایش اطلاعات"
-            >
-              <EditIcon />
-              <span className="text-sm">ویرایش</span>
-            </button>
-            <button
+            />
+            <AdminIconButton
+              label="ویرایش روابط"
+              tone="neutral"
+              icon={AdminIcon.link}
               onClick={() => router.push(`/admin/blog/edit-relation/${_id}`)}
-              className="flex items-center gap-1 text-purple-500 hover:text-purple-700 bg-purple-50 px-3 py-1 rounded-md"
-              title="ویرایش روابط"
-            >
-              <LinkIcon />
-              <span className="text-sm">روابط</span>
-            </button>
-            <button
+            />
+            <AdminIconButton
+              label="حذف"
+              tone="danger"
+              icon={AdminIcon.trash}
               onClick={onDelete}
-              className="flex items-center gap-1 text-red-500 hover:text-red-700 bg-red-50 px-3 py-1 rounded-md"
-              title="حذف"
-            >
-              <TrashIcon />
-              <span className="text-sm">حذف</span>
-            </button>
-          </div>
+            />
+          </>
         )}
 
-        <button
+        <AdminIconButton
+          label="مشاهده پست"
+          tone="neutral"
+          icon={AdminIcon.eye}
+          className="ms-auto"
           onClick={() => router.push(`/blog/${_id}`)}
-          className="flex items-center gap-1 text-green-500 hover:text-green-700 bg-green-50 px-3 py-1 rounded-md"
-          title="مشاهده"
-        >
-          <HideIcon />
-          <span className="text-sm">مشاهده</span>
-        </button>
+        />
       </div>
-    </div>
+    </article>
   );
 };
 

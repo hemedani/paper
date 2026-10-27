@@ -7,6 +7,12 @@ import { useRouter } from "next/navigation";
 import { ToastNotify } from "@/utils/helper";
 import { ModalAuthor } from "./ModalAuthor";
 import { deleteAuthor } from "@/app/actions/author/removeAuthor";
+import {
+  AdminEmptyState,
+  AdminIcon,
+  AdminPanel,
+  btn,
+} from "../organisms/admin/AdminUI";
 
 interface Author {
   _id: string;
@@ -21,9 +27,7 @@ interface ClientDashboardProps {
 const ClientDashboard: React.FC<ClientDashboardProps> = ({ authors }) => {
   const router = useRouter();
 
-  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(
-    null
-  );
+  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(null);
   const [selectedAuthor, setSelectedAuthor] = useState<Author | null>(null);
 
   const [hardCascade, setHardCascade] = useState<boolean>(false);
@@ -49,30 +53,55 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ authors }) => {
   };
 
   return (
-    <div>
-      <button
-        className="absolute top-1 left-5 mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        onClick={() => openModal("edit")}
+    <>
+      <AdminPanel
+        title="فهرست نویسندگان"
+        description={authors?.length ? undefined : "هنوز نویسنده‌ای ثبت نشده است"}
+        icon={AdminIcon.user}
+        actions={
+          <button
+            type="button"
+            onClick={() => openModal("edit")}
+            className={btn.primary}
+          >
+            {AdminIcon.plus}
+            ایجاد نویسنده جدید
+          </button>
+        }
+        bodyClassName="p-4"
       >
-        ایجاد نویسنده جدید
-      </button>
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {authors?.map((author) => (
-          <EntityCard
-            key={author._id}
-            title={`${author.first_name} ${author.last_name}`}
-            onDelete={() => openModal("delete", author)}
-            onEdit={() => openModal("edit", author)}
+        {authors?.length ? (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {authors.map((author) => (
+              <EntityCard
+                key={author._id}
+                title={`${author.first_name} ${author.last_name}`}
+                onDelete={() => openModal("delete", author)}
+                onEdit={() => openModal("edit", author)}
+              />
+            ))}
+          </div>
+        ) : (
+          <AdminEmptyState
+            title="هیچ نویسنده‌ای یافت نشد"
+            description="برای شروع، اولین نویسنده را ایجاد کنید یا عبارت جستجو را تغییر دهید."
+            icon={AdminIcon.user}
+            action={
+              <button
+                type="button"
+                onClick={() => openModal("edit")}
+                className={`${btn.primary} mt-1`}
+              >
+                {AdminIcon.plus}
+                ایجاد نویسنده جدید
+              </button>
+            }
           />
-        ))}
-      </div>
+        )}
+      </AdminPanel>
 
       {activeModal === "edit" && (
-        <ModalAuthor
-          isOpen
-          onClose={closeModal}
-          authorToEdit={selectedAuthor}
-        />
+        <ModalAuthor isOpen onClose={closeModal} authorToEdit={selectedAuthor} />
       )}
 
       {activeModal === "delete" && (
@@ -80,12 +109,18 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ authors }) => {
           isVisible
           onConfirm={confirmDelete}
           onCancel={closeModal}
-          message="آیا مطمئن هستید که می‌خواهید این نویسنده را حذف کنید؟ این عمل قابل بازگشت نیست."
+          title="حذف نویسنده"
+          subject={
+            selectedAuthor
+              ? `${selectedAuthor.first_name} ${selectedAuthor.last_name}`
+              : undefined
+          }
+          message="این عملیات قابل بازگشت نیست و نویسنده برای همیشه حذف می‌شود."
           isHardCascade={hardCascade}
           onHardCascadeChange={setHardCascade}
         />
       )}
-    </div>
+    </>
   );
 };
 

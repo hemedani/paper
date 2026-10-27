@@ -12,6 +12,13 @@ import { UploadImage } from "@/components/molecules/UploadFile";
 import MyAsyncMultiSelect from "@/components/atoms/MyAsyncMultiSelect";
 import { gets } from "@/app/actions/category/gets";
 import { ReqType } from "@/types/declarations/selectInp";
+import {
+  AdminIcon,
+  AdminPanel,
+  btn,
+  formFooter,
+  formGrid,
+} from "../organisms/admin/AdminUI";
 
 const BlogAddSchema = z.object({
   title: z.string().nonempty("عنوان بلاگ الزامی است"),
@@ -19,7 +26,7 @@ const BlogAddSchema = z.object({
   abstract: z.string().nonempty("چکیده الزامی است"),
   content: z.string().nonempty("محتوا الزامی است"),
   isInSwipper: z.boolean().optional(),
-  pic: z.string(),
+  pic: z.string().nonempty("عکس بلاگ الزامی است"),
   categories: z.array(z.string()).nonempty("حداقل یک برچسب انتخاب کنید"),
 });
 
@@ -33,7 +40,7 @@ export const FormNewBlog = ({ token, lesanUrl }: { token?: string; lesanUrl: str
     setValue,
     watch,
     register,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm<BlogFormSchemaType>({
     resolver: zodResolver(BlogAddSchema),
     mode: "onChange"
@@ -71,81 +78,112 @@ export const FormNewBlog = ({ token, lesanUrl }: { token?: string; lesanUrl: str
 
   const isInSwipperValue = watch("isInSwipper");
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6 bg-white p-6 rounded-lg shadow-md"
-    >
-      <div className="flex flex-wrap w-full">
-        <div className="w-full p-4">
-          <span className="text-sm font-medium text-gray-700">
-            عکس بلاگ پست
-          </span>
-          <UploadImage
-            inputName="pic"
-            setUploadedImage={(uploaded: string) => setValue("pic", uploaded)}
-            type="image"
-            token={token}
-            lesanUrl={lesanUrl}
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <AdminPanel title="محتوای پست" icon={AdminIcon.rss} bodyClassName="p-5">
+        <div className={formGrid}>
+          <MyInput
+            className="md:col-span-2"
+            label="عنوان پست"
+            register={register}
+            name="title"
+            placeholder="عنوان پست وبلاگ را وارد کنید"
+            errMsg={errors.title?.message}
+          />
+
+          <MyInput
+            className="md:col-span-2"
+            label="زیرعنوان"
+            register={register}
+            name="subtitle"
+            placeholder="یک زیرعنوان کوتاه و جذاب"
+            errMsg={errors.subtitle?.message}
+          />
+
+          <MyInput
+            className="md:col-span-2"
+            label="چکیده"
+            register={register}
+            name="abstract"
+            type="textarea"
+            rows={3}
+            placeholder="خلاصه‌ای از محتوای پست"
+            errMsg={errors.abstract?.message}
+          />
+
+          <MyInput
+            className="md:col-span-2"
+            label="محتوا"
+            register={register}
+            name="content"
+            type="textarea"
+            rows={12}
+            placeholder="متن کامل پست را وارد کنید"
+            errMsg={errors.content?.message}
           />
         </div>
-        <MyInput
-          label="عنوان بلاگ"
-          register={register}
-          name="title"
-          errMsg={errors.title?.message}
-        />
+      </AdminPanel>
 
-        <MyInput
-          label="زیرعنوان"
-          register={register}
-          name="subtitle"
-          errMsg={errors.subtitle?.message}
-        />
+      <AdminPanel title="دسته‌بندی و تصویر" icon={AdminIcon.folder} bodyClassName="p-5">
+        <div className={formGrid}>
+          <MyAsyncMultiSelect
+            errMsg={errors.categories?.message}
+            name="categories"
+            label="دسته‌بندی (وبلاگ)"
+            loadOptions={loadCategoryOptions}
+            setValue={setValue}
+            defaultOptions
+          />
 
-        <MyAsyncMultiSelect
-          errMsg={errors.categories?.message}
-          name="categories"
-          label="دسته بندی (وبلاگ)"
-          loadOptions={loadCategoryOptions}
-          setValue={setValue}
-          defaultOptions />
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[12.5px] font-bold text-[#5C5C63]">عکس پست</span>
+            <UploadImage
+              inputName="pic"
+              setUploadedImage={(uploaded: string) =>
+                setValue("pic", uploaded, { shouldValidate: true })
+              }
+              type="image"
+              token={token}
+              lesanUrl={lesanUrl}
+            />
+          </div>
 
-        <MyInput
-          label="چکیده"
-          register={register}
-          name="abstract"
-          type="textarea"
-          errMsg={errors.abstract?.message}
-        />
-
-        <MyInput
-          label="محتوا"
-          register={register}
-          name="content"
-          type="textarea"
-          errMsg={errors.content?.message}
-        />
-
-        <div className="w-1/2 p-10">
-          <div className="flex items-center">
-            <span className="text-sm font-medium text-gray-700 ml-4">
-              نمایش در اسلایدر
-            </span>
+          <div className="flex items-center justify-between gap-3 rounded-[14px] border-[1.5px] border-[#F0F0F2] px-4 py-3 md:col-span-2">
+            <div>
+              <p className="text-[12.5px] font-bold text-[#3C3C42]">نمایش در اسلایدر</p>
+              <p className="text-[11px] font-medium text-[#9A9AA1]">
+                این پست در اسلایدر صفحه اصلی نمایش داده می‌شود.
+              </p>
+            </div>
             <ToggleSwitch
               checked={isInSwipperValue || false}
-              onChange={(checked) => setValue("isInSwipper", checked)}
+              onChange={(checked) =>
+                setValue("isInSwipper", checked, { shouldValidate: true })
+              }
             />
           </div>
         </div>
-      </div>
+      </AdminPanel>
 
-      <div className="w-full flex gap-4 justify-end">
+      <div className={formFooter}>
+        <button type="button" onClick={() => router.push("/admin/blog")} className={btn.secondary}>
+          انصراف
+        </button>
         <button
           type="submit"
-          disabled={isSubmitting || !isValid}
-          className="p-4 px-8 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
+          disabled={isSubmitting}
+          className={`${btn.primary} disabled:cursor-not-allowed disabled:opacity-60`}
         >
-          ایجاد بلاگ
+          {isSubmitting ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              در حال ذخیره…
+            </>
+          ) : (
+            <>
+              {AdminIcon.save}
+              ایجاد پست
+            </>
+          )}
         </button>
       </div>
     </form>

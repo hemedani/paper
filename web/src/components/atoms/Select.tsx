@@ -36,27 +36,46 @@ const SelectBox = <Option, Group extends GroupBase<Option>, T extends FieldValue
 }: SelectBoxProps<Option, Group, T>) => {
 
   return (
-    <div className={`w-1/2 p-4 flex flex-col gap-1 ${className}`}>
+    <div className={`flex w-full flex-col gap-1.5 ${className}`}>
       {label && (
-        <label
-          htmlFor={name}
-          className="text-sm font-medium text-gray-700"
-        >
+        <label htmlFor={name} className="text-[12.5px] font-bold text-[#5C5C63]">
           {label}
         </label>
       )}
-      <Select
-        id={name}
-        options={options}
-        onChange={(newVal) => setValue(name, (labelAsValue ? newVal!.label : newVal!.value) as unknown as PathValue<T, Path<T>>)}
-        placeholder={placeholder}
-        classNamePrefix="react-select"
-        className={`text-sm ${errMsg ? "border-red-500" : "border-gray-300"
-          }`}
-        defaultValue={defaultValue}
-      />
+
+      <div
+        className={[
+          "pd-select flex min-h-11 w-full items-center rounded-[14px] border-[1.5px] bg-white px-3 py-1.5 transition-all",
+          errMsg
+            ? "border-[#E2555B] bg-[#FEF5F5]"
+            : "border-[#F0F0F2] focus-within:border-[#08A6AE] focus-within:ring-4 focus-within:ring-[#08A6AE]/10",
+        ].join(" ")}
+      >
+        <Select
+          inputId={name}
+          instanceId={`select-${String(name)}`}
+          options={options}
+          onChange={(newVal) =>
+            setValue(
+              name,
+              (labelAsValue ? newVal!.label : newVal!.value) as unknown as PathValue<T, Path<T>>
+            )
+          }
+          placeholder={placeholder}
+          classNamePrefix="react-select"
+          className="w-full"
+          defaultValue={defaultValue}
+        />
+      </div>
+
       {errMsg && (
-        <span className="text-red-500 text-xs">{errMsg}</span>
+        <span className="flex items-center gap-1 text-[11.5px] font-semibold text-[#C2353D]">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
+            <path d="M12 7.5v5.5M12 16.2v.3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
+          {errMsg}
+        </span>
       )}
     </div>
   );

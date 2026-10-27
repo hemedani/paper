@@ -7,6 +7,12 @@ import { DeleteModal } from "./DeleteModal";
 import { deletePublication } from "@/app/actions/publication/removePuplication";
 import { useRouter } from "next/navigation";
 import { ToastNotify } from "@/utils/helper";
+import {
+  AdminEmptyState,
+  AdminIcon,
+  AdminPanel,
+  btn,
+} from "../organisms/admin/AdminUI";
 
 interface Publication {
   _id: string;
@@ -22,9 +28,7 @@ const ClientPublicationDashboard: React.FC<ClientPublicationProps> = ({
 }) => {
   const router = useRouter();
 
-  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(
-    null
-  );
+  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(null);
   const [selectedPublication, setSelectedPublication] =
     useState<Publication | null>(null);
 
@@ -48,31 +52,59 @@ const ClientPublicationDashboard: React.FC<ClientPublicationProps> = ({
   const confirmDelete = async () => {
     if (selectedPublication?._id) {
       await deletePublication(selectedPublication._id, isHardCascade);
-      ToastNotify("success", "انتشارات با موفقیت حذف شد");
+      ToastNotify("success", "ناشر با موفقیت حذف شد");
       router.refresh();
     }
     closeModal();
   };
 
   return (
-    <div>
-      <button
-        className="absolute top-1 left-5 mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        onClick={() => openModal("edit")}
+    <>
+      <AdminPanel
+        title="فهرست ناشران"
+        description={publications?.length ? undefined : "هنوز ناشری ثبت نشده است"}
+        icon={AdminIcon.news}
+        actions={
+          <button
+            type="button"
+            onClick={() => openModal("edit")}
+            className={btn.primary}
+          >
+            {AdminIcon.plus}
+            ایجاد ناشر جدید
+          </button>
+        }
+        bodyClassName="p-4"
       >
-        ایجاد انتشارات جدید
-      </button>
-
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {publications?.map((publication) => (
-          <EntityCard
-            key={publication._id}
-            title={publication.title}
-            onDelete={() => openModal("delete", publication)}
-            onEdit={() => openModal("edit", publication)}
+        {publications?.length ? (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {publications.map((publication) => (
+              <EntityCard
+                key={publication._id}
+                title={publication.title}
+                onDelete={() => openModal("delete", publication)}
+                onEdit={() => openModal("edit", publication)}
+              />
+            ))}
+          </div>
+        ) : (
+          <AdminEmptyState
+            title="هیچ ناشری یافت نشد"
+            description="برای شروع، اولین ناشر را ایجاد کنید یا عبارت جستجو را تغییر دهید."
+            icon={AdminIcon.news}
+            action={
+              <button
+                type="button"
+                onClick={() => openModal("edit")}
+                className={`${btn.primary} mt-1`}
+              >
+                {AdminIcon.plus}
+                ایجاد ناشر جدید
+              </button>
+            }
           />
-        ))}
-      </div>
+        )}
+      </AdminPanel>
 
       {/* Modal for Create/Edit */}
       {activeModal === "edit" && (
@@ -89,12 +121,14 @@ const ClientPublicationDashboard: React.FC<ClientPublicationProps> = ({
           isVisible
           onConfirm={confirmDelete}
           onCancel={closeModal}
-          message="آیا از حذف مطمئن هستید؟ این عمل قابل بازگشت نیست."
+          title="حذف ناشر"
+          subject={selectedPublication?.title}
+          message="این عملیات قابل بازگشت نیست و ناشر برای همیشه حذف می‌شود."
           isHardCascade={isHardCascade}
           onHardCascadeChange={setIsHardCascade}
         />
       )}
-    </div>
+    </>
   );
 };
 

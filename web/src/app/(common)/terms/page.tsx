@@ -1,52 +1,68 @@
 import React from "react";
+import { PolicyLayout, PolicySection, PolicyList } from "@/components/template/PolicyLayout";
 
 const TermsPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div
-        className="relative bg-cover bg-center h-72 md:h-96"
-        style={{ backgroundImage: "url(/images/terms.jpg)" }}
-      >
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative z-10 flex items-center justify-center h-full">
-          <h1 className="text-4xl md:text-5xl font-bold text-white drop-shadow-lg">
-            شرایط استفاده
-          </h1>
-        </div>
-      </div>
+    <PolicyLayout title="شرایط استفاده" updatedAt="آخرین به‌روزرسانی: ۳ آبان ۱۴۰۲">
+      <PolicySection index={1} title="پذیرش شرایط">
+        <p>
+          استفاده از این وبسایت به منزله پذیرش کامل شرایط و ضوابط مندرج در این صفحه است. لطفاً پیش از
+          استفاده از خدمات پایگاه دانش، این شرایط را به دقت مطالعه کنید.
+        </p>
+      </PolicySection>
 
-      <div className="container mx-auto px-4 py-12">
-        <section className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <h2 className="text-2xl md:text-3xl font-semibold text-blue-900 mb-4">
-            1. پذیرش شرایط
-          </h2>
-          <p className="text-gray-700 leading-relaxed">
-            استفاده از این وبسایت به منزله پذیرش کامل شرایط و ضوابط مندرج در این
-            صفحه است.
-          </p>
-        </section>
+      <PolicySection index={2} title="تغییرات در شرایط">
+        <p>
+          ما حق داریم این شرایط را در هر زمان تغییر دهیم و تغییرات از طریق وبسایت اطلاع‌رسانی خواهد
+          شد. ادامه استفاده شما از وبسایت پس از اعمال تغییرات، به معنی پذیرش نسخه به‌روزرسانی شده
+          است.
+        </p>
+      </PolicySection>
 
-        <section className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <h2 className="text-2xl md:text-3xl font-semibold text-blue-900 mb-4">
-            2. تغییرات در شرایط
-          </h2>
-          <p className="text-gray-700 leading-relaxed">
-            ما حق داریم این شرایط را در هر زمان تغییر دهیم و تغییرات از طریق
-            وبسایت اطلاع‌رسانی خواهد شد.
-          </p>
-        </section>
+      <PolicySection index={3} title="استفاده مجاز">
+        <p>
+          کاربران موظف‌اند از وبسایت به‌صورت قانونی استفاده کنند و از هرگونه فعالیت غیرمجاز خودداری
+          کنند. موارد زیر به‌عنوان استفاده غیرمجاز تلقی می‌شود:
+        </p>
+        <PolicyList
+          items={[
+            "استخراج خودکار محتوا، خزش یا بارگذاری سنگین روی سرورها.",
+            "بازنشر تجاری مقالات بدون اجازه کتبی از پایگاه دانش.",
+            "تلاش برای دسترسی به بخش‌های محدودشده یا اطلاعات کاربران دیگر.",
+            "انتشار محتوای مغایر با قوانین جمهوری اسلامی ایران.",
+          ]}
+        />
+      </PolicySection>
 
-        <section className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-2xl md:text-3xl font-semibold text-blue-900 mb-4">
-            3. استفاده مجاز
-          </h2>
-          <p className="text-gray-700 leading-relaxed">
-            کاربران موظف‌اند از وبسایت به‌صورت قانونی استفاده کنند و از هرگونه
-            فعالیت غیرمجاز خودداری کنند.
-          </p>
-        </section>
-      </div>
-    </div>
+      <PolicySection index={4} title="مالکیت معنوی">
+        <p>
+          تمامی مقالات، تصاویر، نشان‌ها و محتوای این وبسایت متعلق به پایگاه دانش یا دارندگان مجوز آن
+          است. استفاده شخصی و علمی با ذکر منبع مجاز است، اما هرگونه بهره‌برداری تجاری نیازمند اجازه
+          کتبی است.
+        </p>
+      </PolicySection>
+
+      <PolicySection index={5} title="حساب کاربری">
+        <p>
+          در صورت ساخت حساب کاربری، مسئولیت حفظ محرمانگی رمز عبور و تمام فعالیت‌های انجام‌شده با
+          حساب شما بر عهده خودتان است. در صورت مشاهده استفاده غیرمجاز، بلافاصله ما را مطلع کنید.
+        </p>
+      </PolicySection>
+
+      <PolicySection index={6} title="محدودیت مسئولیت">
+        <p>
+          محتوای این وبسایت با هدف اطلاع‌رسانی علمی ارائه می‌شود. پایگاه دانش مسئول خسارات ناشی از
+          اتکای صرف به محتوای سایت در تصمیم‌گیری‌های حقوقی، مالی یا اجرایی نیست.
+        </p>
+      </PolicySection>
+
+      <PolicySection index={7} title="تماس با ما">
+        <p>
+          برای هرگونه پرسش درباره این شرایط، از طریق صفحه تماس با ما یا ایمیل
+          info@islamicarchitecture.com با ما در ارتباط باشید.
+        </p>
+      </PolicySection>
+    </PolicyLayout>
   );
 };
 

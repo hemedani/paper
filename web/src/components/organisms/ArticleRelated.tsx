@@ -78,7 +78,7 @@ const ArticleRelated = ({
       <div className="mb-12 text-center relative">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 inline-block">
           مقالات مرتبط
-          <div className="h-1 w-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 mt-2 transform transition-all duration-500 hover:scale-110 rounded-full"></div>
+          <div className="h-1 w-full bg-gradient-to-r from-pink-500 via-[#08A6AE] to-[#08A6AE] mt-2 transform transition-all duration-500 hover:scale-110 rounded-full"></div>
         </h2>
         <div className="absolute inset-0 -z-10 opacity-5 bg-[url('/patterns/topography.svg')]"></div>
       </div>
@@ -91,13 +91,13 @@ const ArticleRelated = ({
               title="از همین انتشارات"
               articles={publisherArticles}
               emptyMessage="مقاله‌ای از این انتشارات یافت نشد."
-              bgColor="from-blue-500 to-indigo-600"
-              iconColor="text-blue-600"
+              bgColor="from-[#08A6AE] to-[#08A6AE]"
+              iconColor="text-[#08A6AE]"
               valueLabel={article.publication?.title}
               lesanUrl={lesanUrl}
             />
           </div>
-          <div className="absolute inset-0 -z-10 opacity-5 bg-gradient-to-r from-blue-100 to-indigo-50"></div>
+          <div className="absolute inset-0 -z-10 opacity-5 bg-gradient-to-r from-[#EDFEFF] to-[#EDFEFF]"></div>
         </div>
       )}
 
@@ -109,8 +109,8 @@ const ArticleRelated = ({
               title="از همین نویسندگان"
               articles={authorArticles}
               emptyMessage="مقاله‌ای از این نویسندگان یافت نشد."
-              bgColor="from-violet-500 to-purple-600"
-              iconColor="text-violet-600"
+              bgColor="from-[#08A6AE] to-[#08A6AE]"
+              iconColor="text-[#08A6AE]"
               valueLabel={getAuthorsLabel()}
               lesanUrl={lesanUrl}
             />
@@ -155,7 +155,7 @@ const ArticleRelated = ({
       )}
 
       {/* Visual footer element to complete the design */}
-      <div className="h-1 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-70"></div>
+      <div className="h-1 w-full bg-gradient-to-r from-[#08A6AE] via-[#08A6AE] to-pink-500 opacity-70"></div>
     </section>
   );
 };

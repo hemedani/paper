@@ -15,6 +15,14 @@ import { ToastNotify } from "@/utils/helper";
 import MyAsyncMultiSelect from "../atoms/MyAsyncMultiSelect";
 import { useRouter } from "next/navigation";
 import { articleSchema } from "@/types/declarations/selectInp";
+import {
+  AdminIcon,
+  AdminPanel,
+  btn,
+  formFooter,
+  formGrid,
+  formGrid3,
+} from "./admin/AdminUI";
 
 export const FormUpdateArticleRelationsSchema = z.object({
   _id: z.string(),
@@ -150,101 +158,114 @@ export const EditArticleRelationForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-gray-100 p-6 border rounded-lg">
-      <div className="flex flex-wrap w-full">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <input {...register("_id")} id="_id" name="_id" type="text" disabled hidden />
 
-        <input
-          {...register("_id")}
-          id="_id"
-          name="_id"
-          type="text"
-          disabled
-          hidden
-        />
-        <div className="w-1/2 p-4">
-          <span className="text-sm font-medium text-gray-700">
-            عکس مقاله
-          </span>
-          <UploadImage
-            inputName="avatar"
-            setUploadedImage={(uploaded: string) => setValue("avatar", uploaded)}
-            type="image"
-            token={token}
-            lesanUrl={lesanUrl}
-            filePath={defaultValues?.avatar ? defaultValues.avatar.name : ""}
-          />
-        </div>
+      <AdminPanel title="روابط مقاله" icon={AdminIcon.tag} bodyClassName="p-5">
+        <div className={formGrid3}>
+          <div className="flex w-full flex-col gap-1.5 md:col-span-2 lg:col-span-1">
+            <label htmlFor="publicationId" className="text-[12.5px] font-bold text-[#5C5C63]">
+              انتشارات
+            </label>
+            <div
+              className={[
+                "pd-select flex min-h-11 w-full items-center rounded-[14px] border-[1.5px] bg-white px-3 py-1.5 transition-all",
+                errors.publication
+                  ? "border-[#E2555B] bg-[#FEF5F5]"
+                  : "border-[#F0F0F2] focus-within:border-[#08A6AE] focus-within:ring-4 focus-within:ring-[#08A6AE]/10",
+              ].join(" ")}
+            >
+              <AsyncSelect
+                inputId="publicationId"
+                instanceId="article-relation-publication"
+                cacheOptions
+                loadOptions={loadPublicationOptions}
+                defaultOptions
+                onChange={handlePublicationChange}
+                placeholder="انتشارات را انتخاب کنید"
+                classNamePrefix="react-select"
+                className="w-full"
+                defaultValue={defaultPublicationOption}
+              />
+            </div>
+            {errors.publication && (
+              <span className="text-[11.5px] font-semibold text-[#C2353D]">
+                {errors.publication.message}
+              </span>
+            )}
+          </div>
 
-        <div className="w-1/2 p-4">
-          <span className="text-sm font-medium text-gray-700">فایل مقاله</span>
-          <UploadImage
-            inputName="doc"
-            setUploadedImage={(uploaded: string) => setValue("doc", uploaded)}
-            lesanUrl={lesanUrl}
-            type="doc"
-            token={token}
-            filePath={defaultValues?.doc ? defaultValues.doc.name : ""}
-          />
-        </div>
-
-        <div className="w-1/2 p-4 flex flex-col gap-2">
-          <label
-            htmlFor="publicationId"
-            className="text-sm font-medium text-gray-700"
-          >
-            انتشارات
-          </label>
-          <AsyncSelect
-            cacheOptions
-            loadOptions={loadPublicationOptions}
+          <MyAsyncMultiSelect
+            errMsg={errors.tags?.message}
+            name="tags"
+            label="برچسب‌ها"
+            loadOptions={loadTagOptions}
+            setValue={setValue}
             defaultOptions
-            onChange={handlePublicationChange}
-            placeholder="انتشارات را انتخاب کنید"
-            classNamePrefix="react-select"
-            defaultValue={defaultPublicationOption}
+            defaultValue={defaultTagOptions}
           />
-          {errors.publication && (
-            <span className="text-red-500 text-xs">
-              {errors.publication.message}
-            </span>
-          )}
+
+          <MyAsyncMultiSelect
+            errMsg={errors.keywords?.message}
+            name="keywords"
+            label="کلمات کلیدی"
+            loadOptions={loadKeywordOptions}
+            setValue={setValue}
+            defaultOptions
+            defaultValue={defaultKeywordOptions}
+          />
+
+          <MyAsyncMultiSelect
+            errMsg={errors.authors?.message}
+            name="authors"
+            label="نویسندگان"
+            loadOptions={loadAuthorOptions}
+            setValue={setValue}
+            defaultOptions
+            defaultValue={defaultAuthorOptions}
+          />
         </div>
+      </AdminPanel>
 
-        <MyAsyncMultiSelect
-          errMsg={errors.tags?.message}
-          name="tags"
-          label="برچسب"
-          loadOptions={loadTagOptions}
-          setValue={setValue}
-          defaultOptions
-          defaultValue={defaultTagOptions} />
+      <AdminPanel title="تصویر و فایل مقاله" icon={AdminIcon.image} bodyClassName="p-5">
+        <div className={formGrid}>
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[12.5px] font-bold text-[#5C5C63]">عکس مقاله</span>
+            <UploadImage
+              inputName="avatar"
+              setUploadedImage={(uploaded: string) => setValue("avatar", uploaded)}
+              type="image"
+              token={token}
+              lesanUrl={lesanUrl}
+              filePath={defaultValues?.avatar ? defaultValues.avatar.name : ""}
+            />
+          </div>
 
-        <MyAsyncMultiSelect
-          errMsg={errors.keywords?.message}
-          name="keywords"
-          label="کلمات کلیدی"
-          loadOptions={loadKeywordOptions}
-          setValue={setValue}
-          defaultOptions
-          defaultValue={defaultKeywordOptions} />
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[12.5px] font-bold text-[#5C5C63]">فایل مقاله</span>
+            <UploadImage
+              inputName="doc"
+              setUploadedImage={(uploaded: string) => setValue("doc", uploaded)}
+              lesanUrl={lesanUrl}
+              type="doc"
+              token={token}
+              filePath={defaultValues?.doc ? defaultValues.doc.name : ""}
+            />
+          </div>
+        </div>
+      </AdminPanel>
 
-        <MyAsyncMultiSelect
-          errMsg={errors.authors?.message}
-          name="authors"
-          label="نویسندگان"
-          loadOptions={loadAuthorOptions}
-          setValue={setValue}
-          defaultOptions
-          defaultValue={defaultAuthorOptions} />
-
-      </div>
-
-      <div className="w-full flex gap-4 justify-end">
+      <div className={formFooter}>
         <button
-          type="submit"
-          className="p-4 px-8 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
+          type="button"
+          onClick={() => router.push("/admin/articles")}
+          className={btn.secondary}
         >
-          ارسال
+          انصراف
+        </button>
+        <button type="submit" className={btn.primary}>
+          {AdminIcon.save}
+          ذخیره تغییرات
         </button>
       </div>
     </form>

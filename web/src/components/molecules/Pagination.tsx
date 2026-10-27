@@ -2,6 +2,8 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { FC } from "react";
+import Image from "next/image";
+import { toFaDigits } from "@/utils/digits";
 
 interface PaginationProps {
   initialPage: number; // صفحه فعلی
@@ -22,32 +24,38 @@ const Pagination: FC<PaginationProps> = ({ initialPage, countPage, limit = 20 })
 
   // Generate page numbers to display
   const getPageNumbers = () => {
-    const pageNumbers = [];
-    const siblingsCount = 1; // Number of siblings on each side of current page
+    const pageNumbers: (number | string)[] = [];
+    const maxVisible = 3; // Maximum number of page buttons to show
 
-    // Always include first page
-    pageNumbers.push(1);
+    if (totalPages <= maxVisible) {
+      // Show all pages if total is small
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      // Always show first page
+      pageNumbers.push(1);
 
-    if (initialPage > 2 + siblingsCount) {
-      pageNumbers.push("ellipsis-start");
-    }
+      if (initialPage > 2) {
+        // Show current page and maybe one before
+        if (initialPage > 3) {
+          pageNumbers.push("ellipsis");
+        }
+        if (initialPage < totalPages) {
+          pageNumbers.push(initialPage);
+        }
+      } else if (totalPages > 2) {
+        // Show page 2 if we're near the start
+        pageNumbers.push(2);
+      }
 
-    // Add pages around current page
-    for (
-      let i = Math.max(2, initialPage - siblingsCount);
-      i <= Math.min(totalPages - 1, initialPage + siblingsCount);
-      i++
-    ) {
-      pageNumbers.push(i);
-    }
-
-    if (initialPage < totalPages - 1 - siblingsCount) {
-      pageNumbers.push("ellipsis-end");
-    }
-
-    // Always include last page if there's more than one page
-    if (totalPages > 1) {
-      pageNumbers.push(totalPages);
+      // Always show last page if different from current pages shown
+      if (!pageNumbers.includes(totalPages) && totalPages > 1) {
+        if (initialPage < totalPages - 1 && !pageNumbers.includes("ellipsis")) {
+          pageNumbers.push("ellipsis");
+        }
+        pageNumbers.push(totalPages);
+      }
     }
 
     return pageNumbers;
@@ -57,93 +65,71 @@ const Pagination: FC<PaginationProps> = ({ initialPage, countPage, limit = 20 })
     return null; // Don't render pagination if there's only one page
   }
 
+  const pageNumbers = getPageNumbers();
+
   return (
-    <nav aria-label="صفحه‌بندی" className="w-full flex justify-center my-8">
-      <div className="flex items-center justify-center gap-2 px-4 py-2 bg-white rounded-xl shadow-md">
-        {/* Previous button */}
+    <nav aria-label="صفحه‌بندی" className="flex w-full justify-center">
+      <div className="flex items-center justify-center gap-2 sm:gap-3">
+        {/* Previous button (قبلی) — first in RTL, so it sits on the right */}
         <button
           onClick={() => handlePageChange(initialPage - 1)}
           disabled={initialPage === 1}
           aria-label="صفحه قبلی"
-          className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors duration-200 ${initialPage === 1
-            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
+          className="flex h-12 items-center justify-center gap-2 rounded-full border border-[#F0F0F2] bg-white px-5 transition-colors hover:bg-[#F8F8F9] disabled:cursor-not-allowed disabled:opacity-50 lg:h-14 lg:px-8"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-          <span>قبلی</span>
+          <span className="text-[14px] font-medium leading-[1.76] text-[#9A9AA1] lg:text-[16px]">
+            قبلی
+          </span>
+          <Image src="/images/pagination/arrow-right.svg" alt="" width={4} height={7} />
         </button>
 
         {/* Page numbers */}
-        <div className="flex items-center gap-1 mx-2">
-          {getPageNumbers().map((pageNumber, index) => {
-            if (pageNumber === "ellipsis-start" || pageNumber === "ellipsis-end") {
+        <div className="flex items-center gap-2">
+          {pageNumbers.map((pageNumber, index) => {
+            if (pageNumber === "ellipsis") {
               return (
-                <span
-                  key={`${pageNumber}-${index}`}
-                  className="w-9 text-center text-gray-500"
+                <div
+                  key={`ellipsis-${index}`}
+                  className="flex h-12 w-10 items-center justify-center lg:h-14 lg:w-12"
                   aria-hidden="true"
                 >
-                  ...
-                </span>
+                  <span className="text-[15px] font-medium leading-[1.76] text-[#9A9AA1]">...</span>
+                </div>
               );
             }
+
+            const isActive = pageNumber === initialPage;
 
             return (
               <button
                 key={pageNumber}
                 onClick={() => handlePageChange(pageNumber as number)}
                 aria-label={`صفحه ${pageNumber}`}
-                aria-current={pageNumber === initialPage ? "page" : undefined}
-                className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors duration-200 ${pageNumber === initialPage
-                  ? "bg-blue-600 text-white font-bold"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
+                aria-current={isActive ? "page" : undefined}
+                className={[
+                  "flex h-12 w-12 items-center justify-center rounded-full text-[14px] font-semibold leading-[1.76] transition-colors lg:h-14 lg:w-14 lg:text-[16px]",
+                  isActive
+                    ? "bg-[#D2A634] text-white"
+                    : "border border-[#F0F0F2] bg-white text-black hover:bg-[#F8F8F9]",
+                ].join(" ")}
               >
-                {pageNumber}
+                {toFaDigits(pageNumber as number)}
               </button>
             );
           })}
         </div>
 
-        {/* Next button */}
+        {/* Next button (بعدی) — last in RTL, so it sits on the left */}
         <button
           onClick={() => handlePageChange(initialPage + 1)}
           disabled={initialPage === totalPages}
           aria-label="صفحه بعدی"
-          className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors duration-200 ${initialPage === totalPages
-            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
+          className="flex h-12 items-center justify-center gap-2 rounded-full bg-[#F8F8F9] px-5 transition-colors hover:bg-[#F0F0F2] disabled:cursor-not-allowed disabled:opacity-50 lg:h-14 lg:px-8"
         >
-          <span>بعدی</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
+          <Image src="/images/pagination/arrow-left.svg" alt="" width={4} height={7} />
+          <span className="text-[14px] font-semibold leading-[1.76] text-black lg:text-[16px]">
+            بعدی
+          </span>
         </button>
       </div>
     </nav>

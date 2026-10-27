@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,6 +8,9 @@ import { useRouter } from "next/navigation";
 import { ToastNotify } from "@/utils/helper";
 import { createPublication } from "@/app/actions/publication/createPublication";
 import { EditPublication } from "@/app/actions/publication/updatePublication";
+import MyInput from "@/components/atoms/MyInput";
+import { AdminModal } from "../organisms/admin/AdminModal";
+import { AdminIcon, btn } from "../organisms/admin/AdminUI";
 
 const publicationSchema = z.object({
   title: z
@@ -30,6 +33,7 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
   publicationToEdit,
 }) => {
   const router = useRouter();
+  const [busy, setBusy] = useState(false);
   const {
     register,
     handleSubmit,
@@ -51,6 +55,7 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
 
   const onSubmit = async (data: PublicationFormValues) => {
     try {
+      setBusy(true);
       if (publicationToEdit?._id) {
         await EditPublication({
           set: { _id: publicationToEdit._id, title: data.title },
@@ -69,66 +74,63 @@ const ModalPublication: React.FC<ModalPublicationProps> = ({
     } catch (err) {
       ToastNotify("error", "خطا در انجام عملیات");
       console.error(err);
+    } finally {
+      setBusy(false);
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div
-      className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-500 ${
-        isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-      }`}
-    >
-      <div
-        className={`bg-white p-6 rounded-lg shadow-lg w-1/3 transform transition-transform duration-500 ${
-          isOpen ? "translate-y-0" : "-translate-y-10"
-        }`}
-      >
-        <h2 className="text-lg font-bold mb-4">
-          {publicationToEdit ? "ویرایش انتشارات" : "ایجاد انتشارات جدید"}
-        </h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              نام انتشارات
-            </label>
-            <input
-              id="title"
-              type="text"
-              {...register("title")}
-              placeholder="نام انتشارات را وارد کنید"
-              className={`w-full p-2 border rounded ${
-                errors.title ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.title && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.title.message}
-              </p>
+    <AdminModal
+      open={isOpen}
+      onClose={onClose}
+      title={publicationToEdit ? "ویرایش ناشر" : "ایجاد ناشر جدید"}
+      description={
+        publicationToEdit
+          ? "نام ناشر انتخاب‌شده را ویرایش کنید."
+          : "ناشر تازه را به فهرست ناشران اضافه کنید."
+      }
+      icon={AdminIcon.news}
+      footer={
+        <>
+          <button type="button" onClick={onClose} className={btn.secondary}>
+            انصراف
+          </button>
+          <button
+            type="submit"
+            form="publication-form"
+            disabled={busy}
+            className={`${btn.primary} disabled:cursor-not-allowed disabled:opacity-60`}
+          >
+            {busy ? (
+              <>
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                در حال ذخیره…
+              </>
+            ) : (
+              <>
+                {AdminIcon.save}
+                {publicationToEdit ? "ذخیره تغییرات" : "ایجاد"}
+              </>
             )}
-          </div>
-          <div className="flex justify-end mt-4 gap-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-            >
-              بستن
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-            >
-              {publicationToEdit ? "ویرایش" : "ایجاد"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+          </button>
+        </>
+      }
+    >
+      <form
+        id="publication-form"
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-4"
+      >
+        <MyInput
+          className="w-full"
+          name="title"
+          errMsg={errors.title?.message}
+          label="نام انتشارات"
+          placeholder="نام انتشارات را وارد کنید"
+          register={register}
+        />
+      </form>
+    </AdminModal>
   );
 };
 

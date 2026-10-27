@@ -1,9 +1,14 @@
 import React from "react";
 import { FormUpdateBlog } from "@/components/template/FormUpdateBlog";
 import { getBlogById } from "@/app/actions/blog/getBlogById";
-import Link from "next/link";
+import {
+  AdminEmptyState,
+  AdminFormPage,
+  AdminIcon,
+  AdminPanel,
+} from "@/components/organisms/admin/AdminUI";
 
-export default async function EditBlogPage({ params, }: { params: Promise<{ id: string }> }) {
+export default async function EditBlogPage({ params }: { params: Promise<{ id: string }> }) {
   const _id = (await params).id;
 
   const blog = await getBlogById({
@@ -18,25 +23,32 @@ export default async function EditBlogPage({ params, }: { params: Promise<{ id: 
     },
   });
 
-  return (
-    <div className="p-6 min-h-full">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-700">ویرایش وبلاگ</h1>
-        <Link
-          href="/admin/blog"
-          className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-        >
-          بازگشت به لیست
-        </Link>
-      </div>
+  if (!blog.success) {
+    return (
+      <AdminFormPage
+        title="ویرایش پست وبلاگ"
+        backHref="/admin/blog"
+        backLabel="بازگشت به فهرست پست‌ها"
+      >
+        <AdminPanel bodyClassName="p-4">
+          <AdminEmptyState
+            title="پست وبلاگ پیدا نشد"
+            description="این پست حذف شده است یا شناسه آن معتبر نیست."
+            icon={AdminIcon.rss}
+          />
+        </AdminPanel>
+      </AdminFormPage>
+    );
+  }
 
-      {blog.success ? (
-        <FormUpdateBlog defaultValues={blog.body} />
-      ) : (
-        <div className="flex items-center justify-center h-64">
-          <p className="text-xl text-gray-500">بلاگ یافت نشد</p>
-        </div>
-      )}
-    </div>
+  return (
+    <AdminFormPage
+      title="ویرایش پست وبلاگ"
+      subtitle={`محتوای «${blog.body.title}» را به‌روزرسانی کنید.`}
+      backHref="/admin/blog"
+      backLabel="بازگشت به فهرست پست‌ها"
+    >
+      <FormUpdateBlog defaultValues={blog.body} />
+    </AdminFormPage>
   );
 }

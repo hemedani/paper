@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { articleSchema } from "@/types/declarations/selectInp";
 import { translateArticleType } from "@/utils/helper";
 import { formatDate } from "@/utils/formatters";
@@ -21,47 +22,50 @@ export const ArticleHeader = ({
 }: ArticleHeaderProps) => {
   return (
     <div className="relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-900 via-indigo-800 to-purple-900"></div>
-      <div className="absolute inset-0 opacity-10 bg-[url('/patterns/topography.svg')]"></div>
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: "linear-gradient(to bottom left, #3DB4BA 0%, #00B5BE 100%)",
+        }}
+      />
+      <div className="absolute inset-0 opacity-[0.14]">
+        <Image src="/images/hero/hero-pattern.svg" alt="" fill className="object-cover" priority />
+      </div>
 
-      <div className="relative max-w-6xl mx-auto px-4 py-20 sm:py-28 md:py-32">
+      <div className="relative mx-auto max-w-[1284px] px-4 py-16 sm:py-20 md:py-24">
         <div className="flex flex-col items-center text-center">
           <div
-            className="inline-block mb-6 px-4 py-1.5 bg-indigo-100 bg-opacity-20 backdrop-blur-sm rounded-full text-white text-sm font-medium transform hover:scale-105 transition duration-300 cursor-pointer"
+            className="mb-6 inline-block cursor-pointer rounded-full bg-white/20 px-5 py-2 text-[13px] font-semibold text-white backdrop-blur-sm transition-transform duration-300 hover:scale-105 lg:text-[14px]"
             onClick={() => onArticleTypeClick(article.articleType)}
           >
             {translateArticleType(article.articleType)}
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight max-w-4xl">
+          <h1 className="mb-6 max-w-4xl text-[24px] font-extrabold leading-[1.5] text-white sm:text-[34px] lg:text-[46px]">
             {article.title}
           </h1>
 
-          <div className="flex items-center space-x-4 space-x-reverse mt-4">
-            <div className="flex items-center">
-              <span className="text-indigo-100 text-sm">
-                {article.createdAt && formatDate(article.createdAt)}
-              </span>
-            </div>
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-white/85">
+            <span className="text-[13px] font-medium lg:text-[15px]">
+              {article.createdAt && formatDate(article.createdAt)}
+            </span>
 
             {article.authors && article.authors.length > 0 && (
               <>
-                <div className="w-1 h-1 bg-indigo-200 rounded-full"></div>
-                <div className="flex items-center">
-                  <span className="text-indigo-100 text-sm">
-                    نویسندگان:{" "}
-                    {article.authors.map((author, index) => (
-                      <span
-                        key={author._id}
-                        className="cursor-pointer hover:text-white transition-colors duration-300"
-                        onClick={() => author._id && onAuthorClick(author._id)}
-                      >
-                        {author.first_name} {author.last_name}
-                        {index < (article.authors?.length || 0) - 1 ? "، " : ""}
-                      </span>
-                    ))}
-                  </span>
-                </div>
+                <div className="h-1 w-1 rounded-full bg-white/50" />
+                <span className="text-[13px] font-medium lg:text-[15px]">
+                  نویسندگان:{" "}
+                  {article.authors.map((author, index) => (
+                    <span
+                      key={author._id}
+                      className="cursor-pointer transition-colors duration-300 hover:text-white"
+                      onClick={() => author._id && onAuthorClick(author._id)}
+                    >
+                      {author.first_name} {author.last_name}
+                      {index < (article.authors?.length || 0) - 1 ? "، " : ""}
+                    </span>
+                  ))}
+                </span>
               </>
             )}
           </div>

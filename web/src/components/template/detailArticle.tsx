@@ -42,9 +42,7 @@ export const DetailArticle = ({
   };
 
   return (
-    <div
-      className={`min-h-screen bg-gradient-to-b from-blue-50 to-white dir-rtl transition-opacity duration-700`}
-    >
+    <div className="min-h-screen bg-white" dir="rtl">
       {/* Hero Section with Article Header */}
       <ArticleHeader
         article={article}
@@ -53,13 +51,13 @@ export const DetailArticle = ({
       />
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="lg:grid lg:grid-cols-3 lg:gap-12">
+      <div className="mx-auto w-full max-w-[1600px] px-4 py-10 md:px-8 lg:px-[104px] lg:py-16">
+        <div className="lg:grid lg:grid-cols-3 lg:gap-10">
           {/* Sidebar */}
           <ArticleSidebar article={article} onQueryChange={handleQuery} />
 
           {/* Main Content */}
-          <div className="lg:col-span-2">
+          <div className="flex flex-col gap-8 lg:col-span-2">
             {/* Abstract Section */}
             <ArticleAbstract article={article} />
 

@@ -18,14 +18,14 @@ export const ArticleFiles = ({ article }: ArticleFilesProps) => {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6">
-      <h2 className="text-xl font-bold text-gray-800 mb-4 border-r-4 border-indigo-500 pr-4">
+      <h2 className="text-xl font-bold text-gray-800 mb-4 border-r-4 border-[#08A6AE] pr-4">
         فایل‌ها
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {article.avatar ? (
-          <div className="bg-blue-50 p-4 rounded-xl flex items-center">
+          <div className="bg-[#EDFEFF] p-4 rounded-xl flex items-center">
             <svg
-              className="w-8 h-8 text-blue-500 ml-3"
+              className="w-8 h-8 text-[#08A6AE] ml-3"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -39,14 +39,14 @@ export const ArticleFiles = ({ article }: ArticleFilesProps) => {
               ></path>
             </svg>
             <div>
-              <span className="block text-blue-900 font-semibold">تصویر:</span>
-              <span className="text-blue-700 text-sm">
+              <span className="block text-[#08A6AE] font-semibold">تصویر:</span>
+              <span className="text-[#08A6AE] text-sm">
                 {article.avatar.name} ({formatFileSize(article.avatar.size)})
               </span>
             </div>
           </div>
         ) : (
-          <div className="h-full w-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center">
+          <div className="h-full w-full bg-gradient-to-r from-[#08A6AE] to-[#08A6AE] flex items-center justify-center">
             <svg
               className="w-16 h-16 text-white opacity-60"
               fill="none"

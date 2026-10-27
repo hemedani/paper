@@ -4,10 +4,8 @@ import { ReactNode } from "react";
 export const ListCard = ({ children }: { children: ReactNode }) => {
   return (
     <section>
-      <div className="w-full py-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {children}
-        </div>
+      <div className="grid w-full grid-cols-1 items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-[25px]">
+        {children}
       </div>
     </section>
   );

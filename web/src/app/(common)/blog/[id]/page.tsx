@@ -1,172 +1,247 @@
 import { getBlog } from "@/app/actions/blog/getBlog";
+import { getBlogs } from "@/app/actions/blog/getBlogs";
+import { getMe } from "@/app/actions/user/getMe";
+import { blogSchema } from "@/types/declarations/selectInp";
 import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns-jalali";
-import {
-  CalendarIcon,
-  ArrowUturnLeftIcon,
-  ClockIcon,
-  UserIcon,
-} from "@heroicons/react/24/outline";
-import { BlogDetailHeartIcon } from "@/components/molecules/BlogDetailHeartIcon";
-import { getMe } from "@/app/actions/user/getMe";
+import { ShareButton } from "@/components/molecules/ShareButton";
+import { DownloadButton } from "@/components/molecules/DownloadButton";
+import { LikeButton } from "@/components/molecules/LikeButton";
+import { RelatedBlogCard } from "@/components/organisms/blog/RelatedBlogCard";
+
+const metaTextClass = "text-[13px] font-semibold leading-[1.76] text-[#3C3C43] lg:text-[15px]";
 
 const BlogDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
   const blogId = (await params).id;
   const { body, success } = await getBlog(blogId);
 
   const me = await getMe({ _id: 1, favBlogs: { _id: 1 } });
-  const favoriteIds: Set<string> = me.success ? new Set(
-    me.body.favBlogs?.map((fav: { _id: string }) => fav._id)
-  ) : new Set();
+  const favoriteIds: Set<string> = me.success
+    ? new Set(me.body.favBlogs?.map((fav: { _id: string }) => fav._id))
+    : new Set();
 
-
-  if (!success)
+  if (!success) {
     return (
-      <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-[50vh]">
-        <div className="text-red-500 text-3xl font-bold mb-4">
-          پست مورد نظر یافت نشد
-        </div>
-        <p className="text-gray-600 mb-8">
-          مقاله‌ای که به دنبال آن هستید در سیستم موجود نیست.
-        </p>
+      <div className="mx-auto flex min-h-[50vh] w-full max-w-[1600px] flex-col items-center justify-center px-4 py-16">
+        <div className="mb-4 text-3xl font-bold text-[#08A6AE]">پست مورد نظر یافت نشد</div>
+        <p className="mb-8 text-[#9A9AA1]">مقاله‌ای که به دنبال آن هستید در سیستم موجود نیست.</p>
         <Link
           href="/blog"
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-300 ease-in-out"
+          className="rounded-[18px] bg-[#08A6AE] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#088f96]"
         >
-          <ArrowUturnLeftIcon className="h-5 w-5" />
-          <span>بازگشت به صفحه مقالات</span>
+          بازگشت به صفحه مقالات
         </Link>
       </div>
     );
+  }
 
-  // Format dates
-  const persianCreatedDate = body.createdAt
-    ? format(new Date(body.createdAt), "dd MMMM yyyy")
-    : "";
-  const persianUpdatedDate = body.updatedAt
-    ? format(new Date(body.updatedAt), "dd MMMM yyyy")
-    : "";
-
-  // Format author name
+  const persianCreatedDate = body.createdAt ? format(new Date(body.createdAt), "dd MMMM yyyy") : "";
   const authorFullName = `${body.author.first_name} ${body.author.last_name}`;
+  const categoryName = body.categories?.[0]?.name || "معماری اسلامی";
+
+  const relatedArticlesResult = await getBlogs({
+    set: { limit: 4, page: 1 },
+    get: {
+      _id: 1,
+      title: 1,
+      abstract: 1,
+      pic: { name: 1 },
+      author: { first_name: 1, last_name: 1 },
+      categories: { name: 1 },
+      createdAt: 1,
+    },
+  });
+
+  const relatedArticles = relatedArticlesResult.success
+    ? relatedArticlesResult.body.filter((article: { _id: string }) => article._id !== blogId)
+    : [];
+
+  const contentParagraphs = body.content.split("\n\n").filter((p: string) => p.trim());
 
   return (
-    <article className="bg-gray-50 min-h-screen pb-16">
-      {/* Hero section with image */}
-      <div className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden">
-        <Image
-          src={`http://127.0.0.1:1382/uploads/images/${body.pic.name}`}
-          alt={body.title}
-          fill
-          priority
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+    <div dir="rtl" className="w-full bg-white">
+      <div className="mx-auto w-full max-w-[1600px] px-4 pt-8 md:px-8 lg:px-[104px] lg:pt-[101px]">
+        {/* Hero image */}
+        <div className="relative h-[220px] w-full overflow-hidden rounded-[20px] bg-[#F8F8F9] sm:h-[320px] lg:h-[408px]">
+          <Image
+            src={`http://127.0.0.1:1382/uploads/images/${body.pic.name}`}
+            alt={body.title}
+            fill
+            sizes="(max-width: 1024px) 100vw, 1390px"
+            className="object-cover"
+            priority
+          />
+        </div>
 
-        {/* Overlay content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 md:p-8">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 leading-tight">
-              {body.title}
-            </h1>
-            {body.subtitle && (
-              <h2 className="text-lg md:text-xl text-white/90 mb-6 font-medium">
-                {body.subtitle}
+        {/* Meta row — badge + author (right), category + date (left) */}
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 lg:mt-[52px]">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 lg:gap-x-8">
+            <span className="flex h-9 items-center rounded-[12px] bg-[#EDFEFF] px-4 text-[13px] font-semibold text-[#08A6AE] lg:h-[38px] lg:px-[14px] lg:text-[15px]">
+              مقاله ژورنالی
+            </span>
+            <div className="flex items-center gap-2">
+              <span className={metaTextClass}>{authorFullName}</span>
+              <Image src="/images/blog/author-icon.svg" alt="" width={22} height={22} />
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 lg:gap-x-8">
+            <div className="flex items-center gap-2">
+              <span className={metaTextClass}>{categoryName}</span>
+              <Image src="/images/blog/category-icon.svg" alt="" width={22} height={22} />
+            </div>
+            <div className="flex items-center gap-2">
+              <span className={metaTextClass}>{persianCreatedDate}</span>
+              <Image src="/images/blog/date-icon.svg" alt="" width={22} height={22} />
+            </div>
+          </div>
+        </div>
+
+        {/* Title */}
+        <h1 className="mt-5 text-right text-[24px] font-bold leading-[1.55] text-black lg:mt-7 lg:text-[32px]">
+          {body.title}
+        </h1>
+
+        <div className="mt-8 h-px w-full bg-[#F0F0F2] lg:mt-10" />
+
+        {/* Content */}
+        <div className="mt-8 flex flex-col gap-8 lg:mt-10 lg:gap-11">
+          {body.abstract && (
+            <div className="flex flex-col gap-3">
+              <h2 className="text-right text-[20px] font-bold leading-[1.7] text-[#D2A634] lg:text-[24px]">
+                چکیده این مقاله
               </h2>
-            )}
+              <p className="text-justify text-[15px] font-medium leading-[2] text-[#9A9AA1] lg:text-[16px]">
+                {body.abstract}
+              </p>
+            </div>
+          )}
+
+          {contentParagraphs.length > 0 && (
+            <div className="flex flex-col gap-3">
+              <h2 className="text-right text-[19px] font-bold leading-[1.7] text-black lg:text-[22px]">
+                تیتر پاراگراف اینجا قرار میگیرد!
+              </h2>
+              <p className="text-justify text-[15px] font-medium leading-[2] text-[#9A9AA1] lg:text-[16px]">
+                {contentParagraphs[0]}
+              </p>
+            </div>
+          )}
+
+          {contentParagraphs.length > 1 && (
+            <div className="flex flex-col gap-3 rounded-[20px] border border-[#F0F0F2] bg-white p-6 lg:p-9">
+              <h2 className="text-right text-[19px] font-bold leading-[1.7] text-black lg:text-[22px]">
+                تیتر پاراگراف اینجا قرار میگیرد!
+              </h2>
+              <p className="text-justify text-[15px] font-medium leading-[2] text-[#9A9AA1] lg:text-[16px]">
+                {contentParagraphs[1]}
+              </p>
+            </div>
+          )}
+
+          {contentParagraphs.length > 2 && (
+            <div className="flex flex-col gap-3">
+              <h2 className="text-right text-[19px] font-bold leading-[1.7] text-black lg:text-[22px]">
+                نکات تکمیلی و نتیجه‌گیری
+              </h2>
+              <div className="flex flex-col gap-4">
+                {contentParagraphs.slice(2).map((paragraph: string, index: number) => (
+                  <p
+                    key={index}
+                    className="text-justify text-[15px] font-medium leading-[2] text-[#9A9AA1] lg:text-[16px]"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="h-px w-full bg-[#F0F0F2]" />
+
+          {/* Actions — like (right), download, share (left) */}
+          <div className="flex flex-wrap items-center justify-end gap-3 lg:gap-[18px]">
+            <LikeButton
+              blogId={blogId}
+              initialIsLiked={favoriteIds.has(blogId)}
+              isLoggedIn={me.success}
+            />
+            <DownloadButton blogTitle={body.title} blogContent={body.content} />
+            <ShareButton title={body.title} />
           </div>
         </div>
-      </div>
 
-      {/* Main content container */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
-        <div className="bg-white rounded-xl shadow-xl overflow-hidden">
-          {/* Author and meta info bar */}
-          <div className="bg-blue-50 p-4 md:p-6 flex flex-col md:flex-row justify-between items-center text-right border-b border-blue-100">
-            <div className="flex items-center gap-4 mb-4 md:mb-0">
-              <div className="h-12 w-12 md:h-16 md:w-16 rounded-full bg-blue-200 flex items-center justify-center">
-                <UserIcon className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-900">{authorFullName}</h3>
-                <p className="text-sm text-gray-600">
-                  {body.author.level === "Editor"
-                    ? "ویراستار"
-                    : body.author.level === "Manager"
-                      ? "مدیر"
-                      : "نویسنده"}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-3 md:gap-6 text-sm text-gray-500">
-              <div className="flex items-center gap-1">
-                <CalendarIcon className="h-4 w-4" />
-                <span>تاریخ انتشار: {persianCreatedDate}</span>
-              </div>
-              {body.updatedAt && body.updatedAt !== body.createdAt && (
-                <div className="flex items-center gap-1">
-                  <ClockIcon className="h-4 w-4" />
-                  <span>بروزرسانی: {persianUpdatedDate}</span>
-                </div>
-              )}
-              <BlogDetailHeartIcon likes={body.likes} isLogedIn={me.success} isLiked={favoriteIds.has(blogId)} _id={blogId} />
-            </div>
+        {/* Consultation banner */}
+        <div className="relative mt-12 overflow-hidden rounded-[20px] bg-[#F2FAFB] lg:mt-16">
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(to bottom left, #FFFFFF 0%, #E4F6F7 50%, #FFFFFF 100%)",
+            }}
+          />
+          <div className="pointer-events-none absolute inset-0 opacity-[0.18]">
+            <Image src="/images/hero/hero-pattern.svg" alt="" fill className="object-cover" />
           </div>
 
-          {/* Content area */}
-          <div className="p-4 md:p-8 lg:p-10">
-            {/* Abstract */}
-            {body.abstract && (
-              <div className="mb-8 bg-amber-50 p-4 md:p-6 rounded-lg border-r-4 border-amber-400">
-                <h3 className="text-lg font-bold mb-2 text-gray-800">چکیده</h3>
-                <p className="text-gray-700 leading-relaxed">{body.abstract}</p>
+          <div className="relative z-10 flex flex-col items-start gap-8 px-6 py-8 sm:flex-row sm:items-center sm:justify-between lg:px-[60px] lg:py-[46px]">
+            <p className="max-w-[540px] text-right text-[20px] font-extrabold leading-[1.6] text-[#08A6AE] lg:text-[26px] lg:leading-[1.55]">
+              ماموریت ما ترویج معماری اسلامی و ارائه منابع آموزشی باکیفیت برای ارتقا دانش و آگاهی
+              شماست
+            </p>
+
+            <div className="flex items-center gap-5 lg:gap-6">
+              <div className="flex flex-col items-start gap-1">
+                <span className="text-[13px] font-medium text-[#9A9AA1] lg:text-[15px]">
+                  مشاوره آنلاین
+                </span>
+                <span className="whitespace-nowrap text-[17px] font-extrabold text-black lg:text-[20px]">
+                  +۹۸ ۹۱۷ ۵۴۴ ۰۸۵
+                </span>
               </div>
-            )}
-
-            {/* Main content */}
-            <div className="prose prose-lg max-w-none text-right">
-              <div className="text-gray-800 leading-relaxed space-y-6 whitespace-pre-line">
-                {body.content
-                  .split("\n\n")
-                  .map((paragraph: string, idx: number) => (
-                    <p key={idx}>{paragraph}</p>
-                  ))}
+              <div className="flex h-[70px] w-[70px] shrink-0 items-center justify-center rounded-full bg-white shadow-[0px_12px_30px_-18px_rgba(8,166,174,0.6)] lg:h-[92px] lg:w-[92px]">
+                <Image src="/images/blog/call-icon.svg" alt="" width={30} height={30} />
               </div>
-            </div>
-
-            {/* Author bio */}
-            {body.author.summery && (
-              <div className="mt-10 pt-8 border-t border-gray-200">
-                <h3 className="text-xl font-bold mb-4 text-gray-800">
-                  درباره نویسنده
-                </h3>
-                <div className="bg-gray-50 p-4 md:p-6 rounded-lg">
-                  <p className="text-gray-700">{body.author.summery}</p>
-                </div>
-              </div>
-            )}
-
-            {/* Actions bar */}
-            <div className="mt-10 pt-6 border-t border-gray-200 flex flex-wrap justify-between items-center gap-4">
-              <button className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition">
-                <BlogDetailHeartIcon dontShowText likes={body.likes} isLogedIn={me.success} isLiked={favoriteIds.has(blogId)} _id={blogId} />
-                <span>{favoriteIds.has(blogId) ? "شما این مقاله را پسندیده اید" : "پسندیدن این مقاله"}</span>
-              </button>
-
-              <Link
-                href="/blog"
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300 ease-in-out"
-              >
-                <ArrowUturnLeftIcon className="h-5 w-5" />
-                <span>بازگشت به صفحه مقالات</span>
-              </Link>
             </div>
           </div>
         </div>
+
+        {/* Related articles */}
+        {relatedArticles.length > 0 && (
+          <div className="mb-16 mt-14 flex flex-col gap-8 lg:mb-24 lg:mt-20 lg:gap-10">
+            <div className="flex items-center justify-between gap-4">
+              <h2 className="text-right text-[24px] font-extrabold leading-[1.6] text-black lg:text-[32px]">
+                دیگر مقالات مرتبط
+              </h2>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  aria-label="مقالات قبلی"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[#F0F0F2] transition-colors hover:bg-[#F8F8F9]"
+                >
+                  <Image src="/images/pagination/arrow-right.svg" alt="" width={5} height={8} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="مقالات بعدی"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[#F0F0F2] transition-colors hover:bg-[#F8F8F9]"
+                >
+                  <Image src="/images/pagination/arrow-left.svg" alt="" width={5} height={8} />
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-10">
+              {relatedArticles.slice(0, 3).map((article: blogSchema) => (
+                <RelatedBlogCard key={article._id} {...article} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-    </article>
+    </div>
   );
 };
 

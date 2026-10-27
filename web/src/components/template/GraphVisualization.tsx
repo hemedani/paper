@@ -4,16 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import { Network } from "vis-network/standalone";
 import { DataSet } from "vis-data";
 import Link from "next/link";
+import Image from "next/image";
 import { EdgeData, NodeData } from "@/app/(common)/graph/page";
 import { articleSchema } from "@/types/declarations/selectInp";
+import { DefaultSearchArrayValues } from "@/utils/prepareArtticleSearch";
+import AdvancedSearchModal from "@/components/molecules/AdvancedSearchModal";
 
 interface GraphPageProps {
   articles: articleSchema[];
   nodes: NodeData[];
   edges: EdgeData[];
+  defaultSearchArrayValues: DefaultSearchArrayValues;
 }
 
-const GraphVisualization = ({ articles, nodes, edges }: GraphPageProps) => {
+const GraphVisualization = ({ articles, nodes, edges, defaultSearchArrayValues }: GraphPageProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const networkRef = useRef<Network | null>(null);
   const [selectedNode, setSelectedNode] = useState<{
@@ -24,6 +28,8 @@ const GraphVisualization = ({ articles, nodes, edges }: GraphPageProps) => {
   const [loading, setLoading] = useState(true);
   const [stabilizationProgress, setStabilizationProgress] = useState(0);
   const [relatedArticles, setRelatedArticles] = useState<articleSchema[]>([]);
+  const [showHelp, setShowHelp] = useState(false);
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -41,14 +47,14 @@ const GraphVisualization = ({ articles, nodes, edges }: GraphPageProps) => {
           max: 80,
           label: {
             enabled: true,
-            min: 14,
-            max: 24,
+            min: 12,
+            max: 18,
           },
         },
         shadow: {
           enabled: true,
-          color: "rgba(0,0,0,0.2)",
-          size: 10,
+          color: "rgba(0,0,0,0.1)",
+          size: 8,
           x: 2,
           y: 2,
         },
@@ -60,13 +66,9 @@ const GraphVisualization = ({ articles, nodes, edges }: GraphPageProps) => {
           forceDirection: "none",
           roundness: 0.5,
         },
-        selectionWidth: 3,
+        selectionWidth: 2,
         shadow: {
-          enabled: true,
-          color: "rgba(0,0,0,0.2)",
-          size: 5,
-          x: 2,
-          y: 2,
+          enabled: false,
         },
       },
       physics: {
@@ -95,18 +97,16 @@ const GraphVisualization = ({ articles, nodes, edges }: GraphPageProps) => {
         multiselect: false,
         tooltipDelay: 200,
         zoomView: true,
-        navigationButtons: true,
+        navigationButtons: false,
         keyboard: true,
         hideEdgesOnDrag: true,
       },
       groups: {
         tag: {
-          color: { background: "#4338CA", border: "#312E81" },
-          shadow: { enabled: true },
+          color: { background: "#08A6AE", border: "#08A6AE" },
         },
         keyword: {
-          color: { background: "#DB2777", border: "#831843" },
-          shadow: { enabled: true },
+          color: { background: "#D2A634", border: "#D2A634" },
         },
       },
       layout: {
@@ -120,23 +120,23 @@ const GraphVisualization = ({ articles, nodes, edges }: GraphPageProps) => {
       networkRef.current = new Network(
         containerRef.current,
         { nodes: nodesDataSet, edges: edgesDataSet },
-        options
+        options,
       );
 
       // Set up event listeners
-      networkRef.current.on("stabilizationProgress", function(params) {
+      networkRef.current.on("stabilizationProgress", function (params) {
         const progress = Math.round((params.iterations / params.total) * 100);
         setStabilizationProgress(progress);
       });
 
-      networkRef.current.on("stabilizationIterationsDone", function() {
+      networkRef.current.on("stabilizationIterationsDone", function () {
         setLoading(false);
         setStabilizationProgress(0);
         // Disable physics after stabilization for better performance
         networkRef.current?.setOptions({ physics: { enabled: false } });
       });
 
-      networkRef.current.on("selectNode", function(params) {
+      networkRef.current.on("selectNode", function (params) {
         if (params.nodes.length > 0) {
           const nodeId = params.nodes[0];
           const node = nodes.find((n) => n.id === nodeId);
@@ -150,9 +150,7 @@ const GraphVisualization = ({ articles, nodes, edges }: GraphPageProps) => {
             // Find related articles
             const relatedArticles = articles.filter((article) => {
               const tagIds = (article.tags || []).map((tag) => tag._id);
-              const keywordIds = (article.keywords || []).map(
-                (keyword) => keyword._id
-              );
+              const keywordIds = (article.keywords || []).map((keyword) => keyword._id);
               return tagIds.includes(nodeId) || keywordIds.includes(nodeId);
             });
 
@@ -161,7 +159,7 @@ const GraphVisualization = ({ articles, nodes, edges }: GraphPageProps) => {
         }
       });
 
-      networkRef.current.on("deselectNode", function() {
+      networkRef.current.on("deselectNode", function () {
         setSelectedNode(null);
         setRelatedArticles([]);
       });
@@ -174,8 +172,8 @@ const GraphVisualization = ({ articles, nodes, edges }: GraphPageProps) => {
     };
   }, [articles, nodes, edges]);
 
-  const getNodeTruncatedLabel = (label: string): string => {
-    return label.length > 30 ? label.substring(0, 27) + "..." : label;
+  const getNodeTruncatedLabel = (label: string, maxLength = 80): string => {
+    return label.length > maxLength ? label.substring(0, maxLength - 3) + "..." : label;
   };
 
   const resetView = () => {
@@ -188,68 +186,100 @@ const GraphVisualization = ({ articles, nodes, edges }: GraphPageProps) => {
   };
 
   return (
-    <div
-      className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-16 px-4 sm:px-6 lg:px-8"
-      dir="rtl"
-    >
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 bg-opacity-90 backdrop-blur">
-          <div className="mb-6">
-            <h1 className="text-3xl md:text-4xl font-bold text-indigo-900 mb-4">
-              گراف برچسب‌ها و کلمات کلیدی مقالات
-            </h1>
-            <p className="text-gray-600 text-lg">
-              این نمودار، روابط بین برچسب‌ها و کلیدواژه‌های مقالات را به صورت
-              بصری نمایش می‌دهد.
-              <br />
-              <span className="text-sm text-gray-500 mt-2 block">
-                اندازه دایره‌ها نشان‌دهندۀ تعداد دفعات استفاده، و ضخامت خطوط
-                نشان‌دهندۀ قدرت ارتباط بین کلیدواژه‌ها است.
-              </span>
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2">
-                <span className="inline-block w-4 h-4 rounded-full bg-indigo-600"></span>
-                <span className="text-sm text-gray-700">برچسب‌ها</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="inline-block w-4 h-4 rounded-full bg-pink-600"></span>
-                <span className="text-sm text-gray-700">کلیدواژه‌ها</span>
-              </div>
-            </div>
-            <button
-              onClick={resetView}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition"
-            >
-              بازنشانی نمای گراف
-            </button>
-          </div>
+    <div className="bg-white" dir="rtl">
+      {/* Hero Section */}
+      <div className="max-w-[1392px] mx-auto px-4 sm:px-6 lg:px-8 pt-9 pb-9">
+        <div className="text-center space-y-[17px]">
+          <h1 className="text-[42px] font-extrabold leading-[1.31] text-black font-['Estedad']">
+            مقالات مرتبط را در یک نمودار بصری کاوش کنید
+          </h1>
+          <p className="text-lg font-semibold leading-[1.76] text-[#9A9AA1] font-['Estedad-FD']">
+            بانک جامع مقالات معماری و شهرسازی بر اساس جستجوی پیشرفته ای
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Graph Container */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-              <div className="relative w-full h-[700px]">
+        {/* Search Bar */}
+        <div className="mt-11 flex justify-center items-center gap-[18px]">
+          <button
+            type="button"
+            onClick={() => setShowAdvancedSearch(true)}
+            aria-haspopup="dialog"
+            className="flex h-[68px] items-center justify-center gap-2.5 rounded-[18px] bg-[#D2A634] px-9 text-base font-semibold leading-[1.76] text-white transition-colors hover:bg-[#B89020] font-['Estedad-FD']"
+          >
+            <Image
+              src="/images/graph/advanced-search-icon.svg"
+              alt=""
+              width={24}
+              height={24}
+              className="w-6 h-6"
+            />
+            <span>جستجوی پیشرفته</span>
+          </button>
+
+          <div className="flex items-center gap-2 px-6 py-5 bg-white border border-[#F0F0F2] rounded-[18px] flex-1 max-w-[500px]">
+            <Image
+              src="/images/graph/search-icon.svg"
+              alt=""
+              width={24}
+              height={24}
+              className="w-6 h-6"
+            />
+            <input
+              type="text"
+              placeholder="جستجو بر اساس متن  ، عنوان و خلاصه مقالات"
+              className="flex-1 outline-none text-base font-medium leading-[1.76] text-[#9A9AA1] placeholder:text-[#9A9AA1] font-['Estedad-FD']"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Graph Section with Gradient Background */}
+      <div
+        className="relative"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(248, 248, 249, 0) 0%, rgba(248, 248, 249, 1) 50%, rgba(248, 248, 249, 0) 100%)",
+        }}
+      >
+        <div className="max-w-[1392px] mx-auto px-4 sm:px-6 lg:px-8 py-0">
+          <div className="bg-white border border-[#F0F0F2] rounded-[32px] p-0 overflow-hidden">
+            {/* Graph Header */}
+            <div className="flex items-start justify-between p-[42px_42px_0_443px]">
+              <div className="flex-1 text-right space-y-2.5">
+                <h2 className="text-[32px] font-extrabold leading-[1.76] text-black font-['Estedad']">
+                  نمای کلی گراف
+                </h2>
+                <p className="text-lg font-medium leading-[1.56] text-[#9A9AA1] font-['Estedad-FD']">
+                  این نمودار، روابط بین برچسب‌ها و کلیدواژه‌های مقالات را به صورت بصری نمایش می‌دهد.
+                </p>
+              </div>
+              <button
+                onClick={() => setShowHelp(!showHelp)}
+                className="w-[82px] h-[82px] flex items-center justify-center bg-white border border-[#F0F0F2] rounded-full text-[36px] font-light text-black hover:bg-[#F8F8F9] transition-colors font-['Estedad-VF']"
+                aria-label="راهنما"
+              >
+                ?
+              </button>
+            </div>
+
+            {/* Graph Container */}
+            <div className="relative px-[42px] pt-[42px] pb-0">
+              <div className="relative w-full h-[571px] bg-white">
                 {loading && (
-                  <div className="absolute inset-0 bg-white bg-opacity-80 flex flex-col items-center justify-center z-10">
-                    <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-                    <p className="mt-4 text-indigo-800 font-medium">
+                  <div className="absolute inset-0 bg-white bg-opacity-90 flex flex-col items-center justify-center z-10">
+                    <div className="w-16 h-16 border-4 border-[#08A6AE] border-t-transparent rounded-full animate-spin"></div>
+                    <p className="mt-4 text-[#08A6AE] font-semibold text-lg">
                       در حال بارگذاری گراف...
                     </p>
                     {stabilizationProgress > 0 && (
-                      <div className="mt-4 w-48">
-                        <div className="h-2 bg-indigo-100 rounded-full overflow-hidden">
+                      <div className="mt-4 w-64">
+                        <div className="h-2 bg-[#F8F8F9] rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-indigo-500 transition-all duration-300"
+                            className="h-full bg-[#08A6AE] transition-all duration-300"
                             style={{ width: `${stabilizationProgress}%` }}
                           ></div>
                         </div>
-                        <p className="text-sm text-indigo-600 mt-2 text-center">
+                        <p className="text-sm text-[#08A6AE] mt-2 text-center font-['Estedad-FD']">
                           {stabilizationProgress}% تکمیل شد
                         </p>
                       </div>
@@ -258,124 +288,275 @@ const GraphVisualization = ({ articles, nodes, edges }: GraphPageProps) => {
                 )}
                 <div ref={containerRef} className="w-full h-full" />
               </div>
-            </div>
-          </div>
 
-          {/* Info Panel */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-[5.5rem]">
-              {selectedNode ? (
-                <>
-                  <div className="border-b border-gray-200 pb-4 mb-6">
-                    <div className="flex items-start justify-between">
-                      <h2 className="text-2xl font-bold text-gray-900">
+              {/* Help Modal Overlay */}
+              {showHelp && (
+                <div className="absolute top-[136px] right-[67px] w-[364px] z-20">
+                  <div className="relative">
+                    {/* Blur background */}
+                    <div
+                      className="absolute inset-0 bg-[#D9D9D9] opacity-50 blur-[43px] rounded-[22px]"
+                      style={{
+                        transform: "translate(25px, 113px)",
+                        width: "314px",
+                        height: "143px",
+                      }}
+                    ></div>
+
+                    {/* Content card */}
+                    <div className="relative bg-white border border-[#F0F0F2] rounded-[22px] p-6 shadow-lg">
+                      <button
+                        onClick={() => setShowHelp(false)}
+                        className="absolute top-4 left-4 text-[#9A9AA1] hover:text-black text-xl"
+                        aria-label="بستن"
+                      >
+                        ✕
+                      </button>
+                      <div className="space-y-4 text-right">
+                        <h3 className="text-lg font-semibold text-black leading-[1.56] font-['Estedad-VF']">
+                          گراف برچسب‌ها و کلمات کلیدی مقالات
+                        </h3>
+                        <p className="text-sm font-normal leading-[1.71] text-[#9A9AA1] font-['Estedad-VF']">
+                          این نمودار، روابط بین برچسب‌ها و کلیدواژه‌های مقالات را به صورت بصری نمایش
+                          می‌دهد.
+                          <br />
+                          <br />
+                          اندازه دایره‌ها نشان‌دهندۀ تعداد دفعات استفاده، و ضخامت خطوط نشان‌دهندۀ قدرت
+                          ارتباط بین کلیدواژه‌ها است.
+                        </p>
+                        <div className="flex items-center gap-6 pt-2">
+                          <div className="flex items-center gap-[7px] h-4">
+                            <span className="text-sm font-normal leading-[2] text-[#08A6AE] font-['Estedad-VF']">
+                              کلیدواژه‌ها
+                            </span>
+                            <div className="w-2 h-2 rounded-full bg-[#08A6AE]"></div>
+                          </div>
+                          <div className="flex items-center gap-[7px] h-4">
+                            <span className="text-sm font-normal leading-[2] text-[#D2A634] font-['Estedad-VF']">
+                              برچسب‌ها
+                            </span>
+                            <div className="w-2 h-2 rounded-full bg-[#D2A634]"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Selected Node Info - Positioned on left side */}
+              {selectedNode && (
+                <div className="absolute top-[42px] left-[42px] w-[400px] space-y-[26px]">
+                  <div className="space-y-3.5">
+                    <div className="flex items-center gap-[182px]">
+                      <h3 className="text-lg font-bold leading-[1.56] text-black font-['Estedad']">
                         {selectedNode.label}
-                      </h2>
-                      <span className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">
+                      </h3>
+                      <span className="inline-flex items-center justify-center px-[26px] py-4 h-10 bg-[#EDFEFF] rounded-[14px] text-base font-medium leading-[1.5] text-[#08A6AE] font-['Estedad']">
                         {selectedNode.count} مقاله
                       </span>
                     </div>
-                  </div>
 
-                  <h3 className="text-lg font-medium text-gray-800 mb-4">
-                    مقالات مرتبط:
-                  </h3>
-                  <ul className="space-y-4">
-                    {relatedArticles.map((article) => (
-                      <li
-                        key={article._id}
-                        className="border-r-4 border-indigo-500 pr-4 py-2 hover:bg-indigo-50 transition duration-200"
-                      >
-                        <Link href={`/article/${article._id}`}>
-                          <h4 className="font-medium text-gray-900">
-                            {getNodeTruncatedLabel(article.title)}
-                          </h4>
-                        </Link>
-                        <p className="text-sm text-gray-500 mt-1">
-                          {article.authors?.map(
-                            (author) =>
-                              `${author.first_name} ${author.last_name}`
-                          )
+                    <div className="space-y-3.5">
+                      <div className="space-y-2">
+                        <p className="text-base font-semibold leading-[1.75] text-[#9A9AA1] font-['Estedad']">
+                          درباره مقاله:
+                        </p>
+                        {relatedArticles.slice(0, 1).map((article) => (
+                          <p
+                            key={article._id}
+                            className="text-base font-medium leading-[1.75] text-black font-['Estedad']"
+                          >
+                            {getNodeTruncatedLabel(article.title, 120)}
+                          </p>
+                        ))}
+                      </div>
+                      {relatedArticles.slice(0, 1).map((article) => (
+                        <p
+                          key={`author-${article._id}`}
+                          className="text-base font-medium leading-[1.75] text-[#9A9AA1] font-['Estedad']"
+                        >
+                          {article.authors
+                            ?.map((author) => `${author.first_name} ${author.last_name}`)
                             .join("، ")}
                         </p>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          {article.tags?.map((tag) => (
-                            <span
-                              key={tag._id}
-                              className="px-2 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs"
-                            >
-                              {tag.name}
-                            </span>
-                          ))}
-                          {article.keywords?.map((keyword) => (
-                            <span
-                              key={keyword._id}
-                              className="px-2 py-1 bg-pink-100 text-pink-800 rounded-full text-xs"
-                            >
-                              {keyword.name}
-                            </span>
-                          ))}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              ) : (
-                <div className="text-center py-12">
-                  <svg
-                    className="w-16 h-16 text-indigo-300 mx-auto"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <h3 className="mt-4 text-lg font-medium text-gray-900">
-                    انتخاب گره برای مشاهده اطلاعات
-                  </h3>
-                  <p className="mt-2 text-gray-500">
-                    روی یکی از برچسب‌ها یا کلیدواژه‌ها کلیک کنید تا اطلاعات
-                    مرتبط با آن نمایش داده شود.
-                  </p>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {relatedArticles.slice(0, 1).map((article) =>
+                        article.tags?.slice(0, 3).map((tag) => (
+                          <span
+                            key={tag._id}
+                            className="inline-flex items-center justify-center px-[26px] py-4 h-12 bg-[#F8F8F9] border border-[#F0F0F2] rounded-full text-sm font-medium leading-[1.71] text-black font-['Estedad']"
+                          >
+                            {tag.name}
+                          </span>
+                        )),
+                      )}
+                    </div>
+                    <div className="flex flex-wrap items-center justify-end gap-1.5">
+                      {relatedArticles.slice(0, 1).map((article) =>
+                        article.keywords?.slice(0, 3).map((keyword) => (
+                          <span
+                            key={keyword._id}
+                            className="inline-flex items-center justify-center px-[26px] py-4 h-12 bg-[#F8F8F9] border border-[#F0F0F2] rounded-full text-sm font-medium leading-[1.71] text-black font-['Estedad']"
+                          >
+                            {keyword.name}
+                          </span>
+                        )),
+                      )}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
-          </div>
-        </div>
 
-        {/* Usage Guide */}
-        <div className="mt-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl shadow-lg p-8 text-white">
-          <h2 className="text-2xl font-bold mb-4">راهنمای استفاده از گراف</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-4">
-              <h3 className="font-bold text-xl mb-2">جستجو و کاوش</h3>
-              <p className="text-indigo-100">
-                با کلیک روی هر گره، مقالات مرتبط با آن برچسب یا کلیدواژه نمایش
-                داده می‌شود.
-              </p>
-            </div>
-            <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-4">
-              <h3 className="font-bold text-xl mb-2">بزرگنمایی</h3>
-              <p className="text-indigo-100">
-                با چرخاندن اسکرول موس می‌توانید نمودار را بزرگنمایی یا
-                کوچک‌نمایی کنید.
-              </p>
-            </div>
-            <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-4">
-              <h3 className="font-bold text-xl mb-2">جابجایی</h3>
-              <p className="text-indigo-100">
-                با کلیک و کشیدن در فضای خالی، می‌توانید نمودار را جابجا کنید.
-              </p>
+            {/* Bottom Action Buttons */}
+            <div className="flex items-center justify-between px-[42px] py-[42px_42px_72px]">
+              <button className="flex items-center justify-center gap-2.5 px-[87px] py-5 h-[72px] bg-black text-white rounded-[18px] font-semibold text-base leading-[1.76] hover:bg-gray-800 transition-colors font-['Estedad-FD']">
+                <Image
+                  src="/images/graph/chatbot-icon.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 brightness-0 invert"
+                />
+                <span>استفاده از چت‌بات</span>
+              </button>
+
+              <button
+                onClick={resetView}
+                className="flex items-center justify-center gap-2.5 px-[87px] py-5 h-[72px] bg-white border border-[#F0F0F2] rounded-[18px] text-black font-semibold text-base leading-[1.76] hover:bg-[#F8F8F9] transition-colors font-['Estedad-FD']"
+              >
+                <Image
+                  src="/images/graph/reset-icon.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="w-6 h-6"
+                />
+                <span>بازنشانی نمای گراف</span>
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Related Articles Section */}
+      <div className="max-w-[1392px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h2 className="text-[32px] font-extrabold leading-[1.76] text-black mb-8 text-right font-['Estedad-FD']">
+          دیگر مقالات مرتبط
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
+          {(relatedArticles.length > 0 ? relatedArticles : articles).slice(0, 6).map((article) => (
+            <Link key={article._id} href={`/article/${article._id}`} className="group">
+              <div className="bg-white border border-[#F0F0F2] rounded-[20px] p-8 hover:border-[#9FDDE0] transition-all">
+                <div className="space-y-4 mb-6">
+                  <div className="mb-6 flex items-center justify-between gap-4">
+                    <h3 className="line-clamp-1 text-lg font-bold leading-[1.56] text-black font-['Estedad']">
+                      {getNodeTruncatedLabel(article.title, 60)}
+                    </h3>
+                    <span className="inline-flex items-center justify-center px-[26px] py-4 h-10 bg-[#EDFEFF] rounded-[14px] text-base font-medium leading-[1.5] text-[#08A6AE] font-['Estedad']">
+                      {article.tags?.length ?? 0} برچسب
+                    </span>
+                  </div>
+
+                  <div className="space-y-5 border-r border-[#F0F0F2] pr-6">
+                    <div className="space-y-2">
+                      <p className="line-clamp-2 text-base font-medium leading-[1.75] text-[#9A9AA1] text-right font-['Estedad']">
+                        {getNodeTruncatedLabel(article.abstract || "", 140)}
+                      </p>
+                      <p className="text-sm font-medium leading-[1.75] text-[#9A9AA1] text-right font-['Estedad']">
+                        {article.authors
+                          ?.map((author) => `${author.first_name} ${author.last_name}`)
+                          .join("، ")}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {article.tags?.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag._id}
+                          className="inline-flex items-center justify-center px-[26px] py-4 h-12 bg-[#F8F8F9] border border-[#F0F0F2] rounded-full text-sm font-medium leading-[1.71] text-black font-['Estedad']"
+                        >
+                          {tag.name}
+                        </span>
+                      ))}
+                      {article.keywords?.slice(0, 2).map((keyword) => (
+                        <span
+                          key={keyword._id}
+                          className="inline-flex items-center justify-center px-[26px] py-4 h-12 bg-[#F8F8F9] border border-[#F0F0F2] rounded-full text-sm font-medium leading-[1.71] text-black font-['Estedad']"
+                        >
+                          {keyword.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Pagination */}
+        {(relatedArticles.length > 0 ? relatedArticles : articles).length > 6 && (
+        <div className="flex items-center justify-center gap-8 h-14">
+          <button className="flex items-center justify-center gap-2 px-9 py-6 h-14 bg-[#F8F8F9] rounded-full hover:bg-gray-200 transition-colors">
+            <Image
+              src="/images/graph/arrow-next.svg"
+              alt=""
+              width={4}
+              height={7}
+              className="w-1 h-[7px]"
+            />
+            <span className="text-base font-semibold leading-[1.76] text-black font-['Estedad-FD']">
+              بعدی
+            </span>
+          </button>
+
+          <div className="flex items-center gap-2 h-14">
+            <button className="flex items-center justify-center px-9 py-6 w-14 h-14 border border-[#F0F0F2] rounded-full text-base font-semibold leading-[1.76] text-black hover:bg-[#F8F8F9] transition-colors font-['Estedad-FD']">
+              163
+            </button>
+            <div className="flex items-center justify-center px-9 py-6 w-[67px] h-14 bg-[#F5F5F5] rounded-full">
+              <span className="text-base font-medium leading-[1.76] text-[#9A9AA1] font-['Estedad-FD']">
+                ...
+              </span>
+            </div>
+            <button className="flex items-center justify-center px-9 py-6 w-14 h-14 border border-[#F0F0F2] rounded-full text-base font-semibold leading-[1.76] text-black hover:bg-[#F8F8F9] transition-colors font-['Estedad-FD']">
+              2
+            </button>
+            <button className="flex items-center justify-center px-9 py-6 w-14 h-14 bg-[#D2A634] rounded-full text-base font-semibold leading-[1.76] text-white font-['Estedad-FD']">
+              1
+            </button>
+          </div>
+
+          <button className="flex items-center justify-center gap-2 px-9 py-6 h-14 border border-[#F0F0F2] rounded-full hover:bg-[#F8F8F9] transition-colors">
+            <span className="text-base font-semibold leading-[1.76] text-[#9A9AA1] font-['Estedad-FD']">
+              قبلی
+            </span>
+            <Image
+              src="/images/graph/arrow-prev.svg"
+              alt=""
+              width={4}
+              height={7}
+              className="w-1 h-[7px]"
+            />
+          </button>
+        </div>
+        )}
+      </div>
+
+      <AdvancedSearchModal
+        isOpen={showAdvancedSearch}
+        onClose={() => setShowAdvancedSearch(false)}
+        defaultSearchArrayValues={defaultSearchArrayValues}
+        pageAddress="graph"
+      />
     </div>
   );
 };

@@ -15,7 +15,7 @@ interface ArticleInfoProps {
 export const ArticleInfo = ({ article, onItemClick }: ArticleInfoProps) => {
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-      <div className="bg-gradient-to-r from-indigo-700 to-purple-700 px-6 py-4">
+      <div className="bg-gradient-to-r from-[#08A6AE] to-[#08A6AE] px-6 py-4">
         <h2 className="text-xl font-bold text-white">اطلاعات مقاله</h2>
       </div>
 
@@ -102,13 +102,13 @@ export const PublicationCard = ({
 
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-      <div className="bg-gradient-to-r from-indigo-700 to-purple-700 px-6 py-4">
+      <div className="bg-gradient-to-r from-[#08A6AE] to-[#08A6AE] px-6 py-4">
         <h2 className="text-xl font-bold text-white">انتشارات</h2>
       </div>
 
       <div className="p-6">
         <span
-          className="inline-block px-4 py-2 bg-indigo-50 text-indigo-700 rounded-full hover:bg-indigo-100 transition-colors duration-300 cursor-pointer"
+          className="inline-block px-4 py-2 bg-[#EDFEFF] text-[#08A6AE] rounded-full hover:bg-[#EDFEFF] transition-colors duration-300 cursor-pointer"
           onClick={() =>
             publication.title && onPublicationClick(publication.title)
           }
@@ -134,7 +134,7 @@ export const DownloadButton = ({ url }: { url: string }) => {
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex items-center justify-center w-full px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg"
+        className="group flex items-center justify-center w-full px-6 py-3 bg-gradient-to-r from-[#08A6AE] to-[#08A6AE] text-white rounded-xl font-medium hover:from-[#08A6AE] hover:to-[#08A6AE] transition-all duration-300 shadow-md hover:shadow-lg"
       >
         <span>دانلود مقاله</span>
         <svg

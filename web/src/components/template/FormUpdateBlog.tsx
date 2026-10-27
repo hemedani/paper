@@ -8,6 +8,13 @@ import { ToastNotify } from "@/utils/helper";
 import MyInput from "../atoms/MyInput";
 import { editBlog, } from "@/app/actions/blog/editBlog";
 import ToggleSwitch from "../atoms/ToggleSwitch";
+import {
+  AdminIcon,
+  AdminPanel,
+  btn,
+  formFooter,
+  formGrid,
+} from "../organisms/admin/AdminUI";
 
 // Schema for blog validation
 const BlogUpdateSchema = z.object({
@@ -37,7 +44,7 @@ export const FormUpdateBlog = ({ defaultValues, }: { defaultValues?: BlogData; }
     handleSubmit,
     setValue,
     watch,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isSubmitting },
     register,
   } = useForm<BlogFormUpdateSchemaType>({
     defaultValues: {
@@ -66,68 +73,86 @@ export const FormUpdateBlog = ({ defaultValues, }: { defaultValues?: BlogData; }
   const isInSwipperValue = watch("isInSwipper");
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6 bg-white p-6 rounded-lg shadow-md"
-    >
-      <div className="flex flex-wrap w-full">
-        <input
-          {...register("_id")}
-          id="_id"
-          name="_id"
-          type="text"
-          disabled
-          hidden
-        />
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <input {...register("_id")} id="_id" name="_id" type="text" disabled hidden />
 
-        <MyInput
-          label="عنوان بلاگ"
-          register={register}
-          name="title"
-          errMsg={errors.title?.message}
-        />
+      <AdminPanel title="محتوای پست" icon={AdminIcon.rss} bodyClassName="p-5">
+        <div className={formGrid}>
+          <MyInput
+            className="md:col-span-2"
+            label="عنوان پست"
+            register={register}
+            name="title"
+            placeholder="عنوان پست وبلاگ را وارد کنید"
+            errMsg={errors.title?.message}
+          />
 
-        <MyInput
-          label="زیرعنوان"
-          register={register}
-          name="subtitle"
-          errMsg={errors.subtitle?.message}
-        />
-        <MyInput
-          label="چکیده"
-          register={register}
-          name="abstract"
-          type="textarea"
-          errMsg={errors.abstract?.message}
-        />
-        <MyInput
-          label="محتوا"
-          register={register}
-          name="content"
-          type="textarea"
-          errMsg={errors.content?.message}
-        />
+          <MyInput
+            className="md:col-span-2"
+            label="زیرعنوان"
+            register={register}
+            name="subtitle"
+            placeholder="یک زیرعنوان کوتاه و جذاب"
+            errMsg={errors.subtitle?.message}
+          />
 
-        <div className="w-full p-4">
-          <div className="flex items-center">
-            <span className="text-sm font-medium text-gray-700 ml-4">
-              نمایش در اسلایدر
-            </span>
+          <MyInput
+            className="md:col-span-2"
+            label="چکیده"
+            register={register}
+            name="abstract"
+            type="textarea"
+            rows={3}
+            placeholder="خلاصه‌ای از محتوای پست"
+            errMsg={errors.abstract?.message}
+          />
+
+          <MyInput
+            className="md:col-span-2"
+            label="محتوا"
+            register={register}
+            name="content"
+            type="textarea"
+            rows={14}
+            placeholder="متن کامل پست را وارد کنید"
+            errMsg={errors.content?.message}
+          />
+
+          <div className="flex items-center justify-between gap-3 rounded-[14px] border-[1.5px] border-[#F0F0F2] px-4 py-3 md:col-span-2">
+            <div>
+              <p className="text-[12.5px] font-bold text-[#3C3C42]">نمایش در اسلایدر</p>
+              <p className="text-[11px] font-medium text-[#9A9AA1]">
+                این پست در اسلایدر صفحه اصلی نمایش داده می‌شود.
+              </p>
+            </div>
             <ToggleSwitch
               checked={isInSwipperValue || false}
               onChange={(checked) => setValue("isInSwipper", checked)}
             />
           </div>
         </div>
-      </div>
+      </AdminPanel>
 
-      <div className="w-full flex gap-4 justify-end">
+      <div className={formFooter}>
+        <button type="button" onClick={() => router.push("/admin/blog")} className={btn.secondary}>
+          انصراف
+        </button>
         <button
           type="submit"
-          disabled={isSubmitting || !isValid}
-          className="p-4 px-8 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
+          disabled={isSubmitting}
+          className={`${btn.primary} disabled:cursor-not-allowed disabled:opacity-60`}
         >
-          ثبت تغییرات
+          {isSubmitting ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              در حال ذخیره…
+            </>
+          ) : (
+            <>
+              {AdminIcon.save}
+              ذخیره تغییرات
+            </>
+          )}
         </button>
       </div>
     </form>

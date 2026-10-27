@@ -22,14 +22,14 @@ export const ArticleMetadata = ({
       {/* Tags */}
       {article.tags && article.tags.length > 0 && (
         <div className="bg-white rounded-2xl shadow-sm p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4 border-r-4 border-indigo-500 pr-4">
+          <h2 className="text-xl font-bold text-gray-800 mb-4 border-r-4 border-[#08A6AE] pr-4">
             برچسب‌ها
           </h2>
           <div className="flex flex-wrap gap-2">
             {article.tags.map((tag) => (
               <span
                 key={tag._id}
-                className="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium hover:bg-indigo-100 transition-colors duration-300 cursor-pointer"
+                className="px-4 py-2 bg-[#EDFEFF] text-[#08A6AE] rounded-full text-sm font-medium hover:bg-[#EDFEFF] transition-colors duration-300 cursor-pointer"
                 onClick={() => onTagClick && tag._id && onTagClick(tag._id)}
               >
                 {tag.name}
@@ -42,14 +42,14 @@ export const ArticleMetadata = ({
       {/* Keywords */}
       {article.keywords && article.keywords.length > 0 && (
         <div className="bg-white rounded-2xl shadow-sm p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4 border-r-4 border-indigo-500 pr-4">
+          <h2 className="text-xl font-bold text-gray-800 mb-4 border-r-4 border-[#08A6AE] pr-4">
             کلیدواژه‌ها
           </h2>
           <div className="flex flex-wrap gap-2">
             {article.keywords.map((keyword) => (
               <span
                 key={keyword._id}
-                className="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm font-medium hover:bg-purple-100 transition-colors duration-300 cursor-pointer"
+                className="px-4 py-2 bg-[#EDFEFF] text-[#08A6AE] rounded-full text-sm font-medium hover:bg-[#EDFEFF] transition-colors duration-300 cursor-pointer"
                 onClick={() =>
                   onKeywordClick && keyword._id && onKeywordClick(keyword._id)
                 }
@@ -64,7 +64,7 @@ export const ArticleMetadata = ({
       {/* Liked by users */}
       {article.favByUsers && article.favByUsers.length > 0 && (
         <div className="bg-white rounded-2xl shadow-sm p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4 border-r-4 border-indigo-500 pr-4">
+          <h2 className="text-xl font-bold text-gray-800 mb-4 border-r-4 border-[#08A6AE] pr-4">
             کاربران علاقه‌مند
           </h2>
           <div className="flex flex-wrap gap-2">
@@ -82,11 +82,11 @@ export const ArticleMetadata = ({
 
       {/* Registrar */}
       <div className="bg-white rounded-2xl shadow-sm p-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-4 border-r-4 border-indigo-500 pr-4">
+        <h2 className="text-xl font-bold text-gray-800 mb-4 border-r-4 border-[#08A6AE] pr-4">
           ثبت‌کننده
         </h2>
         <div className="flex items-center">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#08A6AE] to-[#08A6AE] flex items-center justify-center text-white font-bold text-lg">
             {article.registrar.first_name.charAt(0)}
           </div>
           <span className="mr-3 text-gray-700">

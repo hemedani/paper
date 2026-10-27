@@ -5,8 +5,8 @@ import { DeleteModal } from "./DeleteModal";
 import { useState } from "react";
 import { deleteUser } from "@/app/actions/user/removeUser";
 import { ToastNotify } from "@/utils/helper";
-import Link from "next/link";
 import UserCard from "@/components/organisms/user/UserCard";
+import { AdminEmptyState, AdminIcon } from "@/components/organisms/admin/AdminUI";
 
 interface User {
   _id: string;
@@ -22,26 +22,22 @@ interface ClientDashboardProps {
   searchQuery: string;
 }
 
-const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
+const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users = [] }) => {
   const router = useRouter();
 
-  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(
-    null
-  );
+  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(null);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-
-  // State for hard cascade
   const [isHardCascade, setIsHardCascade] = useState(false);
 
-  const openModal = (type: "edit" | "delete", user: User | null = null) => {
+  const openDelete = (user: User) => {
     setSelectedUser(user);
-    setActiveModal(type);
+    setActiveModal("delete");
   };
 
   const closeModal = () => {
     setSelectedUser(null);
     setActiveModal(null);
-    setIsHardCascade(false); // Reset hard cascade
+    setIsHardCascade(false);
   };
 
   const handleDelete = async () => {
@@ -53,29 +49,34 @@ const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
       router.refresh();
     } catch (error) {
       console.error("خطا در حذف کاربر:", error);
-      alert("مشکلی در حذف کاربر به وجود آمده است.");
+      ToastNotify("error", "مشکلی در حذف کاربر به وجود آمده است.");
     } finally {
       closeModal();
     }
   };
 
-  return (
-    <div>
-      <Link
-        href="/admin/users/createUser"
-        className="absolute top-1 left-5 mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-        ایجاد کاربر جدید
-      </Link>
+  if (users.length === 0) {
+    return (
+      <AdminEmptyState
+        icon={AdminIcon.empty}
+        title="کاربری پیدا نشد"
+        description="با تغییر فیلتر سطح دسترسی یا ساخت یک کاربر جدید شروع کنید."
+      />
+    );
+  }
 
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {users?.map((user) => (
+  return (
+    <>
+      <div className="grid grid-cols-1 gap-3.5 md:grid-cols-2 xl:grid-cols-3">
+        {users.map((user) => (
           <UserCard
             key={user._id}
             id={user._id}
             first_name={user.first_name}
             last_name={user.last_name}
             national_number={user.national_number}
-            onDelete={() => openModal("delete", user)}
+            level={user.level}
+            onDelete={() => openDelete(user)}
           />
         ))}
       </div>
@@ -85,12 +86,14 @@ const ClientUserDashboard: React.FC<ClientDashboardProps> = ({ users }) => {
           isVisible
           onConfirm={handleDelete}
           onCancel={closeModal}
-          message="آیا از حذف کاربر مطمئن هستید؟ این عمل قابل بازگشت نیست."
+          message={`آیا از حذف کاربر «${selectedUser?.first_name ?? ""} ${
+            selectedUser?.last_name ?? ""
+          }» مطمئن هستید؟ این عمل قابل بازگشت نیست.`}
           isHardCascade={isHardCascade}
           onHardCascadeChange={setIsHardCascade}
         />
       )}
-    </div>
+    </>
   );
 };
 

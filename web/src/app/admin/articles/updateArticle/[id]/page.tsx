@@ -1,6 +1,11 @@
 import { getArticleAction } from "@/app/actions/article/getArticle";
 import { FormUpdateArticle } from "@/components/template/FormUpdateArticle";
-import Link from "next/link";
+import {
+  AdminEmptyState,
+  AdminFormPage,
+  AdminIcon,
+  AdminPanel,
+} from "@/components/organisms/admin/AdminUI";
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const articleId = (await params).id;
@@ -24,25 +29,33 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     },
   });
 
+  if (!getArticle.success) {
+    return (
+      <AdminFormPage
+        title="ویرایش مقاله"
+        backHref="/admin/articles"
+        backLabel="بازگشت به فهرست مقالات"
+      >
+        <AdminPanel bodyClassName="p-4">
+          <AdminEmptyState
+            title="مقاله پیدا نشد"
+            description="این مقاله حذف شده است یا شناسه آن معتبر نیست."
+            icon={AdminIcon.book}
+          />
+        </AdminPanel>
+      </AdminFormPage>
+    );
+  }
+
   return (
-    <>
-      {getArticle.success ? (
-        <div className="p-6 min-h-full">
-          <div className="flex items-center justify-between mb-6">
-            <h1 className="text-2xl font-bold text-gray-700">ویرایش مقاله</h1>
-            <Link
-              href="/admin/articles"
-              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              بازگشت به لیست
-            </Link>
-          </div>
-          <FormUpdateArticle defaultValues={getArticle.body} />
-        </div>
-      ) : (
-        <div>متاسفانه این مقاله پیدا نشد</div>
-      )}
-    </>
+    <AdminFormPage
+      title="ویرایش مقاله"
+      subtitle={`اطلاعات «${getArticle.body.title}» را به‌روزرسانی کنید.`}
+      backHref="/admin/articles"
+      backLabel="بازگشت به فهرست مقالات"
+    >
+      <FormUpdateArticle defaultValues={getArticle.body} />
+    </AdminFormPage>
   );
 };
 

@@ -8,6 +8,14 @@ import { EditArticle } from "@/app/actions/article/updateArticle";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastNotify } from "@/utils/helper";
 import MyInput from "../atoms/MyInput";
+import {
+  AdminIcon,
+  AdminPanel,
+  btn,
+  formFooter,
+  formGrid,
+  formGrid3,
+} from "../organisms/admin/AdminUI";
 
 // Schema تعریف اعتبارسنجی
 const ArticleUpdateSchema = z.object({
@@ -38,7 +46,7 @@ export const FormUpdateArticle = ({
   const {
     handleSubmit,
     setValue,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isSubmitting },
     register,
   } = useForm<ArticleFormUpdateSchemaType>({
     defaultValues: defaultValues,
@@ -58,53 +66,119 @@ export const FormUpdateArticle = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-gray-100 p-6 border rounded-lg">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <input {...register("_id")} id="_id" name="_id" type="text" disabled hidden />
 
-      <div className="flex flex-wrap w-full">
-        <input
-          {...register("_id")}
-          id="_id"
-          name="_id"
-          type="text"
-          disabled
-          hidden
-        />
-        <MyInput label="عنوان" register={register} name="title" errMsg={errors.title?.message} />
-        <MyInput label="چکیده" register={register} name="abstract" type="textarea" errMsg={errors.abstract?.message} />
-        <MyInput label="کلید" register={register} name="key" errMsg={errors.key?.message} />
-        <SelectBox
-          label="نوع مقاله"
-          name="articleType"
-          setValue={setValue}
-          errMsg={errors.articleType?.message}
-          options={[
-            { value: "journalArticle", label: "مقاله ژورنال" },
-            { value: "book", label: "کتاب" },
-          ]}
-          defaultValue={(defaultValues && defaultValues.articleType) ?
-            { value: defaultValues.articleType, label: defaultValues.articleType === "journalArticle" ? "مقاله ژورنال" : "کتاب" }
-            : undefined}
-        />
-        <MyInput label="ISBN" register={register} name="ISBN" errMsg={errors.ISBN?.message} />
-        <MyInput label="ISNN" register={register} name="ISNN" errMsg={errors.ISNN?.message} />
-        <MyInput label="DOI" register={register} name="DOI" errMsg={errors.DOI?.message} />
-        <MyInput label="URL" register={register} name="URL" errMsg={errors.URL?.message} />
-        <MyInput label="صفحات" register={register} name="page" errMsg={errors.page?.message} />
-        <MyInput label="سال انتشار" register={register} name="publicationYear" errMsg={errors.publicationYear?.message} />
-        <MyInput label="شماره موضوع" type="number" register={register} name="issue" errMsg={errors.issue?.message} />
-        <MyInput label="جلد" type="number" register={register} name="volume" errMsg={errors.volume?.message} />
-      </div>
+      <AdminPanel title="اطلاعات اصلی" icon={AdminIcon.book} bodyClassName="p-5">
+        <div className={formGrid}>
+          <MyInput
+            className="md:col-span-2"
+            label="عنوان"
+            register={register}
+            name="title"
+            placeholder="عنوان کامل مقاله را وارد کنید"
+            errMsg={errors.title?.message}
+          />
 
-      <div className="w-full flex gap-4 justify-end">
+          <SelectBox
+            label="نوع مقاله"
+            name="articleType"
+            setValue={setValue}
+            errMsg={errors.articleType?.message}
+            options={[
+              { value: "journalArticle", label: "مقاله ژورنال" },
+              { value: "book", label: "کتاب" },
+            ]}
+            defaultValue={
+              defaultValues && defaultValues.articleType
+                ? {
+                  value: defaultValues.articleType,
+                  label:
+                    defaultValues.articleType === "journalArticle" ? "مقاله ژورنال" : "کتاب",
+                }
+                : undefined
+            }
+          />
+
+          <MyInput
+            label="کلید"
+            register={register}
+            name="key"
+            placeholder="کلید یکتای مقاله"
+            errMsg={errors.key?.message}
+          />
+
+          <MyInput
+            className="md:col-span-2"
+            label="چکیده"
+            register={register}
+            name="abstract"
+            type="textarea"
+            rows={6}
+            placeholder="چکیده مقاله را وارد کنید"
+            errMsg={errors.abstract?.message}
+          />
+        </div>
+      </AdminPanel>
+
+      <AdminPanel title="جزئیات انتشار" icon={AdminIcon.news} bodyClassName="p-5">
+        <div className={formGrid3}>
+          <MyInput label="ISBN" register={register} name="ISBN" errMsg={errors.ISBN?.message} />
+          <MyInput label="ISNN" register={register} name="ISNN" errMsg={errors.ISNN?.message} />
+          <MyInput label="DOI" register={register} name="DOI" errMsg={errors.DOI?.message} />
+          <MyInput
+            label="URL"
+            register={register}
+            name="URL"
+            placeholder="https://…"
+            errMsg={errors.URL?.message}
+          />
+          <MyInput label="صفحات" register={register} name="page" errMsg={errors.page?.message} />
+          <MyInput
+            label="سال انتشار"
+            register={register}
+            name="publicationYear"
+            errMsg={errors.publicationYear?.message}
+          />
+          <MyInput
+            label="شماره موضوع"
+            type="number"
+            register={register}
+            name="issue"
+            errMsg={errors.issue?.message}
+          />
+          <MyInput
+            label="جلد"
+            type="number"
+            register={register}
+            name="volume"
+            errMsg={errors.volume?.message}
+          />
+        </div>
+      </AdminPanel>
+
+      <div className={formFooter}>
+        <button type="button" onClick={() => router.push("/admin/articles")} className={btn.secondary}>
+          انصراف
+        </button>
         <button
           type="submit"
-          disabled={isSubmitting || !isValid}
-          className="p-4 px-8 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
+          disabled={isSubmitting}
+          className={`${btn.primary} disabled:cursor-not-allowed disabled:opacity-60`}
         >
-          ارسال
+          {isSubmitting ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              در حال ذخیره…
+            </>
+          ) : (
+            <>
+              {AdminIcon.save}
+              ذخیره تغییرات
+            </>
+          )}
         </button>
       </div>
-
     </form>
   );
 };

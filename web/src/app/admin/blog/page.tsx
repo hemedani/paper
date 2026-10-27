@@ -4,6 +4,11 @@ import { ReqType } from "@/types/declarations/selectInp";
 import { getBlogs } from "@/app/actions/blog/getBlogs";
 import { CountBlog } from "@/app/actions/blog/countBlog";
 import ClientDashboard from "@/components/template/clientBlogDashboard";
+import {
+  AdminCountChip,
+  AdminPageHeader,
+  AdminPanel,
+} from "@/components/organisms/admin/AdminUI";
 
 export default async function BlogDashboard({
   searchParams,
@@ -26,39 +31,36 @@ export default async function BlogDashboard({
     subtitle: 1,
   };
 
-  const data = await getBlogs({ set, get });
+  const [data, countPageData] = await Promise.all([
+    getBlogs({ set, get }),
+    CountBlog({ set: { search }, get: { qty: 1 } }),
+  ]);
 
-  const countPageData = await CountBlog({
-    set: { search },
-    get: { qty: 1 },
-  });
+  const blogs = data.success && Array.isArray(data.body) ? data.body : [];
+  const total = countPageData?.qty ?? 0;
   const lesanUrl = process.env.LESAN_URL
     ? process.env.LESAN_URL
     : "http://localhost:1382";
 
   return (
-    <div className="relative min-h-full">
-      <div className="flex items-start">
-        <div className="bg-blue-500 w-1 h-8 ml-3 rounded-full"></div>
-        <div>
-          <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-            مدیریت وبلاگ
-          </h1>
-          <p className="text-gray-500 mt-2 text-sm">
-            مدیریت تمامی پست‌های وبلاگ وب‌سایت
-          </p>
-        </div>
-      </div>
+    <div className="space-y-5">
+      <AdminPageHeader
+        title="مدیریت وبلاگ"
+        subtitle="مدیریت تمامی پست‌های وبلاگ وب‌سایت"
+        badge={<AdminCountChip value={total} label="پست" />}
+      />
 
-      <div className="bg-white p-4 rounded-lg shadow-sm my-4">
-        <SearchBox title="جستجو در عنوان" defaultValue={search} />
-      </div>
+      <AdminPanel bodyClassName="p-4">
+        <SearchBox
+          title="search"
+          defaultValue={search}
+          placeholder="جستجو در عنوان یا خلاصه پست…"
+        />
+      </AdminPanel>
 
-      <ClientDashboard blogs={data.success ? data.body : []} lesanUrl={lesanUrl} />
+      <ClientDashboard blogs={blogs} lesanUrl={lesanUrl} />
 
-      <div className="mt-4">
-        <Pagination countPage={countPageData?.qty} initialPage={+page} />
-      </div>
+      <Pagination countPage={total} initialPage={+page} />
     </div>
   );
 }

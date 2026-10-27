@@ -1,5 +1,4 @@
 import GraphVisualization from "@/components/template/GraphVisualization";
-import { Header } from "@/components/organisms/Header";
 import { prepareArticleSearch } from "@/utils/prepareArtticleSearch";
 import { GetArticleSetParams } from "@/utils/populateSetSearch";
 import { articleSchema } from "@/types/declarations/selectInp";
@@ -35,19 +34,17 @@ export default async function GraphPage({
   searchParams: Promise<GetArticleSetParams>;
 }) {
   const actualSearchParams = await searchParams;
-  const { defaultSearchArrayValues, articles } = await prepareArticleSearch(
-    { ...actualSearchParams, limit: actualSearchParams.limit || 50 }
-  );
+  const { defaultSearchArrayValues, articles } = await prepareArticleSearch({
+    ...actualSearchParams,
+    limit: actualSearchParams.limit || 50,
+  });
 
   // Process graph data
   const nodeMap = new Map<
     string,
     { id: string; label: string; count: number; type: "tag" | "keyword" }
   >();
-  const edgesMap = new Map<
-    string,
-    { id: string; from: string; to: string; weight: number }
-  >();
+  const edgesMap = new Map<string, { id: string; from: string; to: string; weight: number }>();
 
   if (articles.success) {
     articles.body.forEach((article: articleSchema) => {
@@ -67,24 +64,22 @@ export default async function GraphPage({
       });
 
       // Process keywords
-      (article.keywords || []).forEach(
-        (keyword) => {
-          if (nodeMap.has(keyword._id!)) {
-            const existing = nodeMap.get(keyword._id!)!;
-            nodeMap.set(keyword._id!, {
-              ...existing,
-              count: existing.count + 1,
-            });
-          } else {
-            nodeMap.set(keyword._id!, {
-              id: keyword._id!,
-              label: keyword.name,
-              count: 1,
-              type: "keyword",
-            });
-          }
+      (article.keywords || []).forEach((keyword) => {
+        if (nodeMap.has(keyword._id!)) {
+          const existing = nodeMap.get(keyword._id!)!;
+          nodeMap.set(keyword._id!, {
+            ...existing,
+            count: existing.count + 1,
+          });
+        } else {
+          nodeMap.set(keyword._id!, {
+            id: keyword._id!,
+            label: keyword.name,
+            count: 1,
+            type: "keyword",
+          });
         }
-      );
+      });
 
       // Create edges between all pairs of tags/keywords in the same article
       const items = [...(article.tags || []), ...(article.keywords || [])];
@@ -93,9 +88,7 @@ export default async function GraphPage({
       for (let i = 0; i < itemIds.length; i++) {
         for (let j = i + 1; j < itemIds.length; j++) {
           const edgeId =
-            itemIds[i]! < itemIds![j]!
-              ? `${itemIds[i]}-${itemIds[j]}`
-              : `${itemIds[j]}-${itemIds[i]}`;
+            itemIds[i]! < itemIds![j]! ? `${itemIds[i]}-${itemIds[j]}` : `${itemIds[j]}-${itemIds[i]}`;
 
           if (edgesMap.has(edgeId)) {
             const existing = edgesMap.get(edgeId)!;
@@ -120,11 +113,9 @@ export default async function GraphPage({
 
     let color;
     if (node.type === "tag") {
-      color =
-        node.count > 5 ? "#4338CA" : node.count > 3 ? "#6366F1" : "#A5B4FC";
+      color = node.count > 5 ? "#08A6AE" : node.count > 3 ? "#08A6AE" : "#F8F8F9";
     } else {
-      color =
-        node.count > 5 ? "#9D174D" : node.count > 3 ? "#DB2777" : "#F9A8D4";
+      color = node.count > 5 ? "#D2A634" : node.count > 3 ? "#D2A634" : "#F8F8F9";
     }
 
     return {
@@ -135,16 +126,16 @@ export default async function GraphPage({
       title: `${node.label} (${node.count} مقاله)`,
       color: {
         background: color,
-        border: node.type === "tag" ? "#312E81" : "#831843",
+        border: node.type === "tag" ? "#08A6AE" : "#D2A634",
         highlight: {
-          background: node.type === "tag" ? "#6366F1" : "#EC4899",
-          border: node.type === "tag" ? "#312E81" : "#831843",
+          background: node.type === "tag" ? "#08A6AE" : "#D2A634",
+          border: node.type === "tag" ? "#08A6AE" : "#D2A634",
         },
       },
       font: {
-        face: "Vazirmatn, system-ui",
-        size: Math.max(16, Math.min(22, 14 + node.count)),
-        color: "#FFFFFF",
+        face: "Estedad, Vazirmatn, system-ui",
+        size: Math.max(12, Math.min(18, 10 + node.count)),
+        color: node.count > 3 ? "#FFFFFF" : "#9A9AA1",
       },
       group: node.type,
     };
@@ -160,23 +151,18 @@ export default async function GraphPage({
       width,
       title: `${edge.weight} ارتباط مشترک`,
       color: {
-        color: "#CBD5E1",
-        highlight: "#F472B6",
+        color: "#F0F0F2",
+        highlight: "#D2A634",
       },
     };
   });
 
   return (
-    <>
-      <Header
-        defaultSearchArrayValues={defaultSearchArrayValues}
-        pageAddress="graph"
-      />
-      <GraphVisualization
-        articles={articles.success ? articles.body : []}
-        nodes={nodes}
-        edges={edges}
-      />
-    </>
+    <GraphVisualization
+      articles={articles.success ? articles.body : []}
+      nodes={nodes}
+      edges={edges}
+      defaultSearchArrayValues={defaultSearchArrayValues}
+    />
   );
 }

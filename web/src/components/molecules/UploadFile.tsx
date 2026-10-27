@@ -76,19 +76,36 @@ export const UploadImage = ({
   };
 
   return (
-    <div className="w-full p-4 border rounded-lg shadow-md flex flex-col items-center">
+    <div className="flex w-full flex-col gap-3 rounded-[16px] border-[1.5px] border-dashed border-[#E4E4E8] bg-[#FBFBFC] p-3">
       <label
         htmlFor={inputName}
-        className="w-full py-3 bg-gray-200 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-300"
+        className="flex w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-[12px] bg-white px-4 py-5 text-center transition-colors hover:border-[#08A6AE]/40 hover:bg-[#F8FEFF]"
       >
         <input type="file" id={inputName} hidden onChange={handleFileChange} />
-        انتخاب فایل
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#EDFEFF] text-[#08A6AE]">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path
+              d="M12 16V5m0 0L8 9m4-4l4 4"
+              stroke="currentColor"
+              strokeWidth="1.9"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path d="M4.5 15.5v2A2.5 2.5 0 007 20h10a2.5 2.5 0 002.5-2.5v-2" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+          </svg>
+        </span>
+        <span className="text-[12px] font-bold text-[#3C3C42]">
+          {type === "image" ? "انتخاب تصویر" : type === "doc" ? "انتخاب فایل مقاله" : "انتخاب فایل"}
+        </span>
+        <span className="text-[10.5px] font-medium text-[#9A9AA1]">
+          {type === "image" ? "JPG یا PNG" : "PDF"}
+        </span>
       </label>
 
       {file && file.type === "image/jpeg" ? (
-        <div className="w-full h-40 mt-4 rounded-lg overflow-hidden border">
+        <div className="h-36 w-full overflow-hidden rounded-[12px] border border-[#F0F0F2]">
           <Image
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
             src={URL.createObjectURL(file)}
             alt="Uploaded image preview"
             width={400}
@@ -96,16 +113,13 @@ export const UploadImage = ({
           />
         </div>
       ) : file && file.type === "application/pdf" ? (
-        <div className="w-full h-40 mt-4 rounded-lg overflow-hidden border">
-          <embed
-            className="w-full h-full object-cover"
-            src={URL.createObjectURL(file)}
-          />
+        <div className="h-36 w-full overflow-hidden rounded-[12px] border border-[#F0F0F2]">
+          <embed className="h-full w-full object-cover" src={URL.createObjectURL(file)} />
         </div>
       ) : filePath && isValidImageExtension(filePath) ? (
-        <div className="w-full h-40 mt-4 rounded-lg overflow-hidden border">
+        <div className="h-36 w-full overflow-hidden rounded-[12px] border border-[#F0F0F2]">
           <Image
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
             src={`${lesanUrl}/uploads/images/${filePath}`}
             alt="Uploaded image preview"
             width={400}
@@ -113,11 +127,8 @@ export const UploadImage = ({
           />
         </div>
       ) : filePath && isValidPdfExtension(filePath) ? (
-        <div className="w-full h-40 mt-4 rounded-lg overflow-hidden border">
-          <embed
-            className="w-full h-full object-cover"
-            src={`${lesanUrl}/uploads/docs/${filePath}`}
-          />
+        <div className="h-36 w-full overflow-hidden rounded-[12px] border border-[#F0F0F2]">
+          <embed className="h-full w-full object-cover" src={`${lesanUrl}/uploads/docs/${filePath}`} />
         </div>
       ) : (
         ""
@@ -125,15 +136,16 @@ export const UploadImage = ({
 
       {file && (
         <button
+          type="button"
           onClick={handleUpload}
-          className={`mt-4 w-full h-10 bg-blue-500 text-white rounded-lg transition-all duration-200 hover:shadow-md disabled:bg-gray-400`}
+          className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-[12px] bg-[#08A6AE] text-[12.5px] font-bold text-white transition-colors hover:bg-[#079aa2] disabled:bg-[#E9F6F7] disabled:text-[#7FBDC1]"
           disabled={isUploaded === "uploading" || isUploaded === true}
         >
           {isUploaded === "uploading"
-            ? "در حال بارگذاری..."
+            ? "در حال بارگذاری…"
             : isUploaded
-            ? "بارگذاری موفق"
-            : "بارگذاری"}
+              ? "بارگذاری شد"
+              : "بارگذاری"}
         </button>
       )}
     </div>

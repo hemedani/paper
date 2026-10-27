@@ -7,15 +7,14 @@ interface SummarySectionProps {
 
 const SummarySection = ({ user }: SummarySectionProps) => {
   return (
-    <div className="col-span-full">
-      <div className="group bg-gray-50/50 hover:bg-gray-50 p-4 rounded-lg border border-gray-100 transition-all duration-300">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600">
-            <DocumentTextIcon className="w-5 h-5" />
-          </div>
-          <label className="text-sm font-medium text-gray-600">خلاصه</label>
-        </div>
-        <p className="text-gray-800 font-medium pr-11 whitespace-pre-wrap">
+    <div className="col-span-full space-y-2.5">
+      <p className="mb-1 text-[12px] font-extrabold text-[#3C3C42]">خلاصه</p>
+
+      <div className="flex items-start gap-3 rounded-[16px] border border-[#F0F0F2] bg-white p-3.5">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#FAF6EB] text-[#B98F26]">
+          <DocumentTextIcon className="h-[18px] w-[18px]" />
+        </span>
+        <p className="whitespace-pre-wrap text-[13px] font-medium leading-[2] text-[#3C3C42]">
           {user.summery || "خلاصه‌ای ثبت نشده است"}
         </p>
       </div>

@@ -2,152 +2,561 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  font-family: vazir-matn;
+/* ═══════════════════════════════════════════════════════════════════════════
+   Estedad Variable Font — Standard (Latin Digits)
+   Covers all weights 100–900 in a single file via the `wght` axis.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@font-face {
+    font-family: "Estedad";
+    src:
+        url("/fonts/Estedad-v7.3/webfonts/variable/Estedad[KSHD,wght].woff2")
+            format("woff2-variations"),
+        url("/fonts/Estedad-v7.3/Variable/Estedad[KSHD,wght].ttf") format("truetype-variations");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Estedad Variable Font — FD (Farsi / Arabic-Indic Digits)
+   Use this variant wherever Persian numeral rendering is required.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@font-face {
+    font-family: "Estedad-FD";
+    src:
+        url("/fonts/Estedad-v7.3/webfonts/variable/Estedad-FD[KSHD,wght].woff2")
+            format("woff2-variations"),
+        url("/fonts/Estedad-v7.3/Variable/Estedad-FD[KSHD,wght].ttf") format("truetype-variations");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Estedad Static Fallbacks — Standard
+   Used by browsers that do not support variable fonts (< 5 % market share).
+   ═══════════════════════════════════════════════════════════════════════════ */
+@font-face {
+    font-family: "Estedad";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/Estedad-Thin.woff2") format("woff2");
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: vazir-matn;
-  src: url("/fonts/ttf/Vazirmatn-Regular.ttf");
+    font-family: "Estedad";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/Estedad-ExtraLight.woff2") format("woff2");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
 }
 
+@font-face {
+    font-family: "Estedad";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/Estedad-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/Estedad-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/Estedad-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/Estedad-SemiBold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/Estedad-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/Estedad-ExtraBold.woff2") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/Estedad-Black.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Estedad Static Fallbacks — FD (Farsi / Arabic-Indic Digits)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@font-face {
+    font-family: "Estedad-FD";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/FD/Estedad-FD-Thin.woff2") format("woff2");
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad-FD";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/FD/Estedad-FD-ExtraLight.woff2") format("woff2");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad-FD";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/FD/Estedad-FD-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad-FD";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/FD/Estedad-FD-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad-FD";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/FD/Estedad-FD-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad-FD";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/FD/Estedad-FD-SemiBold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad-FD";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/FD/Estedad-FD-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad-FD";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/FD/Estedad-FD-ExtraBold.woff2") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Estedad-FD";
+    src: url("/fonts/Estedad-v7.3/webfonts/statics/FD/Estedad-FD-Black.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Global Typography
+   • 'Estedad'    — primary; used for display / heading text (Latin digits)
+   • 'Estedad-FD' — secondary; used for body / UI text (Farsi digits)
+   • Both are registered above; components may switch to 'Estedad-FD'
+     explicitly wherever Persian numeral rendering is preferred.
+   ═══════════════════════════════════════════════════════════════════════════ */
+html {
+    font-family: "Estedad", "Estedad-FD", sans-serif;
+    /* Prevent browser from synthesising bold/italic variants */
+    font-synthesis: none;
+    /* Improve rendering on high-DPI screens */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Allow every element to inherit the family set on <html>,
+   including replaced elements (input, button, select, textarea)
+   which opt out of inheritance in the browser's default stylesheet. */
+* {
+    font-family: inherit;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Keyframe Animations (preserved from previous implementation)
+   ═══════════════════════════════════════════════════════════════════════════ */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes popIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  70% {
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    70% {
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 @keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.1);
-  }
-  80% {
-    opacity: 1;
-    transform: scale(0.89);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 0.9;
+        transform: scale(1.1);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(0.89);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   Animation Utility Classes
+   ═══════════════════════════════════════════════════════════════════════════ */
 @layer utilities {
-  .animate-fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
-  }
+    .animate-fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+    }
 
-  .animate-fade-in-delay {
-    animation: fadeIn 0.8s ease-out 0.3s forwards;
-    opacity: 0;
-  }
+    .animate-fade-in-delay {
+        animation: fadeIn 0.8s ease-out 0.3s forwards;
+        opacity: 0;
+    }
 
-  .animate-fade-in-delay-2 {
-    animation: fadeIn 0.8s ease-out 0.6s forwards;
-    opacity: 0;
-  }
+    .animate-fade-in-delay-2 {
+        animation: fadeIn 0.8s ease-out 0.6s forwards;
+        opacity: 0;
+    }
 
-  .animate-slide-down {
-    animation: slideDown 0.8s ease-out forwards;
-  }
+    .animate-slide-down {
+        animation: slideDown 0.8s ease-out forwards;
+    }
 
-  .animate-slide-up {
-    animation: slideUp 0.8s ease-out forwards;
-  }
+    .animate-slide-up {
+        animation: slideUp 0.8s ease-out forwards;
+    }
 
-  .animate-slide-up-delay {
-    animation: slideUp 0.8s ease-out 0.2s forwards;
-    opacity: 0;
-  }
+    .animate-slide-up-delay {
+        animation: slideUp 0.8s ease-out 0.2s forwards;
+        opacity: 0;
+    }
 
-  .animate-slide-up-delay-2 {
-    animation: slideUp 0.8s ease-out 0.4s forwards;
-    opacity: 0;
-  }
+    .animate-slide-up-delay-2 {
+        animation: slideUp 0.8s ease-out 0.4s forwards;
+        opacity: 0;
+    }
 
-  .animate-slide-up-delay-3 {
-    animation: slideUp 0.8s ease-out 0.6s forwards;
-    opacity: 0;
-  }
+    .animate-slide-up-delay-3 {
+        animation: slideUp 0.8s ease-out 0.6s forwards;
+        opacity: 0;
+    }
 
-  .animate-slide-up-delay-4 {
-    animation: slideUp 0.8s ease-out 0.8s forwards;
-    opacity: 0;
-  }
+    .animate-slide-up-delay-4 {
+        animation: slideUp 0.8s ease-out 0.8s forwards;
+        opacity: 0;
+    }
 
-  .animate-slide-up-delay-5 {
-    animation: slideUp 0.8s ease-out 1s forwards;
-    opacity: 0;
-  }
+    .animate-slide-up-delay-5 {
+        animation: slideUp 0.8s ease-out 1s forwards;
+        opacity: 0;
+    }
 
-  .animate-slide-up-delay-6 {
-    animation: slideUp 0.8s ease-out 1.2s forwards;
-    opacity: 0;
-  }
+    .animate-slide-up-delay-6 {
+        animation: slideUp 0.8s ease-out 1.2s forwards;
+        opacity: 0;
+    }
 
-  .animate-slide-up-delay-7 {
-    animation: slideUp 0.8s ease-out 1.4s forwards;
-    opacity: 0;
-  }
+    .animate-slide-up-delay-7 {
+        animation: slideUp 0.8s ease-out 1.4s forwards;
+        opacity: 0;
+    }
 
-  .animate-slide-up-delay-8 {
-    animation: slideUp 0.8s ease-out 1.6s forwards;
-    opacity: 0;
-  }
+    .animate-slide-up-delay-8 {
+        animation: slideUp 0.8s ease-out 1.6s forwards;
+        opacity: 0;
+    }
 
-  .animate-pop-in {
-    animation: popIn 0.5s cubic-bezier(0.26, 0.53, 0.74, 1.48) forwards;
-  }
+    .animate-pop-in {
+        animation: popIn 0.5s cubic-bezier(0.26, 0.53, 0.74, 1.48) forwards;
+    }
 
-  .animate-bounce-in {
-    animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-  }
+    .animate-bounce-in {
+        animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    }
 }
 
-/* RTL Support */
+/* ═══════════════════════════════════════════════════════════════════════════
+   RTL Support
+   ═══════════════════════════════════════════════════════════════════════════ */
 .dir-rtl {
-  direction: rtl;
+    direction: rtl;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Design tokens — Paygah-Danesh
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+    --pd-teal: #08a6ae;
+    --pd-teal-dark: #129aa1;
+    --pd-teal-soft: #edfeff;
+    --pd-gold: #d2a634;
+    --pd-gold-soft: #faf6eb;
+    --pd-ink: #000000;
+    --pd-muted: #9a9aa1;
+    --pd-line: #f0f0f2;
+    --pd-surface: #f8f8f9;
+}
+
+/* Shared page container: 1600px canvas, 104px gutters on desktop */
+.pd-container {
+    width: 100%;
+    max-width: 1600px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+    .pd-container {
+        padding-inline: 2.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .pd-container {
+        padding-inline: 4rem;
+    }
+}
+
+@media (min-width: 1440px) {
+    .pd-container {
+        padding-inline: 104px;
+    }
+}
+
+/* Card / panel radius helpers matching Figma */
+.pd-card {
+    background: #fff;
+    border: 1px solid var(--pd-line);
+    border-radius: 32px;
+}
+
+/* Thin, unobtrusive scrollbars inside scrollable panels */
+.pd-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #d9d9de transparent;
+}.pd-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.pd-scroll::-webkit-scrollbar-thumb {
+    background: #d9d9de;
+    border-radius: 999px;
+}
+
+.pd-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Zaman (Jalali) date picker — matches the shared admin field style */
+.pd-datepicker {
+    height: 44px;
+    width: 100%;
+    border-radius: 14px;
+    border: 1.5px solid #f0f0f2;
+    background: #fff;
+    padding: 0 16px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #000;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.pd-datepicker:focus {
+    border-color: #08a6ae;
+    box-shadow: 0 0 0 4px rgba(8, 166, 174, 0.1);
+}
+
+.pd-datepicker::placeholder {
+    color: #c4c4ca;
+}
+
+.pd-datepicker-invalid {
+    border-color: #e2555b;
+    background: #fef5f5;
+}
+
+/* Admin modal entrance — a short, restrained pop so dialogs feel deliberate */@keyframes pd-pop {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes pd-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.pd-pop {
+    animation: pd-pop 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.pd-fade {
+    animation: pd-fade 0.18s ease-out both;
+}
+
+/* Respect reduced-motion preferences for every decorative animation */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   react-select theming — used by the advanced-search modal.
+   The wrapper field already draws the border, so the control is flattened.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.pd-select .react-select__control {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    min-height: 24px;
+    cursor: text;
+}
+
+.pd-select .react-select__control--is-focused {
+    border: none;
+    box-shadow: none;
+}
+
+.pd-select .react-select__value-container {
+    padding: 0;
+    gap: 6px;
+}
+
+.pd-select .react-select__placeholder {
+    color: #9a9aa1;
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.pd-select .react-select__multi-value {
+    background: #f8f8f9;
+    border-radius: 10px;
+}
+
+.pd-select .react-select__multi-value__label {
+    color: #000;
+    font-size: 13px;
+    padding: 2px 8px;
+}
+
+.pd-select .react-select__indicator {
+    padding: 0;
+    color: #9a9aa1;
+}
+
+.pd-select .react-select__indicator-separator {
+    display: none;
+}
+
+.pd-select .react-select__menu {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.18);
+    border: 1px solid var(--pd-line);
+    z-index: 60;
+}
+
+.pd-select .react-select__option--is-focused {
+    background: #f8f8f9;
+}
+
+.pd-select .react-select__option--is-selected {
+    background: var(--pd-teal);
+    color: #fff;
 }

@@ -7,6 +7,13 @@ import { ToastNotify } from "@/utils/helper";
 import { deleteBlog } from "@/app/actions/blog/deleteBlog";
 import { DeleteModal } from "./DeleteModal";
 import { blogSchema } from "@/types/declarations/selectInp";
+import Link from "next/link";
+import {
+  AdminEmptyState,
+  AdminIcon,
+  AdminPanel,
+  btn,
+} from "../organisms/admin/AdminUI";
 
 type Props = {
   blogs: blogSchema[];
@@ -20,6 +27,8 @@ const ClientDashboard = ({ blogs, lesanUrl, isOwn }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHardCascade, setIsHardCascade] = useState(false);
 
+  const canManage = isOwn === false || isOwn === undefined;
+
   const confirmDelete = (blog: blogSchema) => {
     setBlogToDelete(blog);
     setIsModalOpen(true);
@@ -31,13 +40,10 @@ const ClientDashboard = ({ blogs, lesanUrl, isOwn }: Props) => {
     const result = await deleteBlog(blogToDelete._id!, isHardCascade);
 
     if (result.success) {
-      ToastNotify("success", "بلاگ با موفقیت حذف شد");
+      ToastNotify("success", "پست وبلاگ با موفقیت حذف شد");
       router.refresh();
     } else {
-      ToastNotify(
-        "error",
-        `خطا در حذف بلاگ - ${result.body.message.slice(0, 100)}`
-      );
+      ToastNotify("error", `خطا در حذف پست وبلاگ - ${result.body.message.slice(0, 100)}`);
     }
 
     setIsModalOpen(false);
@@ -51,46 +57,55 @@ const ClientDashboard = ({ blogs, lesanUrl, isOwn }: Props) => {
     setIsHardCascade(false);
   };
 
-  return (
-    <div className="mt-6">
-      {isOwn === false || isOwn === undefined && (
-        <div className="absolute top-4 left-4 mb-4 flex justify-end">
-          <button
-            onClick={() => router.push("/admin/blog/new-blog")}
-            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors"
-          >
-            افزودن بلاگ جدید
-          </button>
-        </div>
-      )}
+  const createButton = canManage ? (
+    <Link href="/admin/blog/new-blog" className={btn.primary}>
+      {AdminIcon.plus}
+      پست وبلاگ جدید
+    </Link>
+  ) : null;
 
-      <div className="space-y-4">
+  return (
+    <>
+      <AdminPanel
+        title="فهرست پست‌های وبلاگ"
+        description={blogs?.length ? undefined : "هنوز پستی ثبت نشده است"}
+        icon={AdminIcon.rss}
+        actions={createButton}
+        bodyClassName="p-4"
+      >
         {blogs && blogs.length > 0 ? (
-          blogs.map((blog) => (
-            <BlogCard
-              key={blog._id}
-              {...blog}
-              onDelete={() => confirmDelete(blog)}
-              lesanUrl={lesanUrl}
-              isOwn={isOwn}
-            />
-          ))
-        ) : (
-          <div className="bg-white p-8 rounded-lg shadow-md text-center">
-            <p className="text-gray-600">هیچ بلاگی یافت نشد</p>
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+            {blogs.map((blog) => (
+              <BlogCard
+                key={blog._id}
+                {...blog}
+                onDelete={() => confirmDelete(blog)}
+                lesanUrl={lesanUrl}
+                isOwn={isOwn}
+              />
+            ))}
           </div>
+        ) : (
+          <AdminEmptyState
+            title="هیچ پستی یافت نشد"
+            description="برای افزودن پست جدید از دکمه زیر استفاده کنید یا عبارت جستجو را تغییر دهید."
+            icon={AdminIcon.rss}
+            action={createButton}
+          />
         )}
-      </div>
+      </AdminPanel>
 
       <DeleteModal
         isVisible={isModalOpen}
         onConfirm={handleDelete}
         onCancel={handleCancel}
-        message={`آیا از حذف این بلاگ پست: "${blogToDelete?.title}" مطمئن هستید؟ این عملیات غیرقابل بازگشت است.`}
+        title="حذف پست وبلاگ"
+        subject={blogToDelete?.title}
+        message="این عملیات قابل بازگشت نیست و پست وبلاگ برای همیشه حذف می‌شود."
         isHardCascade={isHardCascade}
         onHardCascadeChange={setIsHardCascade}
       />
-    </div>
+    </>
   );
 };
 

@@ -18,7 +18,7 @@ export const prepareArticleSearch = async (searchParams: GetArticleSetParams) =>
 
   const set: ReqType["main"]["article"]["getArticles"]["set"] = {
     page: +searchParams.page || 1,
-    limit: +searchParams.limit || 20,
+    limit: +searchParams.limit || 9,
     ...setSearch,
   };
 

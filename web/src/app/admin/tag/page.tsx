@@ -4,6 +4,11 @@ import SearchBox from "@/components/molecules/SearchBox";
 import Pagination from "@/components/molecules/Pagination";
 import { CountTags } from "@/app/actions/tag/countTags";
 import { ReqType } from "@/types/declarations/selectInp";
+import {
+  AdminCountChip,
+  AdminPageHeader,
+  AdminPanel,
+} from "@/components/organisms/admin/AdminUI";
 
 export default async function TagDashboard({
   searchParams,
@@ -22,28 +27,33 @@ export default async function TagDashboard({
     name: 1,
   };
 
-  const data = await getTags({ set, get });
-  const countPageData = await CountTags({
-    set: { name: set.name },
-    get: { qty: 1 },
-  });
+  const [data, countPageData] = await Promise.all([
+    getTags({ set, get }),
+    CountTags({ set: { name: set.name }, get: { qty: 1 } }),
+  ]);
+
+  const tags = Array.isArray(data) ? data : [];
+  const total = countPageData?.qty ?? 0;
 
   return (
-    <div className="relative min-h-full">
-      <div className="flex items-start">
-        <div className="bg-blue-500 w-1 h-8 ml-3 rounded-full"></div>
-        <div>
-          <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-            برچسب‌های مقالات
-          </h1>
-          <p className="text-gray-500 mt-2 text-sm">
-            مدیریت تمامی برچسب‌های مقالات وب‌سایت
-          </p>
-        </div>
-      </div>
-      <SearchBox title="name" defaultValue={name} />
-      <ClientTagDashboard data={data} model="tag" />
-      <Pagination countPage={countPageData?.qty} initialPage={+page} />
+    <div className="space-y-5">
+      <AdminPageHeader
+        title="برچسب‌های مقالات"
+        subtitle="مدیریت تمامی برچسب‌های مقالات وب‌سایت"
+        badge={<AdminCountChip value={total} label="برچسب" />}
+      />
+
+      <AdminPanel bodyClassName="p-4">
+        <SearchBox
+          title="name"
+          defaultValue={name}
+          placeholder="جستجو در نام برچسب…"
+        />
+      </AdminPanel>
+
+      <ClientTagDashboard data={tags} model="tag" />
+
+      <Pagination countPage={total} initialPage={+page} />
     </div>
   );
 }

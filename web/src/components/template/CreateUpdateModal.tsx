@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,6 +11,8 @@ import { ToastNotify } from "@/utils/helper";
 import { update } from "@/app/actions/category/update";
 import { create } from "@/app/actions/category/create";
 import MyInput from "@/components/atoms/MyInput";
+import { AdminModal } from "../organisms/admin/AdminModal";
+import { AdminIcon, btn } from "../organisms/admin/AdminUI";
 
 interface CreateUpdateModalProps {
   isOpen: boolean;
@@ -35,6 +37,7 @@ const CreateUpdateModal = ({
   model,
 }: CreateUpdateModalProps): React.ReactElement => {
   const router = useRouter();
+  const [busy, setBusy] = useState(false);
 
   const persianModel = model === "tag" ? "برچسب" : "دسته بندی (وبلاگ)";
 
@@ -58,6 +61,7 @@ const CreateUpdateModal = ({
 
   const onSubmit = async (data: ItemFormValues) => {
     try {
+      setBusy(true);
       if (itemToEdit) {
         if (model === "tag") {
           await EditTag(itemToEdit._id, data.name);
@@ -79,52 +83,59 @@ const CreateUpdateModal = ({
     } catch (err) {
       ToastNotify("error", "خطا در انجام عملیات");
       console.error(err);
+    } finally {
+      setBusy(false);
     }
   };
 
   return (
-    <div
-      className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-500 ${
-        isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-      }`}
+    <AdminModal
+      open={isOpen}
+      onClose={onClose}
+      title={itemToEdit ? `ویرایش ${persianModel}` : `ایجاد ${persianModel} جدید`}
+      description={
+        itemToEdit
+          ? `اطلاعات ${persianModel} انتخاب‌شده را ویرایش کنید.`
+          : `یک ${persianModel} تازه به فهرست اضافه کنید.`
+      }
+      icon={model === "tag" ? AdminIcon.tag : AdminIcon.folder}
+      footer={
+        <>
+          <button type="button" onClick={onClose} className={btn.secondary}>
+            انصراف
+          </button>
+          <button
+            type="submit"
+            form="entity-form"
+            disabled={busy}
+            className={`${btn.primary} disabled:cursor-not-allowed disabled:opacity-60`}
+          >
+            {busy ? (
+              <>
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                در حال ذخیره…
+              </>
+            ) : (
+              <>
+                {AdminIcon.save}
+                {itemToEdit ? "ذخیره تغییرات" : "ایجاد"}
+              </>
+            )}
+          </button>
+        </>
+      }
     >
-      <div
-        className={`bg-white p-6 rounded-lg shadow-lg w-1/3 transform transition-all duration-500 ${
-          isOpen
-            ? "scale-100 opacity-100 translate-y-0"
-            : "scale-90 opacity-0 translate-y-10"
-        }`}
-      >
-        <h2 className="text-lg font-bold mb-4">
-          {itemToEdit ? `ویرایش ${persianModel}` : `ایجاد ${persianModel} جدید`}
-        </h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <MyInput
-            className="w-full"
-            errMsg={errors.name?.message}
-            name="name"
-            label={persianModel}
-            register={register}
-          />
-
-          <div className="flex justify-end mt-4 gap-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-            >
-              بستن
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-            >
-              {itemToEdit ? "ویرایش" : "ایجاد"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+      <form id="entity-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <MyInput
+          className="w-full"
+          errMsg={errors.name?.message}
+          name="name"
+          label={`نام ${persianModel}`}
+          placeholder={`نام ${persianModel} را وارد کنید`}
+          register={register}
+        />
+      </form>
+    </AdminModal>
   );
 };
 

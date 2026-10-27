@@ -7,6 +7,12 @@ import { useRouter } from "next/navigation";
 import { ToastNotify } from "@/utils/helper";
 import ModalKeyword from "./ModalKeyword";
 import { deleteKeyword } from "@/app/actions/keyword/removeKeyword";
+import {
+  AdminEmptyState,
+  AdminIcon,
+  AdminPanel,
+  btn,
+} from "../organisms/admin/AdminUI";
 
 interface Keyword {
   _id: string;
@@ -20,17 +26,12 @@ interface ClientDashboardProps {
 const ClientDashboard: React.FC<ClientDashboardProps> = ({ keywords }) => {
   const router = useRouter();
 
-  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(
-    null
-  );
+  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(null);
   const [selectedKeyword, setSelectedKeyword] = useState<Keyword | null>(null);
 
   const [hardCascade, setHardCascade] = useState<boolean>(false);
 
-  const openModal = (
-    type: "edit" | "delete",
-    keyword: Keyword | null = null
-  ) => {
+  const openModal = (type: "edit" | "delete", keyword: Keyword | null = null) => {
     setSelectedKeyword(keyword);
     setActiveModal(type);
   };
@@ -44,37 +45,62 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ keywords }) => {
   const confirmDelete = async () => {
     if (selectedKeyword?._id) {
       await deleteKeyword(selectedKeyword._id, hardCascade);
-      ToastNotify("success", "برچسب با موفقیت حذف شد");
+      ToastNotify("success", "کلمه کلیدی با موفقیت حذف شد");
       router.refresh();
     }
     closeModal();
   };
 
   return (
-    <div>
-      <button
-        className="absolute top-1 left-5 mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        onClick={() => openModal("edit")}
+    <>
+      <AdminPanel
+        title="فهرست کلمات کلیدی"
+        description={keywords?.length ? undefined : "هنوز کلمه کلیدی ثبت نشده است"}
+        icon={AdminIcon.key}
+        actions={
+          <button
+            type="button"
+            onClick={() => openModal("edit")}
+            className={btn.primary}
+          >
+            {AdminIcon.plus}
+            ایجاد کلمه کلیدی جدید
+          </button>
+        }
+        bodyClassName="p-4"
       >
-        ایجاد واژه جدید
-      </button>
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {keywords?.map((keyword) => (
-          <EntityCard
-            key={keyword._id}
-            title={keyword.name}
-            onDelete={() => openModal("delete", keyword)}
-            onEdit={() => openModal("edit", keyword)}
+        {keywords?.length ? (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {keywords.map((keyword) => (
+              <EntityCard
+                key={keyword._id}
+                title={keyword.name}
+                onDelete={() => openModal("delete", keyword)}
+                onEdit={() => openModal("edit", keyword)}
+              />
+            ))}
+          </div>
+        ) : (
+          <AdminEmptyState
+            title="هیچ کلمه کلیدی‌ای یافت نشد"
+            description="برای شروع، اولین کلمه کلیدی را ایجاد کنید یا عبارت جستجو را تغییر دهید."
+            icon={AdminIcon.key}
+            action={
+              <button
+                type="button"
+                onClick={() => openModal("edit")}
+                className={`${btn.primary} mt-1`}
+              >
+                {AdminIcon.plus}
+                ایجاد کلمه کلیدی جدید
+              </button>
+            }
           />
-        ))}
-      </div>
+        )}
+      </AdminPanel>
 
       {activeModal === "edit" && (
-        <ModalKeyword
-          isOpen
-          onClose={closeModal}
-          keywordToEdit={selectedKeyword}
-        />
+        <ModalKeyword isOpen onClose={closeModal} keywordToEdit={selectedKeyword} />
       )}
 
       {activeModal === "delete" && (
@@ -82,12 +108,14 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ keywords }) => {
           isVisible
           onConfirm={confirmDelete}
           onCancel={closeModal}
-          message="آیا مطمئن هستید که می‌خواهید این برچسب را حذف کنید؟ این عمل قابل بازگشت نیست."
+          title="حذف کلمه کلیدی"
+          subject={selectedKeyword?.name}
+          message="این عملیات قابل بازگشت نیست و کلمه کلیدی برای همیشه حذف می‌شود."
           isHardCascade={hardCascade}
           onHardCascadeChange={setHardCascade}
         />
       )}
-    </div>
+    </>
   );
 };
 

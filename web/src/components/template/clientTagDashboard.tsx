@@ -8,6 +8,12 @@ import { useRouter } from "next/navigation";
 import { ToastNotify } from "@/utils/helper";
 import { remove } from "@/app/actions/category/remove";
 import CreateUpdateModal from "./CreateUpdateModal";
+import {
+  AdminEmptyState,
+  AdminIcon,
+  AdminPanel,
+  btn,
+} from "../organisms/admin/AdminUI";
 
 interface TData {
   _id: string;
@@ -16,15 +22,13 @@ interface TData {
 
 interface ClientDashboardProps {
   data: TData[];
-  model: "tag" | "category"
+  model: "tag" | "category";
 }
 
 const ClientDashboard: React.FC<ClientDashboardProps> = ({ data, model }) => {
   const router = useRouter();
 
-  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(
-    null
-  );
+  const [activeModal, setActiveModal] = useState<"edit" | "delete" | null>(null);
   const [selectedItem, setSelectedItem] = useState<TData | null>(null);
 
   const [hardCascade, setHardCascade] = useState<boolean>(false);
@@ -40,16 +44,24 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ data, model }) => {
     setHardCascade(false);
   };
 
-  const persianModel = model === "tag" ? "برچسب" : "دسته بندی (وبلاگ)"
+  const persianModel = model === "tag" ? "برچسب" : "دسته بندی (وبلاگ)";
+  const listTitle = model === "tag" ? "فهرست برچسب‌ها" : "فهرست دسته‌بندی‌ها";
+  const icon = model === "tag" ? AdminIcon.tag : AdminIcon.folder;
 
   const confirmDelete = async () => {
     if (selectedItem?._id) {
-      const removedItem = model === "tag" ? await deleteTag(selectedItem._id, hardCascade) : await remove(selectedItem._id, hardCascade);
+      const removedItem =
+        model === "tag"
+          ? await deleteTag(selectedItem._id, hardCascade)
+          : await remove(selectedItem._id, hardCascade);
 
       if (removedItem.succes) {
         ToastNotify("success", `${persianModel} با موفقیت حذف شد`);
       } else {
-        ToastNotify("error", `مشکلی در حذف ${persianModel} وجود دارد - ${removedItem.body.message}}`);
+        ToastNotify(
+          "error",
+          `مشکلی در حذف ${persianModel} وجود دارد - ${removedItem.body.message}}`
+        );
       }
 
       router.refresh();
@@ -58,26 +70,60 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ data, model }) => {
   };
 
   return (
-    <div>
-      <button
-        className="absolute top-1 left-5 mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        onClick={() => openModal("edit")}
+    <>
+      <AdminPanel
+        title={listTitle}
+        description={data?.length ? undefined : "هنوز موردی ثبت نشده است"}
+        icon={icon}
+        actions={
+          <button
+            type="button"
+            onClick={() => openModal("edit")}
+            className={btn.primary}
+          >
+            {AdminIcon.plus}
+            ایجاد {persianModel} جدید
+          </button>
+        }
+        bodyClassName="p-4"
       >
-        ایجاد {persianModel} جدید
-      </button>
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data?.map((tag) => (
-          <EntityCard
-            key={tag._id}
-            title={tag.name}
-            onDelete={() => openModal("delete", tag)}
-            onEdit={() => openModal("edit", tag)}
+        {data?.length ? (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {data.map((item) => (
+              <EntityCard
+                key={item._id}
+                title={item.name}
+                onDelete={() => openModal("delete", item)}
+                onEdit={() => openModal("edit", item)}
+              />
+            ))}
+          </div>
+        ) : (
+          <AdminEmptyState
+            title={`هیچ ${persianModel}ی یافت نشد`}
+            description={`برای شروع، اولین ${persianModel} را ایجاد کنید یا عبارت جستجو را تغییر دهید.`}
+            icon={icon}
+            action={
+              <button
+                type="button"
+                onClick={() => openModal("edit")}
+                className={`${btn.primary} mt-1`}
+              >
+                {AdminIcon.plus}
+                ایجاد {persianModel} جدید
+              </button>
+            }
           />
-        ))}
-      </div>
+        )}
+      </AdminPanel>
 
       {activeModal === "edit" && (
-        <CreateUpdateModal isOpen onClose={closeModal} itemToEdit={selectedItem} model={model} />
+        <CreateUpdateModal
+          isOpen
+          onClose={closeModal}
+          itemToEdit={selectedItem}
+          model={model}
+        />
       )}
 
       {activeModal === "delete" && (
@@ -85,12 +131,14 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ data, model }) => {
           isVisible
           onConfirm={confirmDelete}
           onCancel={closeModal}
-          message="آیا مطمئن هستید که می‌خواهید این برچسب را حذف کنید؟ این عمل قابل بازگشت نیست."
+          title={`حذف ${persianModel}`}
+          subject={selectedItem?.name}
+          message="این عملیات قابل بازگشت نیست و مورد برای همیشه حذف می‌شود."
           isHardCascade={hardCascade}
           onHardCascadeChange={setHardCascade}
         />
       )}
-    </div>
+    </>
   );
 };
 

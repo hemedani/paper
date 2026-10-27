@@ -4,8 +4,13 @@ import Pagination from "@/components/molecules/Pagination";
 import { ReqType } from "@/types/declarations/selectInp";
 import { gets } from "@/app/actions/category/gets";
 import { count } from "@/app/actions/category/count";
+import {
+  AdminCountChip,
+  AdminPageHeader,
+  AdminPanel,
+} from "@/components/organisms/admin/AdminUI";
 
-export default async function TagDashboard({
+export default async function CategoryDashboard({
   searchParams,
 }: {
   searchParams: Promise<ReqType["main"]["category"]["gets"]["set"]>;
@@ -22,28 +27,33 @@ export default async function TagDashboard({
     name: 1,
   };
 
-  const data = await gets({ set, get });
-  const counted = await count({
-    set: set.name ? { name: set.name } : {},
-    get: { qty: 1 },
-  });
+  const [data, counted] = await Promise.all([
+    gets({ set, get }),
+    count({ set: set.name ? { name: set.name } : {}, get: { qty: 1 } }),
+  ]);
+
+  const categories = data.success && Array.isArray(data.body) ? data.body : [];
+  const total = counted?.qty ?? 0;
 
   return (
-    <div className="relative min-h-full">
-      <div className="flex items-start">
-        <div className="bg-blue-500 w-1 h-8 ml-3 rounded-full"></div>
-        <div>
-          <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-            دسته بندی ها (وبلاگ)
-          </h1>
-          <p className="text-gray-500 mt-2 text-sm">
-            مدیریت تمامی دسته بندی ها (وبلاگ) وب‌سایت
-          </p>
-        </div>
-      </div>
-      <SearchBox title="name" defaultValue={name} />
-      <ClientTagDashboard data={data.success ? data.body : []} model="category" />
-      <Pagination countPage={counted?.qty} initialPage={+page} />
+    <div className="space-y-5">
+      <AdminPageHeader
+        title="دسته‌بندی‌های وبلاگ"
+        subtitle="مدیریت تمامی دسته‌بندی‌های پست‌های وبلاگ"
+        badge={<AdminCountChip value={total} label="دسته‌بندی" />}
+      />
+
+      <AdminPanel bodyClassName="p-4">
+        <SearchBox
+          title="name"
+          defaultValue={name}
+          placeholder="جستجو در نام دسته‌بندی…"
+        />
+      </AdminPanel>
+
+      <ClientTagDashboard data={categories} model="category" />
+
+      <Pagination countPage={total} initialPage={+page} />
     </div>
   );
 }

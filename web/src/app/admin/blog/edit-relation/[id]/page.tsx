@@ -1,15 +1,18 @@
 import React from "react";
 import { EditBlogRelationForm } from "@/components/organisms/EditBlogRelation";
 import { getBlogById } from "@/app/actions/blog/getBlogById";
-import Link from "next/link";
 import { cookies } from "next/headers";
+import {
+  AdminEmptyState,
+  AdminFormPage,
+  AdminIcon,
+  AdminPanel,
+} from "@/components/organisms/admin/AdminUI";
 
 export default async function EditBlogRelationPage({ params }: { params: Promise<{ id: string }> }) {
   const token = (await cookies()).get("token");
   const _id = (await params).id;
-  const lesanUrl = process.env.LESAN_URL
-    ? process.env.LESAN_URL
-    : "http://localhost:1382";
+  const lesanUrl = process.env.LESAN_URL ? process.env.LESAN_URL : "http://localhost:1382";
 
   const blog = await getBlogById({
     set: { _id },
@@ -20,29 +23,36 @@ export default async function EditBlogRelationPage({ params }: { params: Promise
     },
   });
 
-  return (
-    <div className="p-6 min-h-full">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-700">ویرایش روابط وبلاگ</h1>
-        <Link
-          href="/admin/blog"
-          className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-        >
-          بازگشت به لیست
-        </Link>
-      </div>
+  if (!blog.success) {
+    return (
+      <AdminFormPage
+        title="ویرایش رابطه‌های پست"
+        backHref="/admin/blog"
+        backLabel="بازگشت به فهرست پست‌ها"
+      >
+        <AdminPanel bodyClassName="p-4">
+          <AdminEmptyState
+            title="پست وبلاگ پیدا نشد"
+            description="این پست حذف شده است یا شناسه آن معتبر نیست."
+            icon={AdminIcon.link}
+          />
+        </AdminPanel>
+      </AdminFormPage>
+    );
+  }
 
-      {blog.success ? (
-        <EditBlogRelationForm
-          defaultValues={blog.body}
-          token={token?.value as string}
-          lesanUrl={lesanUrl}
-        />
-      ) : (
-        <div className="flex items-center justify-center h-64">
-          <p className="text-xl text-gray-500">بلاگ یافت نشد</p>
-        </div>
-      )}
-    </div>
+  return (
+    <AdminFormPage
+      title="ویرایش رابطه‌های پست"
+      subtitle="دسته‌بندی و تصویر شاخص این پست را مدیریت کنید."
+      backHref="/admin/blog"
+      backLabel="بازگشت به فهرست پست‌ها"
+    >
+      <EditBlogRelationForm
+        defaultValues={blog.body}
+        token={token?.value as string}
+        lesanUrl={lesanUrl}
+      />
+    </AdminFormPage>
   );
 }

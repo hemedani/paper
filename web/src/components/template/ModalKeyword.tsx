@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,6 +8,9 @@ import { useRouter } from "next/navigation";
 import { ToastNotify } from "@/utils/helper";
 import { EditKeyword } from "@/app/actions/keyword/updateKeyword";
 import { createKeyword } from "@/app/actions/keyword/createKeyword";
+import MyInput from "@/components/atoms/MyInput";
+import { AdminModal } from "../organisms/admin/AdminModal";
+import { AdminIcon, btn } from "../organisms/admin/AdminUI";
 
 interface ModalKeywordProps {
   isOpen: boolean;
@@ -30,6 +33,7 @@ const ModalKeyword: React.FC<ModalKeywordProps> = ({
   keywordToEdit,
 }) => {
   const router = useRouter();
+  const [busy, setBusy] = useState(false);
 
   const {
     register,
@@ -51,6 +55,7 @@ const ModalKeyword: React.FC<ModalKeywordProps> = ({
 
   const onSubmit = async (data: KeywordFormValues) => {
     try {
+      setBusy(true);
       if (keywordToEdit) {
         await EditKeyword(keywordToEdit._id, data.name);
         ToastNotify("success", "کلمه کلیدی با موفقیت ویرایش شد");
@@ -64,65 +69,59 @@ const ModalKeyword: React.FC<ModalKeywordProps> = ({
     } catch (err) {
       ToastNotify("error", "خطا در انجام عملیات");
       console.error(err);
+    } finally {
+      setBusy(false);
     }
   };
 
   return (
-    <div
-      className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-500 ${
-        isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-      }`}
-    >
-      <div
-        className={`bg-white p-6 rounded-lg shadow-lg w-1/3 transform transition-all duration-500 ${
-          isOpen
-            ? "scale-100 opacity-100 translate-y-0"
-            : "scale-90 opacity-0 translate-y-10"
-        }`}
-      >
-        <h2 className="text-lg font-bold mb-4">
-          {keywordToEdit ? "ویرایش کلمه" : "ایجاد کلمه جدید"}
-        </h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              نام کلمه
-            </label>
-            <input
-              id="name"
-              type="text"
-              {...register("name")}
-              placeholder="کلمه کلیدی را وارد کنید"
-              className={`w-full p-2 border rounded ${
-                errors.name ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.name && (
-              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+    <AdminModal
+      open={isOpen}
+      onClose={onClose}
+      title={keywordToEdit ? "ویرایش کلمه کلیدی" : "ایجاد کلمه کلیدی جدید"}
+      description={
+        keywordToEdit
+          ? "متن کلمه کلیدی انتخاب‌شده را ویرایش کنید."
+          : "کلمه کلیدی تازه را برای ایندکس جستجو اضافه کنید."
+      }
+      icon={AdminIcon.key}
+      footer={
+        <>
+          <button type="button" onClick={onClose} className={btn.secondary}>
+            انصراف
+          </button>
+          <button
+            type="submit"
+            form="keyword-form"
+            disabled={busy}
+            className={`${btn.primary} disabled:cursor-not-allowed disabled:opacity-60`}
+          >
+            {busy ? (
+              <>
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                در حال ذخیره…
+              </>
+            ) : (
+              <>
+                {AdminIcon.save}
+                {keywordToEdit ? "ذخیره تغییرات" : "ایجاد"}
+              </>
             )}
-          </div>
-
-          <div className="flex justify-end mt-4 gap-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-            >
-              بستن
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-            >
-              {keywordToEdit ? "ویرایش" : "ایجاد"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+          </button>
+        </>
+      }
+    >
+      <form id="keyword-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <MyInput
+          className="w-full"
+          name="name"
+          errMsg={errors.name?.message}
+          label="نام کلمه کلیدی"
+          placeholder="کلمه کلیدی را وارد کنید"
+          register={register}
+        />
+      </form>
+    </AdminModal>
   );
 };
 

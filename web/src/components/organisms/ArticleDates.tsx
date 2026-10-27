@@ -18,26 +18,26 @@ export const ArticleDates = ({ article }: ArticleDatesProps) => {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6">
-      <h2 className="text-xl font-bold text-gray-800 mb-4 border-r-4 border-indigo-500 pr-4">
+      <h2 className="text-xl font-bold text-gray-800 mb-4 border-r-4 border-[#08A6AE] pr-4">
         تاریخ‌ها
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {article.createdAt && (
-          <div className="bg-gradient-to-r from-indigo-50 to-indigo-100 p-4 rounded-xl">
-            <span className="block text-indigo-900 font-semibold mb-1">
+          <div className="bg-gradient-to-r from-[#EDFEFF] to-[#EDFEFF] p-4 rounded-xl">
+            <span className="block text-[#08A6AE] font-semibold mb-1">
               تاریخ ثبت:
             </span>
-            <span className="text-indigo-700">
+            <span className="text-[#08A6AE]">
               {formatDate(article.createdAt)}
             </span>
           </div>
         )}
         {article.updatedAt && (
-          <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-xl">
-            <span className="block text-purple-900 font-semibold mb-1">
+          <div className="bg-gradient-to-r from-[#EDFEFF] to-[#EDFEFF] p-4 rounded-xl">
+            <span className="block text-[#08A6AE] font-semibold mb-1">
               تاریخ به‌روزرسانی:
             </span>
-            <span className="text-purple-700">
+            <span className="text-[#08A6AE]">
               {formatDate(article.updatedAt)}
             </span>
           </div>
