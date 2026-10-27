@@ -11,6 +11,7 @@ import {
 	users,
 } from "@paper/lib";
 import { functionsSetup } from "./src/mod.ts";
+import { installAuthErrorResponseHandler } from "./src/authResponse.ts";
 
 export const myRedis = await redis.connect({
 	hostname: "127.0.0.1",
@@ -37,6 +38,7 @@ export const { setAct, setService, getAtcsWithServices } = coreApp.acts;
 export const { selectStruct, getSchemas } = coreApp.schemas;
 
 functionsSetup();
+installAuthErrorResponseHandler();
 
 coreApp.runServer({
 	port: 1382,

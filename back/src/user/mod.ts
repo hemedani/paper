@@ -1,10 +1,12 @@
 import { addUserSetup } from "./addUser/mod.ts";
 import { changeMobileSetup } from "./changeMobile/mod.ts";
+import { checkSessionSetup } from "./checkSession/mod.ts";
 import { getMeSetup } from "./getMe/mod.ts";
 import { getUserSetup } from "./getUser/mod.ts";
 import { insertCSVSetup } from "./insertCSV/mod.ts";
 import { loginUserSetup } from "./login/mod.ts";
 import { loginReqUserSetup } from "./loginReq/mod.ts";
+import { refreshTokenSetup } from "./refreshToken/mod.ts";
 import { registerUserSetup } from "./register/mod.ts";
 import { tempUserSetup } from "./tempUser/mod.ts";
 import { updateUserSetup } from "./updateUser/mod.ts";
@@ -17,10 +19,12 @@ import { updateUserRelationsSetup } from "./updateUserRelations/mod.ts";
 
 export const userSetup = () => {
 	addUserSetup();
+	checkSessionSetup();
 	getMeSetup();
 	getUserSetup();
 	loginUserSetup();
 	loginReqUserSetup();
+	refreshTokenSetup();
 	tempUserSetup();
 	updateUserSetup();
 	registerUserSetup();

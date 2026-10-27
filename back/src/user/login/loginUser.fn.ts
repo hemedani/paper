@@ -1,6 +1,8 @@
-import { type ActFn, jwt } from "deps";
-import { jwtTokenKey, throwError } from "@paper/lib";
+import type { ActFn } from "deps";
+import { createUserToken, throwError } from "@paper/lib";
 import { myRedis, user } from "../../../mod.ts";
+
+type LoginUser = { _id: unknown; mobile?: unknown };
 
 export const loginUserFn: ActFn = async (body) => {
 	const {
@@ -11,28 +13,24 @@ export const loginUserFn: ActFn = async (body) => {
 		get,
 	} = body.details;
 
-	const createToken = async (user: any) => {
-		const token = await jwt.create(
-			{ alg: "HS512", typ: "JWT" },
-			{
-				_id: user._id,
-				national_number: user.national_number,
-				mobile: user.mobile,
-				exp: jwt.getNumericDate(60 * 60 * 24 * 30 * 3),
-			},
-			jwtTokenKey,
-		);
+	const createToken = async <T extends LoginUser>(foundedUser: T) => {
+		const { token } = await createUserToken({
+			_id: foundedUser._id,
+			national_number,
+			mobile: foundedUser.mobile,
+		});
+
 		return {
 			token,
-			user,
+			user: foundedUser,
 		};
 	};
 
-	const checkCode = async (user: any) => {
-		const redisCode = await myRedis.get(user.national_number);
+	const checkCode = async <T extends LoginUser>(foundedUser: T) => {
+		const redisCode = await myRedis.get(national_number);
 
 		return code.toString() === redisCode
-			? await createToken(user)
+			? await createToken(foundedUser)
 			: throwError("کد وارد شده صحیح نیست");
 	};
 

@@ -40,9 +40,8 @@ export const registerUserFn: ActFn = async (body) => {
 		doc: {
 			mobile,
 			national_number,
-			registration_step: "personalInformation",
 			isVerified: false,
-			level: "Driver",
+			level: "Normal",
 		},
 		projection: get,
 	});
