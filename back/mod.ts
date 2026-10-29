@@ -50,5 +50,6 @@ coreApp.runServer({
 		"http://localhost:3000",
 		"http://localhost:4000",
 		"http://194.5.192.166:3000",
+		"http://94.184.45.192:3000",
 	],
 });
