@@ -7,9 +7,27 @@ import Input from "../atoms/Input";
 import { DefaultSearchArrayValues } from "@/utils/prepareArtticleSearch";
 import Image from "next/image";
 import AdvancedSearchModal from "../molecules/AdvancedSearchModal";
+import { HashtagIcon, KeyIcon } from "../atoms/Icons";
+import { LandingStats } from "./LandingStats";
 
 type SearchFormValues = {
   query: string;
+};
+
+export type LandingTerm = {
+  _id?: string;
+  name?: string;
+  articleCount?: number;
+};
+
+export type LandingHighlights = {
+  keywords?: LandingTerm[];
+  tags?: LandingTerm[];
+  stats?: {
+    keywords?: number;
+    tags?: number;
+    articles?: number;
+  };
 };
 
 export const Hero: React.FC<{
@@ -17,7 +35,8 @@ export const Hero: React.FC<{
   pageAddress?: string;
   /** Hide the headline when a page already renders its own (e.g. /graph). */
   compact?: boolean;
-}> = ({ defaultSearchArrayValues, pageAddress, compact = false }) => {
+  highlights?: LandingHighlights;
+}> = ({ defaultSearchArrayValues, pageAddress, compact = false, highlights }) => {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const router = useRouter();
   const { control, handleSubmit } = useForm<SearchFormValues>({
@@ -29,10 +48,18 @@ export const Hero: React.FC<{
     router.push(pageAddress ? `${pageAddress}/?search=${query}` : `/?search=${query}`);
   };
 
-  const trendingSearches = [
-    ["فروشگاه برتر", "خرید آمازون", "پرینتر سه بعدی", "فروشگاه برتر"],
-    ["فروشگاه برتر", "خرید آمازون", "راهنمای خرید"],
-  ];
+  const keywords = highlights?.keywords ?? [];
+  const tags = highlights?.tags ?? [];
+  const hasTerms = keywords.length > 0 || tags.length > 0;
+  const hasStats =
+    highlights?.stats?.keywords !== undefined ||
+    highlights?.stats?.tags !== undefined ||
+    highlights?.stats?.articles !== undefined;
+
+  const handleTermClick = (key: "keywordIds" | "tagIds", id?: string) => {
+    if (!id) return;
+    router.push(`/?${key}=${id}`);
+  };
 
   return (
     <section
@@ -110,57 +137,62 @@ export const Hero: React.FC<{
         </form>
       </div>
 
-      {/* Stats + trending */}
-      <div className="relative z-10 mx-auto mt-10 w-full max-w-[1600px] px-4 pb-16 md:mt-[74px] lg:mt-[102px] lg:px-[104px] lg:pb-[66px]">
-        <div className="flex flex-col-reverse items-center gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:px-[88px]">
-          {/* Trending searches (right in the design) */}
-          <div className="flex w-full flex-col items-center gap-3 lg:order-1 lg:w-auto lg:max-w-[600px] lg:items-end">
-            <h3 className="text-[15px] font-bold leading-[1.78] text-white lg:text-[18px]">
-              جستجو ها ترند محبوب این ماه
-            </h3>
-            <div className="flex flex-col items-center gap-2 lg:items-end">
-              {trendingSearches.map((row, rowIndex) => (
-                <div key={rowIndex} className="flex flex-wrap justify-center gap-1 lg:justify-end">
-                  {row.map((tag, tagIndex) => (
-                    <button
-                      key={tagIndex}
-                      type="button"
-                      onClick={() => router.push(`/?search=${encodeURIComponent(tag)}`)}
-                      className="h-10 whitespace-nowrap rounded-full bg-[#08A6AE] px-5 text-[13px] font-semibold text-white transition-colors hover:bg-[#088f96] md:h-12 md:px-[26px] md:text-[14px]"
-                    >
-                      {tag}
-                    </button>
-                  ))}
+      {/* Popular terms + stats */}
+      {(hasTerms || hasStats) && (
+        <div className="relative z-10 mx-auto mt-10 w-full max-w-[1600px] px-4 pb-16 md:mt-[74px] lg:mt-[102px] lg:px-[104px] lg:pb-[66px]">
+          {hasTerms && (
+            <div className="flex w-full flex-col items-start gap-7 sm:flex-row sm:items-start sm:justify-center sm:gap-8 lg:gap-10">
+              {keywords.length > 0 && (
+                <div className="flex w-full max-w-[440px] flex-col items-start gap-3 sm:w-auto">
+                  <h3 className="text-[15px] font-bold text-white/80 lg:text-[17px]">
+                    محبوب‌ترین کلمات کلیدی
+                  </h3>
+                  <div className="flex flex-wrap items-start gap-2">
+                    {keywords.map((keyword) => (
+                      <button
+                        key={keyword._id}
+                        type="button"
+                        onClick={() => handleTermClick("keywordIds", keyword._id)}
+                        className="inline-flex h-10 items-center gap-1.5 whitespace-nowrap rounded-full bg-[#08A6AE] px-4 text-[13px] font-semibold text-white transition-colors hover:bg-[#088f96] lg:h-11 lg:px-5 lg:text-[15px]"
+                      >
+                        <KeyIcon className="h-4 w-4 shrink-0" />
+                        {keyword.name}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
+              )}
 
-          {/* Stats (left in the design) — label on the right, number on the left */}
-          <div className="flex w-full flex-col items-start gap-4 sm:w-auto sm:flex-row sm:items-center sm:gap-[59px] lg:order-2 lg:gap-[51px]">
-            <div className="flex items-center gap-4 text-white lg:gap-[26px]">
-              <div className="whitespace-nowrap text-right text-[13px] font-bold leading-[1.67] tracking-[-0.03em] lg:text-[18px]">
-                موضوعات کلیدی
-                <br />
-                دسته بندی
-              </div>
-              <div className="text-[38px] font-extrabold leading-[1.23] tracking-[-0.02em] lg:text-[58px]">
-                +۶۵۰
-              </div>
+              {tags.length > 0 && (
+                <div className="flex w-full max-w-[440px] flex-col items-start gap-3 sm:w-auto">
+                  <h3 className="text-[15px] font-bold text-white/80 lg:text-[17px]">
+                    محبوب‌ترین برچسب‌ها
+                  </h3>
+                  <div className="flex flex-wrap items-start gap-2">
+                    {tags.map((tag) => (
+                      <button
+                        key={tag._id}
+                        type="button"
+                        onClick={() => handleTermClick("tagIds", tag._id)}
+                        className="inline-flex h-10 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/30 bg-white/10 px-4 text-[13px] font-semibold text-white transition-colors hover:bg-white/20 lg:h-11 lg:px-5 lg:text-[15px]"
+                      >
+                        <HashtagIcon className="h-4 w-4 shrink-0" />
+                        {tag.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="flex items-center gap-4 text-white lg:gap-[26px]">
-              <div className="whitespace-nowrap text-right text-[13px] font-bold leading-[1.67] tracking-[-0.03em] lg:text-[18px]">
-                تعداد کل مقالات
-                <br />
-                منتشر شده
-              </div>
-              <div className="text-[38px] font-extrabold leading-[1.23] tracking-[-0.02em] lg:text-[58px]">
-                +۷۰۰
-              </div>
+          )}
+
+          {hasStats && (
+            <div className={`flex justify-center ${hasTerms ? "mt-8" : ""}`}>
+              <LandingStats stats={highlights?.stats} />
             </div>
-          </div>
+          )}
         </div>
-      </div>
+      )}
 
       <AdvancedSearchModal
         isOpen={showAdvancedSearch}

@@ -2773,6 +2773,30 @@ updatedAt?: (0 | 1 );
 };
 
           
+            getLandingHighlights: {
+set: {
+limit?: number;
+};
+get: {
+keywords?: {
+_id?: string;
+name?: string;
+articleCount?: number;
+}[];
+tags?: {
+_id?: string;
+name?: string;
+articleCount?: number;
+}[];
+stats?: {
+keywords?: number;
+tags?: number;
+articles?: number;
+};
+};
+};
+
+          
             updateArticle: {
 set: {
 _id: string;

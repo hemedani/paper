@@ -5,6 +5,7 @@ import { articleSchema } from "@/types/declarations/selectInp";
 import Pagination from "@/components/molecules/Pagination";
 import { getMe } from "@/app/actions/user/getMe";
 import { getCountArticles } from "@/app/actions/article/countArticle";
+import { getLandingHighlights } from "@/app/actions/article/getLandingHighlights";
 import { GetArticleSetParams } from "@/utils/populateSetSearch";
 import { prepareArticleSearch } from "@/utils/prepareArtticleSearch";
 import { FilterDescription } from "@/components/molecules/FilterDescription";
@@ -21,6 +22,11 @@ export default async function Home({
     await prepareArticleSearch(actualSearchParams);
 
   const me = await getMe();
+
+  const highlights = await getLandingHighlights({
+    set: { limit: 6 },
+    get: {},
+  });
 
   const countDataArticle = await getCountArticles({
     set: setSearch,
@@ -70,7 +76,10 @@ export default async function Home({
 
   return (
     <div dir="rtl" className="bg-white">
-      <Hero defaultSearchArrayValues={defaultSearchArrayValues} />
+      <Hero
+        defaultSearchArrayValues={defaultSearchArrayValues}
+        highlights={highlights}
+      />
 
       <section id="results" className="w-full scroll-mt-24 bg-white pb-[120px] pt-10 lg:pt-[66px]">
         <div className="mx-auto w-full max-w-[1242px] px-4 md:px-8 lg:px-0">
