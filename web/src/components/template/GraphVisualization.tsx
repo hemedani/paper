@@ -399,7 +399,7 @@ const GraphVisualization = ({ articles, nodes, edges, defaultSearchArrayValues }
                         )),
                       )}
                     </div>
-                    <div className="flex flex-wrap items-center justify-end gap-1.5">
+                    <div className="flex flex-wrap items-center justify-start gap-1.5">
                       {relatedArticles.slice(0, 1).map((article) =>
                         article.keywords?.slice(0, 3).map((keyword) => (
                           <span

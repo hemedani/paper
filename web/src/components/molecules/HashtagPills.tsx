@@ -29,7 +29,7 @@ export const HashtagPills = ({ tags }: HashtagPillsProps) => {
 
   return (
     <div
-      className="flex w-full flex-row flex-wrap items-center justify-end gap-[9px]"
+      className="flex w-full flex-row flex-wrap items-center justify-start gap-[9px]"
       dir="rtl"
     >
       {tags.map((tag, index) => {

@@ -96,9 +96,9 @@ export const Card = ({
       <div className="h-px w-full bg-[#F0F0F2]" />
 
       {/* Metadata */}
-      <div className="flex flex-col items-end gap-3">
+      <div dir="rtl" className="flex flex-col items-start gap-3">
         {publication?.title && (
-          <div className="flex w-full items-center justify-end gap-2">
+          <div className="flex w-full items-center justify-start gap-2">
             <span className="truncate text-[13px] font-medium leading-[1.76] text-[#9A9AA1] lg:text-[14px]">
               مجله : {publication.title}
             </span>
@@ -113,8 +113,20 @@ export const Card = ({
         )}
 
         {authors && authors.length > 0 && (
-          <div className="flex w-full items-center justify-end gap-2">
-            <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">
+          <div className="flex w-full flex-col items-start gap-2">
+            <div className="flex items-center justify-start gap-2">
+              <span className="shrink-0 text-[13px] font-medium leading-[1.76] text-[#9A9AA1] lg:text-[14px]">
+                نویسندگان :
+              </span>
+              <Image
+                src="/images/card/authors-icon.svg"
+                alt=""
+                width={22}
+                height={22}
+                className="shrink-0"
+              />
+            </div>
+            <div className="flex w-full flex-wrap items-center justify-start gap-2">
               {authors.slice(0, 2).map((author, index) => (
                 <button
                   key={index}
@@ -126,28 +138,18 @@ export const Card = ({
                 </button>
               ))}
             </div>
-            <span className="shrink-0 text-[13px] font-medium leading-[1.76] text-[#9A9AA1] lg:text-[14px]">
-              نویسندگان :
-            </span>
-            <Image
-              src="/images/card/authors-icon.svg"
-              alt=""
-              width={22}
-              height={22}
-              className="shrink-0"
-            />
           </div>
         )}
 
         {keywords && keywords.length > 0 && (
-          <div className="flex w-full flex-col items-end gap-2">
-            <div className="flex items-center justify-end gap-2">
+          <div className="flex w-full flex-col items-start gap-2">
+            <div className="flex items-center justify-start gap-2">
               <span className="text-[13px] font-medium leading-[1.76] text-[#9A9AA1] lg:text-[14px]">
                 کلمات کلیدی :
               </span>
               <KeyIcon className="h-[22px] w-[22px] shrink-0 text-[#9A9AA1]" />
             </div>
-            <div className="flex w-full flex-wrap items-center justify-end gap-2">
+            <div className="flex w-full flex-wrap items-center justify-start gap-2">
               {keywords.slice(0, 4).map((keyword, index) => (
                 <button
                   key={index}
@@ -164,14 +166,14 @@ export const Card = ({
         )}
 
         {tags && tags.length > 0 && (
-          <div className="flex w-full flex-col items-end gap-2">
-            <div className="flex items-center justify-end gap-2">
+          <div className="flex w-full flex-col items-start gap-2">
+            <div className="flex items-center justify-start gap-2">
               <span className="text-[13px] font-medium leading-[1.76] text-[#9A9AA1] lg:text-[14px]">
                 برچسب‌ها :
               </span>
               <HashtagIcon className="h-[22px] w-[22px] shrink-0 text-[#9A9AA1]" />
             </div>
-            <div className="flex w-full flex-wrap items-center justify-end gap-2">
+            <div className="flex w-full flex-wrap items-center justify-start gap-2">
               {tags.slice(0, 4).map((tag, index) => (
                 <button
                   key={index}
