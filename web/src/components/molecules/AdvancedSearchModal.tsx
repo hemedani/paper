@@ -269,7 +269,8 @@ const AdvancedSearchModal: React.FC<{
       .join("&");
 
     onClose();
-    router.push(pageAddress ? `${pageAddress}/?${queryString}` : `/?${queryString}`);
+    const base = pageAddress ? pageAddress.replace(/\/$/, "") : "";
+    router.push(`${base}/?${queryString}`);
   };
 
   const [mounted, setMounted] = useState(false);

@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Input from "../atoms/Input";
 import { DefaultSearchArrayValues } from "@/utils/prepareArtticleSearch";
@@ -39,13 +39,27 @@ export const Hero: React.FC<{
 }> = ({ defaultSearchArrayValues, pageAddress, compact = false, highlights }) => {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const router = useRouter();
-  const { control, handleSubmit } = useForm<SearchFormValues>({
-    defaultValues: { query: "" },
+  const searchParams = useSearchParams();
+  const activeQuery = searchParams.get("search") ?? "";
+  const { control, handleSubmit, reset } = useForm<SearchFormValues>({
+    defaultValues: { query: activeQuery },
   });
 
+  useEffect(() => {
+    reset({ query: activeQuery });
+  }, [activeQuery, reset]);
+
   const onSubmit: SubmitHandler<SearchFormValues> = ({ query }) => {
-    if (!query.trim()) return;
-    router.push(pageAddress ? `${pageAddress}/?search=${query}` : `/?search=${query}`);
+    const trimmed = query.trim();
+    const params = new URLSearchParams(searchParams.toString());
+    if (trimmed) {
+      params.set("search", trimmed);
+    } else {
+      params.delete("search");
+    }
+    const base = pageAddress ? pageAddress.replace(/\/$/, "") : "";
+    const queryString = params.toString();
+    router.push(queryString ? `${base}/?${queryString}` : base || "/");
   };
 
   const keywords = highlights?.keywords ?? [];
@@ -58,7 +72,8 @@ export const Hero: React.FC<{
 
   const handleTermClick = (key: "keywordIds" | "tagIds", id?: string) => {
     if (!id) return;
-    router.push(`/?${key}=${id}`);
+    const base = pageAddress ? pageAddress.replace(/\/$/, "") : "";
+    router.push(`${base}/?${key}=${id}`);
   };
 
   return (
@@ -78,11 +93,22 @@ export const Hero: React.FC<{
       <div
         className={[
           "relative z-10 mx-auto flex w-full max-w-[1600px] flex-col items-center px-4",
-          "pt-[132px] lg:pt-[184px]",
+          compact
+            ? "pb-10 pt-10 lg:pb-12 lg:pt-12"
+            : "pt-[132px] lg:pt-[184px]",
         ].join(" ")}
       >
         {/* Headline */}
-        {!compact && (
+        {compact ? (
+          <div className="mb-6 flex w-full max-w-[700px] flex-col items-center gap-3 text-center md:mb-7">
+            <h1 className="text-[26px] font-extrabold leading-[1.4] text-white sm:text-[32px]">
+              نمودار ارتباط موضوعات
+            </h1>
+            <p className="text-[14px] font-semibold leading-[1.8] text-white/85 sm:text-[16px]">
+              برچسب‌ها و کلیدواژه‌ها را کاوش کنید و مقالات مرتبط را پیدا کنید.
+            </p>
+          </div>
+        ) : (
           <div className="mb-6 flex w-full max-w-[700px] flex-col items-center gap-4 text-center md:mb-[26px]">
             <h1 className="text-[30px] font-extrabold leading-[1.34] text-white sm:text-[40px] lg:text-[54px]">
               مقالات مرتبط را در یک
