@@ -3,3 +3,6 @@ node_modules
 uploads
 back/dump.rdb
 dump.rdb
+
+# keyword backfill working files (regenerable, large)
+back/scripts/keywords/state/
