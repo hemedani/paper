@@ -663,6 +663,23 @@ export const KeyIcon = ({ className = "size-6" }: { className?: string }) => (
   </svg>
 );
 
+export const HashtagIcon = ({ className = "size-6" }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    className={className}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"
+    />
+  </svg>
+);
+
 export const NewspaperIcon = ({
   className = "size-6",
 }: {

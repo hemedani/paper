@@ -6,6 +6,7 @@ import { addFavorite } from "@/app/actions/user/userFavoritArticle";
 import { useRouter } from "next/navigation";
 import { translateArticleType } from "@/utils/helper";
 import { articleSchema } from "@/types/declarations/selectInp";
+import { HashtagIcon, KeyIcon } from "@/components/atoms/Icons";
 import Image from "next/image";
 
 export const Card = ({
@@ -17,6 +18,7 @@ export const Card = ({
   level,
   articleType,
   keywords,
+  tags,
   publication,
 }: Partial<
   articleSchema & {
@@ -143,13 +145,7 @@ export const Card = ({
               <span className="text-[13px] font-medium leading-[1.76] text-[#9A9AA1] lg:text-[14px]">
                 کلمات کلیدی :
               </span>
-              <Image
-                src="/images/card/keywords-icon.svg"
-                alt=""
-                width={22}
-                height={22}
-                className="shrink-0"
-              />
+              <KeyIcon className="h-[22px] w-[22px] shrink-0 text-[#9A9AA1]" />
             </div>
             <div className="flex w-full flex-wrap items-center justify-end gap-2">
               {keywords.slice(0, 4).map((keyword, index) => (
@@ -157,9 +153,34 @@ export const Card = ({
                   key={index}
                   type="button"
                   onClick={() => handleQuery("keywordIds", keyword._id!)}
-                  className="max-w-full truncate rounded-[13px] bg-[#F8F8F9] px-[11px] py-[5px] text-[12px] font-medium leading-[1.76] text-black transition-colors hover:bg-[#EFEFF1] lg:text-[13px]"
+                  className="inline-flex max-w-full items-center gap-1 rounded-[13px] bg-[#F8F8F9] px-[11px] py-[5px] text-[12px] font-medium leading-[1.76] text-black transition-colors hover:bg-[#EFEFF1] lg:text-[13px]"
                 >
-                  # {keyword.name}
+                  <KeyIcon className="h-[14px] w-[14px] shrink-0" />
+                  <span className="truncate">{keyword.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {tags && tags.length > 0 && (
+          <div className="flex w-full flex-col items-end gap-2">
+            <div className="flex items-center justify-end gap-2">
+              <span className="text-[13px] font-medium leading-[1.76] text-[#9A9AA1] lg:text-[14px]">
+                برچسب‌ها :
+              </span>
+              <HashtagIcon className="h-[22px] w-[22px] shrink-0 text-[#9A9AA1]" />
+            </div>
+            <div className="flex w-full flex-wrap items-center justify-end gap-2">
+              {tags.slice(0, 4).map((tag, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => handleQuery("tagIds", tag._id!)}
+                  className="inline-flex max-w-full items-center gap-1 rounded-[13px] bg-[#FDF7E9] px-[11px] py-[5px] text-[12px] font-medium leading-[1.76] text-[#B48A1E] transition-colors hover:bg-[#F8EDD3] lg:text-[13px]"
+                >
+                  <HashtagIcon className="h-[14px] w-[14px] shrink-0" />
+                  <span className="truncate">{tag.name}</span>
                 </button>
               ))}
             </div>

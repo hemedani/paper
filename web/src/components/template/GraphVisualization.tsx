@@ -9,6 +9,7 @@ import { EdgeData, NodeData } from "@/app/(common)/graph/page";
 import { articleSchema } from "@/types/declarations/selectInp";
 import { DefaultSearchArrayValues } from "@/utils/prepareArtticleSearch";
 import AdvancedSearchModal from "@/components/molecules/AdvancedSearchModal";
+import { HashtagIcon, KeyIcon } from "@/components/atoms/Icons";
 
 interface GraphPageProps {
   articles: articleSchema[];
@@ -390,8 +391,9 @@ const GraphVisualization = ({ articles, nodes, edges, defaultSearchArrayValues }
                         article.tags?.slice(0, 3).map((tag) => (
                           <span
                             key={tag._id}
-                            className="inline-flex items-center justify-center px-[26px] py-4 h-12 bg-[#F8F8F9] border border-[#F0F0F2] rounded-full text-sm font-medium leading-[1.71] text-black font-['Estedad']"
+                            className="inline-flex items-center justify-center gap-1.5 px-[26px] py-4 h-12 bg-[#F8F8F9] border border-[#F0F0F2] rounded-full text-sm font-medium leading-[1.71] text-black font-['Estedad']"
                           >
+                            <HashtagIcon className="h-4 w-4 shrink-0" />
                             {tag.name}
                           </span>
                         )),
@@ -402,8 +404,9 @@ const GraphVisualization = ({ articles, nodes, edges, defaultSearchArrayValues }
                         article.keywords?.slice(0, 3).map((keyword) => (
                           <span
                             key={keyword._id}
-                            className="inline-flex items-center justify-center px-[26px] py-4 h-12 bg-[#F8F8F9] border border-[#F0F0F2] rounded-full text-sm font-medium leading-[1.71] text-black font-['Estedad']"
+                            className="inline-flex items-center justify-center gap-1.5 px-[26px] py-4 h-12 bg-[#F8F8F9] border border-[#F0F0F2] rounded-full text-sm font-medium leading-[1.71] text-black font-['Estedad']"
                           >
+                            <KeyIcon className="h-4 w-4 shrink-0" />
                             {keyword.name}
                           </span>
                         )),
@@ -481,16 +484,18 @@ const GraphVisualization = ({ articles, nodes, edges, defaultSearchArrayValues }
                       {article.tags?.slice(0, 3).map((tag) => (
                         <span
                           key={tag._id}
-                          className="inline-flex items-center justify-center px-[26px] py-4 h-12 bg-[#F8F8F9] border border-[#F0F0F2] rounded-full text-sm font-medium leading-[1.71] text-black font-['Estedad']"
+                          className="inline-flex items-center justify-center gap-1.5 px-[26px] py-4 h-12 bg-[#F8F8F9] border border-[#F0F0F2] rounded-full text-sm font-medium leading-[1.71] text-black font-['Estedad']"
                         >
+                          <HashtagIcon className="h-4 w-4 shrink-0" />
                           {tag.name}
                         </span>
                       ))}
                       {article.keywords?.slice(0, 2).map((keyword) => (
                         <span
                           key={keyword._id}
-                          className="inline-flex items-center justify-center px-[26px] py-4 h-12 bg-[#F8F8F9] border border-[#F0F0F2] rounded-full text-sm font-medium leading-[1.71] text-black font-['Estedad']"
+                          className="inline-flex items-center justify-center gap-1.5 px-[26px] py-4 h-12 bg-[#F8F8F9] border border-[#F0F0F2] rounded-full text-sm font-medium leading-[1.71] text-black font-['Estedad']"
                         >
+                          <KeyIcon className="h-4 w-4 shrink-0" />
                           {keyword.name}
                         </span>
                       ))}

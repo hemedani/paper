@@ -2,6 +2,7 @@
 
 import React from "react";
 import { articleSchema } from "@/types/declarations/selectInp";
+import { HashtagIcon, KeyIcon } from "@/components/atoms/Icons";
 
 interface ArticleMetadataProps {
   article: articleSchema;
@@ -29,9 +30,10 @@ export const ArticleMetadata = ({
             {article.tags.map((tag) => (
               <span
                 key={tag._id}
-                className="px-4 py-2 bg-[#EDFEFF] text-[#08A6AE] rounded-full text-sm font-medium hover:bg-[#EDFEFF] transition-colors duration-300 cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#EDFEFF] text-[#08A6AE] rounded-full text-sm font-medium hover:bg-[#EDFEFF] transition-colors duration-300 cursor-pointer"
                 onClick={() => onTagClick && tag._id && onTagClick(tag._id)}
               >
+                <HashtagIcon className="h-4 w-4 shrink-0" />
                 {tag.name}
               </span>
             ))}
@@ -49,11 +51,12 @@ export const ArticleMetadata = ({
             {article.keywords.map((keyword) => (
               <span
                 key={keyword._id}
-                className="px-4 py-2 bg-[#EDFEFF] text-[#08A6AE] rounded-full text-sm font-medium hover:bg-[#EDFEFF] transition-colors duration-300 cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#EDFEFF] text-[#08A6AE] rounded-full text-sm font-medium hover:bg-[#EDFEFF] transition-colors duration-300 cursor-pointer"
                 onClick={() =>
                   onKeywordClick && keyword._id && onKeywordClick(keyword._id)
                 }
               >
+                <KeyIcon className="h-4 w-4 shrink-0" />
                 {keyword.name}
               </span>
             ))}
