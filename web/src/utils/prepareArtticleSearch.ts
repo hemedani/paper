@@ -34,6 +34,7 @@ export const prepareArticleSearch = async (searchParams: GetArticleSetParams) =>
       _id: 1,
       title: 1,
       articleType: 1,
+      publicationYear: 1,
       abstract: 1,
       tags: {
         _id: 1,

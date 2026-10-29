@@ -114,7 +114,7 @@ export const SiteHeader = ({
         className={[
           "mx-auto w-full max-w-[1600px]",
           compact ? "px-4 sm:px-6 lg:px-8" : "px-5 sm:px-8 lg:px-[104px]",
-          bordered && !compact ? "pb-4 lg:pb-5" : "",
+          compact ? "" : "pb-4 lg:pb-5",
         ]
           .filter(Boolean)
           .join(" ")}

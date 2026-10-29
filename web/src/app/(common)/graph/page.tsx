@@ -111,12 +111,10 @@ export default async function GraphPage({
     const size = Math.max(20, Math.min(80, node.count * 12));
     const value = node.count;
 
-    let color;
-    if (node.type === "tag") {
-      color = node.count > 5 ? "#08A6AE" : node.count > 3 ? "#08A6AE" : "#F8F8F9";
-    } else {
-      color = node.count > 5 ? "#D2A634" : node.count > 3 ? "#D2A634" : "#F8F8F9";
-    }
+    const isTag = node.type === "tag";
+    const accent = isTag ? "#D2A634" : "#08A6AE";
+    const tint = isTag ? "#FDF6E3" : "#EDFEFF";
+    const isStrong = node.count > 3;
 
     return {
       id: node.id,
@@ -125,17 +123,17 @@ export default async function GraphPage({
       value,
       title: `${node.label} (${node.count} مقاله)`,
       color: {
-        background: color,
-        border: node.type === "tag" ? "#08A6AE" : "#D2A634",
+        background: isStrong ? accent : tint,
+        border: accent,
         highlight: {
-          background: node.type === "tag" ? "#08A6AE" : "#D2A634",
-          border: node.type === "tag" ? "#08A6AE" : "#D2A634",
+          background: isStrong ? accent : isTag ? "#F7E7B4" : "#CFF3F5",
+          border: accent,
         },
       },
       font: {
         face: "Estedad, Vazirmatn, system-ui",
         size: Math.max(12, Math.min(18, 10 + node.count)),
-        color: node.count > 3 ? "#FFFFFF" : "#9A9AA1",
+        color: isStrong ? "#FFFFFF" : isTag ? "#A9821C" : "#08A6AE",
       },
       group: node.type,
     };
