@@ -34,7 +34,7 @@ export const Footer = () => {
             <div className="flex flex-col justify-between gap-10 lg:flex-row lg:items-start lg:gap-8 lg:px-[52px]">
               {/* Brand + description (right) */}
               <div className="flex max-w-[420px] flex-col gap-6">
-                <div className="flex flex-row-reverse items-center justify-end gap-3">
+                <div className="flex flex-row items-center justify-start gap-3">
                   <Image
                     src="/images/footer/logo-footer.svg"
                     alt="پایگاه دانش"
@@ -56,9 +56,9 @@ export const Footer = () => {
 
               {/* Link columns — design order (right→left): امکانات، تماس با ما، اطلاعات مجموعه */}
               <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 sm:gap-12">
-                <div className="flex flex-col items-end gap-4">
+                <div className="flex flex-col items-start gap-4">
                   <h3 className={headingClass}>امکانات</h3>
-                  <div className="flex flex-col items-end gap-2">
+                  <div className="flex flex-col items-start gap-2">
                     {featureLinks.map((link) => (
                       <Link key={link.label} href={link.href} className={itemClass}>
                         {link.label}
@@ -67,9 +67,9 @@ export const Footer = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col items-end gap-4">
+                <div className="flex flex-col items-start gap-4">
                   <h3 className={headingClass}>تماس با ما</h3>
-                  <div className="flex flex-col items-end gap-2">
+                  <div className="flex flex-col items-start gap-2">
                     <p className={itemClass}>تهران، خیابان ولیعصر، پلاک ۱۲۳</p>
                     <p className={itemClass} dir="ltr">
                       ۰۲۱ ۱۲۳۴ ۵۶۷۸
@@ -80,9 +80,9 @@ export const Footer = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col items-end gap-4">
+                <div className="flex flex-col items-start gap-4">
                   <h3 className={headingClass}>اطلاعات مجموعه</h3>
-                  <div className="flex flex-col items-end gap-2">
+                  <div className="flex flex-col items-start gap-2">
                     {informationLinks.map((link) => (
                       <Link key={link.label} href={link.href} className={itemClass}>
                         {link.label}
