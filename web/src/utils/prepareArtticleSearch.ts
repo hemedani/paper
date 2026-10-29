@@ -5,7 +5,13 @@ import { getTags } from "@/app/actions/tag/getTags";
 import { getKeywords } from "@/app/actions/keyword/getKeywords";
 import { getAuthors } from "@/app/actions/author/getAuthors";
 
-export type DefaultSearchArrayValues = { tags: []; authors: []; keywords: [] };
+export type SearchSelectOption = { value: string; label: string };
+
+export type DefaultSearchArrayValues = {
+  tags: SearchSelectOption[];
+  authors: SearchSelectOption[];
+  keywords: SearchSelectOption[];
+};
 
 export const prepareArticleSearch = async (searchParams: GetArticleSetParams) => {
 
